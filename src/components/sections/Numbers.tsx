@@ -15,7 +15,6 @@ export default function Numbers({ data }: { data: NumbersData }) {
   const veilRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<HTMLDivElement>(null);
-  const barRef = useRef<HTMLSpanElement>(null);
 
   const [cur, setCur] = useState(0); // 가운데 패널 번호(0 = 제목) — 페이지 표시 숫자용
 
@@ -45,7 +44,6 @@ export default function Numbers({ data }: { data: NumbersData }) {
         Array.from(track.children).forEach((c, i) => ((c as HTMLElement).dataset.active = i === active ? "1" : "0"));
         setCur(active);
       }
-      if (barRef.current) barRef.current.style.transform = `scaleX(${p})`;
       if (veilRef.current) veilRef.current.style.opacity = String(0.25 + p * 0.4);
       // 진입 덮기: 섹션 상단이 화면 아래에서 위까지 올라오는 동안 배경 0→1 (히어로가 비치다 서서히 덮임)
       el.style.setProperty("--cover", String(Math.min(1, Math.max(0, (vh - rect.top) / vh))));
@@ -191,7 +189,6 @@ export default function Numbers({ data }: { data: NumbersData }) {
             ))}
           </div>
           </div>
-          <div className="strength-prog" aria-hidden="true"><span ref={barRef} /></div>
         </div>
       </div>
     </section>

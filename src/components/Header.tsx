@@ -74,7 +74,7 @@ export default function Header() {
       <div ref={barRef} className="scroll-progress" aria-hidden="true" />
       <div ref={dotRef} className="scroll-tag" data-state="hidden" aria-hidden="true">{"INFACT".split("").map((c, i) => <i key={i}>{c}</i>)}</div>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${open ? "bg-elevated" : "bg-transparent"} ${onDark ? "text-white" : "text-ink"}`}
+        className={`fixed inset-x-0 top-0 z-50 transition-[color,background-color,border-color] duration-300 ${open ? "bg-elevated" : scrolled ? `backdrop-blur-md border-b ${onDark ? "bg-[rgba(8,10,20,.72)] border-white/10" : "bg-white/80 border-black/5"}` : "bg-transparent"} ${onDark ? "text-white" : "text-ink"}`}
       >
         <div className="container-x flex items-center justify-between h-20">
           {/* 2026-09-23 사용자 로고 PNG(흰색 "INFACT.")로 교체 — 글자·점을 잘라 CSS mask 로 그려 색은 currentColor(헤더 흰/검 전환 그대로), 점만 시그니처 블루(파란 CTA 위에서는 흰색, 2026-09-22 규칙 유지) */}
