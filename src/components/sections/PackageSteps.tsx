@@ -137,16 +137,16 @@ export default function PackageSteps({ title, data }: { title: string; data: Pac
             <div key={t} aria-hidden="true" className="snap-point" style={{ top: `${t}vh` }} />
           ))}
           <div
-            className="sticky top-0 h-screen flex items-start pt-[140px] overflow-hidden"
+            className="sticky top-0 h-screen flex items-start pt-[clamp(140px,20vh,220px)] overflow-hidden"
             style={{
-              "--pkg-bleed": "min(180px, max(0px, (100vw - 1440px) / 2))",
+              "--pkg-bleed": "min(180px, max(0px, (100vw - 1760px) / 2))",
               width: "calc(100% + var(--pkg-bleed))",
               marginRight: "calc(-1 * var(--pkg-bleed))",
             } as React.CSSProperties}
           >
             <div
               className="w-full grid lg:gap-16 items-start"
-              style={{ gridTemplateColumns: "max(320px, calc(0.4 * min(100vw - 64px, 1376px) - 64px)) minmax(0,1fr)" }}
+              style={{ gridTemplateColumns: "max(320px, calc(0.4 * min(100vw - 96px, 1664px) - 64px)) minmax(0,1fr)" }}
             >
               {/* 왼쪽: 제목·도입문·단계 목차(진행선 포함)·CTA */}
               <div>

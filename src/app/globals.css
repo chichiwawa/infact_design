@@ -166,7 +166,8 @@ a:hover > .btn-arrow, button:hover > .btn-arrow { transform: translate(3px, -3px
 .dark-grid > * { border: 1px solid rgba(255, 255, 255, 0.12); margin: -0.5px; }
 
 /* 컨테이너 (실측 1296px) */
-.container-x { width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: 32px; }
+/* 사이트 공통 폭: 헤더·푸터·모든 섹션·히어로 문구(--hero-x)가 같은 좌우 선을 쓴다. 바꾸면 PackageSteps.tsx 의 1760/1664/96 숫자도 같이 바꿀 것 */
+.container-x { width: 100%; max-width: 1760px; margin-inline: auto; padding-inline: 48px; }
 @media (max-width: 767px) { .container-x { padding-inline: 20px; } }
 .section-y { padding-block: 140px; }
 @media (max-width: 1023px) { .section-y { padding-block: 100px; } }
@@ -272,8 +273,8 @@ a:hover > .btn-arrow, button:hover > .btn-arrow { transform: translate(3px, -3px
 /* ── 01 Hero (2026-10-13 재설계: reconers.com 첫 화면 구성 + 인팩트 블루 톤) ──────────────────────────
    블루 배경 + 유리 도형(.hero-shape) + 가운데 마크(.hero-mark) + 알약 칩(.hero-chip) / 왼쪽 아래 문구 + 오른쪽 아래 설명.
    위치·크기는 vw/vh 기준이라 화면 폭에 비례. 이전 버전 CSS 는 백업/01_메인히어로_이전버전_2026-10-13/globals-hero.css */
-.hero { --hero-x: clamp(20px, 4.2vw, 72px); --hero-ease: cubic-bezier(.16, 1, .3, 1); --hero-ink: #0b1a4a; --hero-ice: #cdf3ff; }
-.hero-bg { background: linear-gradient(165deg, #2f5bf5 0%, #2148d6 46%, #12206b 100%); opacity: calc(1 - var(--hero-p, 0) * .7); }
+.hero { --hero-x: max(48px, calc((100% - 1664px) / 2)); /* 헤더(.container-x: 최대 1760, 좌우 48)와 같은 좌우 선 */ --hero-ease: cubic-bezier(.16, 1, .3, 1); --hero-ink: #0b1a4a; --hero-ice: #cdf3ff; }
+.hero-bg { background: #0a0a0a; opacity: calc(1 - var(--hero-p, 0) * .7); }
 .hero-grain { opacity: .05; mix-blend-mode: screen; background-size: 160px 160px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 /* 덮이는 만큼 물러남 (transform·opacity 만) */
@@ -316,6 +317,7 @@ a:hover > .btn-arrow, button:hover > .btn-arrow { transform: translate(3px, -3px
 @keyframes hero-line { from { transform: translateY(0); opacity: 1; } to { transform: translateY(150%); opacity: 0; } }
 
 @media (max-width: 767px) {
+  .hero { --hero-x: 20px; }
   .hero-shape--circle { left: -8vw; top: -8vh; width: 62vw; height: 62vw; } .hero-shape--square { left: 40vw; top: -10vh; width: 70vw; height: 70vw; border-radius: 9vw; } .hero-shape--blob { width: 70vw; height: 70vw; border-radius: 9vw; }
   .hero-mark { left: 31vw; top: 9vh; width: 38vw; } .hero-dot { left: calc(31vw + 38vw * .9); top: 8vh; width: 28px; height: 28px; }
   .hero-chip--1 { left: 4vw; top: 22vh; } .hero-chip--2 { left: 40vw; top: 31vh; } .hero-chip--3 { left: 12vw; top: 41vh; } .hero-chip--4 { left: 62vw; top: 48vh; }

@@ -10,6 +10,7 @@
  */
 import { useEffect, useRef } from "react";
 import type { HeroData } from "@/lib/sections";
+import RibbonGlow from "@/components/RibbonGlow";
 
 const DEFAULT_CHIPS: NonNullable<HeroData["chips"]> = [
   { label: "성형외과", tone: "dark" },
@@ -51,12 +52,10 @@ export default function Hero({ data }: { data: HeroData }) {
   const descLines = data.tagline.split("\n");
 
   return (
-    <section ref={secRef} className="hero sticky top-0 z-0 bg-primary text-white on-dark overflow-hidden" aria-label="인팩트 소개">
-      {/* 배경: 블루 그라디언트 + 유리 도형 + 가운데 마크 + 알약 칩 + 옅은 그레인 */}
+    <section ref={secRef} className="hero sticky top-0 z-0 bg-[#0a0a0a] text-white on-dark overflow-hidden" aria-label="인팩트 소개">
+      {/* 배경: 블랙+블루 리본(마우스를 따라 일렁임) + 가운데 마크 + 알약 칩 + 옅은 그레인 */}
       <div aria-hidden="true" className="hero-bg absolute inset-0">
-        <div className="hero-shape hero-shape--circle" />
-        <div className="hero-shape hero-shape--square" />
-        <div className="hero-shape hero-shape--blob" />
+        <RibbonGlow background="#0a0a0a" hover={140} reach={320} />
         <svg className="hero-mark" viewBox="0 0 200 200">
           <path className="hero-mark-main" d="M70 20h60v50h50v60h-50v50H70v-50H20V70h50z" />
           <path className="hero-mark-ghost" d="M130 20l50 50v60l-50-50z" />
