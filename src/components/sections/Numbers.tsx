@@ -1,25 +1,23 @@
 "use client";
 
 /**
- * 02 수치로 증명하는 강점 — 가로 스크롤 페이지
- *  화면은 위치 고정(sticky), 세로 스크롤 양만큼 패널 줄이 왼쪽으로 흘러간다. 가운데 패널만 꽉 찬 글자 + 문구, 양옆은 은은한 흐린 글자.
- *  구성: 제목 패널 1개 + 수치 패널 n개. 패널마다 메인 히어로와 같은 블루 톤 배경 + 내용에 맞는 그래픽(Scene: 링·그래프·점 격자·겹친 원)이 있고 패널이 바뀔 때 크로스페이드.
- *  자동 넘김: 고정 구간 안에서 사용자 입력이 멈추면 AUTO_MS 마다 다음 패널로 스크롤(마지막에서 멈춤 — 되감지 않음).
+ * 02 수치로 증명하는 강점 — 가로 스크롤 (2026-10-12 변경)
+ *  화면은 위치 고정(sticky), 세로 스크롤 양만큼 카드 줄이 왼쪽으로 흘러간다.
+ *  구성: 제목 패널 1개 + 수치 카드 n개. 카드마다 내용에 맞는 배경(.nb-0~3 + CardArt)이 있다.
  *  스냅 지점은 패널이 화면 가운데에 온 순간(p = i/n)마다 — 세게 튕겨도 한 장씩 멈춘다.
  */
 import { useEffect, useRef, useState } from "react";
 import type { NumbersData } from "@/lib/sections";
 import { setSnapLock, smoothScrollTo } from "@/lib/scroll";
 
-const AUTO_MS = 3500;   // 자동 넘김 간격
-const IDLE_MS = 4000;   // 사용자가 휠·터치·키를 만진 뒤 자동 넘김을 쉬는 시간
-
 export default function Numbers({ data }: { data: NumbersData }) {
   const ref = useRef<HTMLElement>(null);
   const veilRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const viewRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLSpanElement>(null);
-  const [cur, setCur] = useState(0); // 가운데 패널 번호(0 = 제목) — 배경 이미지 전환용 (섹션 className 이 아니라 data-* 로만 씀)
+
+  const [cur, setCur] = useState(0); // 가운데 패널 번호(0 = 제목) — 페이지 표시 숫자용
 
   const n = data.items.length;
   useEffect(() => {
@@ -40,13 +38,15 @@ export default function Numbers({ data }: { data: NumbersData }) {
       const p = Math.min(1, Math.max(0, -rect.top / span));
       const track = trackRef.current;
       if (track && track.children.length > 1) {
+        const last = Math.max(1, n - 1); // 카드 n장 → 이동 구간 n-1
         const step = (track.children[1] as HTMLElement).offsetLeft - (track.children[0] as HTMLElement).offsetLeft;
-        track.style.transform = `translate3d(${-p * n * step}px,0,0)`;
-        const active = Math.round(p * n);
+        track.style.transform = `translate3d(${-p * last * step}px,0,0)`;
+        const active = Math.round(p * last);
         Array.from(track.children).forEach((c, i) => ((c as HTMLElement).dataset.active = i === active ? "1" : "0"));
         setCur(active);
       }
       if (barRef.current) barRef.current.style.transform = `scaleX(${p})`;
+      if (veilRef.current) veilRef.current.style.opacity = String(0.25 + p * 0.4);
       // 진입 덮기: 섹션 상단이 화면 아래에서 위까지 올라오는 동안 배경 0→1 (히어로가 비치다 서서히 덮임)
       el.style.setProperty("--cover", String(Math.min(1, Math.max(0, (vh - rect.top) / vh))));
     };
@@ -57,40 +57,70 @@ export default function Numbers({ data }: { data: NumbersData }) {
     return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); if (raf) cancelAnimationFrame(raf); setSnapLock("numbers", false); };
   }, [n]);
 
-  // 자동 넘김 — 고정 구간 안에서만, 사용자 입력이 IDLE_MS 동안 없을 때 AUTO_MS 마다 다음 패널 위치로 스크롤
+  // 마우스·펜 드래그로 카드 넘기기 — 가로 이동량을 세로 스크롤 위치로 바꿔 쓴다(스크롤 위치가 곧 카드 위치).
+  // 드래그 중에는 스냅을 잠시 끄고, 놓으면 가까운(방향 쪽) 카드 위치로 부드럽게 맞춘다. 터치는 가로 드래그만 여기서 받음(touch-action: pan-y).
   useEffect(() => {
+    const view = viewRef.current;
     const el = ref.current;
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let lastInput = 0;
-    let lastAuto = Date.now();
-    const touch = () => { lastInput = Date.now(); };
-    const evs = ["wheel", "touchstart", "keydown", "pointerdown"] as const;
-    evs.forEach((e) => window.addEventListener(e, touch, { passive: true }));
-    const timer = window.setInterval(() => {
-      const now = Date.now();
-      if (document.hidden || now - lastInput < IDLE_MS || now - lastAuto < AUTO_MS) return;
+    if (!view || !el || n < 2) return;
+    let down = false, startX = 0, startY = 0, k = 1, step = 1, span = 1, startF = 0, startIdx = 0, dx = 0, id = -1;
+    const root = document.documentElement;
+    const onDown = (e: PointerEvent) => {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      const track = trackRef.current;
+      if (!track || track.children.length < 2) return;
       const rect = el.getBoundingClientRect();
-      const span = el.offsetHeight - window.innerHeight;
-      if (rect.top > 1 || -rect.top >= span - 1) return; // 고정 구간 밖 / 마지막 패널이면 쉼
-      const next = Math.round((-rect.top / span) * n) + 1;
-      if (next > n) return;
-      lastAuto = now;
-      smoothScrollTo(window.scrollY + rect.top + (next / n) * span);
-    }, 500);
-    return () => { evs.forEach((e) => window.removeEventListener(e, touch)); window.clearInterval(timer); };
+      span = el.offsetHeight - window.innerHeight;
+      step = (track.children[1] as HTMLElement).offsetLeft - (track.children[0] as HTMLElement).offsetLeft;
+      k = span / ((n - 1) * step);
+      startX = e.clientX; startY = window.scrollY; dx = 0; id = e.pointerId;
+      startF = (-rect.top / span) * (n - 1);
+      startIdx = Math.round(startF);
+      down = true;
+      view.setPointerCapture(id);
+      view.classList.add("is-dragging");
+      root.classList.add("strength-drag");
+    };
+    const onMove = (e: PointerEvent) => {
+      if (!down) return;
+      dx = e.clientX - startX;
+      window.scrollTo({ top: startY - dx * k, behavior: "instant" as ScrollBehavior });
+    };
+    const onUp = () => {
+      if (!down) return;
+      down = false;
+      view.classList.remove("is-dragging");
+      const moved = -dx / step;
+      let idx = Math.round(startF + moved);
+      if (idx === startIdx && Math.abs(moved) > 0.12) idx += moved > 0 ? 1 : -1;
+      idx = Math.min(n - 1, Math.max(0, idx));
+      const top = window.scrollY + el.getBoundingClientRect().top + (idx / (n - 1)) * span;
+      root.classList.remove("strength-drag");
+      smoothScrollTo(top);
+    };
+    view.addEventListener("pointerdown", onDown);
+    view.addEventListener("pointermove", onMove);
+    view.addEventListener("pointerup", onUp);
+    view.addEventListener("pointercancel", onUp);
+    return () => {
+      view.removeEventListener("pointerdown", onDown); view.removeEventListener("pointermove", onMove);
+      view.removeEventListener("pointerup", onUp); view.removeEventListener("pointercancel", onUp);
+      root.classList.remove("strength-drag");
+    };
   }, [n]);
 
-  // 좌우 화살표 — 이전/다음 패널 위치로 스크롤 (스크롤 위치가 곧 패널 번호라 다른 동작과 항상 맞는다)
+  // 이전/다음 카드 위치로 스크롤 (스크롤 위치가 곧 패널 번호)
   const go = (delta: number) => {
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
     const span = el.offsetHeight - window.innerHeight;
-    const next = Math.min(n, Math.max(0, Math.round((-rect.top / span) * n) + delta));
-    smoothScrollTo(window.scrollY + rect.top + (next / n) * span);
+    const next = Math.min(n - 1, Math.max(0, Math.round((-rect.top / span) * (n - 1)) + delta));
+    smoothScrollTo(window.scrollY + rect.top + (next / Math.max(1, n - 1)) * span);
   };
 
   const [l, r] = splitTitle(data.intro);
+  const pad = (v: number) => String(v).padStart(2, "0");
 
   return (
     <section ref={ref} className="strength text-white on-dark" aria-label="수치로 증명하는 강점">
@@ -99,40 +129,49 @@ export default function Numbers({ data }: { data: NumbersData }) {
         <div key={t} aria-hidden="true" className="snap-point" style={{ top: `${t}vh` }} />
       ))}
       <div className="strength-inner">
-        <div aria-hidden="true" className="strength-bg absolute inset-0 bg-night">
-          <div className="absolute inset-0 bg-[radial-gradient(70%_60%_at_50%_110%,rgba(48,97,255,0.7)_0%,rgba(48,97,255,0.15)_40%,#0a0a0a_75%)]" />
-          {/* 패널별 배경 그래픽 — 가운데 패널과 같은 번호만 보임 (0 = 제목, 1~n = 수치 카드) */}
-          {Array.from({ length: n + 1 }, (_, i) => <Scene key={i} i={i} on={i === cur} />)}
-          <div ref={veilRef} className="absolute inset-0 bg-night" style={{ opacity: 0.2 }} />
+        <div aria-hidden="true" className="strength-bg absolute inset-0">
+          <div className="strength-aurora absolute inset-0" />
+          <div className="strength-grid absolute inset-0" />
         </div>
 
         <div className="strength-content relative h-full flex flex-col justify-center">
-          <div ref={trackRef} className="strength-track">
-            {/* 제목 패널 */}
-            <div className="strength-panel strength-title" data-active="1">
-              <h2 className="text-[34px] md:text-[clamp(48px,5.5vw,75px)] leading-[1.15] md:leading-[1.1] tracking-[-1px] md:tracking-[-2.8px]">
-                <span className="block font-extrabold text-white">{l}</span>
-                <span className="block font-extrabold accent">{r}</span>
-              </h2>
-             
+          {/* 왼쪽: 제목 + 페이지 이동 */}
+          <div className="strength-head">
+            <h2 className="tracking-[-1px] md:tracking-[-2px]">
+              <span className="block font-light text-white text-[26px] md:text-[clamp(28px,2.6vw,44px)] leading-[1.3] mb-2 md:mb-3">{l.split(" ").map((w, k) => <span key={k}>{k > 0 && " "}<b className="font-extrabold">{w.slice(0, 2)}</b>{w.slice(2)}</span>)}</span>
+              <span className="block font-extrabold accent text-[36px] md:text-[clamp(40px,4.4vw,76px)] leading-[1.2] md:leading-[1.15]">{r.split(" ").map((w, k, arr) => <span key={k} className="block mt-1.5 md:mt-2"><span className="inline-block bg-white px-[.12em] pb-[.04em] shadow-[0_8px_24px_-8px_rgba(60,80,200,.25)]">{w}{k === arr.length - 1 && "."}</span></span>)}</span>
+            </h2>
+            <div className="strength-pager" role="group" aria-label="강점 카드 이동">
+              <button type="button" aria-label="이전" disabled={cur <= 0} onClick={() => go(-1)}>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+              </button>
+              <span className="strength-pager-now">{pad(cur + 1)}</span>
+              <span className="strength-pager-bar">–</span>
+              <span className="strength-pager-total">{pad(n)}</span>
+              <button type="button" aria-label="다음" disabled={cur >= n - 1} onClick={() => go(1)}>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
+              </button>
             </div>
+          </div>
+          {/* 오른쪽: 카드 줄 (왼쪽 경계에서 잘리며 흘러감) */}
+          <div ref={viewRef} className="strength-viewport">
+          <div ref={trackRef} className="strength-track">
             {/* 수치 카드 */}
             {data.items.map((it, i) => (
-              <article key={i} className="strength-panel strength-card" data-active="0">
-                <div className="strength-label text-[18px] md:text-[24px] font-bold tracking-[1px] text-primary">{it.label}</div>
-                <div className="strength-value font-extrabold leading-[1] tracking-[-1.5px] lg:tracking-[-3px]">{it.value}</div>
-                <p className="strength-body t-lead md:text-[21px] text-white/80">
-                  {it.body.map((line, j) => <span key={j} className="block">{bold(line)}</span>)}
-                </p>
+              <article key={i} className={`strength-panel strength-card text-white nb-${i % 4}`} data-active={i === 0 ? "1" : "0"}>
+                <CardArt i={i % 4} />
+                <div className="relative">
+                  <div className="text-[15px] md:text-[17px] font-bold tracking-[1px] text-primary">{it.label}</div>
+                  <div className="text-[clamp(34px,3vw,46px)] font-extrabold leading-[1] tracking-[-1.5px] lg:tracking-[-3px] mt-4 md:mt-5">{it.value}</div>
+                  <p className="t-lead md:text-[18px] text-white/75 mt-6 md:mt-8">
+                    {it.body.map((line, j) => <span key={j} className="block">{bold(line)}</span>)}
+                  </p>
+                </div>
+                <span className="strength-no" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
               </article>
             ))}
           </div>
-          <button type="button" className="strength-arrow strength-arrow-prev" aria-label="이전" disabled={cur <= 0} onClick={() => go(-1)}>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
-          </button>
-          <button type="button" className="strength-arrow strength-arrow-next" aria-label="다음" disabled={cur >= n} onClick={() => go(1)}>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg>
-          </button>
+          </div>
           <div className="strength-prog" aria-hidden="true"><span ref={barRef} /></div>
         </div>
       </div>
@@ -140,59 +179,47 @@ export default function Numbers({ data }: { data: NumbersData }) {
   );
 }
 
-/** 패널 배경 그래픽 (블루 톤, 코드로 그림) — 0 제목(리본 호) · 1 기간(시계 링) · 2 수익률(막대+상승선) · 3 병원 수(점 격자) · 4 전문팀(겹친 원). 5번째부터는 순환 */
-function Scene({ i, on }: { i: number; on: boolean }) {
-  const k = i % 5;
-  const glow = [["72%", "30%"], ["78%", "62%"], ["62%", "78%"], ["50%", "55%"], ["28%", "60%"]][k];
+/** 카드 배경 장식 — 내용에 맞춘 그림. 0 기간(동심원) · 1 수익률(상승 그래프) · 2 병원 수(점 격자) · 3 전문팀(겹친 원) */
+function CardArt({ i }: { i: number }) {
+  const q = (v: number) => Math.round(v * 100) / 100; // 서버·브라우저 소수점 차이로 생기는 hydration 경고 방지
   return (
-    <div className="strength-scene" data-on={on ? "1" : "0"} aria-hidden="true" style={{ ["--gx" as string]: glow[0], ["--gy" as string]: glow[1] }}>
-      <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id={`scArea${k}`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#4d7bff" stopOpacity="0.5" /><stop offset="1" stopColor="#4d7bff" stopOpacity="0" /></linearGradient>
-        </defs>
-        {k === 0 && (
-          <g fill="none" stroke="#6f93ff">
-            {[0, 1, 2, 3, 4, 5].map((r) => <ellipse key={r} cx="1180" cy="1000" rx={420 + r * 110} ry={560 + r * 80} strokeOpacity={0.5 - r * 0.07} strokeWidth="1.5" />)}
-          </g>
-        )}
-        {k === 1 && (
-          <g fill="none" stroke="#6f93ff">
-            {[120, 220, 320, 420, 520, 620].map((r, j) => <circle key={r} cx="1120" cy="620" r={r} strokeOpacity={0.55 - j * 0.07} strokeWidth="1.5" />)}
-            {Array.from({ length: 48 }, (_, j) => {
-              const a = (Math.PI * 2 * j) / 48;
-              const r2 = j % 4 === 0 ? 660 : 640;
-              const p = (v: number) => Math.round(v); // 서버·브라우저의 소수점 계산 차이로 생기는 hydration 경고 방지
-              return <line key={j} x1={p(1120 + Math.cos(a) * 620)} y1={p(620 + Math.sin(a) * 620)} x2={p(1120 + Math.cos(a) * r2)} y2={p(620 + Math.sin(a) * r2)} strokeOpacity="0.5" />;
-            })}
-            <line x1="1120" y1="620" x2="1120" y2="260" stroke="#9cb4ff" strokeWidth="3" strokeLinecap="round" />
-            <line x1="1120" y1="620" x2="1340" y2="700" stroke="#9cb4ff" strokeWidth="3" strokeLinecap="round" strokeOpacity="0.7" />
-            <circle cx="1120" cy="620" r="9" fill="#fff" stroke="none" />
-          </g>
-        )}
-        {k === 2 && (
-          <g>
-            {[0, 1, 2, 3, 4].map((r) => <line key={r} x1="0" x2="1440" y1={300 + r * 120} y2={300 + r * 120} stroke="#6f93ff" strokeOpacity="0.12" />)}
-            {Array.from({ length: 14 }, (_, j) => <rect key={j} x={120 + j * 92} y={820 - (80 + j * 34)} width="52" height={80 + j * 34} rx="8" fill="#4d7bff" fillOpacity={0.1 + j * 0.016} />)}
-            <path d="M120 760 L304 700 L488 720 L672 600 L856 560 L1040 400 L1224 330 L1360 190 L1360 880 L120 880 Z" fill={`url(#scArea${k})`} />
-            <path d="M120 760 L304 700 L488 720 L672 600 L856 560 L1040 400 L1224 330 L1360 190" fill="none" stroke="#8fb0ff" strokeWidth="4" strokeLinejoin="round" strokeLinecap="round" />
-            <circle cx="1360" cy="190" r="11" fill="#fff" />
-          </g>
-        )}
-        {k === 3 && (
-          <g fill="#7f9fff">
-            {Array.from({ length: 12 * 22 }, (_, j) => {
-              const hot = (j * 7) % 13 === 0;
-              return <circle key={j} cx={60 + (j % 22) * 63} cy={110 + Math.floor(j / 22) * 66} r={hot ? 7 : 3.5} fillOpacity={hot ? 0.9 : 0.25} />;
-            })}
-          </g>
-        )}
-        {k === 4 && (
-          <g fill="none" strokeWidth="2">
-            {[0, 1, 2, 3, 4].map((j) => <circle key={j} cx={420 + j * 150} cy={470 - (j % 2) * 90} r="240" stroke={["#35d6ff", "#6f93ff", "#4d7bff", "#9cb4ff", "#6fb7ff"][j]} strokeOpacity="0.5" fill={["#35d6ff", "#6f93ff", "#4d7bff", "#9cb4ff", "#6fb7ff"][j]} fillOpacity="0.07" />)}
-          </g>
-        )}
-      </svg>
-    </div>
+    <svg className="strength-art" viewBox="0 0 400 300" preserveAspectRatio="xMaxYMax meet" aria-hidden="true">
+      {i === 0 && (
+        <g fill="none" stroke="#6f93ff">
+          {[40, 80, 120, 160, 200].map((rad, k) => <circle key={rad} cx="330" cy="250" r={rad} strokeOpacity={0.5 - k * 0.08} strokeWidth="1.5" />)}
+          {Array.from({ length: 12 }, (_, k) => {
+            const a = (Math.PI * (k + 6)) / 12;
+            return <line key={k} x1={q(330 + Math.cos(a) * 200)} y1={q(250 + Math.sin(a) * -200)} x2={q(330 + Math.cos(a) * 214)} y2={q(250 + Math.sin(a) * -214)} strokeOpacity="0.5" />;
+          })}
+        </g>
+      )}
+      {i === 1 && (
+        <g>
+          <defs>
+            <linearGradient id="nbArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#35d6ff" stopOpacity="0.45" /><stop offset="1" stopColor="#35d6ff" stopOpacity="0" /></linearGradient>
+          </defs>
+          {[0, 1, 2, 3, 4, 5, 6].map((k) => <rect key={k} x={140 + k * 37} y={270 - (40 + k * 28)} width="22" height={40 + k * 28} rx="4" fill="#35d6ff" fillOpacity={0.1 + k * 0.03} />)}
+          <path d="M130 250 L180 220 L225 232 L270 170 L315 150 L360 70 L360 290 L130 290 Z" fill="url(#nbArea)" />
+          <path d="M130 250 L180 220 L225 232 L270 170 L315 150 L360 70" fill="none" stroke="#7fe6ff" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
+          <circle cx="360" cy="70" r="7" fill="#fff" />
+        </g>
+      )}
+      {i === 2 && (
+        <g fill="#b9a2ff">
+          {Array.from({ length: 8 * 14 }, (_, k) => {
+            const cx = 20 + (k % 14) * 27;
+            const cy = 20 + Math.floor(k / 14) * 27;
+            const hot = (k * 7) % 11 === 0;
+            return <circle key={k} cx={cx} cy={cy} r={hot ? 5 : 3} fillOpacity={hot ? 0.95 : 0.28} />;
+          })}
+        </g>
+      )}
+      {i === 3 && (
+        <g fill="none" strokeWidth="1.5">
+          {[0, 1, 2, 3, 4].map((k) => <circle key={k} cx={150 + k * 52} cy={190 - (k % 2) * 40} r="70" stroke={["#ff8fb8", "#ffb077", "#7fe6ff", "#9cb4ff", "#c4a6ff"][k]} strokeOpacity="0.6" fill={["#ff8fb8", "#ffb077", "#7fe6ff", "#9cb4ff", "#c4a6ff"][k]} fillOpacity="0.08" />)}
+        </g>
+      )}
+    </svg>
   );
 }
 
@@ -208,9 +235,9 @@ function bold(line: string) {
 }
 
 /** 스냅 지점(섹션 상단 기준 vh, 고정 구간 420vh = globals.css .strength 520vh − 100vh):
- *  위로 나가기(-100 = 히어로) · 제목(0) · 카드 i 가 가운데에 오는 지점(i/n) · 아래로 나가기(520 = 다음 섹션이 화면 맨 위) */
+ *  위로 나가기(-100 = 히어로) · 카드 i 가 왼쪽 시작 위치에 오는 지점(i/(n-1)) · 아래로 나가기(520 = 다음 섹션이 화면 맨 위) */
 function snapTops(n: number): number[] {
-  return [-100, ...Array.from({ length: n + 1 }, (_, i) => Math.round((i * 420) / n)), 520];
+  return [-100, ...Array.from({ length: n }, (_, i) => Math.round((i * 420) / Math.max(1, n - 1))), 520];
 }
 
 function splitTitle(s: string): [string, string] {

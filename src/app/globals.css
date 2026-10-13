@@ -358,33 +358,43 @@ a:hover > .btn-arrow, button:hover > .btn-arrow { transform: translate(3px, -3px
 html[class*="snap-lock-"] { scroll-snap-type: y mandatory; }
 .snap-point { position: absolute; left: 0; width: 1px; height: 1px; scroll-snap-align: start; scroll-snap-stop: always; pointer-events: none; }
 /* 가로 스크롤 (2026-10-12): 세로 스크롤 → 카드 줄 translateX (Numbers.tsx 가 transform·data-active 갱신). 패널 폭 = --sw, 간격 = --sg */
-.strength { --sw: min(760px, 80vw); --sg: clamp(16px, 3vw, 48px); }
-.strength-track { display: flex; align-items: center; gap: var(--sg); padding-left: calc((100% - var(--sw)) / 2); width: max-content; will-change: transform; }
-.strength-panel { flex: 0 0 var(--sw); width: var(--sw); transition: opacity .8s, transform .8s cubic-bezier(.2,.7,.2,1); }
-.strength-panel[data-active="0"] { opacity: .55; transform: scale(.9); }
-.strength-title { text-align: center; }
-/* 패널별 배경 그래픽 (2026-10-13): 메인 히어로와 같은 블루 톤. 가운데 패널과 같은 번호만 보이고 1.2초 크로스페이드 */
-.strength-scene { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease; background: radial-gradient(60% 70% at var(--gx, 70%) var(--gy, 50%), rgba(48,97,255,.5), rgba(20,50,160,.18) 45%, transparent 75%); }
-.strength-scene[data-on="1"] { opacity: 1; }
-.strength-scene svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-/* 수치 패널: 상자 없이 글자만 — 가운데 패널은 꽉 찬 글자 + 문구, 양옆 패널은 은은한 흐린 글자 (유한양행 100주년 사이트 방식) */
-.strength-card { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; padding-top: 4vh; }
-.strength-value { font-size: clamp(32px, 6.5vw, 104px); white-space: nowrap; margin: 14px 0 0; color: rgba(255,255,255,.2); transition: color .8s; }
-.strength-card[data-active="1"] .strength-value { color: #fff; }
-.strength-label, .strength-body { opacity: 0; transform: translateY(24px); transition: opacity .6s, transform .6s; }
-.strength-body { margin-top: clamp(20px, 3.5vh, 40px); }
-.strength-card[data-active="1"] .strength-label, .strength-card[data-active="1"] .strength-body { opacity: 1; transform: none; }
-.strength-card[data-active="1"] .strength-body { transition-delay: .15s; }
-/* 좌우 화살표 (2026-10-13): 누르면 이전/다음 패널로 스크롤, 처음·끝에서는 흐리게 비활성 */
-.strength-arrow { position: absolute; top: 50%; z-index: 2; width: 56px; height: 56px; margin-top: -28px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.35); backdrop-filter: blur(6px); cursor: pointer; transition: background .25s, opacity .25s; }
-.strength-arrow:hover:not(:disabled) { background: rgba(255,255,255,.25); }
-.strength-arrow:disabled { opacity: .25; cursor: default; }
-.strength-arrow svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.strength-arrow-prev { left: clamp(12px, 3vw, 48px); } .strength-arrow-next { right: clamp(12px, 3vw, 48px); }
-@media (max-width: 767px) { .strength-arrow { width: 44px; height: 44px; margin-top: -22px; top: auto; bottom: clamp(16px, 4vh, 40px); margin-top: 0; } .strength-arrow-prev { left: 16px; } .strength-arrow-next { right: 16px; } }
-.strength-value, .strength-label, .strength-body { text-shadow: 0 2px 24px rgba(0,0,0,.45); }
+.strength { --sw: min(440px, 76vw); --sg: clamp(16px, 2vw, 28px); }
+.strength-track { display: flex; align-items: center; gap: var(--sg); padding: 0 16px; width: max-content; will-change: transform; }
+.strength-panel { flex: 0 0 var(--sw); width: var(--sw); transition: opacity .5s, transform .6s cubic-bezier(.2,.7,.2,1); }
+.strength-panel[data-active="0"] { opacity: .55; }
+/* 제목 뒤 은은한 블루 빛 (파란 포인트 글자가 어두운 배경에 묻히지 않게) */
+/* 메인 히어로(.fc)와 같은 배경: 블랙 + 딥블루 그라데이션, 64px 블루 격자 */
+.strength-aurora { background: radial-gradient(110% 90% at 72% 38%, #0b1c4d 0%, #070c1c 55%, #050507 100%); }
+.strength-grid { pointer-events: none; background-image: linear-gradient(rgba(120,170,255,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,255,.09) 1px, transparent 1px); background-size: 64px 64px; -webkit-mask-image: radial-gradient(90% 80% at 65% 35%, #000 20%, transparent 80%); mask-image: radial-gradient(90% 80% at 65% 35%, #000 20%, transparent 80%); }
+.strength-head { padding: 0 var(--hx); margin-bottom: clamp(20px, 4vh, 36px); }
+html.strength-drag { scroll-snap-type: none !important; }
+.strength-viewport { cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.strength-viewport.is-dragging { cursor: grabbing; }
+.strength-viewport { overflow: hidden; padding: 24px 0 40px; }
+/* 제목 왼쪽 선 = 헤더 로고 왼쪽 선 (.container-x: 최대 1760, 좌우 48 / 모바일 20) */
+.strength { --hx: 20px; }
+@media (min-width: 768px) {
+  .strength { --hx: max(48px, calc((100vw - 1664px) / 2)); }
+  .strength-content { flex-direction: row; align-items: center; justify-content: flex-start; }
+  .strength-head { flex: 0 0 46vw; margin: 0; padding: 0 0 0 var(--hx); }
+  .strength-viewport { flex: 1 1 0; min-width: 0; margin-left: 0; }
+  .strength-track { padding-left: 0; }
+}
+.strength-pager { display: inline-flex; align-items: center; gap: 14px; margin-top: clamp(28px, 5vh, 56px); padding: 0; height: 48px; color: #fff; font-size: 16px; font-weight: 500; }
+.strength-pager button { display: grid; place-items: center; width: 24px; height: 24px; color: #fff; cursor: pointer; }
+.strength-pager button:disabled { opacity: .25; cursor: default; }
+.strength-pager svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.strength-pager-bar, .strength-pager-total { color: rgba(255,255,255,.4); }
+.strength-card { position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; height: min(520px, 62vh); padding: clamp(24px, 2.5vw, 36px); border-radius: 28px; border: 1px solid rgba(255,255,255,.1); box-shadow: 0 30px 70px -30px rgba(0,0,0,.7); text-align: left; }
+.strength-art { position: absolute; right: 0; bottom: 0; width: 70%; height: 80%; opacity: .75; pointer-events: none; }
+.strength-no { position: absolute; top: clamp(20px, 3vw, 36px); right: clamp(24px, 3.5vw, 44px); font-size: 14px; font-weight: 700; letter-spacing: 2px; color: rgba(255,255,255,.4); }
+.nb-0 { background: radial-gradient(90% 80% at 90% 100%, rgba(48,97,255,.45), transparent 60%), linear-gradient(145deg, #101c4d, #090d1f); }
+.nb-1 { background: radial-gradient(90% 80% at 90% 100%, rgba(53,214,255,.32), transparent 60%), linear-gradient(145deg, #0b2c40, #07131d); }
+.nb-2 { background: radial-gradient(90% 80% at 90% 100%, rgba(150,110,255,.38), transparent 60%), linear-gradient(145deg, #261850, #0c0922); }
+.nb-3 { background: radial-gradient(90% 80% at 90% 100%, rgba(255,130,170,.28), transparent 60%), linear-gradient(145deg, #1e2358, #0b0b1c); }
 .strength-prog { position: absolute; left: 50%; bottom: clamp(24px, 6vh, 56px); width: min(240px, 50vw); height: 3px; transform: translateX(-50%); background: rgba(255,255,255,.15); border-radius: 2px; overflow: hidden; }
 .strength-prog > span { display: block; height: 100%; background: var(--color-primary, #3061ff); transform-origin: left; transform: scaleX(0); }
+@media (max-width: 767px) { .strength-art { width: 90%; height: 55%; opacity: .5; } }
 
 /* ── 서비스 01 고민 인용문 — 3D 공간 → 3열 정렬 (스크롤 진행도 기반, 값은 PainQuotes.tsx 가 style 로 직접 씀) ── */
 /* 진행 300vh + 여유 50vh + 마지막 100vh(다음 섹션이 덮으며 올라오는 구간 — sticky 는 그동안 고정) */
