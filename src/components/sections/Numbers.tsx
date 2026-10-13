@@ -109,6 +109,18 @@ export default function Numbers({ data }: { data: NumbersData }) {
     };
   }, [n]);
 
+  // 마우스 위치(카드 안 -1~1)를 CSS 변수로 — 카드 그림이 층마다 다르게 따라 움직인다 (React 상태를 쓰지 않음)
+  const onCardMove = (e: React.PointerEvent) => {
+    const card = (e.target as HTMLElement).closest<HTMLElement>(".strength-card");
+    if (!card) return;
+    const r = card.getBoundingClientRect();
+    card.style.setProperty("--px", String(((e.clientX - r.left) / r.width - 0.5) * 2));
+    card.style.setProperty("--py", String(((e.clientY - r.top) / r.height - 0.5) * 2));
+  };
+  const onCardLeave = (e: React.PointerEvent) => {
+    (e.currentTarget as HTMLElement).querySelectorAll<HTMLElement>(".strength-card").forEach((c) => { c.style.setProperty("--px", "0"); c.style.setProperty("--py", "0"); });
+  };
+
   // 이전/다음 카드 위치로 스크롤 (스크롤 위치가 곧 패널 번호)
   const go = (delta: number) => {
     const el = ref.current;
@@ -139,7 +151,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
           <div className="strength-head">
             <h2 className="tracking-[-1px] md:tracking-[-2px]">
               <span className="block font-light text-white text-[26px] md:text-[clamp(28px,2.6vw,44px)] leading-[1.3] mb-2 md:mb-3">{l.split(" ").map((w, k) => <span key={k}>{k > 0 && " "}<b className="font-extrabold">{w.slice(0, 2)}</b>{w.slice(2)}</span>)}</span>
-              <span className="block font-extrabold accent text-[36px] md:text-[clamp(40px,4.4vw,76px)] leading-[1.2] md:leading-[1.15]">{r.split(" ").map((w, k, arr) => <span key={k} className="block mt-1.5 md:mt-2"><span className="inline-block bg-white px-[.12em] pb-[.04em] shadow-[0_8px_24px_-8px_rgba(60,80,200,.25)]">{w}{k === arr.length - 1 && "."}</span></span>)}</span>
+              <span className="block font-bold text-white text-[40px] md:text-[clamp(46px,4.6vw,78px)] leading-[1.2] md:leading-[1.15] tracking-[-1.5px] md:tracking-[-3px]">{r.split(" ").map((w, k, arr) => <span key={k} className="block">{w}{k === arr.length - 1 && <i className="not-italic text-primary">.</i>}</span>)}</span>
             </h2>
             <div className="strength-pager" role="group" aria-label="강점 카드 이동">
               <button type="button" aria-label="이전" disabled={cur <= 0} onClick={() => go(-1)}>
@@ -155,19 +167,26 @@ export default function Numbers({ data }: { data: NumbersData }) {
           </div>
           {/* 오른쪽: 카드 줄 (왼쪽 경계에서 잘리며 흘러감) */}
           <div ref={viewRef} className="strength-viewport">
-          <div ref={trackRef} className="strength-track">
+          <div ref={trackRef} className="strength-track" onPointerMove={onCardMove} onPointerLeave={onCardLeave}>
             {/* 수치 카드 */}
             {data.items.map((it, i) => (
               <article key={i} className={`strength-panel strength-card text-white nb-${i % 4}`} data-active={i === 0 ? "1" : "0"}>
                 <CardArt i={i % 4} />
                 <div className="relative">
                   <div className="text-[15px] md:text-[17px] font-bold tracking-[1px] text-primary">{it.label}</div>
-                  <div className="text-[clamp(34px,3vw,46px)] font-extrabold leading-[1] tracking-[-1.5px] lg:tracking-[-3px] mt-4 md:mt-5">{it.value}</div>
-                  <p className="t-lead md:text-[18px] text-white/75 mt-6 md:mt-8">
+                  <div className="text-[clamp(34px,3vw,46px)] font-extrabold leading-[1] tracking-[-1.5px] lg:tracking-[-3px] mt-3 md:mt-4">{it.value}</div>
+                  <p className="t-lead text-[15px] md:text-[17px] leading-[1.55] text-white/75 mt-5 md:mt-6">
                     {it.body.map((line, j) => <span key={j} className="block">{bold(line)}</span>)}
                   </p>
                 </div>
                 <span className="strength-no" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                {/* 메인 히어로의 FACT CHECK 모션: 카드가 가운데에 오면 스캔선이 훑고 CHECKING → ✓ FACT 로 확정 */}
+                <span className="strength-stat" aria-hidden="true">
+                  <b className="sc-pend"><i />CHECKING</b>
+                  <b className="sc-done"><svg viewBox="0 0 16 16" width="1em" height="1em"><path d="M3 8.5l3.2 3.2L13 4.8" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>FACT</b>
+                </span>
+                <i className="sc-scan" aria-hidden="true" />
+                <span className="sc-bar" aria-hidden="true"><i /></span>
               </article>
             ))}
           </div>
@@ -179,18 +198,23 @@ export default function Numbers({ data }: { data: NumbersData }) {
   );
 }
 
-/** 카드 배경 장식 — 내용에 맞춘 그림. 0 기간(동심원) · 1 수익률(상승 그래프) · 2 병원 수(점 격자) · 3 전문팀(겹친 원) */
+/** 카드 배경 장식 — 내용에 맞춘 움직이는 그림 (코드 애니메이션, 마우스를 따라 층마다 다르게 살짝 움직임).
+ *  0 기간(숨 쉬는 동심원 + 천천히 도는 눈금) · 1 수익률(자라는 막대 + 상승선) · 2 병원 수(반짝이는 점 격자) · 3 전문팀(떠다니는 겹친 원) */
 function CardArt({ i }: { i: number }) {
   const q = (v: number) => Math.round(v * 100) / 100; // 서버·브라우저 소수점 차이로 생기는 hydration 경고 방지
   return (
     <svg className="strength-art" viewBox="0 0 400 300" preserveAspectRatio="xMaxYMax meet" aria-hidden="true">
       {i === 0 && (
         <g fill="none" stroke="#6f93ff">
-          {[40, 80, 120, 160, 200].map((rad, k) => <circle key={rad} cx="330" cy="250" r={rad} strokeOpacity={0.5 - k * 0.08} strokeWidth="1.5" />)}
-          {Array.from({ length: 12 }, (_, k) => {
-            const a = (Math.PI * (k + 6)) / 12;
-            return <line key={k} x1={q(330 + Math.cos(a) * 200)} y1={q(250 + Math.sin(a) * -200)} x2={q(330 + Math.cos(a) * 214)} y2={q(250 + Math.sin(a) * -214)} strokeOpacity="0.5" />;
-          })}
+          <g className="art-d1">
+            {[40, 80, 120, 160, 200].map((rad, k) => <circle key={rad} className="art-ring" style={{ animationDelay: `${k * 0.25}s` }} cx="330" cy="250" r={rad} strokeOpacity={0.5 - k * 0.08} strokeWidth="1.5" />)}
+          </g>
+          <g className="art-d2 art-spin">
+            {Array.from({ length: 12 }, (_, k) => {
+              const a = (Math.PI * (k + 6)) / 12;
+              return <line key={k} x1={q(330 + Math.cos(a) * 200)} y1={q(250 + Math.sin(a) * -200)} x2={q(330 + Math.cos(a) * 214)} y2={q(250 + Math.sin(a) * -214)} strokeOpacity="0.5" />;
+            })}
+          </g>
         </g>
       )}
       {i === 1 && (
@@ -198,25 +222,33 @@ function CardArt({ i }: { i: number }) {
           <defs>
             <linearGradient id="nbArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#35d6ff" stopOpacity="0.45" /><stop offset="1" stopColor="#35d6ff" stopOpacity="0" /></linearGradient>
           </defs>
-          {[0, 1, 2, 3, 4, 5, 6].map((k) => <rect key={k} x={140 + k * 37} y={270 - (40 + k * 28)} width="22" height={40 + k * 28} rx="4" fill="#35d6ff" fillOpacity={0.1 + k * 0.03} />)}
-          <path d="M130 250 L180 220 L225 232 L270 170 L315 150 L360 70 L360 290 L130 290 Z" fill="url(#nbArea)" />
-          <path d="M130 250 L180 220 L225 232 L270 170 L315 150 L360 70" fill="none" stroke="#7fe6ff" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
-          <circle cx="360" cy="70" r="7" fill="#fff" />
+          <g className="art-d1">
+            {[0, 1, 2, 3, 4, 5, 6].map((k) => <rect key={k} className="art-bar" style={{ transformOrigin: `${151 + k * 37}px 270px`, animationDelay: `${k * 0.18}s` }} x={140 + k * 37} y={270 - (40 + k * 28)} width="22" height={40 + k * 28} rx="4" fill="#35d6ff" fillOpacity={0.1 + k * 0.03} />)}
+          </g>
+          <g className="art-d2">
+            <path d="M130 250 L180 220 L225 232 L270 170 L315 150 L360 70 L360 290 L130 290 Z" fill="url(#nbArea)" />
+            <path className="art-line" pathLength={1} d="M130 250 L180 220 L225 232 L270 170 L315 150 L360 70" fill="none" stroke="#7fe6ff" strokeWidth="3" strokeLinejoin="round" strokeLinecap="round" />
+            <circle className="art-pulse" style={{ transformOrigin: "360px 70px" }} cx="360" cy="70" r="7" fill="#fff" />
+          </g>
         </g>
       )}
       {i === 2 && (
-        <g fill="#b9a2ff">
+        <g fill="#b9a2ff" className="art-d1">
           {Array.from({ length: 8 * 14 }, (_, k) => {
             const cx = 20 + (k % 14) * 27;
             const cy = 20 + Math.floor(k / 14) * 27;
             const hot = (k * 7) % 11 === 0;
-            return <circle key={k} cx={cx} cy={cy} r={hot ? 5 : 3} fillOpacity={hot ? 0.95 : 0.28} />;
+            return <circle key={k} className={hot ? "art-twinkle" : undefined} style={hot ? { animationDelay: `${(k % 7) * 0.35}s` } : undefined} cx={cx} cy={cy} r={hot ? 5 : 3} fillOpacity={hot ? 0.95 : 0.28} />;
           })}
         </g>
       )}
       {i === 3 && (
         <g fill="none" strokeWidth="1.5">
-          {[0, 1, 2, 3, 4].map((k) => <circle key={k} cx={150 + k * 52} cy={190 - (k % 2) * 40} r="70" stroke={["#ff8fb8", "#ffb077", "#7fe6ff", "#9cb4ff", "#c4a6ff"][k]} strokeOpacity="0.6" fill={["#ff8fb8", "#ffb077", "#7fe6ff", "#9cb4ff", "#c4a6ff"][k]} fillOpacity="0.08" />)}
+          {[0, 1, 2, 3, 4].map((k) => (
+            <g key={k} className={k % 2 ? "art-d2" : "art-d1"}>
+              <circle className="art-float" style={{ animationDelay: `${k * 0.5}s` }} cx={150 + k * 52} cy={190 - (k % 2) * 40} r="70" stroke={["#ff8fb8", "#ffb077", "#7fe6ff", "#9cb4ff", "#c4a6ff"][k]} strokeOpacity="0.6" fill={["#ff8fb8", "#ffb077", "#7fe6ff", "#9cb4ff", "#c4a6ff"][k]} fillOpacity="0.08" />
+            </g>
+          ))}
         </g>
       )}
     </svg>
