@@ -76,7 +76,7 @@ export default function CornerRing({ from }: { from: number }) {
       aria-hidden="true"
       data-corner-ring
       data-shown={shown ? "1" : "0"}
-      className={`fixed right-4 bottom-4 md:right-8 md:bottom-8 z-40 pointer-events-none md:pointer-events-auto transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+      className={`fixed right-4 bottom-4 md:right-[calc(var(--edge)+72px)] md:bottom-8 z-40 pointer-events-none md:pointer-events-auto transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] ${
         shown ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-90"
       }`}
       style={{ width: diameter, height: diameter }}

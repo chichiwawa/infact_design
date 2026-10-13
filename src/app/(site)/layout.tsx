@@ -2,6 +2,7 @@
 import Motion from "@/components/Motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ScrollTopButton from "@/components/ScrollTopButton";
 import { getBusiness } from "@/lib/queries";
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -12,6 +13,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <Header />
       <main className="flex-1">{children}</main>
       <Footer biz={biz} />
+      <ScrollTopButton />
     </>
   );
 }

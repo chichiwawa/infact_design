@@ -78,7 +78,7 @@ export default function Header() {
       >
         <div className="container-x flex items-center justify-between h-20">
           {/* 2026-09-23 사용자 로고 PNG(흰색 "INFACT.")로 교체 — 글자·점을 잘라 CSS mask 로 그려 색은 currentColor(헤더 흰/검 전환 그대로), 점만 시그니처 블루(파란 CTA 위에서는 흰색, 2026-09-22 규칙 유지) */}
-          <Link href="/" className="logo" aria-label="인팩트컴퍼니 홈">
+          <Link href="/" className="logo" aria-label="인팩트컴퍼니 홈" onClick={(e) => { if (rawPathname === "/") { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); } }}>
             <span className="logo-word" aria-hidden="true" />
             <span className={`logo-dot ${onDark && overBlue && !open ? "text-white" : "text-primary"}`} aria-hidden="true" />
           </Link>

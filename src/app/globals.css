@@ -735,3 +735,12 @@ html.strength-drag { scroll-snap-type: none !important; }
 .pk-grid6 li > span:last-child { margin-top: 4px; display: grid; font-size: clamp(11px, .9vw, 14px); line-height: 1.4; letter-spacing: -.02em; color: var(--color-body); }
 .pk-grid6 i { font-style: normal; }
 @media (max-width: 767px) { .pk-panel { aspect-ratio: 16 / 11; max-height: none; } .pk-grid6 { gap: 6px; padding: 8px; } .pk-grid6-pic { width: 44px; } .pk-grid6 b { font-size: 13px; } .pk-grid6 li > span:last-child { display: none; } }
+
+/* 맨 위로 버튼 (2026-10-13): 오른쪽 끝 = 헤더 안쪽 선(--edge, .container-x 와 같음). 원형 링(CornerRing)은 버튼 왼쪽으로 비켜 있음 */
+:root { --edge: 20px; }
+@media (min-width: 768px) { :root { --edge: max(48px, calc((100vw - 1664px) / 2)); } }
+.scroll-top { position: fixed; right: var(--edge); bottom: 20px; z-index: 45; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: var(--color-primary, #3061ff); box-shadow: 0 8px 24px -6px rgba(48,97,255,.6); cursor: pointer; opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity .35s, transform .35s, box-shadow .25s; }
+.scroll-top[data-show="1"] { opacity: 1; transform: none; pointer-events: auto; }
+.scroll-top:hover { box-shadow: 0 10px 30px -4px rgba(48,97,255,.85); transform: translateY(-2px); }
+.scroll-top svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+@media (min-width: 768px) { .scroll-top { bottom: 32px; } }
