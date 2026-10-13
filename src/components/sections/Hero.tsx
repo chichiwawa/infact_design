@@ -6,21 +6,28 @@
  *  - 왼쪽 아래: 작은 문구(eyebrow, 끝에 포인트 점) + 큰 제목 2줄 / 오른쪽 아래: 설명 3줄 + 세로선
  *  - 진입 시간표: 제목 줄 마스크 → 설명 → 칩. 기본 opacity 1 이라 모션이 실패해도 보임(animationend → .is-in, rAF 폴백)
  *  - 섹션은 sticky(top 0, z 0): 다음 섹션이 위로 덮으며 올라오고(SectionRenderer 가 뒤 섹션을 z 1 로 감쌈) 덮이는 만큼 카피가 물러남(--hero-p)
+ *  - 2026-10-13 배경: FACT CHECK B(검증 카드 + 커서를 따라가는 세로 스캔선). 이전 블루 리본 배경은 RibbonGlow 컴포넌트에 그대로 있고 background 로 바꿔 끼울 수 있음
  *  - 이전 버전(RibbonGlow 배경 + 통계 4개 + 버튼 2개)은 백업/01_메인히어로_이전버전_2026-10-13 에 있음. 통계·버튼 데이터(stats, cta_*)는 JSON 에 남아 있으나 지금은 그리지 않는다.
  */
 import { useEffect, useRef } from "react";
 import type { HeroData } from "@/lib/sections";
-import RibbonGlow from "@/components/RibbonGlow";
+import FactCheckBg from "@/components/FactCheckBg";
 
-const DEFAULT_CHIPS: NonNullable<HeroData["chips"]> = [
-  { label: "성형외과", tone: "dark" },
-  { label: "피부과", tone: "light" },
-  { label: "퍼포먼스 광고", tone: "plus" },
-  { label: "브랜딩", tone: "white" },
-];
+/** 문구 안의 **구절** 을 굵게(<b>) — 색은 그대로 */
+function Rich({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean).map((p, i) => {
+        const m = p.match(/^\*\*([^*]+)\*\*$/);
+        return m ? <b key={i}>{m[1]}</b> : <span key={i}>{p}</span>;
+      })}
+    </>
+  );
+}
 
-export default function Hero({ data }: { data: HeroData }) {
+export default function Hero({ data, background, cursorGlow = false }: { data: HeroData; background?: React.ReactNode; cursorGlow?: boolean }) {
   const secRef = useRef<HTMLElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
 
   // 진입 모션: 끝난 요소는 .is-in 으로 고정, 애니메이션이 안 돌면(차단·구형) 두 프레임 뒤 전부 표시
   useEffect(() => {
@@ -48,41 +55,60 @@ export default function Hero({ data }: { data: HeroData }) {
     return () => { window.removeEventListener("scroll", onScroll); if (raf) cancelAnimationFrame(raf); };
   }, []);
 
-  const chips = data.chips?.length ? data.chips : DEFAULT_CHIPS;
+  // 커서 블루 빛: 커서를 부드럽게 따라오는 큰 블루 광원 (RibbonGlow 의 일렁임 위에 한 겹 더)
+  useEffect(() => {
+    const glow = glowRef.current;
+    const root = secRef.current;
+    if (!glow || !root || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let tx = -9999, ty = -9999, x = tx, y = ty, raf = 0;
+    const tick = () => {
+      x += (tx - x) * 0.14; y += (ty - y) * 0.14;
+      glow.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.5 ? requestAnimationFrame(tick) : 0;
+    };
+    const move = (e: PointerEvent) => {
+      const r = root.getBoundingClientRect();
+      const inside = e.clientY >= r.top && e.clientY <= r.bottom && window.scrollY < window.innerHeight;
+      glow.dataset.on = inside ? "1" : "0";
+      if (!inside) return;
+      tx = e.clientX; ty = e.clientY - r.top;
+      if (x < -9000) { x = tx; y = ty; }
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    const leave = () => { glow.dataset.on = "0"; };
+    window.addEventListener("pointermove", move, { passive: true });
+    document.addEventListener("pointerleave", leave);
+    return () => { window.removeEventListener("pointermove", move); document.removeEventListener("pointerleave", leave); if (raf) cancelAnimationFrame(raf); };
+  }, []);
+
   const descLines = data.tagline.split("\n");
 
   return (
     <section ref={secRef} className="hero sticky top-0 z-0 bg-[#0a0a0a] text-white on-dark overflow-hidden" aria-label="인팩트 소개">
       {/* 배경: 블랙+블루 리본(마우스를 따라 일렁임) + 가운데 마크 + 알약 칩 + 옅은 그레인 */}
       <div aria-hidden="true" className="hero-bg absolute inset-0">
-        <RibbonGlow background="#0a0a0a" hover={140} reach={320} />
-        <svg className="hero-mark" viewBox="0 0 200 200">
-          <path className="hero-mark-main" d="M70 20h60v50h50v60h-50v50H70v-50H20V70h50z" />
-          <path className="hero-mark-ghost" d="M130 20l50 50v60l-50-50z" />
-        </svg>
-        <span className="hero-dot" />
-        {chips.map((c, i) => (
-          <span key={i} className={`hero-chip hero-chip--${i + 1} hero-chip--${c.tone ?? "dark"} hero-appear hero-appear--soft`} style={{ "--d": `${0.5 + i * 0.15}s` } as React.CSSProperties}>
-            <span className="hero-chip-in">
-              {c.tone === "plus" && <i className="hero-chip-plus">+</i>}
-              {c.label}
-            </span>
-          </span>
-        ))}
+        {background ?? <FactCheckBg variant="b" />}
+        {cursorGlow && <div ref={glowRef} className="hero-cursor-glow" data-on="0" />}
         <div className="hero-grain absolute inset-0" />
       </div>
 
       <div className="hero-in relative h-[100svh]">
         <div className="hero-copy">
-          <p className="hero-eyebrow hero-appear hero-appear--soft" style={{ "--d": ".2s" } as React.CSSProperties}>{data.eyebrow}<b aria-hidden="true">.</b></p>
+          <p className="hero-eyebrow hero-appear hero-appear--soft" style={{ "--d": ".2s" } as React.CSSProperties}><Rich text={data.eyebrow} /></p>
           <h1 className="hero-h1">
             {data.headline.map((line, i) => (
-              <span key={i} className="hero-line hero-appear hero-appear--mask" style={{ "--d": `${0.32 + i * 0.14}s` } as React.CSSProperties}>{line}</span>
+              <span key={i} className="hero-line hero-appear hero-appear--mask" style={{ "--d": `${0.32 + i * 0.14}s` } as React.CSSProperties}>
+                {/* 줄 끝의 마침표는 로고처럼 시그니처 블루 점으로 */}
+                {line.endsWith(".") ? <>{line.slice(0, -1)}<i className="hero-dotmark">.</i></> : line}
+              </span>
             ))}
           </h1>
         </div>
         <div className="hero-desc hero-appear hero-appear--soft" style={{ "--d": ".8s" } as React.CSSProperties}>
-          {descLines.map((l, i) => <span key={i} className="block">{l}</span>)}
+          {data.years && (
+            <div className="hero-years"><span>{data.years[0]}</span><i aria-hidden="true" /><span>{data.years[1]}</span></div>
+          )}
+          {descLines.map((l, i) => <span key={i} className="block"><Rich text={l} /></span>)}
         </div>
       </div>
     </section>

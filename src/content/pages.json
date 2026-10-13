@@ -41,12 +41,16 @@
               "suffix": "곳+"
             }
           ],
-          "eyebrow": "2018년부터, 오직 병원 마케팅만",
-          "tagline": "광고 한 번의 반짝임이 아니라,\n병원이 오래 성장할 수 있는\n데이터 기반 마케팅 구조를 만듭니다.",
+          "eyebrow": "오직 **병원** 마케팅만",
+          "tagline": "감이 아닌 **팩트(FACT)**로, 단순 유입을 넘어\n병원의 가치를 키웁니다.",
+          "years": [
+            "2018",
+            "2027"
+          ],
           "cta_href": "/contact",
           "headline": [
-            "환자가 찾는 병원으로",
-            "성장을 설계합니다"
+            "INFACT.",
+            "COMPANY"
           ],
           "cta2_href": "/services",
           "cta_label": "문의하기",
@@ -55,19 +59,19 @@
           "chips": [
             {
               "label": "성형외과",
-              "tone": "dark"
+              "tone": "glass"
             },
             {
               "label": "피부과",
-              "tone": "light"
-            },
-            {
-              "label": "퍼포먼스 광고",
-              "tone": "plus"
+              "tone": "glass"
             },
             {
               "label": "브랜딩",
-              "tone": "white"
+              "tone": "glass"
+            },
+            {
+              "label": "병원 마케팅",
+              "tone": "glass"
             }
           ]
         },

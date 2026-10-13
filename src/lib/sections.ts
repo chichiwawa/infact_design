@@ -30,7 +30,8 @@ export interface HeroData {
   video_webm?: string;         // 있으면 지연 로드 후 0.5s 페이드인
   video_mp4?: string;
   stats: Stat[];
-  chips?: { label: string; tone?: "dark" | "light" | "plus" | "white" }[];  // 히어로에 떠다니는 알약 칩 (2026-10-13)
+  years?: [string, string];    // 오른쪽 아래 "2018 ——— 2027" (2026-10-13)
+  chips?: { label: string; tone?: "dark" | "light" | "plus" | "white" | "glass" }[];  // 히어로에 떠다니는 알약 칩 (2026-10-13)
 }
 
 export interface NumbersItem { value: string; value_short?: string; label: string; body: string[] }  // body 줄 안의 **구절** 은 볼드 / value_short: 제목 아래 요약 줄 전용 값(없으면 value)

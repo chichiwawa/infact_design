@@ -6,6 +6,7 @@
 next-env.d.ts
 .DS_Store
 
-# ·ÎÄÃ Àü¿ë ½Ã¾È (GitHub¡¤Vercel ¿¡ ¿Ã¸®Áö ¾ÊÀ½)
+# ë¡œì»¬ ì „ìš© ì‹œì•ˆ (GitHubÂ·Vercel ì— ì˜¬ë¦¬ì§€ ì•ŠìŒ)
 /src/app/demo/
 /src/components/demo/
+/ë°±ì—…/03_ë©”ì¸ì‹œì•ˆ/

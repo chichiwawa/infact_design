@@ -11,6 +11,7 @@ import { NAV } from "@/lib/nav";
  *  2026-09-16 사용자 요청으로 스크롤 시 뜨던 반투명 바(bg-night/85, bg-elevated/90 + blur + 밑줄) 제거.
  * 상단 3px 스크롤 진행바(레퍼런스 실측 요소, 색만 블루).
  */
+
 export default function Header() {
   /* 2026-09-23 Vercel ISR 은 루트 페이지를 "/index" 경로로 렌더한다(실측: 배포 HTML 의 RSC payload c:["","index"], 로컬 빌드는 ["",""]).
      그대로 두면 서버 HTML 은 text-ink(활성 탭 없음)로 나오고, 클라이언트는 "/" 로 계산해 hydration 불일치 → React 19 는 속성 불일치를
@@ -82,15 +83,15 @@ export default function Header() {
             <span className={`logo-dot ${onDark && overBlue && !open ? "text-white" : "text-primary"}`} aria-hidden="true" />
           </Link>
 
-          <nav aria-label="주 메뉴" className="hidden md:flex items-center gap-2">
+          <nav aria-label="주 메뉴" className="hidden md:flex items-center gap-8 ml-auto mr-8">
             {NAV.map((it) => (
               <Link
                 key={it.href}
                 href={it.href}
-                className={`text-[16px] px-4 py-2 rounded-full transition-colors ${
+                className={`nav-glow font-outfit text-[19px] px-5 py-2.5 rounded-full ${
                   isActive(it.href)
                     ? "font-bold"
-                    : onDark ? "text-white/70 hover:text-white" : "text-body hover:text-ink hover:bg-hairline-soft"
+                    : onDark ? "text-white/70 hover:text-white" : "text-body"
                 }`}
                 aria-current={isActive(it.href) ? "page" : undefined}
               >
