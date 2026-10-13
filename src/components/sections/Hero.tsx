@@ -87,7 +87,7 @@ export default function Hero({ data, background, cursorGlow = false }: { data: H
     <section ref={secRef} className="hero sticky top-0 z-0 bg-[#0a0a0a] text-white on-dark overflow-hidden" aria-label="인팩트 소개">
       {/* 배경: 블랙+블루 리본(마우스를 따라 일렁임) + 가운데 마크 + 알약 칩 + 옅은 그레인 */}
       <div aria-hidden="true" className="hero-bg absolute inset-0">
-        {background ?? <FactCheckBg variant="b" />}
+        {background ?? <FactCheckBg variant="b" beam="prism" />}
         {cursorGlow && <div ref={glowRef} className="hero-cursor-glow" data-on="0" />}
         <div className="hero-grain absolute inset-0" />
       </div>

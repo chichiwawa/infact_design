@@ -508,6 +508,25 @@ html[class*="snap-lock-"] { scroll-snap-type: y mandatory; }
 .fc-beam { position: absolute; left: 0; right: 0; top: -12vh; height: 12vh; background: linear-gradient(to bottom, transparent, rgba(70,150,255,.16) 70%, rgba(150,210,255,.9) 99%, rgba(150,210,255,.9)); border-bottom: 1px solid rgba(190,225,255,.95); box-shadow: 0 14px 50px rgba(60,140,255,.55); animation: fc-beam 10s cubic-bezier(.45,0,.55,1) infinite; }
 @keyframes fc-beam { 0% { transform: translateY(0); opacity: 0; } 4% { opacity: 1; } 34% { transform: translateY(124vh); opacity: 1; } 38%, 100% { transform: translateY(124vh); opacity: 0; } }
 
+/* 스캔 광선 대안 3종 (data-beam). 머리(아래 끝)가 기존과 같은 시각에 같은 위치를 지나가므로 카드 확정 타이밍은 그대로.
+   꼬리는 ::before, 맨 앞 선과 번짐은 ::after 로 분리 — 가로로 끝이 서서히 사라짐 */
+.fc[data-beam] .fc-beam { background: none; border: 0; box-shadow: none; }
+.fc[data-beam] .fc-beam::before, .fc[data-beam] .fc-beam::after { content: ""; position: absolute; left: 0; right: 0; }
+.fc[data-beam] .fc-beam::before { top: 0; bottom: 0; }
+.fc[data-beam] .fc-beam::after { bottom: -34px; height: 35px; }
+/* line: 가는 흰 레이저 한 줄 + 아래로 옅게 번지는 빛 + 짧은 꼬리 */
+.fc[data-beam="line"] .fc-beam { top: -7vh; height: 7vh; }
+.fc[data-beam="line"] .fc-beam::before { background: linear-gradient(to bottom, transparent, rgba(90,160,255,.07) 70%, rgba(130,195,255,.2)); -webkit-mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent); mask-image: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent); }
+.fc[data-beam="line"] .fc-beam::after { background: linear-gradient(to bottom, #fff 0 1px, rgba(110,180,255,.38) 1px, rgba(60,140,255,.08) 55%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent); mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent); }
+/* curtain: 넓고 부드러운 빛 커튼 — 선은 거의 안 보이고 지나간 자리가 은은하게 밝아졌다 사라짐 */
+.fc[data-beam="curtain"] .fc-beam { top: -32vh; height: 32vh; }
+.fc[data-beam="curtain"] .fc-beam::before { background: linear-gradient(to bottom, transparent, rgba(60,130,255,.05) 45%, rgba(90,160,255,.16) 90%, rgba(190,225,255,.5)); -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
+.fc[data-beam="curtain"] .fc-beam::after { bottom: -1px; height: 1px; background: linear-gradient(90deg, transparent, rgba(220,240,255,.85) 30%, rgba(220,240,255,.85) 70%, transparent); }
+/* prism: 블루→시안→바이올렛 컬러 라인 + 가로 스캔라인 꼬리 */
+.fc[data-beam="prism"] .fc-beam { top: -15vh; height: 15vh; }
+.fc[data-beam="prism"] .fc-beam::before { background: repeating-linear-gradient(to bottom, rgba(140,195,255,.28) 0 1px, transparent 1px 6px); -webkit-mask-image: linear-gradient(to bottom, transparent, #000); mask-image: linear-gradient(to bottom, transparent, #000); }
+.fc[data-beam="prism"] .fc-beam::after { bottom: -1px; height: 2px; background: linear-gradient(90deg, transparent, #4da3ff 12%, #7ee8ff 38%, #a78bfa 64%, #4da3ff 88%, transparent); box-shadow: 0 0 14px 1px rgba(110,190,255,.75), 0 0 46px 8px rgba(110,100,255,.28); }
+
 .fc-card { position: absolute; width: clamp(210px, 25vw, 430px); padding: clamp(12px, 1.3vw, 22px) clamp(14px, 1.5vw, 26px); border-radius: clamp(12px, 1.2vw, 20px); background: linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.03)); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: inset 0 0 0 1px rgba(150,190,255,.25), 0 24px 60px -24px rgba(20,70,220,.6); opacity: 0; color: #fff; animation: fc-card 10s ease-in-out var(--dl) infinite backwards, fc-flash 10s ease-out var(--dl) infinite backwards; }
 .fc-c0 { left: 38vw; top: 17vh; } .fc-c1 { left: 63vw; top: 23vh; } .fc-c2 { left: 34vw; top: 38vh; } .fc-c3 { left: 66vw; top: 44vh; }
 .fc-top { display: flex; align-items: center; justify-content: space-between; font-size: clamp(9px, .72vw, 13px); font-weight: 500; letter-spacing: .16em; color: rgba(190,215,255,.7); }

@@ -11,6 +11,8 @@
 import { useEffect, useRef } from "react";
 
 type Variant = "a" | "b" | "c" | "d";
+/** 위에서 아래로 내려오는 스캔 광선 모양 — 생략하면 기존(굵은 블루 띠) / line 가는 레이저 / curtain 넓은 빛 커튼 / prism 컬러 라인 + 스캔라인 꼬리 */
+type Beam = "line" | "curtain" | "prism";
 const CARDS: { cls: string; label: string; text: string; ok: boolean; at: number }[] = [
   { cls: "fc-c0", label: "CLAIM 01", text: "“효과가 좋을 것 같아요”", ok: false, at: 1.0 },
   { cls: "fc-c1", label: "CLAIM 02", text: "성과가 나오기 어려운 병원은 받지 않습니다.", ok: true, at: 1.5 },
@@ -18,7 +20,7 @@ const CARDS: { cls: string; label: string; text: string; ok: boolean; at: number
   { cls: "fc-c3", label: "CLAIM 04", text: "누적대행 병원 457곳+", ok: true, at: 2.8 },
 ];
 
-export default function FactCheckBg({ variant = "a" }: { variant?: Variant }) {
+export default function FactCheckBg({ variant = "a", beam }: { variant?: Variant; beam?: Beam }) {
   const root = useRef<HTMLDivElement>(null);
   const read = useRef<HTMLSpanElement>(null);
 
@@ -59,7 +61,7 @@ export default function FactCheckBg({ variant = "a" }: { variant?: Variant }) {
   }, [variant]);
 
   return (
-    <div ref={root} className={`fc fc--${variant}`} data-on="0" aria-hidden="true">
+    <div ref={root} className={`fc fc--${variant}`} data-on="0" data-beam={beam} aria-hidden="true">
       <div className="fc-grid" />
       <i className="fc-cross fc-cross--tl" /><i className="fc-cross fc-cross--tr" /><i className="fc-cross fc-cross--bl" /><i className="fc-cross fc-cross--br" />
       {variant === "d" && <div className="fc-giant"><span className="fc-giant-line">FACT</span><div className="fc-giant-fill"><span>FACT</span></div></div>}
