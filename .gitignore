@@ -5,3 +5,7 @@
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store
+
+# 로컬 전용 시안 (GitHub·Vercel 에 올리지 않음)
+/src/app/demo/
+/src/components/demo/
