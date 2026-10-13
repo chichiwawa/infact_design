@@ -1,0 +1,64 @@
+/* ── 01 히어로 영상 (01 NOTES 실측: opacity 0→1, .5s ease-in-out) ──────────── */
+/* ── 01 Hero (2026-09-16 재설계: 아래 정렬 카피 + 바닥 통계 + 진입 시간표 + 높이 반응형) ── */
+.hero {
+  --hero-h1: 58px; --hero-tag: 17px; --hero-btn-h: 36px; --hero-btn: 12.5px; --hero-gap: 48px;
+  --hero-stat: 17px; --hero-stat-l: 11px; --hero-stats-y: 28px; --hero-stats-x: 72px;
+  --hero-ease: cubic-bezier(.16, 1, .3, 1);
+}
+@media (min-width: 1280px) and (max-width: 1599px) { .hero { --hero-h1: 60px; --hero-stats-x: 80px; } }
+@media (min-width: 1600px) { .hero { --hero-h1: 68px; --hero-tag: 19px; --hero-btn-h: 38px; --hero-btn: 13px; --hero-stat: 19px; --hero-stat-l: 12px; --hero-stats-y: 44px; --hero-stats-x: 96px; } }
+@media (min-width: 1920px) { .hero { --hero-h1: 76px; --hero-tag: 21px; --hero-btn-h: 40px; --hero-btn: 14px; --hero-stat: 21px; --hero-stat-l: 13px; --hero-stats-y: 52px; --hero-stats-x: 120px; } }
+@media (min-width: 768px) and (max-width: 1279px) { .hero { --hero-h1: 48px; --hero-tag: 15px; --hero-btn-h: 34px; --hero-stat: 16px; --hero-stat-l: 10.5px; --hero-gap: 40px; --hero-stats-x: 36px; } }
+@media (min-width: 768px) and (max-height: 850px) { .hero { --hero-h1: 50px; --hero-gap: 40px; --hero-stats-y: 22px; } }
+@media (min-width: 768px) and (max-height: 720px) { .hero { --hero-h1: 40px; --hero-tag: 14px; --hero-btn-h: 32px; --hero-gap: 24px; --hero-stat: 15px; --hero-stats-y: 16px; } }
+@media (max-width: 767px) { .hero { --hero-h1: 38px; --hero-tag: 15px; --hero-btn-h: 44px; --hero-btn: 15px; --hero-gap: 28px; --hero-stat: 18px; --hero-stat-l: 11.5px; --hero-stats-y: 28px; --hero-stats-x: 20px; } }
+@media (max-width: 560px) { .hero { --hero-h1: 35px; --hero-tag: 14.5px; } }
+
+.hero-grain { opacity: .035; mix-blend-mode: screen; background-size: 160px 160px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+/* 덮이는 만큼 물러남 (transform·opacity 만) */
+.hero-in { transform: scale(calc(1 - var(--hero-p, 0) * .06)); opacity: calc(1 - min(1, var(--hero-p, 0) / .6)); transform-origin: 50% 100%; }
+.hero-bg { opacity: calc(1 - var(--hero-p, 0) * .7); }
+
+.hero-h1 { display: flex; flex-direction: column; align-items: center; font-size: var(--hero-h1); font-weight: 500; line-height: 1.15; letter-spacing: -0.03em; color: #fff; word-break: keep-all; }
+.hero-line { display: block; overflow: hidden; padding: .04em .15em .1em; }
+.hero-line--2 { font-weight: 600; }
+.hero-em { font-weight: 800; color: var(--color-primary); animation: hero-in-em 1.2s var(--hero-ease) .62s both; }
+.hero-tag { margin-top: 12px; max-width: 560px; color: #9a9a9a; font-size: var(--hero-tag); font-style: italic; line-height: 1.5; letter-spacing: .005em; }
+.hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 22px; }
+/* 2026-09-28 PC(md~)만 좌측 정렬: .hero-line 좌우 패딩 .15em 만큼 당겨 로고 선에 맞춤. 모바일은 가운데 유지 */
+@media (min-width: 768px) { .hero-h1 { align-items: flex-start; margin-left: -.15em; } .hero-actions { justify-content: flex-start; } }
+.hero-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 12px; height: var(--hero-btn-h); padding: 0 16px; border-radius: var(--radius-pill); font-size: var(--hero-btn); font-weight: 600; letter-spacing: -.01em; line-height: 1; white-space: nowrap; transition: transform .5s var(--hero-ease), background-color .35s var(--hero-ease), border-color .35s var(--hero-ease); }
+.hero-btn-solid { background: var(--color-primary); color: #fff; }
+.hero-btn-solid:hover { background: var(--color-primary-deep); transform: translateY(-2px); }
+.hero-btn-ghost { background: rgba(255, 255, 255, .06); color: #fff; border: 1px solid rgba(255, 255, 255, .16); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1); }
+.hero-btn-ghost:hover { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .3); transform: translateY(-2px); }
+.hero-btn:active { transform: scale(.98); }
+.hero-btn i { width: 22px; height: 22px; margin-right: -8px; border-radius: 50%; background: rgba(255, 255, 255, .18); display: inline-flex; align-items: center; justify-content: center; transition: transform .5s var(--hero-ease); }
+.hero-btn i svg { width: 10px; height: 10px; }
+.hero-btn:hover i { transform: translate(2px, -1px); }
+
+/* container-x(1296px 캡) 안 쓰고 자체 --hero-stats-x 여백만(데모 hero-prism.html 의 --stats-x 값과 동일, Hero.tsx 에서 이 요소만 컨테이너 밖에 둠) — 넓은 화면에서 항목 사이 간격이 컨테이너에 눌리지 않게. 100vw 트릭은 스크롤바 폭 때문에 가로 스크롤을 만들 수 있어 사용 안 함 */
+.hero-stats { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding-inline: var(--hero-stats-x); padding-bottom: max(var(--hero-stats-y), env(safe-area-inset-bottom)); }
+.hero-stat { display: inline-flex; flex-direction: column; gap: 4px; white-space: nowrap; }
+.hero-stat-v { font-size: var(--hero-stat); font-weight: 700; letter-spacing: -.02em; line-height: 1; color: #fff; font-variant-numeric: tabular-nums; }
+.hero-stat-v sup { position: static; top: auto; line-height: 1; font-size: .55em; font-weight: 600; vertical-align: top; margin-left: 1px; color: var(--color-primary); }
+.hero-stat-l { font-size: var(--hero-stat-l); color: #9a9a9a; }
+.hero-stat-l-short { display: none; }
+@media (max-width: 767px) {
+  .hero-actions { flex-wrap: nowrap; width: 100%; } .hero-actions .hero-btn { flex: 1 1 0; padding: 0 10px; }
+  .hero-stats { gap: 10px; align-items: flex-start; } .hero-stat { white-space: normal; flex: 1 1 0; min-width: 0; align-items: center; text-align: center; }
+  .hero-stat-l-full { display: none; } .hero-stat-l-short { display: inline; }
+}
+
+/* 진입 모션: 기본 opacity 1 (실패해도 보임), 끝나면 .is-in 으로 고정 */
+.hero-appear { opacity: 1; animation-duration: 1.05s; animation-fill-mode: both; animation-timing-function: var(--hero-ease); animation-delay: var(--d, .08s); }
+.hero-appear--mask { animation-name: hero-in-mask; } .hero-appear--soft { animation-name: hero-in-soft; }
+.hero-appear--btn { animation-name: hero-in-btn; } .hero-appear--side { animation-name: hero-in-side; } .hero-appear--stat { animation-name: hero-in-stat; }
+.hero-appear.is-in { animation: none !important; opacity: 1 !important; transform: none !important; filter: none !important; }
+@keyframes hero-in-mask { from { opacity: 0; transform: translateY(40%); } to { opacity: 1; transform: translateY(0); } }
+@keyframes hero-in-soft { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes hero-in-btn { from { opacity: 0; transform: translateY(18px) scale(.94); } to { opacity: 1; transform: none; } }
+@keyframes hero-in-side { from { opacity: 0; transform: translateX(22px); } to { opacity: 1; transform: none; } }
+@keyframes hero-in-stat { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+@keyframes hero-in-em { from { opacity: .35; filter: blur(4px); } to { opacity: 1; filter: blur(0); } }

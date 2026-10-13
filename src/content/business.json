@@ -1,0 +1,31 @@
+{
+  "id": true,
+  "name": "인팩트컴퍼니",
+  "business_type": "ProfessionalService",
+  "telephone": "02-2039-8974",
+  "url": null,
+  "logo_url": null,
+  "street_address": "공항대로46길 25-5, 2층(화곡동)",
+  "address_locality": "강서구",
+  "address_region": "서울특별시",
+  "postal_code": null,
+  "address_country": "KR",
+  "latitude": null,
+  "longitude": null,
+  "opening_hours": [
+    "Mo-Fr 09:00-18:00"
+  ],
+  "same_as": [
+    {
+      "url": "https://www.instagram.com/infact_company",
+      "label": "인스타그램"
+    },
+    {
+      "url": "https://pf.kakao.com/_jxmTYn",
+      "label": "카카오톡 채널"
+    }
+  ],
+  "name_en": "INFACT COMPANY",
+  "registration_number": "518-88-01115",
+  "email": "studioinfact@gmail.com"
+}

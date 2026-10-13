@@ -1,0 +1,45 @@
+{
+  "id": "d4c4e8f4-0944-447f-a269-7ed40fb692fc",
+  "kind": "hero",
+  "title": null,
+  "body": null,
+  "data": {
+    "stats": [
+      {
+        "label": "평균 계약 유지",
+        "value": 36.5,
+        "suffix": "개월+",
+        "decimals": 1
+      },
+      {
+        "label": "최대 광고 수익률 ROAS",
+        "value": 900,
+        "suffix": "%",
+        "label_m": "최대 ROAS"
+      },
+      {
+        "label": "최장 거래 기간",
+        "value": 64,
+        "suffix": "개월~"
+      },
+      {
+        "label": "누적 대행 병원",
+        "value": 457,
+        "suffix": "곳+"
+      }
+    ],
+    "eyebrow": "병원 전문 마케팅 대행사",
+    "tagline": "INside the clinic, based on FACT.",
+    "cta_href": "/contact",
+    "headline": [
+      "2018년부터,",
+      "오직 병원 마케팅만",
+      "해왔습니다."
+    ],
+    "cta2_href": "/services",
+    "cta_label": "문의하기",
+    "cta2_label": "서비스 보기",
+    "accent_line": 1
+  },
+  "sort_order": 0
+}
