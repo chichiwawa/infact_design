@@ -688,7 +688,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 .pk-cta { display: inline-flex; align-items: center; margin-top: 16px; padding: 15px 30px; border-radius: 999px; background: var(--color-primary); color: #fff; font-size: 15px; font-weight: 700; letter-spacing: -.02em; transition: background .2s, transform .2s; }
 .pk-cta:hover { background: var(--color-primary-deep); transform: translateY(-2px); }
 .pk-right { position: relative; }
-.pk-panel { position: relative; width: 100%; aspect-ratio: 1 / 1; max-height: calc(100svh - 170px); margin-inline: auto; border-radius: 28px; overflow: hidden; background: radial-gradient(90% 70% at 20% 10%, #f4f8ff, #dfe9ff 55%, #cfdcff); box-shadow: 0 30px 80px -40px rgba(48,97,255,.45), inset 0 0 0 1px rgba(255,255,255,.8); }
+.pk-panel { position: relative; width: 100%; aspect-ratio: 1 / 1; max-height: calc(100svh - 170px); margin-inline: auto; border-radius: 20px; overflow: hidden; background: radial-gradient(90% 70% at 20% 10%, #f4f8ff, #dfe9ff 55%, #cfdcff); box-shadow: 0 30px 80px -40px rgba(48,97,255,.45), inset 0 0 0 1px rgba(255,255,255,.8); }
 .pk-vis { position: absolute; inset: 0; opacity: 0; transform: translateY(18px) scale(.985); transition: opacity .5s ease, transform .6s cubic-bezier(.2,.8,.2,1); pointer-events: none; }
 .pk-vis[data-on="1"] { opacity: 1; transform: none; pointer-events: auto; }
 .pk-dots { display: none; }
@@ -735,7 +735,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 .pk-grouped .pk-listlabel { margin: clamp(10px, 2vh, 20px) 0 4px; }
 .pk-grouped:first-child .pk-listlabel { margin-top: 0; }
 .pk-grid6 { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: clamp(8px, 1vw, 14px); padding: clamp(12px, 1.4vw, 22px); }
-.pk-grid6 li { position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(10px, 1.2vw, 18px); border-radius: 18px; background: rgba(255,255,255,.78); box-shadow: 0 14px 34px -22px rgba(48,97,255,.5); backdrop-filter: blur(10px); overflow: hidden; }
+.pk-grid6 li { position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(10px, 1.2vw, 18px); border-radius: 14px; background: rgba(255,255,255,.78); box-shadow: 0 14px 34px -22px rgba(48,97,255,.5); backdrop-filter: blur(10px); overflow: hidden; }
 .pk-grid6-pic { position: absolute; top: 6px; right: 6px; width: clamp(48px, 5.4vw, 84px); aspect-ratio: 1; }
 .pk-grid6 b { font-size: clamp(14px, 1.35vw, 22px); font-weight: 800; letter-spacing: -.04em; color: var(--color-ink); }
 .pk-grid6 li > span:last-child { margin-top: 4px; display: grid; font-size: clamp(11px, .9vw, 14px); line-height: 1.4; letter-spacing: -.02em; color: var(--color-body); }
@@ -750,3 +750,81 @@ html.strength-drag { scroll-snap-type: none !important; }
 .scroll-top:hover { box-shadow: 0 10px 30px -4px rgba(48,97,255,.85); transform: translateY(-2px); }
 .scroll-top svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 @media (min-width: 768px) { .scroll-top { bottom: 32px; } }
+
+/* 메인 04 부스터·개별 상품 섹션 어두운 버전 (2026-10-13): 메인 히어로·02 강점과 같은 블랙 + 딥블루 + 푸른 격자 */
+.pk-dark { background: #05070f; border-color: rgba(120,170,255,.14) !important; }
+.pk-dark .pk-stick { isolation: isolate; background: radial-gradient(90% 80% at 75% 45%, #0b1c4d 0%, #070c1c 55%, #05070f 100%); }
+.pk-dark .pk-stick::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background-image: linear-gradient(rgba(120,170,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,255,.08) 1px, transparent 1px); background-size: 64px 64px; -webkit-mask-image: radial-gradient(80% 80% at 70% 45%, #000 20%, transparent 80%); mask-image: radial-gradient(80% 80% at 70% 45%, #000 20%, transparent 80%); }
+@media (max-width: 767px) { .pk-dark .pk-stick { position: relative; } }
+.pk-dark .pk-lead, .pk-dark .pk-h, .pk-dark .pk-listlabel, .pk-dark .pk-card-hook, .pk-dark .pk-prod-title, .pk-dark .pk-grid6 b, .pk-dark .pk-card-inc li { color: #fff; }
+.pk-dark .pk-h1 { color: rgba(255,255,255,.55); }
+.pk-dark .pk-sub, .pk-dark .pk-caption, .pk-dark .pk-card-inc p, .pk-dark .pk-noimg { color: rgba(255,255,255,.55); }
+.pk-dark .pk-item { color: rgba(255,255,255,.5); }
+.pk-dark .pk-item:hover { color: rgba(255,255,255,.88); }
+.pk-dark .pk-item[data-on="1"] { color: #7aa0ff; }
+.pk-dark .pk-word { box-shadow: 0 0 34px rgba(48,97,255,.55); }
+.pk-dark .pk-panel { background: radial-gradient(90% 70% at 20% 10%, #16306f, #0b1640 55%, #070d24); box-shadow: 0 30px 90px -30px rgba(48,97,255,.6), inset 0 0 0 1px rgba(130,170,255,.2); }
+.pk-dark .pk-grid6 li { background: rgba(255,255,255,.06); box-shadow: inset 0 0 0 1px rgba(150,185,255,.16), 0 14px 34px -22px rgba(0,0,0,.7); }
+.pk-dark .pk-grid6 li > span:last-child, .pk-dark .pk-card-body, .pk-dark .pk-prod ul, .pk-dark .pk-below-body { color: rgba(255,255,255,.7); }
+.pk-dark .pk-card-top { background: rgba(255,255,255,.1); color: #9db8ff; box-shadow: inset 0 0 0 1px rgba(150,185,255,.22); }
+.pk-dark .pk-card-inc { background: rgba(255,255,255,.06); box-shadow: inset 0 0 0 1px rgba(150,185,255,.16); }
+.pk-dark .pk-tags li { background: rgba(48,97,255,.22); color: #9db8ff; }
+.pk-dark .pk-dots i { background: #7aa0ff; }
+.pk-dark .pk-cta { color: #fff !important; box-shadow: 0 10px 28px -8px rgba(48,97,255,.8); }
+
+/* ── 부스터·개별 상품 레이아웃 시안 a·b·c (2026-10-13, PickerSection variant): 래퍼 없이 평평한 자식들을 grid-areas 로 배치. 가로 폭은 헤더(.container-x)와 같음 ── */
+.pk-gridv { display: grid; align-items: start; grid-template-columns: minmax(0, 1fr); gap: 0; grid-template-areas: "lead" "sub" "h" "groups" "panel" "belows" "cta"; }
+.pk-gridv .pk-lead { grid-area: lead; margin-top: 0; } .pk-gridv .pk-sub { grid-area: sub; } .pk-gridv .pk-h { grid-area: h; }
+.pk-gridv .pk-groups { grid-area: groups; } .pk-gridv .pk-panel { grid-area: panel; } .pk-gridv .pk-belows { grid-area: belows; } .pk-gridv .pk-cta { grid-area: cta; justify-self: start; margin-top: clamp(14px, 3vh, 28px); }
+.pk-gridv .pk-panel { margin-top: 24px; border-radius: 20px; }
+.pk-group + .pk-group { margin-top: 12px; }
+.pk-glist { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.pk-gridv .pk-listlabel { margin-top: 18px; }
+.pk-item em { display: none; font-style: normal; }
+.pk-gridv .pk-item { width: auto; padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.2); font-size: 15px; }
+.pk-gridv .pk-item[data-on="1"] { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+.pk-gridv .pk-belows { margin-top: 18px; }
+.pk-gridv .pk-h { display: flex; flex-wrap: wrap; align-items: center; column-gap: .26em; }
+.pk-gridv .pk-h1 { display: inline; }
+@media (min-width: 768px) {
+  .pk-gridv .pk-h { font-size: clamp(34px, min(4vw, 7vh), 68px); }
+  .pk-gridv .pk-panel { margin-top: 0; max-height: none; }
+  .pk-gridv .pk-belows { margin-top: 0; }
+  .pk-gridv .pk-lead { font-size: clamp(18px, 1.5vw, 24px); }
+  .pk-gridv .pk-sub { margin-bottom: clamp(10px, 2.4vh, 24px); }
+
+  /* A · 왼쪽: 번호 달린 메뉴(구분선 목록) / 오른쪽: 줄인 이미지 + 설명 */
+  .pk-v-a .pk-gridv { grid-template-columns: minmax(0, 1.08fr) minmax(0, .82fr); column-gap: clamp(40px, 5vw, 96px); grid-template-areas: "lead panel" "sub panel" "h panel" "groups panel" "groups belows" "cta belows"; }
+  .pk-v-a .pk-h { flex-direction: column; align-items: flex-start; }
+  .pk-v-a .pk-panel { aspect-ratio: 16 / 11; }
+  .pk-v-a .pk-groups { margin-top: clamp(8px, 2vh, 20px); }
+  .pk-v-a .pk-glist { display: grid; gap: 0; margin-top: 6px; }
+  .pk-v-a .pk-item { display: flex; width: 100%; padding: 11px 4px; border-radius: 0; border: 0; border-bottom: 1px solid rgba(255,255,255,.1); font-size: clamp(16px, 1.3vw, 20px); gap: 14px; background: none; }
+  .pk-v-a .pk-glist li:first-child .pk-item { border-top: 1px solid rgba(255,255,255,.1); }
+  .pk-v-a .pk-item[data-on="1"] { background: none; color: #7aa0ff; }
+  .pk-v-a .pk-item em { display: inline-block; width: 26px; font-size: 12px; letter-spacing: .1em; opacity: .55; }
+  .pk-v-a .pk-belows { margin-top: 18px; }
+
+  /* B · 제목 한 줄 아래 가로 알약 메뉴 / 왼쪽 설명 + 오른쪽 줄인 이미지 */
+  .pk-v-b .pk-gridv { grid-template-columns: minmax(0, 1fr) minmax(0, .66fr); column-gap: clamp(32px, 4vw, 72px); grid-template-areas: "lead lead" "sub sub" "h h" "groups groups" "belows panel" "cta panel"; }
+  .pk-v-b .pk-groups { display: flex; flex-wrap: wrap; gap: 0 clamp(28px, 4vw, 72px); margin: clamp(10px, 2.4vh, 26px) 0 clamp(18px, 3.6vh, 36px); }
+  .pk-v-b .pk-group + .pk-group { margin-top: 0; }
+  .pk-v-b .pk-item { font-size: 16px; padding: 10px 20px; }
+  .pk-v-b .pk-panel { aspect-ratio: 16 / 10; }
+  .pk-v-b .pk-below-body { font-size: clamp(15px, 1.2vw, 19px); }
+
+  /* C · 3열: 번호 카드 메뉴 | 설명 카드 | 줄인 이미지 */
+  .pk-v-c .pk-gridv { grid-template-columns: minmax(0, .72fr) minmax(0, .92fr) minmax(0, 1.08fr); column-gap: clamp(20px, 2.6vw, 48px); grid-template-areas: "lead lead lead" "sub sub sub" "h h h" "groups belows panel" "cta belows panel"; }
+  .pk-v-c .pk-groups { margin-top: clamp(4px, 1.4vh, 14px); }
+  .pk-v-c .pk-glist { display: grid; gap: 8px; }
+  .pk-v-c .pk-item { display: flex; width: 100%; align-items: center; gap: 12px; padding: 13px 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); font-size: clamp(15px, 1.15vw, 18px); }
+  .pk-v-c .pk-item em { display: inline-block; font-size: 12px; letter-spacing: .1em; opacity: .55; }
+  .pk-v-c .pk-item[data-on="1"] { background: rgba(48,97,255,.24); border-color: #4f7dff; color: #fff; }
+  .pk-v-c .pk-belows { padding: clamp(20px, 2vw, 32px); border-radius: 20px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px rgba(150,185,255,.16); align-self: start; }
+  .pk-v-c .pk-below-body { font-size: clamp(15px, 1.2vw, 19px); }
+  .pk-v-c .pk-panel { aspect-ratio: 4 / 3; }
+}
+@media (max-width: 767px) { .pk-gridv .pk-item { font-size: 14px; padding: 8px 14px; } }
+
+/* 메인 04 이미지 박스 크기 축소 (2026-10-13): PC 에서 오른쪽 열을 84% 폭으로 줄여 헤더 오른쪽 끝선에 붙여 둠 (설명 문구도 같은 폭) */
+@media (min-width: 768px) { .pk-right { width: 84%; margin-left: auto; } }

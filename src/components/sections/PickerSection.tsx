@@ -28,9 +28,9 @@ function josa(word: string) {
 }
 
 export default function PickerSection({
-  id, bg, lead, sub, items, cta,
+  id, bg, lead, sub, items, cta, variant,
 }: {
-  id: string; bg: string; lead: string; sub?: string;
+  id: string; bg: string; lead: string; sub?: string; variant?: "a" | "b" | "c";
   items: PickerItem[]; cta: { label: string; href: string };
 }) {
   const wrap = useRef<HTMLDivElement>(null);
@@ -72,6 +72,56 @@ export default function PickerSection({
   };
 
   const cur = items[active];
+  if (variant) {
+    // 레이아웃 시안(a·b·c): 래퍼 없이 평평한 구조 — 배치는 globals.css 의 .pk-v-* grid-areas 가 정한다 (2026-10-13)
+    const groups: { heading?: string; list: { it: PickerItem; i: number }[] }[] = [];
+    items.forEach((it, i) => { if (it.heading || !groups.length) groups.push({ heading: it.heading, list: [] }); groups[groups.length - 1].list.push({ it, i }); });
+    return (
+      <section id={id} className={`pk border-t border-hairline scroll-mt-20 pk-v-${variant} ${bg}`}>
+        <div ref={wrap} className="pk-wrap" style={{ "--pk-n": n } as React.CSSProperties}>
+          <div className="pk-stick">
+            <div className="container-x pk-grid pk-gridv">
+              <p className="pk-lead">{lead}</p>
+              {sub && <p className="pk-sub">{sub}</p>}
+              <h2 className="pk-h">
+                <span className="pk-h1">우리 병원은</span>
+                <span className="pk-h2">
+                  <b key={active} className="pk-word">{cur.need}</b>
+                  <span>{josa(cur.need)} 필요해요</span>
+                </span>
+              </h2>
+              <div className="pk-groups">
+                {groups.map((g, gi) => (
+                  <div key={gi} className="pk-group">
+                    {g.heading && <p className="pk-listlabel">{g.heading}</p>}
+                    <ul className="pk-glist">
+                      {g.list.map(({ it, i }) => (
+                        <li key={it.label}>
+                          <button type="button" className="pk-item" data-on={i === active ? "1" : "0"} onClick={() => pick(i)} aria-pressed={i === active}>
+                            <em aria-hidden="true">{String(i + 1).padStart(2, "0")}</em>
+                            <span>{it.label}</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+              <div className="pk-panel">
+                {items.map((it, i) => (
+                  <div key={it.label} className="pk-vis" data-on={i === active ? "1" : "0"} aria-hidden={i !== active}>{it.visual}</div>
+                ))}
+              </div>
+              <div className="pk-belows" aria-live="polite">
+                {items.map((it, i) => <div key={it.label} className="pk-below" data-on={i === active ? "1" : "0"} aria-hidden={i !== active}>{it.below}</div>)}
+              </div>
+              <Link href={cta.href} className="pk-cta">{cta.label}</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
   return (
     <section id={id} className={`pk border-t border-hairline scroll-mt-20 ${bg}`}>
       <div ref={wrap} className="pk-wrap" style={{ "--pk-n": n } as React.CSSProperties}>

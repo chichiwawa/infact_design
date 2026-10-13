@@ -22,7 +22,7 @@ function rich(body: string) {
   ));
 }
 
-export default function MarketingTabs({ title, data }: { title: string; data: MarketingTabsData }) {
+export default function MarketingTabs({ title, data, variant }: { title: string; data: MarketingTabsData; variant?: "a" | "b" | "c" }) {
   const items = data.categories.flatMap((c) => {
     if (c.display === "grid") {
       // 격자 카테고리(개별 상품 6종)는 한 단계로
@@ -67,8 +67,8 @@ export default function MarketingTabs({ title, data }: { title: string; data: Ma
   });
   return (
     <PickerSection
-      id="marketing" bg="bg-elevated" lead={title.replace(/\*\*/g, "").replace(/\n/g, " ")} sub={data.intro?.replace(/\n/g, " ")}
-      items={items} cta={{ label: data.cta_label.replace(/\s*→$/, ""), href: data.cta_href }}
+      id="marketing" bg="bg-night text-white on-dark pk-dark" lead={title.replace(/\*\*/g, "").replace(/\n/g, " ")} sub={data.intro?.replace(/\n/g, " ")}
+      variant={variant} items={items} cta={{ label: data.cta_label.replace(/\s*→$/, ""), href: data.cta_href }}
     />
   );
 }
