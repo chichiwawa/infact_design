@@ -3,7 +3,7 @@
 /**
  * 배경 시안 E — FACT CHECK: "감"은 걸러내고 "팩트"만 남기는 검증 모션 (CSS 만, 10초 반복)
  *  주장 카드가 떠오름 → 스캔 빔이 위에서 아래로 훑음 → 빔이 지나가는 순간 VERIFIED 로 확정(블루 번쩍)
- *  맨 위 카드는 "감" 문구라 UNVERIFIED 로 취소선. 숫자는 사이트에 실제 쓰는 수치(pages.json 의 stats)만 사용.
+ *  맨 위 카드는 "감" 문구라 UNVERIFIED 로 취소선. 문구는 2026-10-13 에 변경(맨 위 "감" 카드 1장 + 사실 카드 3장).
  *  variant a~d: 카드 배치 + 커서 효과가 시안마다 다름
  *   a 레티클(조준선 링 + 좌표 표시, 가까운 카드가 떠오름) / b 세로 스캔선(커서 x 를 따라다니며 지나간 카드가 밝아짐)
  *   c 돋보기 렌즈(커서 둘레 격자·카드가 밝아짐) / d 거대한 FACT 글자(커서 둘레만 파랗게 채워짐)
@@ -13,9 +13,9 @@ import { useEffect, useRef } from "react";
 type Variant = "a" | "b" | "c" | "d";
 const CARDS: { cls: string; label: string; text: string; ok: boolean; at: number }[] = [
   { cls: "fc-c0", label: "CLAIM 01", text: "“효과가 좋을 것 같아요”", ok: false, at: 1.0 },
-  { cls: "fc-c1", label: "CLAIM 02", text: "광고 수익률 ROAS 최대 900%", ok: true, at: 1.5 },
-  { cls: "fc-c2", label: "CLAIM 03", text: "평균 계약 유지 36.5개월", ok: true, at: 2.5 },
-  { cls: "fc-c3", label: "CLAIM 04", text: "누적 대행 병원 457곳+", ok: true, at: 2.8 },
+  { cls: "fc-c1", label: "CLAIM 02", text: "성과가 나오기 어려운 병원은 받지 않습니다.", ok: true, at: 1.5 },
+  { cls: "fc-c2", label: "CLAIM 03", text: "전담 PM이 병원 내부까지 봅니다.", ok: true, at: 2.5 },
+  { cls: "fc-c3", label: "CLAIM 04", text: "누적대행 병원 457곳+", ok: true, at: 2.8 },
 ];
 
 export default function FactCheckBg({ variant = "a" }: { variant?: Variant }) {

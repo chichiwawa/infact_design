@@ -40,9 +40,9 @@ export interface NumbersData { intro: string; items: NumbersItem[] }
 /** 04 부스터 데이터 카드 — 운영 전/후 비교 (사진 대신 코드로 그림). 숫자는 실제 사례 수치만. */
 export interface DataCardCompare { kind: "compare"; metric: string; unit: string; before: number; after: number; period?: string; handle?: string; handle_sub?: string; subs?: { label: string; value: string }[] }
 export type DataCard = DataCardCompare;
-export interface TabItem { tag?: string; title: string; subtitle?: string; body: string; tags?: string[]; icon?: IconName; icon_url?: string; image_url?: string; image_alt?: string; data_card?: DataCard }  // icon_url: 3D 아이콘(R2 투명 PNG, 있으면 라인 아이콘 대신)  // body: \n 줄바꿈, **구절** 세미볼드 / image_*: 04 무대 이미지(R2 후)
+export interface TabItem { tag?: string; need?: string; title: string; subtitle?: string; body: string; tags?: string[]; icon?: IconName; icon_url?: string; image_url?: string; image_alt?: string; data_card?: DataCard }  // icon_url: 3D 아이콘(R2 투명 PNG, 있으면 라인 아이콘 대신)  // body: \n 줄바꿈, **구절** 세미볼드 / image_*: 04 무대 이미지(R2 후)
 /** 메인 03 패키지 3종 — 단계 카드 3장 (탭에서 분리, 가격 비노출) */
-export interface PackageStep { tag?: string; title: string; target: string; body: string; results_title?: string; results?: string[]; tags?: string[]; image_url?: string; image_alt?: string }  // image_*: 카드 오른쪽 이미지(힉스필드 생성 후)
+export interface PackageStep { tag?: string; title: string; target: string; body: string; results_title?: string; results?: string[]; tags?: string[]; image_url?: string; image_alt?: string; video_url?: string }  // image_*: 카드 오른쪽 이미지 / video_url: 있으면 이미지 대신 짧은 반복 영상(무음 자동재생, image_url 은 첫 화면)
 export interface PackageStepsData { intro?: string; items: PackageStep[]; cta_label: string; cta_href: string }
 
 export interface MarketingTabsData {

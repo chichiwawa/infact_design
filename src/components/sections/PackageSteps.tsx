@@ -41,6 +41,15 @@ import type { PackageStepsData } from "@/lib/sections";
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 
+/** 도입문: "**구절**" 은 굵게, 줄바꿈은 그대로 */
+function richIntro(text: string) {
+  return text.split("\n").map((line, i) => (
+    <span key={i} className="block">
+      {line.split(/(\*\*[^*]+\*\*)/).map((p, j) => (p.startsWith("**") && p.endsWith("**") ? <strong key={j} className="font-bold text-ink">{p.slice(2, -2)}</strong> : p))}
+    </span>
+  ));
+}
+
 /** target 문장은 "OO는 ~지만, ~한 병원." 패턴이라, 쉼표 뒤에서 줄바꿈해야 자연스러운 2행이 됨(max-w 자동 줄바꿈은 쉼표 위치와 안 맞음) */
 function withCommaBreak(text: string) {
   const idx = text.indexOf(",");
@@ -60,7 +69,6 @@ const PLACEHOLDER_TEXTURE = "before:content-[''] before:absolute before:inset-0 
 export default function PackageSteps({ title, data }: { title: string; data: PackageStepsData }) {
   const n = data.items.length;
   const stageRef = useRef<HTMLDivElement>(null);
-  const lineRef = useRef<HTMLSpanElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [active, setActive] = useState(0);
 
@@ -85,7 +93,6 @@ export default function PackageSteps({ title, data }: { title: string; data: Pac
       const back = k < last;
       last = k;
       setActive(k);
-      if (lineRef.current) lineRef.current.style.transform = `scaleY(${n > 1 ? k / (n - 1) : 1})`;
       // 불투명도 타이밍을 상태별로 나눔: 앞으로 넘길 땐 새 앞 카드가 즉시 불투명(아래에 깔려 있어 튀지 않음) → 뒤 대기 카드가 비치지 않고, 위에 쌓인 이전 카드만 녹아 사라짐(.25s).
       // 뒤로 돌아올 땐 돌아오는 카드가 맨 위라 즉시 나타나면 튀므로 .25s. 한 번에 같이 페이드하면 전환 중간에 카드 3장 글자가 겹쳐 보였음(실측 캡처)
       const move = "transform .8s cubic-bezier(.2,.7,.2,1)";
@@ -127,74 +134,59 @@ export default function PackageSteps({ title, data }: { title: string; data: Pac
         {/* 모바일/태블릿 제목 (PC 는 왼쪽 열 안에) */}
         <div className="lg:hidden" data-reveal>
           <h2 className="t-h-lg text-ink"><Accent text={title} /></h2>
-          {data.intro && <p className="t-lead text-body mt-6 whitespace-pre-line">{data.intro}</p>}
+          {data.intro && <p className="t-lead text-body mt-6">{richIntro(data.intro)}</p>}
         </div>
 
-        {/* PC: 화면에 고정된 카드 스택 — 카드 콘텐츠 길이에 맞춰 04 보다 넉넉한 70vh/카드 */}
+        {/* PC: 화면에 고정된 카드 스택 (2026-10-13 재설계: 제목·도입문을 한 줄로 위에, 카드는 전체 폭 한 장 / 단계 목차는 카드 안 왼쪽 세로 점선으로 이동 / 오른쪽은 짧은 영상 또는 이미지) */}
         <div ref={stageRef} className="hidden lg:block relative" style={{ height: `calc(100vh + ${n * 70}vh)` }}>
           {/* 스크롤 멈춤 지점(2026-09-29): 카드마다 한 번씩 멈춤 — 02 Numbers 와 같은 방식 */}
           {snapTops(n).map((t) => (
             <div key={t} aria-hidden="true" className="snap-point" style={{ top: `${t}vh` }} />
           ))}
-          <div
-            className="sticky top-0 h-screen flex items-start pt-[clamp(140px,20vh,220px)] overflow-hidden"
-            style={{
-              "--pkg-bleed": "min(180px, max(0px, (100vw - 1760px) / 2))",
-              width: "calc(100% + var(--pkg-bleed))",
-              marginRight: "calc(-1 * var(--pkg-bleed))",
-            } as React.CSSProperties}
-          >
-            <div
-              className="w-full grid lg:gap-16 items-start"
-              style={{ gridTemplateColumns: "max(320px, calc(0.4 * min(100vw - 96px, 1664px) - 64px)) minmax(0,1fr)" }}
-            >
-              {/* 왼쪽: 제목·도입문·단계 목차(진행선 포함)·CTA */}
-              <div>
-                <h2 className="t-h-lg text-ink"><Accent text={title} /></h2>
-                {data.intro && <p className="t-lead text-body mt-6 whitespace-pre-line">{data.intro}</p>}
+          <div className="sticky top-0 h-screen flex flex-col justify-start pt-[clamp(100px,13vh,150px)] overflow-hidden">
+            {/* 위: 제목(왼쪽) + 도입문(오른쪽, 제목 아랫선에 맞춤) */}
+            <div className="flex items-end justify-between gap-12">
+              <h2 className="t-h-lg text-ink"><Accent text={title} /></h2>
+              {data.intro && <p className="t-lead text-body max-w-[640px] pb-1">{richIntro(data.intro)}</p>}
+            </div>
 
-                <ol className="relative mt-10" aria-label="단계 목차">
-                  <span aria-hidden="true" className="absolute left-[5px] top-2 bottom-2 w-px bg-hairline" />
-                  <span ref={lineRef} aria-hidden="true" className="absolute left-[5px] top-2 bottom-2 w-px bg-primary origin-top transition-transform duration-700 ease-out" style={{ transform: "scaleY(0)" }} />
-                  {data.items.map((it, i) => (
-                    <li key={it.title} className="relative pl-7 py-2.5">
-                      <span aria-hidden="true" className={`absolute left-0 top-[15px] w-[11px] h-[11px] rounded-full border-2 transition-colors duration-500 ${i <= active ? "bg-primary border-primary" : "bg-elevated border-hairline"}`} />
-                      <button
-                        type="button"
-                        onClick={() => goTo(i)}
-                        className={`flex items-baseline gap-3 transition-colors duration-300 ${i === active ? "text-ink" : "text-mute hover:text-body"}`}
-                      >
-                        <span className="text-[13px] font-bold tabular-nums">{String(i + 1).padStart(2, "0")}</span>
-                        <span className="text-[17px] font-bold">{it.title}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ol>
-                <div className="mt-12">
-                  <Link href={data.cta_href} className="btn-primary">{data.cta_label}</Link>
-                </div>
-              </div>
+            {/* 카드 스택 — 같은 그리드 셀에 겹쳐 쌓고(grid-area) 카드별 transform 으로 넘김. 바깥 overflow-hidden 은 퇴장 카드가 위 헤더 쪽으로 삐져나오지 않게 자르는 역할 */}
+            <div className="relative grid min-w-0 mt-[clamp(48px,8vh,88px)] min-h-[460px] lg:min-h-[480px]" style={{ perspective: "1200px" }}>
+              {data.items.map((it, i) => (
+                <div
+                  key={it.title}
+                  ref={(el) => { cardRefs.current[i] = el; }}
+                  data-active={i === active ? "" : undefined}
+                  className="[grid-area:1/1] self-start grid lg:grid-cols-[1.1fr_0.9fr] rounded-[28px] overflow-hidden bg-elevated ring-1 ring-[#dbe4ff] shadow-[0_30px_70px_-12px_rgba(48,97,255,0.18)] min-h-[460px] lg:min-h-[480px] data-[active]:pointer-events-auto pointer-events-none"
+                  style={{
+                    zIndex: n - i,
+                    transformOrigin: "top center",
+                    backfaceVisibility: "hidden",
+                    transform: i === 0 ? "none" : `translateY(${Math.min(i * 90, 160)}px) scale(${1 - Math.min(i * 0.03, 0.09)})`,
+                    opacity: i === 0 ? 1 : 0.35,
+                  }}
+                >
+                  <div className="flex flex-col min-w-0 p-10 lg:p-12">
+                    {/* 큰 번호 + 단계 배지 */}
+                    <div className="flex items-center gap-5">
+                      <span aria-hidden="true" className="text-[48px] font-light leading-none tabular-nums text-primary">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="inline-block rounded-full bg-primary text-white text-[14px] font-bold px-5 py-[9px]">{it.title}</span>
+                    </div>
 
-              {/* 오른쪽: 카드 스택 — 같은 그리드 셀에 겹쳐 쌓고(grid-area) 카드별 transform 으로 넘김. overflow-hidden 은 퇴장 카드가 위 헤더 쪽으로 삐져나오지 않도록 잘라내는 뷰포트 역할 */}
-              <div className="relative grid min-w-0 min-h-[480px] lg:min-h-[500px]" style={{ perspective: "1200px" }}>
-                {data.items.map((it, i) => (
-                  <div
-                    key={it.title}
-                    ref={(el) => { cardRefs.current[i] = el; }}
-                    data-active={i === active ? "" : undefined}
-                    className="[grid-area:1/1] self-start grid lg:grid-cols-[1.15fr_0.85fr] rounded-[28px] overflow-hidden bg-elevated ring-1 ring-[#dbe4ff] shadow-[0_30px_70px_-12px_rgba(48,97,255,0.18)] min-h-[480px] lg:min-h-[500px] data-[active]:pointer-events-auto pointer-events-none"
-                    style={{
-                      zIndex: n - i,
-                      transformOrigin: "top center",
-                      backfaceVisibility: "hidden",
-                      transform: i === 0 ? "none" : `translateY(${Math.min(i * 90, 160)}px) scale(${1 - Math.min(i * 0.03, 0.09)})`,
-                      opacity: i === 0 ? 1 : 0.35,
-                    }}
-                  >
-                    <div className="flex flex-col min-w-0 p-10 lg:p-12">
-                      <span className="inline-block self-start rounded-full bg-primary text-white text-[13px] font-bold px-4 py-[7px]">{it.title}</span>
-                      <p className="mt-5 text-[35px] font-extrabold leading-[1.18] tracking-[-0.5px] text-ink">{withCommaBreak(it.target)}</p>
-                      <p className="mt-4 text-[18px] leading-[1.6] text-body">{withCommaBreak(it.body)}</p>
+                    {/* 왼쪽 세로 단계선: 점 3개(현재 단계까지 채워짐), 점을 누르면 그 단계로 이동 */}
+                    <div className="relative mt-7 pl-9 flex-1 flex flex-col">
+                      <span aria-hidden="true" className="absolute left-[5px] top-2 bottom-2 w-px bg-hairline" />
+                      <span aria-hidden="true" className="absolute left-[5px] top-2 w-px bg-primary" style={{ height: `${n > 1 ? (i / (n - 1)) * 100 : 100}%`, maxHeight: "calc(100% - 16px)" }} />
+                      <ol aria-label="단계 이동" className="absolute left-0 top-0 bottom-0 flex flex-col justify-between py-1.5">
+                        {data.items.map((s, j) => (
+                          <li key={s.title}>
+                            <button type="button" aria-label={`${j + 1}단계 ${s.title}`} onClick={() => goTo(j)} className={`block w-[11px] h-[11px] rounded-full border-2 transition-colors duration-500 ${j <= i ? "bg-primary border-primary" : "bg-elevated border-hairline"}`} />
+                          </li>
+                        ))}
+                      </ol>
+
+                      <p className="text-[36px] font-extrabold leading-[1.2] tracking-[-0.5px] text-ink">{withCommaBreak(it.target)}</p>
+                      <p className="mt-5 text-[18px] leading-[1.6] text-body">{withCommaBreak(it.body)}</p>
 
                       {it.results?.length ? (
                         <div className="mt-6 rounded-2xl bg-panel px-5 py-[18px]">
@@ -207,25 +199,28 @@ export default function PackageSteps({ title, data }: { title: string; data: Pac
                         </div>
                       ) : null}
 
-                      {it.tags?.length ? (
-                        <div className="mt-5 flex flex-wrap gap-2">
-                          {it.tags.map((t) => (
+                      <div className="mt-5 flex items-center justify-between gap-4">
+                        <div className="flex flex-wrap gap-2">
+                          {it.tags?.map((t) => (
                             <span key={t} className="text-[12px] font-semibold tracking-[0.02em] text-mute border border-hairline rounded-full px-3 py-1">{t}</span>
                           ))}
                         </div>
-                      ) : null}
-                    </div>
-
-                    <div className={`relative m-2.5 lg:m-3 lg:ml-0 rounded-[20px] overflow-hidden bg-primary ${it.image_url ? "" : PLACEHOLDER_TEXTURE}`}>
-                      {it.image_url ? (
-                        <Image src={it.image_url} alt={it.image_alt ?? it.title} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
-                      ) : (
-                        <span className="absolute left-5 bottom-4 text-[12px] text-white/70">이미지 준비 중</span>
-                      )}
+                        <Link href={data.cta_href} className="shrink-0 text-[14px] font-bold text-primary hover:underline">{data.cta_label} →</Link>
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
+
+                  <div className={`relative m-2.5 lg:m-3 lg:ml-0 rounded-[20px] overflow-hidden bg-primary ${it.image_url || it.video_url ? "" : PLACEHOLDER_TEXTURE}`}>
+                    {it.video_url ? (
+                      <video src={it.video_url} poster={it.image_url} autoPlay muted loop playsInline preload="metadata" aria-label={it.image_alt} className="absolute inset-0 w-full h-full object-cover" />
+                    ) : it.image_url ? (
+                      <Image src={it.image_url} alt={it.image_alt ?? it.title} fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+                    ) : (
+                      <span className="absolute left-5 bottom-4 text-[12px] text-white/70">이미지 준비 중</span>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
