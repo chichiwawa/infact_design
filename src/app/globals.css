@@ -370,7 +370,7 @@ html[class*="snap-lock-"] { scroll-snap-type: y mandatory; }
 .strength-panel[data-active="0"] { opacity: .55; }
 /* 제목 뒤 은은한 블루 빛 (파란 포인트 글자가 어두운 배경에 묻히지 않게) */
 /* 메인 히어로(.fc)와 같은 배경: 블랙 + 딥블루 그라데이션, 64px 블루 격자 */
-.strength-aurora { background: radial-gradient(110% 90% at 72% 38%, #0b1c4d 0%, #070c1c 55%, #050507 100%); }
+.strength-aurora { background: radial-gradient(70% 55% at 6% 108%, rgba(34,76,210,.55) 0%, rgba(11,28,77,.35) 45%, transparent 75%), radial-gradient(110% 90% at 72% 38%, #0b1c4d 0%, #070c1c 55%, #050507 100%); }
 .strength-grid { pointer-events: none; background-image: linear-gradient(rgba(120,170,255,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,255,.09) 1px, transparent 1px); background-size: 64px 64px; -webkit-mask-image: radial-gradient(90% 80% at 65% 35%, #000 20%, transparent 80%); mask-image: radial-gradient(90% 80% at 65% 35%, #000 20%, transparent 80%); }
 .strength-head { padding: 0 var(--hx); margin-bottom: clamp(20px, 4vh, 36px); }
 html.strength-drag { scroll-snap-type: none !important; }
@@ -828,3 +828,443 @@ html.strength-drag { scroll-snap-type: none !important; }
 
 /* 메인 04 이미지 박스 크기 축소 (2026-10-13): PC 에서 오른쪽 열을 84% 폭으로 줄여 헤더 오른쪽 끝선에 붙여 둠 (설명 문구도 같은 폭) */
 @media (min-width: 768px) { .pk-right { width: 84%; margin-left: auto; } }
+
+/* 메인 04 "stack" 레이아웃 (2026-10-14, axiom-power-template 참고):
+   왼쪽(제목·목록)은 화면에 고정, 오른쪽 카드는 세로로 쌓여 자연스럽게 스크롤. 화면 중앙에 걸린 카드가 목록에서 켜진다.
+   ⚠️ 활성 표시는 data-on (Motion 의 is-visible 클래스를 지우지 않기 위해) */
+.pk-stack { background: radial-gradient(70% 50% at 80% 0%, #0b1c4d 0%, #070c1c 55%, #05070f 100%); padding: 88px 0 120px; }
+.pk-sgrid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; align-items: start; }
+.pk-sleft-in .pk-lead { margin-top: 0; }
+.pk-sgroups { margin-top: clamp(24px, 4vh, 48px); display: grid; gap: clamp(20px, 4vh, 44px); max-width: 320px; }
+.pk-shead { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-top: 1px solid rgba(255,255,255,.22); border-bottom: 1px solid rgba(255,255,255,.12); font-size: 16px; font-weight: 700; letter-spacing: -.02em; color: #fff; }
+.pk-shead svg { opacity: .6; }
+.pk-sitem { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 16px; text-align: left; font-size: 15px; letter-spacing: -.02em; color: rgba(255,255,255,.5); border-bottom: 1px solid rgba(255,255,255,.12); cursor: pointer; transition: color .25s; }
+.pk-sitem i { flex: none; width: 6px; height: 6px; border-radius: 50%; background: #4f7dff; opacity: 0; transform: scale(.4); transition: opacity .25s, transform .25s; }
+.pk-sitem:hover { color: rgba(255,255,255,.88); }
+.pk-sitem[data-on="1"] { color: #fff; font-weight: 700; margin-left: -4px; }
+.pk-sitem[data-on="1"] i { opacity: 1; transform: none; }
+.pk-stack .pk-cta { margin-top: clamp(20px, 4vh, 36px); }
+
+.pk-scards { display: grid; gap: 24px; }
+.pk-scard { position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; min-height: clamp(440px, 40vw, 560px); padding: clamp(20px, 2.2vw, 32px); border-radius: 14px; background: #0a0f1e; box-shadow: inset 0 0 0 1px rgba(130,170,255,.18); opacity: .55; transition: opacity .5s ease, box-shadow .5s ease; }
+.pk-scard[data-on="1"] { opacity: 1; box-shadow: inset 0 0 0 1px rgba(130,170,255,.4), 0 30px 80px -40px rgba(48,97,255,.55); }
+.pk-scard-bg { position: absolute; inset: 0; z-index: -2; }
+.pk-scard::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(180deg, rgba(5,7,15,.55) 0%, rgba(5,7,15,0) 28%, rgba(5,7,15,.55) 52%, rgba(5,7,15,.94) 100%); }
+.pk-scard-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.pk-scard-ico { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 10px; background: rgba(5,7,15,.7); box-shadow: inset 0 0 0 1px rgba(255,255,255,.2); color: #ff6a2b; backdrop-filter: blur(8px); }
+.pk-scard-tag { margin-top: 6px; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 11px; font-weight: 600; letter-spacing: .16em; color: rgba(255,255,255,.8); text-shadow: 0 1px 8px rgba(5,7,15,.8); }
+.pk-scard-bottom h3 { font-size: clamp(22px, 2vw, 30px); font-weight: 800; letter-spacing: -.04em; line-height: 1.25; color: #fff; }
+.pk-scard-bottom .pk-below-body { margin-top: 10px; max-width: 34em; font-size: clamp(13px, 1vw, 15px); line-height: 1.6; color: rgba(255,255,255,.78); }
+.pk-scard-bottom .pk-tags { margin-top: 14px; }
+.pk-scard[data-wide="1"] .pk-grid6 { inset: 84px clamp(16px, 2vw, 28px) 150px; padding: 0; }
+.pk-scard[data-wide="1"]::after { background: linear-gradient(180deg, rgba(5,7,15,.3) 0%, rgba(5,7,15,0) 30%, rgba(5,7,15,.35) 62%, rgba(5,7,15,.92) 100%); }
+@media (min-width: 768px) {
+  /* PC: 화면 고정 + 오른쪽 카드 줄만 스크롤 진행률(--pk-p)만큼 위로 이동 */
+  .pk-stack { padding: 0; --ch: clamp(380px, 62svh, 560px); }
+  .pk-swrap { height: calc(100svh + var(--pk-n) * 70svh); }
+  .pk-sstick { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; align-items: center; }
+  .pk-sstick > .container-x { width: 100%; }
+  .pk-sgrid { align-items: center; }
+  .pk-sleft-in { position: static; padding-top: 56px; }
+  .pk-sview { position: relative; height: 100svh; }
+  .pk-scards { position: absolute; left: 0; right: 0; top: 50%; display: block; transform: translateY(calc(var(--ch) / -2 - var(--pk-p) * (var(--ch) + 24px))); will-change: transform; }
+  .pk-scard { height: var(--ch); min-height: 0; margin-bottom: 24px; }
+  .pk-scard:not([data-on="1"]) { opacity: .4; }
+  .pk-sgrid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr); gap: clamp(40px, 6vw, 96px); }
+}
+@media (max-width: 767px) {
+  .pk-stack { padding: 72px 0 80px; }
+  .pk-stack .container-x { padding-inline: 20px; }
+  .pk-scard { min-height: 400px; opacity: 1; }
+  .pk-scard[data-wide="1"] .pk-grid6 { inset: 76px 14px 170px; }
+}
+@media (prefers-reduced-motion: reduce) { .pk-scard, .pk-sitem, .pk-sitem i { transition: none; } }
+
+/* 04 stack 추가 (2026-10-14): 선택 안 된 카드는 많이 어둡게, 목록은 아코디언(접고 펴기) */
+.pk-scard { transition: opacity .5s ease, box-shadow .5s ease, filter .5s ease; }
+@media (min-width: 768px) {
+  .pk-scard:not([data-on="1"]) { opacity: 1; filter: brightness(.22) saturate(.5); box-shadow: inset 0 0 0 1px rgba(130,170,255,.08); }
+}
+.pk-scard[data-on="1"] { filter: none; }
+.pk-shead { width: 100%; text-align: left; cursor: pointer; }
+.pk-shead svg { transition: transform .3s ease; }
+.pk-shead[aria-expanded="false"] svg { transform: rotate(-90deg); }
+.pk-sbody { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .35s cubic-bezier(.2,.8,.2,1); }
+.pk-sbody[data-open="0"] { grid-template-rows: 0fr; }
+.pk-sbody > ul { overflow: hidden; min-height: 0; }
+@media (prefers-reduced-motion: reduce) { .pk-sbody, .pk-shead svg, .pk-scard { transition: none; } }
+
+/* 04 왼쪽 아코디언 시안 3종 (2026-10-14) — data-acc="a|b|c" 로 고름. 메인은 MarketingTabs 의 acc 기본값을 따름 */
+.pk-scount { display: none; font-style: normal; }
+.pk-stack .pk-lead { font-size: clamp(15px, 1.15vw, 18px); color: rgba(255,255,255,.7); }
+.pk-stack .pk-sgroups { max-width: 340px; }
+/* A: 카드형 — 그룹마다 둥근 박스, 열린 쪽 항목은 세로선 + 점 */
+.pk-stack[data-acc="a"] .pk-sgroup { border-radius: 16px; background: rgba(255,255,255,.04); box-shadow: inset 0 0 0 1px rgba(150,185,255,.16); overflow: hidden; }
+.pk-stack[data-acc="a"] .pk-shead { border: 0; padding: 16px 18px; }
+.pk-stack[data-acc="a"] .pk-shead svg { box-sizing: content-box; padding: 6px; border-radius: 50%; background: rgba(255,255,255,.1); opacity: 1; }
+.pk-stack[data-acc="a"] .pk-sbody > ul { margin: 0 18px 14px 24px; padding-left: 14px; border-left: 1px solid rgba(255,255,255,.16); }
+.pk-stack[data-acc="a"] .pk-sitem { border: 0; padding: 9px 0; position: relative; }
+.pk-stack[data-acc="a"] .pk-sitem i { position: absolute; left: -17px; opacity: .3; transform: none; background: #fff; }
+.pk-stack[data-acc="a"] .pk-sitem[data-on="1"] { margin-left: 0; }
+.pk-stack[data-acc="a"] .pk-sitem[data-on="1"] i { opacity: 1; background: #4f7dff; box-shadow: 0 0 0 4px rgba(79,125,255,.3); }
+/* B: 숫자 배지 — 머리글 오른쪽에 개수, 항목은 선택 시 파란 막대와 은은한 배경 */
+.pk-stack[data-acc="b"] .pk-sgroups { gap: 14px; }
+.pk-stack[data-acc="b"] .pk-shead { border: 0; padding: 10px 0; font-size: 17px; }
+.pk-stack[data-acc="b"] .pk-shead span { flex: 1; }
+.pk-stack[data-acc="b"] .pk-sitem { border: 0; padding: 11px 14px; border-radius: 10px; position: relative; }
+.pk-stack[data-acc="b"] .pk-sitem i { display: none; }
+.pk-stack[data-acc="b"] .pk-sitem[data-on="1"] { margin-left: 0; background: linear-gradient(90deg, rgba(48,97,255,.28), rgba(48,97,255,0)); }
+.pk-stack[data-acc="b"] .pk-sitem[data-on="1"]::before { content: ""; position: absolute; left: 0; top: 20%; bottom: 20%; width: 3px; border-radius: 2px; background: #4f7dff; }
+/* C: 알약형 — 머리글은 둥근 토글, 항목은 작은 칩으로 모아서 글줄을 줄임 */
+.pk-stack[data-acc="c"] .pk-sgroups { gap: 18px; }
+.pk-stack[data-acc="c"] .pk-shead { border: 1px solid rgba(255,255,255,.2); border-radius: 999px; padding: 11px 18px; font-size: 15px; }
+.pk-stack[data-acc="c"] .pk-shead[aria-expanded="true"] { background: rgba(255,255,255,.08); }
+.pk-stack[data-acc="c"] .pk-sbody > ul { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 12px; }
+.pk-stack[data-acc="c"] .pk-sitem { width: auto; border: 1px solid rgba(255,255,255,.16); border-radius: 999px; padding: 8px 14px; font-size: 14px; }
+.pk-stack[data-acc="c"] .pk-sitem i { display: none; }
+.pk-stack[data-acc="c"] .pk-sitem[data-on="1"] { margin-left: 0; background: #3061ff; border-color: #3061ff; box-shadow: 0 8px 22px -8px rgba(48,97,255,.8); }
+
+/* 04 왼쪽 버튼 (2026-10-14): 파란 꽉 찬 알약 → 테두리 알약 + 오른쪽 파란 원 화살표. 마우스를 올리면 파랗게 채워짐 */
+.pk-stack .pk-cta { gap: 14px; padding: 8px 8px 8px 26px; background: transparent; box-shadow: inset 0 0 0 1px rgba(255,255,255,.35); font-weight: 600; transition: background .3s, box-shadow .3s; }
+.pk-stack .pk-cta::after { content: ""; flex: none; width: 38px; height: 38px; border-radius: 50%; background: #3061ff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12h12M13 6l6 6-6 6'/%3E%3C/svg%3E") center / 18px no-repeat; transition: transform .3s; }
+.pk-stack .pk-cta:hover { background: rgba(255,255,255,.08); box-shadow: inset 0 0 0 1px #fff; transform: none; }
+.pk-stack .pk-cta:hover::after { transform: translateX(4px); }
+
+/* 04 왼쪽 메뉴 키움 (2026-10-14): 그룹 제목(부스터 4종·개별 상품 6종)과 항목 글자를 크고 선명하게 */
+.pk-stack[data-acc="b"] .pk-sgroups { max-width: 400px; gap: 22px; }
+.pk-stack[data-acc="b"] .pk-shead { padding: 14px 0; font-size: clamp(21px, 1.7vw, 26px); font-weight: 800; letter-spacing: -.035em; border-bottom: 1px solid rgba(255,255,255,.28); }
+.pk-stack[data-acc="b"] .pk-shead svg { width: 20px; height: 20px; opacity: .9; }
+.pk-stack[data-acc="b"] .pk-sitem { padding: 13px 16px; font-size: clamp(17px, 1.3vw, 20px); color: rgba(255,255,255,.72); }
+.pk-stack[data-acc="b"] .pk-sitem[data-on="1"] { color: #fff; font-weight: 800; }
+
+/* 04 왼쪽 메뉴 크기 한 단계 축소 (2026-10-14) */
+.pk-stack[data-acc="b"] .pk-sgroups { max-width: 360px; gap: 18px; }
+.pk-stack[data-acc="b"] .pk-shead { padding: 12px 0; font-size: clamp(18px, 1.45vw, 22px); }
+.pk-stack[data-acc="b"] .pk-shead svg { width: 18px; height: 18px; }
+.pk-stack[data-acc="b"] .pk-sitem { padding: 11px 14px; font-size: clamp(15px, 1.15vw, 18px); }
+
+/* 04 왼쪽 메뉴 크기 추가 축소 (2026-10-14) */
+.pk-stack[data-acc="b"] .pk-sgroups { max-width: 320px; gap: 14px; }
+.pk-stack[data-acc="b"] .pk-shead { padding: 10px 0; font-size: clamp(16px, 1.2vw, 18px); }
+.pk-stack[data-acc="b"] .pk-shead svg { width: 16px; height: 16px; }
+.pk-stack[data-acc="b"] .pk-sitem { padding: 8px 12px; font-size: clamp(14px, 1vw, 16px); }
+
+/* 04 왼쪽 메뉴 선택 표시: 세로 막대 → 로고 "INFACT." 끝점 같은 파란 동그라미 (2026-10-14) */
+.pk-stack[data-acc="b"] .pk-sitem[data-on="1"]::before { display: none; }
+.pk-stack[data-acc="b"] .pk-sitem[data-on="1"] { background: none; }
+.pk-stack[data-acc="b"] .pk-sitem i { display: block; width: 8px; height: 8px; background: #3061ff; opacity: 0; transform: scale(.3); box-shadow: 0 0 10px rgba(48,97,255,.9); }
+.pk-stack[data-acc="b"] .pk-sitem[data-on="1"] i { opacity: 1; transform: none; }
+
+/* 04 왼쪽 메뉴: 동그라미 키움, 그룹 제목과 첫 항목 사이 간격 확대 (2026-10-14) */
+.pk-stack[data-acc="b"] .pk-sitem i { width: 12px; height: 12px; }
+.pk-stack[data-acc="b"] .pk-sbody li:first-child { margin-top: 12px; }
+
+/* 04 제목 파란 단어 박스: 라운드·높이 축소 (2026-10-14) */
+.pk-stack .pk-word { padding: 0 .2em; border-radius: .1em; line-height: 1.02; }
+.pk-stack .pk-word { padding: 0 .14em; margin-right: .06em; }
+.pk-stack .pk-word { padding-block: .03em .05em; line-height: 1.08; }
+
+/* 04 왼쪽 버튼 시안 5종 (2026-10-14) — data-btn="1~5". 메인은 data-btn 없이 위의 기본(테두리 알약 + 파란 원 화살표) */
+.pk-stack[data-btn] .pk-cta { gap: 12px; padding: 0; background: none; box-shadow: none; border-radius: 0; transform: none; font-weight: 700; }
+.pk-stack[data-btn] .pk-cta::after { content: ""; flex: none; background: none; width: 18px; height: 18px; border-radius: 0; transition: transform .3s; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center / contain no-repeat; }
+.pk-stack[data-btn] .pk-cta:hover::after { transform: translateX(4px); }
+/* 1 파란 꽉 찬 알약 + 화살표 */
+.pk-stack[data-btn="1"] .pk-cta { padding: 16px 28px; border-radius: 999px; background: #3061ff; box-shadow: 0 12px 30px -10px rgba(48,97,255,.9); transition: background .25s, transform .25s; }
+.pk-stack[data-btn="1"] .pk-cta:hover { background: #4f7dff; transform: translateY(-2px); }
+/* 2 흰 꽉 찬 알약 + 검정 원 화살표 */
+.pk-stack[data-btn="2"] .pk-cta { padding: 8px 8px 8px 26px; border-radius: 999px; background: #fff; color: #0a0f1e !important; transition: background .25s; }
+.pk-stack[data-btn="2"] .pk-cta::after { width: 38px; height: 38px; border-radius: 50%; background: #0a0f1e url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center / 18px no-repeat; }
+.pk-stack[data-btn="2"] .pk-cta:hover { background: #dfe8ff; }
+/* 3 밑줄 텍스트 링크 — 마우스를 올리면 밑줄이 왼쪽에서 채워짐 */
+.pk-stack[data-btn="3"] .pk-cta { padding: 6px 0 10px; position: relative; font-size: 17px; }
+.pk-stack[data-btn="3"] .pk-cta::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: linear-gradient(90deg, #4f7dff 0 0) left / 0 100% no-repeat, rgba(255,255,255,.3); transition: background-size .45s cubic-bezier(.2,.8,.2,1); }
+.pk-stack[data-btn="3"] .pk-cta:hover::before { background-size: 100% 100%; }
+/* 4 파랑→보라 그라데이션 + 빛 번짐 */
+.pk-stack[data-btn="4"] .pk-cta { padding: 16px 30px; border-radius: 14px; background: linear-gradient(135deg, #3061ff, #7a4bff); box-shadow: 0 14px 36px -10px rgba(98,80,255,.85), inset 0 1px 0 rgba(255,255,255,.3); transition: transform .25s, box-shadow .25s; }
+.pk-stack[data-btn="4"] .pk-cta:hover { transform: translateY(-3px); box-shadow: 0 20px 44px -10px rgba(98,80,255,1), inset 0 1px 0 rgba(255,255,255,.4); }
+/* 5 테두리 사각 + 마우스를 올리면 파랑이 왼쪽에서 채워짐 */
+.pk-stack[data-btn="5"] .pk-cta { position: relative; overflow: hidden; isolation: isolate; padding: 15px 26px; border-radius: 10px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.4); transition: box-shadow .3s; }
+.pk-stack[data-btn="5"] .pk-cta::before { content: ""; position: absolute; inset: 0; z-index: -1; background: #3061ff; transform: translateX(-101%); transition: transform .45s cubic-bezier(.2,.8,.2,1); }
+.pk-stack[data-btn="5"] .pk-cta:hover { box-shadow: inset 0 0 0 1px #3061ff; }
+.pk-stack[data-btn="5"] .pk-cta:hover::before { transform: none; }
+
+/* 04 왼쪽 버튼 = 헤더 "문의하기" 와 같은 .btn-sm (2026-10-14). 위치만 여기서 잡음 */
+.pk-sbtn { margin-top: clamp(20px, 4vh, 36px); }
+
+
+/* 04 아코디언 화살표: 접힘 = 아래(v), 펼침 = 위(^) — 상·하 방향 (2026-10-14) */
+.pk-shead[aria-expanded="false"] svg { transform: none; }
+.pk-shead[aria-expanded="true"] svg { transform: rotate(180deg); }
+/* 펼침 = 아래(v), 접힘 = 위(^) */
+.pk-shead[aria-expanded="true"] svg { transform: none; }
+.pk-shead[aria-expanded="false"] svg { transform: rotate(180deg); }
+
+/* 04 제목 색: "우리 병원은"·위 문구를 흰색으로 (2026-10-14) */
+.pk-stack .pk-h1, .pk-stack .pk-h { color: #fff; }
+.pk-stack .pk-lead { color: #fff; }
+/* 04 아코디언 화살표: 접힘 = 아래(v), 펼침 = 위(^) — 가장 흔한 방식 */
+.pk-shead svg { transform: none; }
+.pk-shead[aria-expanded="true"] svg { transform: rotate(180deg); }
+.pk-shead[aria-expanded="false"] svg { transform: none; }
+
+/* 04 "이/가 필요해요" 굵기 = "우리 병원은" 과 같게(가늘게). 파란 단어(.pk-word)만 굵게 유지 */
+.pk-stack .pk-h2 > span { font-weight: 300; }
+
+/* 04 "우리 병원은" · "이/가 필요해요" 를 조금 어두운 회색으로 (파란 단어는 그대로) */
+.pk-stack .pk-h1 { color: #9a9ea6; }
+.pk-stack .pk-h2 > span { color: #9a9ea6; }
+
+/* 04 아코디언 메뉴: 선택 안 된 항목은 더 어두운 회색 (선택된 항목은 흰색 유지) */
+.pk-stack[data-acc="b"] .pk-sitem[data-on="0"] { color: #7d8189; }
+
+/* 04 왼쪽 위 문구: "인팩트 진단" 작은 파란 라벨 + 두 줄 문구 */
+.pk-stack .pk-eyebrow { display: block; margin-bottom: 10px; font-size: 13px; font-weight: 700; letter-spacing: .08em; color: #4f7dff; }
+
+/* 04 왼쪽 위 두 줄 문구("부족한 부분은 다르니까…") 색: 흰색 → 연한 하늘색 */
+.pk-stack .pk-lead { color: #9db8ff; }
+
+/* 04 왼쪽 위 문구 전체를 회색으로 (Inpact Diagnosis + 두 줄) */
+.pk-stack .pk-lead, .pk-stack .pk-eyebrow { color: #9a9ea6; }
+
+/* 04 왼쪽 위 문구 배치 (시안): INFACT. DIAGNOSIS(영문 라벨) → 한 줄 설명(핵심 단어 굵게) → 큰 제목 */
+.pk-stack .pk-eyebrow { font-family: "Outfit", var(--font-sans); font-size: clamp(17px, 1.5vw, 24px); font-weight: 500; letter-spacing: .02em; text-transform: uppercase; margin-bottom: 8px; }
+.pk-stack .pk-eyebrow .pk-dot { font-style: normal; color: #3061ff; margin-right: .3em; }
+.pk-stack .pk-lead > .block { font-size: clamp(20px, 2.1vw, 34px); font-weight: 300; letter-spacing: -.04em; line-height: 1.25; }
+.pk-stack .pk-lead > .block b { font-weight: 700; }
+
+/* 04 왼쪽 문구 전부 흰색 */
+.pk-stack .pk-lead, .pk-stack .pk-eyebrow, .pk-stack .pk-h1, .pk-stack .pk-h2 > span { color: #fff; }
+
+/* 04 아코디언: 항목 글자를 그룹 제목·선과 같은 왼쪽 선에 맞춤. 선택되면 파란 동그라미가 나오며 글자가 오른쪽으로 밀림 */
+.pk-stack[data-acc="b"] .pk-sitem { gap: 0; padding-left: 0; padding-right: 0; }
+.pk-stack[data-acc="b"] .pk-sitem i { width: 0; height: 12px; margin-right: 0; opacity: 0; transform: scale(.3); transition: width .3s cubic-bezier(.2,.8,.2,1), margin-right .3s cubic-bezier(.2,.8,.2,1), opacity .25s, transform .3s; }
+.pk-stack[data-acc="b"] .pk-sitem[data-on="1"] i { width: 12px; margin-right: 12px; opacity: 1; transform: none; }
+
+/* 04 설명 줄(시안): 보통 글자는 연한 회색, 굵은 단어(정밀·확실)는 흰색 */
+.pk-stack .pk-lead > .block { color: #c9ccd3; }
+.pk-stack .pk-lead > .block b { color: #fff; font-weight: 700; }
+
+/* 04 "INFACT." 점: 글자 마침표 대신 로고 점(글자 높이의 약 1/4)과 비슷한 파란 동그라미, 글자 바닥선에 앉힘 */
+.pk-stack .pk-eyebrow .pk-dot { display: inline-block; width: .2em; height: .2em; margin: 0 .22em 0 .06em; border-radius: 50%; background: #3061ff; color: transparent; overflow: hidden; vertical-align: baseline; }
+
+/* 04 오른쪽 이미지 박스: 가로를 조금 좁힘(1.45fr → 1.15fr, 왼쪽 정렬), 왼쪽 위 아이콘 삭제 후 태그는 오른쪽 유지 */
+.pk-scard-top { justify-content: flex-end; }
+@media (min-width: 768px) {
+  .pk-sgrid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); }
+}
+
+/* 04 왼쪽 위 두 줄 크기 한 단계 축소 */
+.pk-stack .pk-eyebrow { font-size: clamp(15px, 1.25vw, 20px); }
+.pk-stack .pk-lead > .block { font-size: clamp(17px, 1.75vw, 28px); }
+
+/* 04 "우리병원은" 과 아랫줄("유입이 필요해요") 사이 간격을 조금 넓힘 */
+.pk-stack .pk-h1 { display: block; margin-bottom: .12em; }
+
+/* 04 오른쪽 카드 아래 글 가독성 (제목 → 줄마다 간격 → 굵은 구절 흰색 → 태그) */
+.pk-scard-top:empty { display: none; }
+.pk-scard::after { background: linear-gradient(180deg, rgba(5,7,15,.35) 0%, rgba(5,7,15,0) 24%, rgba(5,7,15,.6) 46%, rgba(5,7,15,.96) 100%); }
+.pk-scard-bottom h3 { margin-bottom: 14px; font-size: clamp(24px, 2.2vw, 34px); }
+.pk-scard-bottom .pk-below-body { margin-top: 0; max-width: 32em; font-size: clamp(14.5px, 1.15vw, 17.5px); line-height: 1.7; letter-spacing: -.025em; color: rgba(255,255,255,.82); }
+.pk-scard-bottom .pk-below-body .block + .block { margin-top: 8px; }
+.pk-scard-bottom .pk-below-body strong { font-weight: 700; color: #fff; }
+.pk-scard-bottom .pk-tags { margin-top: 18px; gap: 8px; }
+.pk-scard-bottom .pk-tags li { padding: 7px 14px; font-size: 13px; background: rgba(255,255,255,.12); color: #fff; box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
+
+/* ===== 04 오른쪽 카드 그림 (코드로 그린 화면) — BoosterVisuals.tsx ===== */
+.bv { position: absolute; inset: 0; container-type: inline-size; overflow: hidden; background: radial-gradient(120% 80% at 75% 0%, #17287a 0%, #0b1236 52%, #070a18 100%); }
+.bv-stage { position: absolute; left: 6%; right: 6%; top: 8%; height: 44%; display: flex; gap: 2.6cqw; align-items: stretch; font-size: 2.5cqw; color: #fff; }
+.bv-card { min-width: 0; border-radius: 1.6cqw; background: rgba(255,255,255,.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,.14); backdrop-filter: blur(6px); padding: 2cqw; overflow: hidden; }
+.bv-label { display: block; font-size: 2.3cqw; color: rgba(255,255,255,.6); }
+.bv-big { display: block; margin-top: .4cqw; font-size: 4.6cqw; font-weight: 800; letter-spacing: -.03em; } .bv-big i { font-style: normal; color: #7ea2ff; }
+.bv-chips { display: flex; flex-wrap: wrap; gap: 1.2cqw; } .bv-chips span { padding: .7cqw 1.8cqw; border-radius: 99px; background: rgba(79,125,255,.28); font-size: 2.1cqw; font-weight: 600; color: #cfdcff; }
+
+.bv-insta-profile { flex: 1.15; display: flex; flex-direction: column; gap: 1.6cqw; }
+.bv-insta-head { display: flex; align-items: center; gap: 1.8cqw; } .bv-insta-head b { display: block; font-size: 2.8cqw; } .bv-insta-head span { font-size: 2.1cqw; color: rgba(255,255,255,.6); }
+.bv-avatar { flex: none; width: 8cqw; height: 8cqw; border-radius: 50%; background: radial-gradient(circle at 50% 40%, #e9eefc 0 28%, #3b4a86 30%) padding-box, conic-gradient(#f58529, #dd2a7b, #8134af, #515bd4, #f58529) border-box; border: .6cqw solid transparent; }
+.bv-insta-stats { display: flex; justify-content: space-between; } .bv-insta-stats li { text-align: center; } .bv-insta-stats b { display: block; font-size: 3cqw; } .bv-insta-stats span { font-size: 2cqw; color: rgba(255,255,255,.6); }
+.bv-insta-reels { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1cqw; }
+.bv-insta-reels i { position: relative; border-radius: 1cqw; background: linear-gradient(160deg, #4f7dff, #1a2a78); } .bv-insta-reels i[data-n="1"] { background: linear-gradient(160deg, #b96bff, #3a1c78); } .bv-insta-reels i[data-n="2"] { background: linear-gradient(160deg, #ff7aa8, #6b1e4a); }
+.bv-insta-reels em { position: absolute; right: .8cqw; top: .6cqw; font-style: normal; font-size: 1.8cqw; opacity: .85; }
+.bv-insta-growth { flex: 1; display: flex; flex-direction: column; } .bv-insta-growth svg { flex: 1; min-height: 0; width: 100%; margin: 1cqw 0; }
+
+.bv-ba { flex: 1; display: flex; flex-direction: column; gap: 1.4cqw; padding: 1.4cqw; }
+.bv-ba-pair { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: .8cqw; }
+.bv-ba-img { position: relative; border-radius: 1cqw; overflow: hidden; background: radial-gradient(60% 50% at 50% 42%, #f0cdb8 0 55%, transparent 57%), linear-gradient(180deg, #5a4a6e, #2a2342); }
+.bv-ba-img[data-k="after"] { background: radial-gradient(60% 50% at 50% 42%, #ffe3d2 0 55%, transparent 57%), linear-gradient(180deg, #5b7be6, #2a3d8f); }
+.bv-ba-img span { position: absolute; left: .8cqw; bottom: .6cqw; padding: .3cqw 1cqw; border-radius: 99px; background: rgba(5,7,15,.6); font-size: 1.6cqw; font-weight: 700; letter-spacing: .06em; }
+.bv-ba-foot { display: flex; justify-content: space-between; align-items: center; } .bv-ba-foot b { font-size: 2.6cqw; } .bv-ba-foot span { font-size: 1.9cqw; color: #ffc94d; }
+
+.bv-chat { flex: 1; display: flex; flex-direction: column; gap: 2cqw; min-width: 0; }
+.bv-ask { align-self: flex-end; margin: 0; padding: 1.4cqw 2.4cqw; border-radius: 2cqw 2cqw .4cqw 2cqw; background: #3061ff; font-size: 2.6cqw; font-weight: 600; }
+.bv-answer { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 1.6cqw; padding-left: 7cqw; }
+.bv-ai-mark { position: absolute; left: 2cqw; top: 1.8cqw; display: grid; place-items: center; width: 3.6cqw; height: 3.6cqw; border-radius: 50%; background: linear-gradient(135deg, #7ea2ff, #b98bff); font-size: 2cqw; }
+.bv-answer ol { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 1.4cqw; }
+.bv-answer li { padding: 1.2cqw 1.8cqw; border-radius: 1.2cqw; background: rgba(255,255,255,.06); }
+.bv-answer li.is-hit { background: rgba(79,125,255,.3); box-shadow: inset 0 0 0 1px rgba(126,162,255,.7); } .bv-answer li b { display: block; font-size: 2.8cqw; } .bv-answer li span { font-size: 2cqw; color: rgba(255,255,255,.75); }
+.bv-answer li i { display: block; height: 1.1cqw; margin: .6cqw 0; border-radius: 99px; background: rgba(255,255,255,.16); } .bv-answer li i + i { width: 60%; }
+
+.bv-yt-main { flex: 1.7; display: flex; flex-direction: column; gap: 1.2cqw; padding: 1.4cqw; }
+.bv-yt-screen { position: relative; flex: 1; min-height: 0; border-radius: 1.2cqw; background: linear-gradient(135deg, #243a96, #0d1440 70%); display: grid; place-items: center; }
+.bv-play { display: grid; place-items: center; width: 8.4cqw; height: 6cqw; border-radius: 1.6cqw; background: #ff2d2d; } .bv-play em, .bv-short em { font-style: normal; font-size: 2.6cqw; }
+.bv-yt-badge { position: absolute; left: 1cqw; top: 1cqw; padding: .3cqw 1.2cqw; border-radius: 99px; background: rgba(5,7,15,.65); font-size: 1.7cqw; font-weight: 700; }
+.bv-yt-bar { height: .7cqw; border-radius: 99px; background: rgba(255,255,255,.2); } .bv-yt-bar i { display: block; width: 38%; height: 100%; border-radius: inherit; background: #ff2d2d; }
+.bv-yt-meta b { display: block; font-size: 2.3cqw; } .bv-yt-meta span { font-size: 1.9cqw; color: rgba(255,255,255,.65); }
+.bv-yt-shorts { flex: 1; display: flex; gap: 1.8cqw; min-width: 0; }
+.bv-short { position: relative; flex: 1; display: grid; place-items: center; padding: 0; background: linear-gradient(170deg, #4f7dff, #1a2a78); } .bv-short[data-n="1"] { background: linear-gradient(170deg, #b96bff, #3a1c78); }
+@media (max-width: 767px) { .bv-stage { top: 6%; height: 46%; } }
+
+/* 글이 위로 올라가 그림과 겹치던 문제: 위쪽 줄이 비면 글 묶음이 맨 위로 가므로, 글 묶음을 카드 맨 아래로 고정 */
+.pk-scard-bottom { margin-top: auto; }
+.bv-stage { top: 7%; height: 42%; }
+
+/* 개별 상품 6종 카드 그림: 3×2 격자 */
+.bv-tiles { flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 2cqw; }
+.bv-tile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2cqw; padding: 1.2cqw; }
+.bv-tile-art { flex: 1; min-height: 0; width: 70%; display: grid; place-items: center; } .bv-tile-art svg { width: 100%; height: 100%; }
+.bv-tile b { font-size: 2.7cqw; font-weight: 700; letter-spacing: -.03em; }
+
+/* PC: 오른쪽 카드 줄의 윗선 = "우리병원은" 글자 윗선(--pk-top 은 PickerSection 이 측정). 측정 전에는 화면 가운데 */
+@media (min-width: 768px) {
+  .pk-scards { top: var(--pk-top, calc(50% - var(--ch) / 2)); transform: translateY(calc(var(--pk-p) * -1 * (var(--ch) + 24px))); }
+}
+
+/* 04 오른쪽 카드: 색·모서리를 "수치로 증명하는 인팩트만의 강점" 카드(.nb-0~3)와 같은 톤으로, 가로는 더 좁게 — 왼쪽 파란 단어가 먼저 보이도록 */
+@media (min-width: 768px) { .pk-sview { width: 76%; margin-left: auto; } }
+.pk-scard { border-radius: 28px; border: 1px solid rgba(255,255,255,.1); }
+.pk-scard:nth-child(4n+1) { background: radial-gradient(90% 80% at 90% 100%, rgba(48,97,255,.45), transparent 60%), linear-gradient(145deg, #101c4d, #090d1f); }
+.pk-scard:nth-child(4n+2) { background: radial-gradient(90% 80% at 90% 100%, rgba(53,214,255,.32), transparent 60%), linear-gradient(145deg, #0b2c40, #07131d); }
+.pk-scard:nth-child(4n+3) { background: radial-gradient(90% 80% at 90% 100%, rgba(150,110,255,.38), transparent 60%), linear-gradient(145deg, #261850, #0c0922); }
+.pk-scard:nth-child(4n+4) { background: radial-gradient(90% 80% at 90% 100%, rgba(255,130,170,.28), transparent 60%), linear-gradient(145deg, #1e2358, #0b0b1c); }
+.pk-scard .bv { background: none; }
+.pk-scard .bv-stage { opacity: .88; }
+.pk-scard::after { background: linear-gradient(180deg, rgba(5,7,15,0) 0%, rgba(5,7,15,0) 40%, rgba(5,7,15,.5) 70%, rgba(5,7,15,.85) 100%); }
+
+/* 04 오른쪽 카드 가로 조금 넓힘 (76% → 82%) */
+@media (min-width: 768px) { .pk-sview { width: 82%; } }
+
+/* 04 오른쪽 카드: 가로 더 넓힘(82% → 90%), 파란 테두리·빛번짐을 약하게 */
+@media (min-width: 768px) { .pk-sview { width: 90%; } }
+.pk-scard { border-color: rgba(255,255,255,.07); box-shadow: inset 0 0 0 1px rgba(130,170,255,.08); }
+.pk-scard[data-on="1"] { box-shadow: inset 0 0 0 1px rgba(130,170,255,.14), 0 30px 80px -40px rgba(48,97,255,.25); }
+
+/* 04 오른쪽 카드: 가로 최대(열 폭 100%, 열 비율도 1.15 → 1.3), 테두리 더 연하게 */
+@media (min-width: 768px) {
+  .pk-sview { width: 100%; }
+  .pk-sgrid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); }
+}
+.pk-scard { border-color: rgba(255,255,255,.04); box-shadow: inset 0 0 0 1px rgba(130,170,255,.04); }
+.pk-scard[data-on="1"] { box-shadow: inset 0 0 0 1px rgba(130,170,255,.07), 0 30px 80px -40px rgba(48,97,255,.2); }
+
+/* 04 카드 안 요소: 박스보다 작게(오른쪽 여유 16%), 왼쪽 선을 아래 글과 같게, 글 행간 좁힘. 반투명 겹침이 사각 얼룩으로 보여 흐림 효과·투명도 레이어는 뺌 */
+.bv-card { backdrop-filter: none; background: rgba(255,255,255,.09); }
+.pk-scard .bv-stage { opacity: 1; left: clamp(20px, 2.2vw, 32px); right: 18%; top: clamp(20px, 2.2vw, 32px); height: 40%; font-size: 2.2cqw; }
+.pk-scard-bottom h3 { margin-bottom: 10px; line-height: 1.2; }
+.pk-scard-bottom .pk-below-body { line-height: 1.5; }
+.pk-scard-bottom .pk-below-body .block + .block { margin-top: 2px; }
+.pk-scard-bottom .pk-tags { margin-top: 14px; }
+
+/* ===== 04 오른쪽 카드 배치 시안 3종 (임시: 주소 뒤에 ?bv=1 / ?bv=2 / ?bv=3) =====
+   공통: 안쪽 여백 P 를 그림·글이 똑같이 씀 → 왼쪽 선·위·아래 선이 자동으로 맞음 */
+.pk-scard { --P: clamp(20px, 2.2vw, 32px); padding: var(--P); }
+.pk-scard .bv-stage { font-size: 2.2cqw; }
+
+/* 1안 (기본) — 위 그림 전폭 + 아래 글, 좌·우 여백 동일 */
+
+/* 2안 — 좌우 분할: 글은 왼쪽 아래, 그림은 오른쪽에 세로로 쌓음 */
+
+/* 3안 — 가운데 정렬: 그림 폭 70% 가운데, 글도 가운데 */
+.pk-stack .pk-scard .bv-stage { left: 15%; right: 15%; top: var(--P); height: 36%; }
+.pk-stack .pk-scard-bottom { text-align: center; }
+.pk-stack .pk-scard-bottom .pk-below-body { margin-inline: auto; }
+.pk-stack .pk-scard-bottom .pk-tags { justify-content: center; }
+
+/* 04 오른쪽 카드를 빨간 영역(시안)만큼 크게: PC 에서 카드 높이 = 화면의 약 83%, 화면 세로 가운데, 폭은 열의 90%. 그림 영역도 따라 키움 */
+@media (min-width: 768px) {
+  .pk-stack { --ch: clamp(420px, 83svh, 900px); }
+  .pk-sview { width: 90%; }
+  .pk-scards { top: calc(50% - var(--ch) / 2); }
+  .pk-stack .pk-scard .bv-stage { height: 46%; }
+}
+
+/* 04 오른쪽 카드: 세로 좁힘(83svh → 70svh), 테두리 더 연하게, 모서리 둥글기 28px → 14px */
+@media (min-width: 768px) { .pk-stack { --ch: clamp(400px, 70svh, 780px); } }
+.pk-scard { border-radius: 14px; border-color: rgba(255,255,255,.025); box-shadow: none; }
+.pk-scard[data-on="1"] { box-shadow: 0 30px 80px -40px rgba(48,97,255,.15); }
+
+/* ===== 04 오른쪽 카드 (최종): 빨간 박스 시안 크기 + 카드 롤링 + 움직이는 그림 ===== */
+/* 시안 확정: 3안(가운데 정렬) 채택, 임시 시안 전환 코드 삭제. 카드 폭은 열의 92%, 오른쪽 끝에서 살짝 안쪽 */
+@media (min-width: 768px) {
+  .pk-sview { width: 92%; margin-right: 2.7vw; }
+  /* 세로로 쌓아 넘기던 방식 → 한 자리에 겹쳐 두고 옆으로 롤링 (이전 카드는 왼쪽으로 사라지고 다음 카드는 오른쪽에서 들어옴) */
+  .pk-scards { top: calc(50% - var(--ch) / 2); height: var(--ch); transform: none; }
+  .pk-scard { position: absolute; inset: 0; height: 100%; margin: 0; will-change: transform, opacity; transition: transform .8s cubic-bezier(.2,.8,.2,1), opacity .6s ease; }
+  .pk-stack .pk-scard[data-rel] { filter: none; }
+  .pk-stack .pk-scard[data-rel="0"] { z-index: 2; opacity: 1; transform: none; }
+  .pk-stack .pk-scard[data-rel="-1"] { z-index: 1; opacity: 0; transform: translateX(-16%) scale(.94); pointer-events: none; }
+  .pk-stack .pk-scard[data-rel="1"] { z-index: 1; opacity: 0; transform: translateX(16%) scale(.94); pointer-events: none; }
+}
+
+/* 그림 배경색 제거: 칸 바탕·테두리 없이 그림 요소만 카드 위에 떠 있게 */
+.pk-scard .bv-card { background: none; box-shadow: none; padding: 0; }
+.pk-scard .bv-insta-profile, .pk-scard .bv-insta-growth { padding: 0; }
+.pk-scard .bv-answer li { background: rgba(255,255,255,.07); }
+
+/* 움직임: 카드가 앞에 나올 때마다 처음부터 재생되고 계속 반복 (움직임 줄이기 설정이면 정지) */
+@keyframes bv-seq { 0%, 3% { opacity: 0; transform: translateY(14px); } 12%, 86% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: translateY(-6px); } }
+@keyframes bv-draw { 0%, 8% { stroke-dashoffset: 1; } 55%, 100% { stroke-dashoffset: 0; } }
+@keyframes bv-area { 0%, 25% { opacity: 0; } 60%, 100% { opacity: 1; } }
+@keyframes bv-grow { 0%, 100% { transform: scaleY(.72); } 50% { transform: scaleY(1); } }
+@keyframes bv-glow { 0%, 100% { box-shadow: inset 0 0 0 1px rgba(126,162,255,.5); } 50% { box-shadow: inset 0 0 0 1px rgba(126,162,255,1), 0 0 22px rgba(79,125,255,.55); } }
+@keyframes bv-prog { from { width: 0; } to { width: 100%; } }
+@keyframes bv-bob { from { transform: translateY(-4px); } to { transform: translateY(4px); } }
+@keyframes bv-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+@media (prefers-reduced-motion: no-preference) {
+  .pk-scard[data-on="1"] :is(.bv-insta-profile, .bv-insta-growth, .bv-ba, .bv-ask, .bv-answer, .bv-yt-main, .bv-yt-shorts, .bv-tile) { animation: bv-seq 7s ease infinite backwards; }
+  .pk-scard[data-on="1"] .bv-insta-growth { animation-delay: .35s; }
+  .pk-scard[data-on="1"] .bv-ba:nth-child(2), .pk-scard[data-on="1"] .bv-tile:nth-child(2) { animation-delay: .25s; }
+  .pk-scard[data-on="1"] .bv-ba:nth-child(3), .pk-scard[data-on="1"] .bv-tile:nth-child(3) { animation-delay: .5s; }
+  .pk-scard[data-on="1"] .bv-tile:nth-child(4) { animation-delay: .75s; } .pk-scard[data-on="1"] .bv-tile:nth-child(5) { animation-delay: 1s; } .pk-scard[data-on="1"] .bv-tile:nth-child(6) { animation-delay: 1.25s; }
+  .pk-scard[data-on="1"] .bv-answer { animation-delay: .9s; } .pk-scard[data-on="1"] .bv-yt-shorts { animation-delay: .4s; }
+  .pk-scard[data-on="1"] .bv-insta-growth path:nth-of-type(2) { stroke-dasharray: 1; animation: bv-draw 7s ease-in-out infinite; }
+  .pk-scard[data-on="1"] .bv-insta-growth path:nth-of-type(1) { animation: bv-area 7s ease-in-out infinite; }
+  .pk-scard[data-on="1"] .bv-insta-reels i { transform-origin: bottom; animation: bv-grow 2.4s ease-in-out infinite; }
+  .pk-scard[data-on="1"] .bv-insta-reels i:nth-child(2) { animation-delay: .3s; } .pk-scard[data-on="1"] .bv-insta-reels i:nth-child(3) { animation-delay: .6s; }
+  .pk-scard[data-on="1"] .bv-answer li.is-hit { animation: bv-glow 2.2s ease-in-out infinite 1.6s; }
+  .pk-scard[data-on="1"] .bv-yt-bar i { width: 0; animation: bv-prog 5s linear infinite; }
+  .pk-scard[data-on="1"] .bv-play { animation: bv-pulse 1.8s ease-in-out infinite; }
+  .pk-scard[data-on="1"] .bv-short { animation: bv-bob 2.4s ease-in-out infinite alternate; } .pk-scard[data-on="1"] .bv-short[data-n="1"] { animation-delay: -1.2s; }
+  .pk-scard[data-on="1"] .bv-ba-img[data-k="after"] { animation: bv-glow 2.4s ease-in-out infinite; }
+  .pk-scard[data-on="1"] .bv-tile-art svg { animation: bv-bob 2.6s ease-in-out infinite alternate; }
+}
+
+/* 04 오른쪽 카드 윗선·아랫선을 왼쪽 글 묶음(맨 위 "INFACT. DIAGNOSIS" ~ 버튼 아래)에 맞춤 — 값은 PickerSection 이 측정(--pk-top, --ch) */
+@media (min-width: 768px) { .pk-scards { top: var(--pk-top, calc(50% - var(--ch) / 2)); } }
+
+/* 04 카드: 배경색(파랑·청록·보라·핑크 그라데이션)과 어두운 덮개를 없애 섹션 배경 위에 그대로 올림 */
+.pk-stack .pk-scard, .pk-stack .pk-scard:nth-child(n) { background: none; }
+.pk-stack .pk-scard::after { display: none; }
+/* 넘어가는 방향: 가로 → 세로 (이전 카드는 위로 사라지고 다음 카드는 아래에서 올라옴) */
+@media (min-width: 768px) {
+  .pk-stack .pk-scard[data-rel="-1"] { transform: translateY(-12%) scale(.96); }
+  .pk-stack .pk-scard[data-rel="1"] { transform: translateY(12%) scale(.96); }
+}
+
+/* 04 큰 제목("우리병원은 / ○○이 필요해요") 자간을 조금 좁힘 (-.05em → -.07em) */
+.pk-stack .pk-h, .pk-stack .pk-h1, .pk-stack .pk-h2, .pk-stack .pk-h2 > span, .pk-stack .pk-word { letter-spacing: -.07em; }
+
+/* 04 큰 제목 자간 한 단계 더 좁힘 (-.07em → -.085em) */
+.pk-stack .pk-h, .pk-stack .pk-h1, .pk-stack .pk-h2, .pk-stack .pk-h2 > span, .pk-stack .pk-word { letter-spacing: -.085em; }
+
+/* 메인 04: 유입 → 근거 → 추천 → 개별 상품으로 넘어갈 때 배경색도 함께 변함 (2026-10-14) */
+@property --pk-bg1 { syntax: "<color>"; inherits: true; initial-value: #0b1c4d; }
+@property --pk-bg2 { syntax: "<color>"; inherits: true; initial-value: #070c1c; }
+@property --pk-bg3 { syntax: "<color>"; inherits: true; initial-value: #05070f; }
+.pk-stack[data-step] {
+  background: radial-gradient(70% 50% at 80% 0%, var(--pk-bg1) 0%, var(--pk-bg2) 55%, var(--pk-bg3) 100%);
+  transition: --pk-bg1 .9s ease, --pk-bg2 .9s ease, --pk-bg3 .9s ease;
+}
+.pk-stack[data-step="0"] { --pk-bg1: #0b1c4d; --pk-bg2: #070c1c; --pk-bg3: #05070f; } /* 유입: 딥 블루 */
+.pk-stack[data-step="1"] { --pk-bg1: #0a3a46; --pk-bg2: #071a22; --pk-bg3: #050b10; } /* 근거: 딥 틸 */
+.pk-stack[data-step="2"] { --pk-bg1: #3a1a6b; --pk-bg2: #150c2c; --pk-bg3: #08050f; } /* 추천: 딥 퍼플 */
+.pk-stack[data-step="3"] { --pk-bg1: #1f4fd0; --pk-bg2: #0e2a78; --pk-bg3: #061233; } /* 개별 상품: 로열 블루 */
+@media (prefers-reduced-motion: reduce) { .pk-stack[data-step] { transition: none; } }

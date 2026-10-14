@@ -129,6 +129,40 @@ export default function Numbers({ data }: { data: NumbersData }) {
     smoothScrollTo(window.scrollY + rect.top + (next / Math.max(1, n - 1)) * span);
   };
 
+  // 자동 넘김 (2026-10-14): 섹션이 화면에 고정된 동안 2.5초마다 다음 카드로. 01→04 를 끝없이 반복(04 다음은 01 로 되돌아감).
+  // 사용자가 스크롤·터치·클릭·키 입력을 하면 5초, 카드 위에 마우스가 있는 동안, 움직임 줄이기 설정일 때는 쉰다.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || n < 2 || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let lastInput = 0, hover = false;
+    const touch = () => { lastInput = performance.now(); };
+    const view = viewRef.current;
+    const enter = () => { hover = true; };
+    const leave = () => { hover = false; };
+    const evs = ["wheel", "touchstart", "pointerdown", "keydown"] as const;
+    evs.forEach((e) => window.addEventListener(e, touch, { passive: true }));
+    view?.addEventListener("pointerenter", enter);
+    view?.addEventListener("pointerleave", leave);
+    const id = window.setInterval(() => {
+      if (document.hidden || hover || performance.now() - lastInput < 5000) return;
+      const rect = el.getBoundingClientRect();
+      const span = el.offsetHeight - window.innerHeight;
+      if (rect.top > 1 || -rect.top > span + 1) return; // 고정 구간 밖
+      const idx = Math.round((-rect.top / span) * (n - 1));
+      if (idx >= n - 1) {
+        smoothScrollTo(window.scrollY + rect.top); // 01 로 돌아가 한 바퀴 더
+        return;
+      }
+      smoothScrollTo(window.scrollY + rect.top + ((idx + 1) / (n - 1)) * span);
+    }, 1350);
+    return () => {
+      window.clearInterval(id);
+      evs.forEach((e) => window.removeEventListener(e, touch));
+      view?.removeEventListener("pointerenter", enter);
+      view?.removeEventListener("pointerleave", leave);
+    };
+  }, [n]);
+
   const [l, r] = splitTitle(data.intro);
   const pad = (v: number) => String(v).padStart(2, "0");
 

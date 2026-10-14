@@ -5,9 +5,6 @@ import type { Metadata } from "next";
 import { getPage, getBusiness } from "./queries";
 import SectionRenderer from "@/components/SectionRenderer";
 
-/** 오른쪽 하단 "INFACT." 링이 나타나는 섹션 인덱스 — 메인: 3번째(흰 배경 03)부터, 서비스: 2번째부터 (2026-09-21 사용자 지정) */
-const RING_FROM: Record<string, number> = { home: 2, services: 1 };
-
 export async function pageMetadata(slug: string): Promise<Metadata> {
   const page = await getPage(slug);
   if (!page) return {};
@@ -33,5 +30,5 @@ export async function SitePageView({ slug }: { slug: string }) {
     );
   }
 
-  return <SectionRenderer sections={page.sections} biz={biz} ringFrom={RING_FROM[slug]} />;
+  return <SectionRenderer sections={page.sections} biz={biz} />;
 }

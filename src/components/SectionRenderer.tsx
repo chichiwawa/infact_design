@@ -19,11 +19,9 @@ import Packages from "./sections/Packages";
 import Boosters from "./sections/Boosters";
 import Products from "./sections/Products";
 import ContactIntro from "./sections/ContactIntro";
-import CornerRing from "./CornerRing";
 
-/** @param ringFrom 이 인덱스 섹션부터 오른쪽 하단 "INFACT." 링(CornerRing) 표시. 생략하면 링 없음 (2026-09-21)
- *  ⚠️ 섹션 사이에 마커 요소를 끼우면 안 됨 — 서비스 01→02 덮기 효과가 `.pain + .pain-m + section` 형제 선택자라 끊긴다(46차 회귀, 50차 수정). */
-export default function SectionRenderer({ sections, biz, ringFrom }: { sections: PageSection[]; biz: Business | null; ringFrom?: number }) {
+/** ⚠️ 섹션 사이에 마커 요소를 끼우면 안 됨 — 서비스 01→02 덮기 효과가 `.pain + .pain-m + section` 형제 선택자라 끊긴다(46차 회귀, 50차 수정). */
+export default function SectionRenderer({ sections, biz }: { sections: PageSection[]; biz: Business | null }) {
   // 히어로(sticky, z 0)가 첫 섹션이면 나머지를 z 1 래퍼로 감싸 위로 덮으며 올라오게 (2026-09-16)
   const hero = sections[0]?.kind === "hero" ? sections[0] : null;
   const rest = hero ? sections.slice(1) : sections;
@@ -32,7 +30,6 @@ export default function SectionRenderer({ sections, biz, ringFrom }: { sections:
     <>
       {hero && render(hero, biz)}
       {hero ? <div className="relative z-[1]">{body}</div> : body}
-      {ringFrom !== undefined && <CornerRing from={ringFrom} />}
     </>
   );
 }

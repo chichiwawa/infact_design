@@ -9,6 +9,7 @@ import Image from "next/image";
 import Icon from "@/components/Icon";
 import CompareCard from "@/components/sections/cards/CompareCard";
 import PickerSection from "./PickerSection";
+import { InstaVisual, BeforeAfterVisual, AiVisual, YoutubeVisual, IndividualVisual } from "./cards/BoosterVisuals";
 import type { MarketingTabsData } from "@/lib/sections";
 
 /** 설명 문구: "\n" 은 줄바꿈, "**구절**" 은 세미볼드 */
@@ -22,27 +23,23 @@ function rich(body: string) {
   ));
 }
 
-export default function MarketingTabs({ title, data, variant }: { title: string; data: MarketingTabsData; variant?: "a" | "b" | "c" }) {
+/** 부스터 4종 카드 그림(코드로 그림). 순서 = 인스타 · 전후사진 · AI 노출 · 유튜브 */
+const BOOSTER_VISUALS = [InstaVisual, BeforeAfterVisual, AiVisual, YoutubeVisual];
+
+const BOOSTER_ICONS =["instagram", "camera", "search", "youtube"] as const;
+
+export default function MarketingTabs({ title, data, variant = "stack", acc = "b", btn }: { title: string; data: MarketingTabsData; variant?: "a" | "b" | "c" | "stack"; acc?: "a" | "b" | "c"; btn?: string }) {
   const items = data.categories.flatMap((c) => {
     if (c.display === "grid") {
       // 격자 카테고리(개별 상품 6종)는 한 단계로
       return [{
-        label: "6개 채널 전체 보기",
+        label: "영상, 블로그, 바이럴, 체험단, 광고, 디자인콘텐츠",
         need: "개별 상품",
         heading: c.label,
-        visual: (
-          <ul className="pk-grid6">
-            {c.items.map((it) => (
-              <li key={it.title}>
-                <span className="pk-grid6-pic" aria-hidden="true">
-                  {it.icon_url ? <Image src={it.icon_url} alt="" fill sizes="80px" className="object-contain" /> : it.icon ? <Icon name={it.icon} className="w-8 h-8 text-primary" /> : null}
-                </span>
-                <b>{it.title}</b>
-                <span>{it.body.split(" · ").map((l) => <i key={l}>{l}</i>)}</span>
-              </li>
-            ))}
-          </ul>
-        ),
+        icon: <Icon name="sparkles" className="w-6 h-6" />,
+        tag: `INDIVIDUAL ${c.items.length}`,
+        wide: true,
+        visual: <IndividualVisual names={c.items.map((it) => it.title)} />,
         below: <p className="pk-below-body">패키지가 아니어도 괜찮습니다. 병원 진단 후, 필요한 것만 골라 설계합니다.</p>,
       }];
     }
@@ -50,7 +47,11 @@ export default function MarketingTabs({ title, data, variant }: { title: string;
       label: it.title,
       need: it.need ?? it.title.replace(/\s*부스터.*$/, ""),
       heading: i === 0 ? c.label : undefined,
-      visual: it.data_card ? (
+      icon: <Icon name={BOOSTER_ICONS[i] ?? "sparkles"} className="w-6 h-6" />,
+      tag: `BOOSTER ${String(i + 1).padStart(2, "0")}`,
+      visual: BOOSTER_VISUALS[i] ? (
+        (() => { const V = BOOSTER_VISUALS[i]; return <V />; })()
+      ) : it.data_card ? (
         <CompareCard card={it.data_card} />
       ) : it.image_url ? (
         <Image src={it.image_url} alt={it.image_alt ?? it.title} fill sizes="(min-width: 1024px) 50vw, 92vw" className="object-cover" />
@@ -67,8 +68,8 @@ export default function MarketingTabs({ title, data, variant }: { title: string;
   });
   return (
     <PickerSection
-      id="marketing" bg="bg-night text-white on-dark pk-dark" lead={title.replace(/\*\*/g, "").replace(/\n/g, " ")} sub={data.intro?.replace(/\n/g, " ")}
-      variant={variant} items={items} cta={{ label: data.cta_label.replace(/\s*→$/, ""), href: data.cta_href }}
+      id="marketing" bg="bg-night text-white on-dark pk-dark" lead={title} sub={variant === "stack" ? undefined : data.intro?.replace(/\n/g, " ")}
+      variant={variant} acc={acc} btn={btn} items={items} cta={{ label: data.cta_label.replace(/\s*→$/, ""), href: data.cta_href }}
     />
   );
 }
