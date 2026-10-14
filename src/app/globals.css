@@ -1265,6 +1265,37 @@ html.strength-drag { scroll-snap-type: none !important; }
 }
 .pk-stack[data-step="0"] { --pk-bg1: #0b1c4d; --pk-bg2: #070c1c; --pk-bg3: #05070f; } /* 유입: 딥 블루 */
 .pk-stack[data-step="1"] { --pk-bg1: #0a3a46; --pk-bg2: #071a22; --pk-bg3: #050b10; } /* 근거: 딥 틸 */
-.pk-stack[data-step="2"] { --pk-bg1: #3a1a6b; --pk-bg2: #150c2c; --pk-bg3: #08050f; } /* 추천: 딥 퍼플 */
-.pk-stack[data-step="3"] { --pk-bg1: #1f4fd0; --pk-bg2: #0e2a78; --pk-bg3: #061233; } /* 개별 상품: 로열 블루 */
+.pk-stack[data-step="2"], .pk-stack[data-step="3"] { --pk-bg1: #3a1a6b; --pk-bg2: #150c2c; --pk-bg3: #08050f; } /* 추천: 딥 퍼플 */
+.pk-stack[data-step="4"] { --pk-bg1: #1f4fd0; --pk-bg2: #0e2a78; --pk-bg3: #061233; } /* 개별 상품: 로열 블루 */
 @media (prefers-reduced-motion: reduce) { .pk-stack[data-step] { transition: none; } }
+
+/* 메인 04: 오른쪽 카드 아래 그림자 삭제 */
+.pk-stack .pk-scard, .pk-stack .pk-scard[data-on="1"] { box-shadow: none; }
+
+/* 전후사진 부스터: 여성 얼굴 일러스트 + 푸른 빛 효과 */
+.bv-face { display: grid; place-items: end center; }
+.bv-face-fig { position: relative; width: 62%; height: 92%; margin-top: auto; }
+.bv-face-fig svg { position: absolute; inset: 0; width: 100%; height: 100%; filter: drop-shadow(0 0 28px rgba(79,125,255,.35)); }
+.bv-face-scan { position: absolute; left: 14%; right: 14%; top: 14%; height: 18%; border-radius: 50%; background: radial-gradient(closest-side, rgba(157,184,255,.55), transparent); filter: blur(10px); mix-blend-mode: screen; }
+.bv-face-tag { position: absolute; left: 50%; bottom: 3%; transform: translateX(-50%); padding: .5cqw 1.8cqw; border-radius: 99px; background: rgba(5,7,15,.55); box-shadow: inset 0 0 0 1px rgba(150,185,255,.25); color: #cdd9ff; font-size: 1.8cqw; font-weight: 700; letter-spacing: .08em; white-space: nowrap; }
+@keyframes bv-face-sweep { 0%, 100% { transform: translateY(0); opacity: .35; } 50% { transform: translateY(300%); opacity: .9; } }
+@keyframes bv-face-pulse { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: no-preference) {
+  .pk-scard[data-on="1"] .bv-face-scan { animation: bv-face-sweep 5s ease-in-out infinite; }
+  .pk-scard[data-on="1"] .bv-face-light { animation: bv-face-pulse 3s ease-in-out infinite; }
+}
+
+
+
+/* 전후사진 부스터: 시술 사진 8장 격자 — 차례로 떠오르고 푸른 빛이 훑고 지나감 (다른 카드 그림과 같은 위치·폭) */
+.bv-photos-grid { position: relative; flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); gap: 1.4cqw; }
+.bv-photos-grid i { position: relative; display: block; border-radius: 1.2cqw; background-size: cover; background-position: center; filter: brightness(.82) saturate(.95); box-shadow: 0 0 0 1px rgba(130,170,255,.22); overflow: hidden; }
+.bv-photos-grid i::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(5,7,15,.7)); }
+.bv-photos-grid em { position: absolute; z-index: 1; left: 0; right: 0; bottom: .6cqw; text-align: center; font-style: normal; font-size: 1.5cqw; letter-spacing: .1em; color: #ffc94d; }
+.bv-photos-scan { position: absolute; top: -8%; bottom: -8%; width: 22%; left: 0; background: linear-gradient(90deg, transparent, rgba(126,162,255,.45), transparent); mix-blend-mode: screen; opacity: 0; pointer-events: none; }
+@keyframes bv-photo-in { 0%, 8% { opacity: 0; transform: translateY(14px) scale(.94); } 22%, 100% { opacity: 1; transform: none; } }
+@keyframes bv-photo-scan { 0%, 40% { opacity: 0; transform: translateX(-100%); } 50% { opacity: 1; } 85%, 100% { opacity: 0; transform: translateX(480%); } }
+@media (prefers-reduced-motion: no-preference) {
+  .pk-scard[data-on="1"] .bv-photos-grid i { animation: bv-photo-in 7s ease infinite backwards; }
+  .pk-scard[data-on="1"] .bv-photos-scan { animation: bv-photo-scan 7s ease-in-out infinite; }
+}

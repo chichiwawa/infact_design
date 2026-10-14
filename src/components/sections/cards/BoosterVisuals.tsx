@@ -46,18 +46,15 @@ export function InstaVisual() {
 }
 
 export function BeforeAfterVisual() {
-  const sets = ["피부", "눈", "코"];
+  // 전후사진 = 시술 사진 8장(public/media/ba-1~8.jpg, 검색 결과 이미지에서 잘라 낸 것)이 차례로 떠오르고 푸른 빛이 훑고 지나가는 움직임
   return (
     <Stage>
-      {sets.map((s) => (
-        <div key={s} className="bv-card bv-ba">
-          <div className="bv-ba-pair">
-            <div className="bv-ba-img" data-k="before"><span>BEFORE</span></div>
-            <div className="bv-ba-img" data-k="after"><span>AFTER</span></div>
-          </div>
-          <div className="bv-ba-foot"><b>{s}</b><span>★★★★★ 후기</span></div>
-        </div>
-      ))}
+      <div className="bv-photos-grid">
+        {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+          <i key={n} style={{ backgroundImage: `url(/media/ba-${n}.jpg)`, animationDelay: `${(n - 1) * 0.18}s` }}><em>★★★★★</em></i>
+        ))}
+        <span className="bv-photos-scan" />
+      </div>
     </Stage>
   );
 }
