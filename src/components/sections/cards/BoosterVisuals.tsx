@@ -40,12 +40,12 @@ export function AiSearchVisual() {
       <div className="ais-in">
         <div className="ais-bar">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><circle cx="10.5" cy="10.5" r="6" /><path d="M15 15l5 5" /></svg>
-          <span className="ais-q"><b>강남에서 피부과 추천해줘</b></span>
+          <span className="ais-q"><b>강남역 피부과 추천해줘</b></span>
           <i className="ais-go">↑</i>
         </div>
         <div className="ais-item is-hit">
           <i className="ais-logo" />
-          <div><b>인팩트의원 <em>✓</em></b><span>피부과 전문의 · 레이저 · 공식 홈페이지</span></div>
+          <div><b>인팩트의원 <em><svg viewBox="0 0 12 12" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path pathLength="1" d="M2.6 6.4l2.3 2.3 4.5-4.9" /></svg></em></b><span>피부과 전문의 · 레이저 · 공식 홈페이지</span></div>
         </div>
         <div className="ais-item"><i className="ais-logo" /><div><i className="ais-line" /><i className="ais-line s" /></div></div>
         <div className="ais-item"><i className="ais-logo" /><div><i className="ais-line" /><i className="ais-line s" /></div></div>

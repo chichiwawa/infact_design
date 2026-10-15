@@ -1620,7 +1620,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 @keyframes ais-caret { 0%, 100% { border-color: #7ea2ff; } 50% { border-color: transparent; } }
 @keyframes ais-pop { 0%, 30% { opacity: 0; transform: translateY(2cqw); } 38%, 92% { opacity: 1; transform: none; } 98%, 100% { opacity: 0; transform: translateY(-1cqw); } }
 @media (prefers-reduced-motion: no-preference) {
-  .pk-scard[data-on="1"] .ais-q b { width: 0; animation: ais-type 8s steps(13, end) infinite, ais-caret .9s step-end infinite; }
+  .pk-scard[data-on="1"] .ais-q b { width: 0; animation: ais-type 8s steps(12, end) infinite, ais-caret .9s step-end infinite; }
   .pk-scard[data-on="1"] .ais-item, .pk-scard[data-on="1"] .ais-tags { animation: ais-pop 8s ease infinite backwards; }
   .pk-scard[data-on="1"] .ais-item:nth-of-type(2) { animation-delay: .35s; } .pk-scard[data-on="1"] .ais-item:nth-of-type(3) { animation-delay: .7s; } .pk-scard[data-on="1"] .ais-tags { animation-delay: 1.05s; }
 }
@@ -1641,4 +1641,18 @@ html.strength-drag { scroll-snap-type: none !important; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .pk-scard[data-on="1"] .ind-item { animation: ind-flow 10s ease-in-out infinite; animation-delay: calc((var(--k) - 4) * 2.5s); }
+}
+
+/* AI 노출: 인팩트의원 결과가 나온 뒤 체크 표시가 톡 튀어나오며 그려지고 파동이 퍼짐 */
+.ais-item b em { position: relative; width: 3.6cqw; height: 3.6cqw; margin-left: 1cqw; background: #3f78ff; vertical-align: -.5cqw; }
+.ais-item b em svg { width: 62%; height: 62%; }
+.ais-item b em path { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.ais-item b em::after { content: ""; position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 .5cqw rgba(110,160,255,.7); opacity: 0; }
+@keyframes ais-check { 0%, 38% { transform: scale(0); } 44% { transform: scale(1.35); } 48%, 94% { transform: scale(1); } 100% { transform: scale(0); } }
+@keyframes ais-tick { 0%, 40% { stroke-dashoffset: 1; } 50%, 94% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 1; } }
+@keyframes ais-ring { 0%, 44% { opacity: 0; transform: scale(1); } 48% { opacity: 1; } 62%, 100% { opacity: 0; transform: scale(2.6); } }
+@media (prefers-reduced-motion: no-preference) {
+  .pk-scard[data-on="1"] .ais-item b em { animation: ais-check 8s ease infinite; }
+  .pk-scard[data-on="1"] .ais-item b em path { animation: ais-tick 8s ease infinite; }
+  .pk-scard[data-on="1"] .ais-item b em::after { animation: ais-ring 8s ease-out infinite; }
 }
