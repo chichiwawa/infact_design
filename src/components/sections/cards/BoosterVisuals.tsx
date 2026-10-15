@@ -12,50 +12,81 @@ function Stage({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function InstaVisual() {
+export function InstaVisual({ src, draw = true, sides, variant = "yt" }: { src?: string; draw?: boolean; sides?: [string, string]; variant?: string } = {}) {
+  const bgImg = src ? { backgroundImage: `url(${src})` } : undefined;
+  // 인스타 = 이미지 강조형: 스마트폰 이미지(public/media/ig-hero.webp)가 카드 왼쪽을 채우고, 빛이 천천히 흐름. 스타일은 globals.css 의 .ig-* 참고.
   return (
-    <Stage>
-      <div className="bv-card bv-insta-profile">
-        <div className="bv-insta-head">
-          <i className="bv-avatar" />
-          <div><b>infact_clinic</b><span>피부과 · 서울</span></div>
-        </div>
-        <ul className="bv-insta-stats">
-          <li><b>24</b><span>게시물</span></li>
-          <li><b>5.8K</b><span>팔로워</span></li>
-          <li><b>120</b><span>팔로잉</span></li>
-        </ul>
-        <div className="bv-insta-reels">
-          {[0, 1, 2].map((n) => <i key={n} data-n={n}><em>▶</em></i>)}
-        </div>
+    <div className={sides ? "bv ig-photo yt-photo" : "bv ig-photo"} aria-hidden="true">
+      <div className={src && variant === "yt" ? "ig-back yt-back" : "ig-back"} style={bgImg} />
+      {sides && <><i className="yt-side yt-l" style={{ backgroundImage: `url(${sides[0]})` }} /><i className="yt-side yt-r" style={{ backgroundImage: `url(${sides[1]})` }} /></>}
+      <div className={!src ? "ig-img" : variant === "yt" ? "ig-img yt-img" : `ig-img ph-${variant}`} style={bgImg}>
+        {draw && <svg className="ig-draw" viewBox="0 0 1860 1086" aria-hidden="true">
+          <defs><filter id="ig-glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5" /></filter></defs>
+          <path className="ig-trail" pathLength="1" d="M830 836 C1010 830 1180 770 1330 690 S1500 580 1568 520" />
+          <path className="ig-trail ig-t2" pathLength="1" d="M735 522 C790 520 810 478 850 488 S915 505 950 462 S1010 440 1050 405 S1110 425 1135 392 S1200 340 1250 318" />
+          <circle className="ig-ping" cx="1250" cy="318" r="10" />
+        </svg>}
       </div>
-      <div className="bv-card bv-insta-growth">
-        <span className="bv-label">팔로워</span>
-        <b className="bv-big">1.2K <i>→</i> 5.8K</b>
-        <svg viewBox="0 0 120 50" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="bvg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#4f7dff" stopOpacity=".5" /><stop offset="1" stopColor="#4f7dff" stopOpacity="0" /></linearGradient>
-          </defs>
-          <path d="M0 44 C20 42 30 38 45 34 S75 24 90 14 L120 4 L120 50 L0 50Z" fill="url(#bvg)" />
-          <path pathLength="1" d="M0 44 C20 42 30 38 45 34 S75 24 90 14 L120 4" fill="none" stroke="#7ea2ff" strokeWidth="2" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-        </svg>
-        <div className="bv-chips"><span>도달 125K</span><span>참여 8.4K</span></div>
+      <i className="ig-shine" />
+      <i className="ig-pulse" />
+    </div>
+  );
+}
+
+/** AI 노출 = 검색창에 질문이 한 글자씩 입력되면 추천 결과가 차례로 나타나는 움직이는 화면 (스타일: globals.css 의 .ais-*) */
+export function AiSearchVisual() {
+  return (
+    <div className="bv ais" aria-hidden="true">
+      <div className="ais-in">
+        <div className="ais-bar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><circle cx="10.5" cy="10.5" r="6" /><path d="M15 15l5 5" /></svg>
+          <span className="ais-q"><b>강남에서 피부과 추천해줘</b></span>
+          <i className="ais-go">↑</i>
+        </div>
+        <div className="ais-item is-hit">
+          <i className="ais-logo" />
+          <div><b>인팩트의원 <em>✓</em></b><span>피부과 전문의 · 레이저 · 공식 홈페이지</span></div>
+        </div>
+        <div className="ais-item"><i className="ais-logo" /><div><i className="ais-line" /><i className="ais-line s" /></div></div>
+        <div className="ais-item"><i className="ais-logo" /><div><i className="ais-line" /><i className="ais-line s" /></div></div>
+        <div className="ais-tags"><span>진료 정보</span><span>공식 홈페이지 ↗</span></div>
       </div>
-    </Stage>
+    </div>
+  );
+}
+
+/** 개별 상품 6종 = 위 부스터 4종에 쓴 이미지를 돌려 보여주는 회전 카드 (가운데 → 왼쪽 → 뒤 → 오른쪽 → 가운데 …, 스타일: globals.css 의 .ind-*) */
+const SHOWCASE = [
+  { src: "/media/ig-hero4.webp", label: "INSTAGRAM" },
+  { src: "/media/ba-face.webp", label: "BEFORE & AFTER" },
+  { src: "/media/04f0c9aa-1050-4a48-87d3-5f5a8d838cdd.png", label: "AI SEARCH" },
+  { src: "/media/yt-hero.webp", label: "YOUTUBE" },
+];
+export function IndividualShowcase() {
+  return (
+    <div className="bv ind" aria-hidden="true">
+      <div className="ind-stage">
+        {SHOWCASE.map((it, k) => (
+          <div key={it.label} className="ind-item" style={{ backgroundImage: `url(${it.src})`, "--k": k } as React.CSSProperties}>
+            <span>{it.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
 export function BeforeAfterVisual() {
-  // 전후사진 = 시술 사진 8장(public/media/ba-1~8.jpg, 검색 결과 이미지에서 잘라 낸 것)이 차례로 떠오르고 푸른 빛이 훑고 지나가는 움직임
+  // 전후사진 = 한 얼굴을 반으로 나눈 사진(public/media/ba-face.webp, 배경 제거한 누끼: 왼쪽 AFTER / 오른쪽 BEFORE) + 가운데 선을 따라 흐르는 푸른 빛
   return (
-    <Stage>
-      <div className="bv-photos-grid">
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-          <i key={n} style={{ backgroundImage: `url(/media/ba-${n}.jpg)`, animationDelay: `${(n - 1) * 0.18}s` }}><em>★★★★★</em></i>
-        ))}
-        <span className="bv-photos-scan" />
+    <div className="bv bv-face" aria-hidden="true">
+      <div className="bv-face-frame">
+        <div className="bv-face-pic" />
+        <i className="bv-face-line" />
+        <span className="bv-face-pill" data-k="after">AFTER</span>
+        <span className="bv-face-pill" data-k="before">BEFORE</span>
       </div>
-    </Stage>
+    </div>
   );
 }
 

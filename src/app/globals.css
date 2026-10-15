@@ -1287,15 +1287,358 @@ html.strength-drag { scroll-snap-type: none !important; }
 
 
 
-/* 전후사진 부스터: 시술 사진 8장 격자 — 차례로 떠오르고 푸른 빛이 훑고 지나감 (다른 카드 그림과 같은 위치·폭) */
-.bv-photos-grid { position: relative; flex: 1; min-width: 0; display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); gap: 1.4cqw; }
-.bv-photos-grid i { position: relative; display: block; border-radius: 1.2cqw; background-size: cover; background-position: center; filter: brightness(.82) saturate(.95); box-shadow: 0 0 0 1px rgba(130,170,255,.22); overflow: hidden; }
-.bv-photos-grid i::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(5,7,15,.7)); }
-.bv-photos-grid em { position: absolute; z-index: 1; left: 0; right: 0; bottom: .6cqw; text-align: center; font-style: normal; font-size: 1.5cqw; letter-spacing: .1em; color: #ffc94d; }
-.bv-photos-scan { position: absolute; top: -8%; bottom: -8%; width: 22%; left: 0; background: linear-gradient(90deg, transparent, rgba(126,162,255,.45), transparent); mix-blend-mode: screen; opacity: 0; pointer-events: none; }
-@keyframes bv-photo-in { 0%, 8% { opacity: 0; transform: translateY(14px) scale(.94); } 22%, 100% { opacity: 1; transform: none; } }
-@keyframes bv-photo-scan { 0%, 40% { opacity: 0; transform: translateX(-100%); } 50% { opacity: 1; } 85%, 100% { opacity: 0; transform: translateX(480%); } }
+
+
+
+/* 전후사진 부스터 카드 (2안 확정: 가득 채움) — 얼굴이 카드 위쪽을 채우고 아래로 카드색에 녹아 글로 이어짐. 라벨 두 개는 글 바로 위 가운데 */
+.bv-face-frame { position: absolute; inset: 0 0 34% 0; overflow: hidden; }
+.bv-face-pic { position: absolute; inset: 0; background: url("/media/ba-face.webp") 50% 0 / auto 112% no-repeat; filter: brightness(.92); -webkit-mask-image: linear-gradient(180deg, #000 62%, transparent 100%); mask-image: linear-gradient(180deg, #000 62%, transparent 100%); }
+.bv-face-line { position: absolute; left: 50%; top: 4%; bottom: 22%; width: 2px; transform: translateX(-50%); background: linear-gradient(180deg, transparent, rgba(157,184,255,.9), transparent); box-shadow: 0 0 14px 2px rgba(79,125,255,.7); }
+.bv-face-pill { position: absolute; bottom: 4%; padding: .6cqw 2.2cqw; border-radius: 99px; background: rgba(5,7,15,.62); box-shadow: inset 0 0 0 1px rgba(150,185,255,.3); backdrop-filter: blur(6px); font-family: "Outfit", var(--font-sans); font-size: 2cqw; font-weight: 700; letter-spacing: .14em; white-space: nowrap; }
+.bv-face-pill[data-k="after"] { right: calc(50% + 6px); color: #9db8ff; }
+.bv-face-pill[data-k="before"] { left: calc(50% + 6px); color: #c9ccd3; }
+@keyframes bv-face-line { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+@keyframes bv-face-pill { 0%, 10% { opacity: 0; transform: translateY(8px); } 25%, 100% { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: no-preference) {
-  .pk-scard[data-on="1"] .bv-photos-grid i { animation: bv-photo-in 7s ease infinite backwards; }
-  .pk-scard[data-on="1"] .bv-photos-scan { animation: bv-photo-scan 7s ease-in-out infinite; }
+  .pk-scard[data-on="1"] .bv-face-line { animation: bv-face-line 3s ease-in-out infinite; }
+  .pk-scard[data-on="1"] .bv-face-pill { animation: bv-face-pill 6s ease infinite backwards; }
+  .pk-scard[data-on="1"] .bv-face-pill[data-k="before"] { animation-delay: .4s; }
+}
+
+
+/* 전후사진 부스터 카드 — 시안: 위 얼굴 + AFTER/BEFORE 알약 / BEFORE & AFTER 작은 제목 / 설명(마지막 줄 하늘색 강조) / 동그란 아이콘 배지 3개 (이 카드에만 적용: :has(.bv-face)) */
+.bv-face-frame { inset: 0 0 47% 0; }
+.bv-face-pill { bottom: 2%; padding: 8px 22px; font-size: 15px; letter-spacing: .12em; }
+.bv-face-pill[data-k="after"] { color: #fff; background: linear-gradient(180deg, #2a4cb8, #1a2f7a); box-shadow: inset 0 0 0 1.5px #5b8dff, 0 0 18px -4px rgba(79,125,255,.8); }
+.bv-face-pill[data-k="before"] { color: #e3e6ee; background: #0b0f1c; box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
+.pk-scard[data-kind] .pk-eb { display: block; text-align: center; margin-bottom: 8px; font-family: "Outfit", var(--font-sans); font-size: 14px; font-weight: 600; letter-spacing: .2em; color: #5b8dff; background: linear-gradient(90deg, rgba(91,141,255,.45), transparent) calc(50% - 112px) center / 64px 1px no-repeat, linear-gradient(270deg, rgba(91,141,255,.45), transparent) calc(50% + 112px) center / 64px 1px no-repeat; }
+.pk-scard[data-kind] .pk-below-body strong[data-hl] { color: #6fcfff; font-weight: 700; }
+.pk-scard[data-kind] .pk-scard-bottom .pk-tags { margin-top: 18px; gap: 14px; flex-wrap: nowrap; }
+.pk-scard[data-kind] .pk-scard-bottom .pk-tags li { flex: none; width: 92px; height: 92px; padding: 0 6px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center; font-size: 12px; font-weight: 600; line-height: 1.25; word-break: keep-all; color: #e8edff; background: radial-gradient(80% 80% at 50% 25%, rgba(48,97,255,.22), rgba(10,18,48,.8)); box-shadow: inset 0 0 0 1px rgba(110,150,255,.5); }
+.pk-scard[data-kind] .pk-scard-bottom .pk-tags li:nth-child(2) { background: radial-gradient(80% 80% at 50% 25%, rgba(48,97,255,.45), rgba(10,18,48,.85)); box-shadow: inset 0 0 0 1.5px #5b8dff, 0 0 22px -6px rgba(79,125,255,.8); }
+.pk-scard[data-kind] .pk-scard-bottom .pk-tags li::before { content: ""; width: 26px; height: 26px; background: #5b8dff; -webkit-mask: var(--ic) center / contain no-repeat; mask: var(--ic) center / contain no-repeat; }
+.pk-scard[data-kind] .pk-scard-bottom .pk-tags li:nth-child(1) { --ic: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27black%27%3E%3Cpath d=%27M9 3 7.2 5H5a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3h-2.2L15 3H9Zm3 5.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z%27/%3E%3C/svg%3E"); }
+.pk-scard[data-kind] .pk-scard-bottom .pk-tags li:nth-child(2) { --ic: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27black%27%3E%3Crect x=%273%27 y=%2713%27 width=%275%27 height=%278%27 rx=%271.2%27/%3E%3Crect x=%279.5%27 y=%278%27 width=%275%27 height=%2713%27 rx=%271.2%27/%3E%3Crect x=%2716%27 y=%273%27 width=%275%27 height=%2718%27 rx=%271.2%27/%3E%3C/svg%3E"); }
+.pk-scard[data-kind] .pk-scard-bottom .pk-tags li:nth-child(3) { --ic: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27black%27%3E%3Ccircle cx=%2712%27 cy=%277.5%27 r=%273.6%27/%3E%3Cpath d=%27M4.5 20c0-3.6 3.4-6 7.5-6s7.5 2.4 7.5 6v.5h-15V20Z%27/%3E%3Ccircle cx=%274.6%27 cy=%279.6%27 r=%272.6%27/%3E%3Ccircle cx=%2719.4%27 cy=%279.6%27 r=%272.6%27/%3E%3C/svg%3E"); }
+@media (max-width: 767px) { .pk-scard[data-kind] { min-height: 660px; } }
+.pk-scard[data-kind="ig"] .pk-tags li:nth-child(1) { --ic: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27black%27%3E%3Ccircle cx=%2712%27 cy=%277.5%27 r=%273.6%27/%3E%3Cpath d=%27M4.5 20c0-3.6 3.4-6 7.5-6s7.5 2.4 7.5 6v.5h-15V20Z%27/%3E%3Ccircle cx=%274.6%27 cy=%279.6%27 r=%272.6%27/%3E%3Ccircle cx=%2719.4%27 cy=%279.6%27 r=%272.6%27/%3E%3C/svg%3E"); }
+.pk-scard[data-kind="ig"] .pk-tags li:nth-child(2) { --ic: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27black%27%3E%3Cpath d=%27M8 5v14l11-7z%27/%3E%3C/svg%3E"); }
+.pk-scard[data-kind="ig"] .pk-tags li:nth-child(3) { --ic: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27black%27%3E%3Cpath d=%27M3 10v4a1 1 0 0 0 1 1h2l5 4V5L6 9H4a1 1 0 0 0-1 1Zm13.5 2a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4Z%27/%3E%3C/svg%3E"); }
+.pk-scard[data-kind="ai"] .pk-tags li:nth-child(1) { --ic: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27black%27%3E%3Cpath d=%27M10.5 3a7.5 7.5 0 0 1 5.9 12.1l4.3 4.3-1.4 1.4-4.3-4.3A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z%27/%3E%3C/svg%3E"); }
+.pk-scard[data-kind="ai"] .pk-tags li:nth-child(2) { --ic: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27black%27%3E%3Cpath d=%27M12 3 2 12h3v8h5v-5h4v5h5v-8h3L12 3Z%27/%3E%3C/svg%3E"); }
+.pk-scard[data-kind="ai"] .pk-tags li:nth-child(3) { --ic: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27black%27%3E%3Ccircle cx=%2712%27 cy=%277.5%27 r=%273.6%27/%3E%3Cpath d=%27M4.5 20c0-3.6 3.4-6 7.5-6s7.5 2.4 7.5 6v.5h-15V20Z%27/%3E%3Ccircle cx=%274.6%27 cy=%279.6%27 r=%272.6%27/%3E%3Ccircle cx=%2719.4%27 cy=%279.6%27 r=%272.6%27/%3E%3C/svg%3E"); }
+.pk-scard[data-kind="yt"] .pk-tags li:nth-child(1) { --ic: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27black%27%3E%3Cpath d=%27M3 5h18a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-7v2h3v2H7v-2h3v-2H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm1 2v9h16V7H4Z%27/%3E%3C/svg%3E"); }
+.pk-scard[data-kind="yt"] .pk-tags li:nth-child(2) { --ic: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27black%27%3E%3Cpath d=%27M3 6h11a2 2 0 0 1 2 2v2l5-3v10l-5-3v2a2 2 0 0 1-2 2H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z%27/%3E%3C/svg%3E"); }
+.pk-scard[data-kind="yt"] .pk-tags li:nth-child(3) { --ic: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27black%27%3E%3Cpath d=%27M8 5v14l11-7z%27/%3E%3C/svg%3E"); }
+
+
+/* ── 메인 04 · 인스타 집중 부스터 카드 — "이미지 강조형" (2026-10-15) ──
+   위쪽 = 큰 스마트폰 이미지(ig-hero.webp, 느린 확대·빛 흐름 움직임) / 아래쪽(이미지 아래가 어두워지며 이어짐) = 영문 라벨·제목·설명·팔로워 성장·지표 박스. 모바일은 위 그림 / 아래 글. data-kind="ig" 에만 적용 */
+.pk-scard[data-kind="ig"] .pk-scard-top { display: none; }
+.pk-scard[data-kind="ig"] .pk-scard-bottom { position: relative; z-index: 1; margin-top: auto; text-align: left; }
+.pk-scard[data-kind="ig"] .pk-eb { text-align: left; background: none; font-size: 12px; letter-spacing: .22em; margin-bottom: 10px; }
+.pk-scard[data-kind="ig"] .pk-scard-bottom h3 { margin-bottom: 10px; font-size: clamp(24px, 2.2vw, 34px); line-height: 1.2; }
+.pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body { margin: 0; max-width: none; font-size: clamp(13px, 1vw, 15px); line-height: 1.6; }
+.pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body .block + .block { margin-top: 6px; }
+.pk-scard[data-kind="ig"] .pk-scard-bottom .pk-tags { display: none; }
+.ig-stat { display: grid; grid-template-columns: 1fr; row-gap: 10px; margin-top: 16px; }
+.ig-stat > span { display: block; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.85); }
+.ig-stat > b { display: block; margin-top: 2px; font-size: clamp(26px, 2.4vw, 36px); font-weight: 800; letter-spacing: -.04em; line-height: 1.15; } .ig-stat > b i { font-style: normal; color: #7ea2ff; } .ig-stat > b em { font-style: normal; background: linear-gradient(90deg, #8aa7ff, #ff8ac8); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.ig-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ig-metrics li { padding: 9px 12px; border-radius: 10px; background: rgba(10,16,48,.6); box-shadow: inset 0 0 0 1px rgba(110,150,255,.3); font-size: 13px; font-weight: 600; color: #fff; }
+.ig-metrics li b { margin-left: 4px; color: #8fb0ff; } .ig-metrics li:nth-child(2) b { color: #d79bff; }
+.ig-metrics li small { display: block; margin-top: 2px; font-size: 11.5px; color: #6fb1ff; }
+@media (max-width: 767px) {
+  .pk-scard[data-kind="ig"] .pk-scard-bg { position: relative; inset: auto; z-index: 0; width: 100%; aspect-ratio: 1 / 1; margin-bottom: 12px; }
+  .pk-scard[data-kind="ig"] { min-height: 0; }
+  .ig-img { background-size: cover; -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 100%); mask-image: linear-gradient(180deg, #000 72%, transparent 100%); }
+  .ig-photo::after { display: none; }
+  .ig-stat { grid-template-columns: 1fr; row-gap: 12px; }
+  .ig-metrics { grid-column: 1; grid-row: auto; }
+}
+
+.ig-photo { background: none; }
+.ig-img { position: absolute; inset: 0; background: url("/media/ig-hero4.webp") 0 0 / 100% auto no-repeat; transform-origin: 40% 30%; }
+.ig-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,10,26,0) 38%, rgba(7,10,26,.9) 72%, rgba(7,10,26,.97) 100%); }
+.ig-shine { position: absolute; inset: -10% auto -10% -40%; width: 30%; transform: skewX(-18deg); background: linear-gradient(90deg, transparent, rgba(190,160,255,.22), transparent); mix-blend-mode: screen; opacity: 0; }
+.ig-pulse { position: absolute; left: 6%; bottom: 4%; width: 46%; height: 30%; border-radius: 50%; background: radial-gradient(closest-side, rgba(255,110,200,.5), transparent); filter: blur(14px); mix-blend-mode: screen; opacity: .35; }
+@keyframes ig-zoom { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.07); } }
+@keyframes ig-sweep { 0%, 15% { left: -40%; opacity: 0; } 30% { opacity: 1; } 70% { opacity: 1; } 85%, 100% { left: 110%; opacity: 0; } }
+@keyframes ig-glow { 0%, 100% { opacity: .25; } 50% { opacity: .7; } }
+@media (prefers-reduced-motion: no-preference) {
+  .pk-scard[data-on="1"] .ig-img { animation: ig-zoom 9s ease-in-out infinite; }
+  .pk-scard[data-on="1"] .ig-shine { animation: ig-sweep 6s ease-in-out infinite; }
+  .pk-scard[data-on="1"] .ig-pulse { animation: ig-glow 3.2s ease-in-out infinite; }
+}
+
+/* ── 인스타 집중 부스터: 박스 없이 섹션 전체를 배경으로 (2026-10-15, "풀배경형") ──
+   PC: 스마트폰 이미지가 섹션 오른쪽 전체에 깔리고(왼쪽·위아래는 어둡게 녹음) 글이 그 위에 올라감. 모바일은 기존처럼 카드 안 그림. */
+.pk-fullbg { display: none; }
+@media (min-width: 768px) {
+  .pk-fullbg { display: block; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity .8s ease; }
+  .pk-fullbg[data-on="1"] { opacity: 1; }
+  .pk-sstick > .container-x { position: relative; z-index: 1; }
+  .pk-fullbg .ig-photo { position: absolute; inset: 0; }
+  .pk-fullbg .ig-img { inset: 0 26% 0 26%; -webkit-mask-image: radial-gradient(ellipse 50% 36% at 50% 50%, #000 62%, transparent 100%); mask-image: radial-gradient(ellipse 50% 36% at 50% 50%, #000 62%, transparent 100%); background-size: auto 66%; background-position: 0 50%; transform-origin: 50% 50%; }
+  .pk-fullbg .ig-photo::after { display: none; }
+  .pk-fullbg .ig-shine { left: 18%; } .pk-fullbg .ig-pulse { left: 24%; }
+  .pk-scard[data-kind="ig"] .pk-scard-bg { display: none; }
+  .pk-scard[data-kind="ig"] { justify-content: center; }
+  .pk-scard[data-kind="ig"] .pk-scard-bottom { margin: 0 0 0 auto; width: 46%; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pk-fullbg[data-on="1"] .ig-img { animation: ig-zoom 9s ease-in-out infinite; }
+  .pk-fullbg[data-on="1"] .ig-shine { animation: ig-sweep 6s ease-in-out infinite; }
+  .pk-fullbg[data-on="1"] .ig-pulse { animation: ig-glow 3.2s ease-in-out infinite; }
+}
+
+/* ── 인스타 풀배경 시안 A·B·C (2026-10-15) — /demo/ig-a, ig-b, ig-c. data-igbg 가 없으면 위의 기본 모양 ──
+   공통: 폰 이미지가 섹션 높이를 가득 채우고(auto 100%), 이미지 바깥 좌우는 아래 .ig-back 으로 채워 "배경 전체"로 확장 */
+.ig-back { display: none; }
+@media (min-width: 768px) {
+  .pk-stack[data-igbg] .ig-back { display: block; position: absolute; inset: -6%; }
+  .pk-stack[data-igbg] .ig-img { background-size: auto 100%; background-position: 50% 50%; }
+  /* A: 같은 이미지를 크게 늘려 흐리게 깔고(좌우 빈 곳이 같은 분위기의 보케로 채워짐) 선명한 폰을 그 위에 */
+  .pk-stack[data-igbg="a"] .ig-back { background: url("/media/ig-hero4.webp") 30% 50% / cover no-repeat; filter: blur(34px) brightness(.5) saturate(1.25); -webkit-mask-image: linear-gradient(90deg, #000 55%, transparent 92%); mask-image: linear-gradient(90deg, #000 55%, transparent 92%); }
+  .pk-stack[data-igbg="a"] .ig-img { inset: 0 22% 0 12%; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 20%, #000 76%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 20%, #000 76%, transparent 100%); -webkit-mask-composite: source-over; mask-composite: add; }
+  /* B: 좌우 반전한 이미지를 덜 흐리게 어둡게 깔아 빛이 양옆으로 이어지는 느낌 + 폰은 더 크게 */
+  .pk-stack[data-igbg="b"] .ig-back { background: url("/media/ig-hero4.webp") 70% 50% / cover no-repeat; transform: scaleX(-1); filter: blur(10px) brightness(.38) saturate(1.2); -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 35%); mask-image: linear-gradient(90deg, transparent 0, #000 35%); }
+  .pk-stack[data-igbg="b"] .ig-img { inset: 0 18% 0 6%; background-size: auto 108%; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 24%, #000 72%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 24%, #000 72%, transparent 100%); -webkit-mask-composite: source-over; mask-composite: add; }
+  /* C: 이미지 복사 없이 보라·핑크·파랑 빛 덩어리가 천천히 떠다니는 배경 + 폰은 둥글게 녹임 */
+  .pk-stack[data-igbg="c"] .ig-back { background: radial-gradient(38% 46% at 12% 30%, rgba(120,70,255,.5), transparent 70%), radial-gradient(34% 44% at 88% 78%, rgba(255,90,190,.32), transparent 70%), radial-gradient(40% 40% at 62% 6%, rgba(60,110,255,.4), transparent 70%), radial-gradient(30% 36% at 40% 96%, rgba(190,80,255,.35), transparent 70%); }
+  .pk-stack[data-igbg="c"] .ig-img { inset: 0 20% 0 10%; -webkit-mask-image: radial-gradient(ellipse 54% 54% at 50% 50%, #000 60%, transparent 100%); mask-image: radial-gradient(ellipse 54% 54% at 50% 50%, #000 60%, transparent 100%); }
+}
+@keyframes ig-drift { 0%, 100% { transform: translate3d(0, 0, 0) scale(1); } 50% { transform: translate3d(-2.5%, 1.5%, 0) scale(1.06); } }
+@media (prefers-reduced-motion: no-preference) {
+  .pk-stack[data-igbg="a"] .pk-fullbg[data-on="1"] .ig-back, .pk-stack[data-igbg="c"] .pk-fullbg[data-on="1"] .ig-back { animation: ig-drift 12s ease-in-out infinite; }
+}
+/* 시안 공통: 왼쪽 메뉴·제목, 오른쪽 글 뒤를 어둡게 눌러 글씨가 잘 읽히게 (인스타 로고 타일이 "필요해요" 와 겹쳐 보이던 것도 가려짐) */
+@media (min-width: 768px) {
+  .pk-stack[data-igbg] .pk-fullbg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,8,22,.85) 0%, rgba(5,8,22,.55) 20%, rgba(5,8,22,0) 36%), linear-gradient(270deg, rgba(5,8,22,.7) 0%, rgba(5,8,22,.45) 22%, rgba(5,8,22,0) 40%); }
+}
+
+/* 사진 축소(2026-10-15): 폰이 잘리지 않고 통째로 보이도록 새 이미지(ig-hero2.webp, 폰·로고·하트가 모두 들어 있음)를 가운데 영역에 작게 */
+@media (min-width: 768px) {
+  .pk-stack .pk-fullbg .ig-img { inset: 0 29% 0 27%; background-size: auto 72%; background-position: 50% 50%; -webkit-mask-image: radial-gradient(ellipse 50% 42% at 50% 50%, #000 70%, transparent 100%); mask-image: radial-gradient(ellipse 50% 42% at 50% 50%, #000 70%, transparent 100%); }
+  .pk-stack[data-igbg="b"] .pk-fullbg .ig-img { background-size: auto 64%; -webkit-mask-image: radial-gradient(ellipse 50% 40% at 50% 50%, #000 66%, transparent 100%); mask-image: radial-gradient(ellipse 50% 40% at 50% 50%, #000 66%, transparent 100%); }
+}
+
+/* ── 인스타: 폰 이미지와 글을 겹치기 (2026-10-15) — /demo/ig-t1, t2, t3 ── 공통: 폰을 오른쪽으로 옮겨 글 뒤로 깔고, 글에 그림자를 줌. 읽기 쉽게 하는 방법만 시안마다 다름 */
+@media (min-width: 768px) {
+  .pk-stack[data-igtx] .pk-fullbg .ig-img { inset: 0 4% 0 30%; background-size: auto 80%; background-position: 50% 50%; }
+  .pk-stack[data-igtx] .pk-scard[data-kind="ig"] .pk-scard-bottom { text-shadow: 0 2px 14px rgba(5,8,22,.95), 0 0 3px rgba(5,8,22,.8); }
+  /* 1. 어둠막: 글 뒤를 오른쪽에서 왼쪽으로 옅어지는 어두운 그라데이션으로 덮음 */
+  .pk-stack[data-igtx="1"][data-igbg] .pk-fullbg::after { background: linear-gradient(90deg, rgba(5,8,22,.85) 0%, rgba(5,8,22,.55) 20%, rgba(5,8,22,0) 36%), linear-gradient(270deg, rgba(5,8,22,.82) 0%, rgba(5,8,22,.66) 22%, rgba(5,8,22,.25) 38%, rgba(5,8,22,0) 52%); }
+  /* 2. 유리 카드: 글 묶음을 반투명 흐림 유리 카드에 담아 폰 위에 얹음 */
+  .pk-stack[data-igtx="2"] .pk-scard[data-kind="ig"] .pk-scard-bottom { width: 47%; padding: 28px 28px 26px; border-radius: 22px; background: rgba(8,12,40,.58); -webkit-backdrop-filter: blur(20px) saturate(1.3); backdrop-filter: blur(20px) saturate(1.3); box-shadow: inset 0 0 0 1px rgba(150,180,255,.3), 0 30px 60px -30px rgba(0,0,0,.7); text-shadow: none; }
+  /* 3. 형광펜: 글줄마다 어두운 띠를 깔아 폰 위에서도 또렷하게 */
+  .pk-stack[data-igtx="3"] .pk-scard[data-kind="ig"] .pk-scard-bottom h3, .pk-stack[data-igtx="3"] .pk-scard[data-kind="ig"] .pk-below-body .block { display: inline; padding: .12em .5em; background: rgba(5,8,22,.78); -webkit-box-decoration-break: clone; box-decoration-break: clone; line-height: 1.9; }
+  .pk-stack[data-igtx="3"] .pk-scard[data-kind="ig"] .pk-below-body .block::after { content: "\A"; white-space: pre; }
+  .pk-stack[data-igtx="3"] .pk-scard[data-kind="ig"] .pk-scard-bottom h3 { display: table; margin-bottom: 6px; }
+  .pk-stack[data-igtx="3"] .pk-scard[data-kind="ig"] .ig-metrics li { background: rgba(5,8,22,.78); }
+}
+.pk-stack[data-igtx] .ig-stat > b em { text-shadow: none; filter: drop-shadow(0 2px 8px rgba(5,8,22,.9)); }
+
+/* ── 인스타 카드형 + 전체 배경 블러 (2026-10-15, 메인 적용: igtx="4") ──
+   오른쪽 카드 = 폰 이미지가 카드를 채우고 글이 아래에 겹침(아래쪽이 어두워지며 읽기 쉬움) / 섹션 전체 배경 = 같은 이미지를 흐리게 깔아 분위기만 유지 */
+@media (min-width: 768px) {
+  .pk-stack[data-igtx="4"] .pk-fullbg :is(.ig-img, .ig-shine, .ig-pulse) { display: none; }
+  .pk-stack[data-igbg] .pk-scard .ig-back { display: none; }
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] { justify-content: flex-end; }
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .pk-scard-bg { display: block; position: absolute; inset: 0; right: 0; }
+  .pk-stack[data-igtx="4"] .pk-scard .ig-img { inset: 0; background-size: cover; background-position: 50% 15%; -webkit-mask-image: none; mask-image: none; }
+  .pk-stack[data-igtx="4"] .pk-scard .ig-photo::after { background: linear-gradient(180deg, rgba(7,10,26,0) 42%, rgba(7,10,26,.82) 70%, rgba(7,10,26,.95) 100%); }
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .pk-scard-bottom { width: 100%; margin: 0; }
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-stat { grid-template-columns: auto 1fr; align-items: end; column-gap: 18px; }
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-metrics { grid-column: 2; grid-row: 1 / span 2; }
+}
+
+/* 인스타 카드: 설명 아래 태그(계정 운영 · 릴스 · 메타 광고)를 어두운 알약 모양으로 다시 표시 */
+.pk-scard[data-kind="ig"] .pk-scard-bottom .pk-tags { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 10px; margin-top: 18px; }
+.pk-scard[data-kind="ig"] .pk-scard-bottom .pk-tags li:nth-child(n) { width: auto; height: auto; padding: 9px 18px; border-radius: 99px; flex-direction: row; font-size: 13px; font-weight: 700; color: #fff; background: rgba(255,255,255,.09); box-shadow: inset 0 0 0 1px rgba(255,255,255,.2); text-shadow: none; }
+.pk-scard[data-kind="ig"] .pk-scard-bottom .pk-tags li::before { display: none; }
+
+/* 인스타 카드: 폰을 줄여 비율에 맞게 — 카드 바탕은 같은 이미지를 흐리게 깔고, 선명한 폰 이미지는 그 위 가운데 위쪽에 작게 (글은 아래) */
+@media (min-width: 768px) {
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-back { display: block; position: absolute; inset: -6%; background: url("/media/ig-hero4.webp") 50% 40% / cover no-repeat; filter: blur(22px) brightness(.55) saturate(1.2); }
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img { inset: 3% 6% 26% 6%; background-size: contain; background-position: 50% 50%; -webkit-mask-image: radial-gradient(ellipse 52% 52% at 50% 50%, #000 62%, transparent 100%); mask-image: radial-gradient(ellipse 52% 52% at 50% 50%, #000 62%, transparent 100%); }
+}
+
+/* 새 이미지(ig-hero3.webp, 폰 + 인스타 카드 3장 + 로고): 가로로 넓어서 카드 위쪽에 통째로(contain) 놓고 아래에 글 */
+@media (min-width: 768px) {
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img { inset: 2% 0 31% 0; background-size: contain; -webkit-mask-image: radial-gradient(ellipse 54% 54% at 50% 50%, #000 72%, transparent 100%); mask-image: radial-gradient(ellipse 54% 54% at 50% 50%, #000 72%, transparent 100%); }
+}
+
+/* 새 이미지(ig-hero4.webp, 유리 대시보드 + 성장 그래프): 카드 위쪽에 이미지 비율(1860:1086) 그대로 놓고, 그 위에 우상향 빛(.ig-draw)이 반복해서 지나감 */
+.ig-draw { display: none; }
+@media (min-width: 768px) {
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img { inset: 10% 0 auto 0; aspect-ratio: 1860 / 1086; background-size: 100% 100%; -webkit-mask-image: radial-gradient(ellipse 60% 62% at 50% 50%, #000 72%, transparent 100%); mask-image: radial-gradient(ellipse 60% 62% at 50% 50%, #000 72%, transparent 100%); }
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-draw { display: block; position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+}
+@media (max-width: 767px) { .ig-photo .ig-draw { display: block; position: absolute; inset: 0; width: 100%; height: 100%; } }
+.ig-trail { fill: none; stroke: #e4f1ff; stroke-width: 11; stroke-linecap: round; stroke-dasharray: 0.16 1; stroke-dashoffset: 0.16; opacity: 0; filter: url(#ig-glow); }
+.ig-ping { fill: #cfe0ff; opacity: 0; transform-box: fill-box; transform-origin: center; }
+@keyframes ig-run { 0% { stroke-dashoffset: .16; opacity: 0; } 8% { opacity: 1; } 55% { stroke-dashoffset: -1; opacity: 1; } 62%, 100% { stroke-dashoffset: -1; opacity: 0; } }
+@keyframes ig-ping { 0%, 40% { opacity: 0; transform: scale(.6); } 55% { opacity: 1; transform: scale(1.6); } 80%, 100% { opacity: 0; transform: scale(2.6); } }
+@media (prefers-reduced-motion: no-preference) {
+  .pk-scard[data-on="1"] .ig-trail { animation: ig-run 4.5s ease-in-out infinite; }
+  .pk-scard[data-on="1"] .ig-t2 { animation-delay: -1.2s; }
+  .pk-scard[data-on="1"] .ig-ping { animation: ig-ping 4.5s ease-out infinite; }
+}
+
+/* 인스타 카드 글: 제목 키움 / 설명은 어두운 회색·행간 좁게 / 굵은 글씨는 하늘색 대신 흰색 (태그는 MarketingTabs 에서 뺌) */
+.pk-scard[data-kind="ig"] .pk-scard-bottom h3 { font-size: clamp(32px, 3.2vw, 50px); letter-spacing: -.045em; line-height: 1.12; margin-bottom: 12px; }
+.pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body { color: rgba(255,255,255,.62); line-height: 1.45; }
+.pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body .block + .block { margin-top: 2px; }
+.pk-scard[data-kind="ig"] .pk-below-body strong, .pk-scard[data-kind="ig"] .pk-below-body strong[data-hl] { color: #fff; font-weight: 700; }
+
+/* 유튜브 부스터 카드: 인스타와 같은 사진형 배치. 세로 사진(yt-hero.webp)은 카드 위쪽 가운데에 둥근 모서리로 통째로, 양옆은 같은 사진을 흐리게 */
+@media (min-width: 768px) {
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img.yt-img { inset: 3% auto auto 50%; translate: -50% 0; height: 71%; width: auto; aspect-ratio: 941 / 1672; background-size: 100% 100%; border-radius: 20px; box-shadow: 0 24px 60px -20px rgba(0,0,0,.6); -webkit-mask-image: none; mask-image: none; }
+}
+@media (max-width: 767px) { .ig-img.yt-img { background-size: contain; background-position: 50% 50%; background-repeat: no-repeat; } }
+@media (min-width: 768px) { .pk-stack[data-igbg="b"] .pk-fullbg .ig-back.yt-back { filter: blur(30px) brightness(.27) saturate(1.1); background-position: 50% 25%; } }
+
+/* 유튜브 카드 양옆 영상 카드 (가운데 사진 높이 71% 기준, 카드 높이 단위 cqh). 바깥쪽은 카드 가장자리에서 잘림 */
+.yt-photo { container-type: size; }
+.yt-side { position: absolute; z-index: 0; display: block; height: 46cqh; aspect-ratio: 9 / 16; top: 15.5cqh; border-radius: 18px; background: center / cover no-repeat; opacity: .8; filter: brightness(.85) saturate(.9); box-shadow: 0 18px 40px -16px rgba(0,0,0,.6); }
+.yt-side::after { content: "▶"; position: absolute; left: 50%; top: 50%; width: 38px; height: 38px; margin: -19px 0 0 -19px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,.92); color: #1a2240; font-size: 14px; padding-left: 3px; }
+.yt-l { left: calc(50% - 47.4cqh); transform: perspective(700px) rotateY(-24deg); transform-origin: 100% 50%; }
+.yt-r { left: calc(50% + 21.5cqh); transform: perspective(700px) rotateY(24deg); transform-origin: 0 50%; }
+.pk-fullbg .yt-side { display: none; }
+@keyframes yt-sway { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+@media (prefers-reduced-motion: no-preference) {
+  .pk-scard[data-on="1"] .yt-l { animation: yt-sway 5s ease-in-out infinite; }
+  .pk-scard[data-on="1"] .yt-r { animation: yt-sway 5s ease-in-out infinite -2.5s; }
+}
+@media (max-width: 767px) {
+  .yt-side { height: 64cqh; top: 18cqh; }
+  .yt-l { left: calc(50% - 65.2cqh); } .yt-r { left: calc(50% + 29.2cqh); }
+}
+
+/* 유튜브 카드: 카드 박스 경계가 보이지 않도록 가장자리를 사방으로 서서히 투명하게 */
+.pk-scard-bg:has(.yt-photo) { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%), linear-gradient(180deg, transparent 0, #000 5%, #000 80%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%), linear-gradient(180deg, transparent 0, #000 5%, #000 80%, transparent 100%); mask-composite: intersect; }
+.pk-scard[data-kind="ig"], .pk-stack .pk-scard[data-kind="ig"][data-on="1"] { border-color: transparent; box-shadow: none; }
+
+/* 유튜브 카드: ① 폰 뒤 밝은 사각 배경(흐린 사진) 제거 ② 섹션 배경을 홈페이지 블루 톤으로 ③ 글 오른쪽 빈 곳에 채널 운영·월 1회 촬영·롱폼+숏츠 칩 */
+.yt-photo .ig-back { display: none !important; }
+@media (min-width: 768px) {
+  .pk-stack[data-igbg="b"] .pk-fullbg .ig-back.yt-back { background-image: radial-gradient(55% 70% at 72% 30%, rgba(52,112,255,.42), transparent 70%), radial-gradient(50% 60% at 18% 78%, rgba(30,72,210,.34), transparent 70%), radial-gradient(40% 50% at 50% 100%, rgba(90,150,255,.18), transparent 70%) !important; background-size: auto; background-position: 0 0; filter: none; }
+}
+.pk-stack[data-step="3"] { --pk-bg1: #1b4fd0; --pk-bg2: #0b2468; --pk-bg3: #050c26; }
+.yt-chips { position: absolute; right: 0; bottom: 4px; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.yt-chips li { display: flex; align-items: center; gap: 10px; padding: 7px 18px 7px 7px; border-radius: 99px; background: rgba(14,32,100,.55); box-shadow: inset 0 0 0 1px rgba(120,160,255,.45), 0 12px 28px -14px rgba(0,0,0,.6); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); font-size: 14px; font-weight: 700; color: #fff; white-space: nowrap; }
+.yt-chips li i { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #4f8bff, #2a52d6); box-shadow: 0 0 16px -2px rgba(79,125,255,.8); }
+.yt-chips li svg { width: 18px; height: 18px; color: #fff; }
+.yt-chips li:nth-child(2) { margin-right: 22px; }
+@keyframes yt-chip { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }
+@media (prefers-reduced-motion: no-preference) {
+  .pk-scard[data-on="1"] .yt-chips li { animation: yt-chip 4.5s ease-in-out infinite; }
+  .pk-scard[data-on="1"] .yt-chips li:nth-child(2) { animation-delay: -1.5s; } .pk-scard[data-on="1"] .yt-chips li:nth-child(3) { animation-delay: -3s; }
+}
+@media (max-width: 767px) { .yt-chips { position: static; flex-direction: row; flex-wrap: wrap; justify-content: flex-start; margin-top: 16px; } .yt-chips li:nth-child(2) { margin-right: 0; } }
+
+/* 유튜브 카드 ① 칩을 벤토(바둑판) 배치로: 위 한 줄 넓게 + 아래 두 칸, 색은 연한 유리 느낌 */
+.yt-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 268px; align-items: stretch; flex-direction: unset; right: 0; bottom: 4px; }
+.yt-chips li, .yt-chips li:nth-child(n) { margin: 0; padding: 10px 14px; border-radius: 18px; flex-direction: column; align-items: flex-start; gap: 10px; background: rgba(255,255,255,.07); box-shadow: inset 0 0 0 1px rgba(255,255,255,.2); font-weight: 600; font-size: 13.5px; color: rgba(255,255,255,.92); }
+.yt-chips li:first-child { grid-column: 1 / 3; flex-direction: row; align-items: center; padding: 10px 16px 10px 10px; gap: 12px; }
+.yt-chips li i { width: 32px; height: 32px; background: rgba(140,180,255,.25); box-shadow: inset 0 0 0 1px rgba(200,220,255,.4); }
+.yt-chips li svg { color: #d8e6ff; }
+@media (max-width: 767px) { .yt-chips { width: 100%; margin-top: 16px; } }
+
+
+/* 유튜브 카드: 인물은 정지 사진 그대로. 칩은 선 없이 작고 연하게 5가지 배치(data-ytchip 1~5, 메인 기본 1). 칩 = 설명글 오른쪽 빈 곳 장식 */
+.pk-stack[data-ytchip] .yt-chips { display: flex; position: absolute; right: 0; bottom: 4px; width: auto; gap: 8px; grid-template-columns: none; flex-direction: column; align-items: flex-end; }
+.pk-stack[data-ytchip] .yt-chips li, .pk-stack[data-ytchip] .yt-chips li:nth-child(n) { display: flex; flex-direction: row; align-items: center; gap: 8px; margin: 0; grid-column: auto; padding: 6px 14px 6px 7px; border-radius: 99px; background: rgba(255,255,255,.08); box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.85); }
+.pk-stack[data-ytchip] .yt-chips li i { width: 22px; height: 22px; background: rgba(140,180,255,.22); box-shadow: none; }
+.pk-stack[data-ytchip] .yt-chips li svg { width: 13px; height: 13px; color: #cfe0ff; }
+/* 2: 가로로 두 줄(알약 3개) */
+.pk-stack[data-ytchip="2"] .yt-chips { flex-direction: row; flex-wrap: wrap; justify-content: flex-end; width: 250px; }
+/* 3: 배경 없이 아이콘 + 글자만 (세로 목록) */
+.pk-stack[data-ytchip="3"] .yt-chips { gap: 12px; }
+.pk-stack[data-ytchip="3"] .yt-chips li, .pk-stack[data-ytchip="3"] .yt-chips li:nth-child(n) { padding: 0; background: none; font-size: 13px; color: rgba(255,255,255,.78); }
+.pk-stack[data-ytchip="3"] .yt-chips li i { width: 26px; height: 26px; background: rgba(140,180,255,.16); }
+/* 4: 작은 타일 2열 (첫 칸 넓게) */
+.pk-stack[data-ytchip="4"] .yt-chips { display: grid; grid-template-columns: 1fr 1fr; width: 210px; }
+.pk-stack[data-ytchip="4"] .yt-chips li, .pk-stack[data-ytchip="4"] .yt-chips li:nth-child(n) { flex-direction: column; align-items: flex-start; gap: 6px; padding: 9px 11px; border-radius: 12px; font-size: 12px; }
+.pk-stack[data-ytchip="4"] .yt-chips li:first-child { grid-column: 1 / 3; flex-direction: row; align-items: center; gap: 8px; }
+/* 5: 동그란 배지 3개가 살짝 엇갈려 이어짐 */
+.pk-stack[data-ytchip="5"] .yt-chips { flex-direction: row; align-items: flex-end; gap: 0; }
+.pk-stack[data-ytchip="5"] .yt-chips li, .pk-stack[data-ytchip="5"] .yt-chips li:nth-child(n) { flex-direction: column; justify-content: center; gap: 5px; width: 74px; height: 74px; padding: 0 4px; border-radius: 50%; margin-left: -10px; font-size: 11px; text-align: center; line-height: 1.2; white-space: normal; }
+.pk-stack[data-ytchip="5"] .yt-chips li:first-child { margin-left: 0; }
+.pk-stack[data-ytchip="5"] .yt-chips li:nth-child(2) { margin-bottom: 22px; }
+@media (max-width: 767px) { .pk-stack[data-ytchip] .yt-chips { position: static; width: 100%; margin-top: 16px; flex-direction: row; flex-wrap: wrap; justify-content: flex-start; } .pk-stack[data-ytchip="4"] .yt-chips { display: flex; } }
+
+/* 유튜브 단계: 왼쪽 "신뢰" 파란 강조가 가장 잘 보이도록 배경은 더 어둡고 차분한 남색, 강조 박스는 더 선명한 파랑 + 은은한 빛 */
+.pk-stack[data-step="3"] { --pk-bg1: #0e2a6e; --pk-bg2: #081840; --pk-bg3: #040a1f; }
+.pk-stack[data-step="3"] .pk-word { background: #3b7bff; box-shadow: 0 0 36px rgba(70,130,255,.65), 0 0 0 1px rgba(160,200,255,.35); }
+@media (min-width: 768px) { .pk-stack[data-igbg="b"] .pk-fullbg .ig-back.yt-back { background-image: radial-gradient(52% 66% at 74% 32%, rgba(52,112,255,.3), transparent 70%), radial-gradient(40% 50% at 55% 100%, rgba(70,130,255,.14), transparent 70%) !important; } }
+/* 칩 3번(메인 적용): 아이콘을 은은한 블루로 */
+.pk-stack[data-ytchip="3"] .yt-chips li i { background: rgba(70,125,255,.18); }
+.pk-stack[data-ytchip="3"] .yt-chips li svg { color: #6f9bff; }
+
+/* 인스타 카드: 박스·이미지 경계선 제거 (유튜브와 동일) — 카드 안 흐린 배경은 빼고(섹션 전체 배경이 대신함), 가장자리를 사방으로 서서히 투명하게 */
+.pk-scard .ig-back { display: none !important; }
+.pk-scard-bg:has(.ig-photo) { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%), linear-gradient(180deg, transparent 0, #000 6%, #000 80%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%), linear-gradient(180deg, transparent 0, #000 6%, #000 80%, transparent 100%); mask-composite: intersect; }
+@media (min-width: 768px) { .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img:not(.yt-img) { -webkit-mask-image: radial-gradient(ellipse 52% 52% at 50% 50%, #000 40%, transparent 100%); mask-image: radial-gradient(ellipse 52% 52% at 50% 50%, #000 40%, transparent 100%); } }
+
+/* 칩 목록 정렬: 아이콘이 같은 세로줄에 오도록 왼쪽 맞춤 (오른쪽 끝에 붙은 덩어리) */
+.pk-stack[data-ytchip="3"] .yt-chips { align-items: flex-start; }
+
+/* 전후사진 · AI 노출 · 개별 상품 카드도 사진형 배치 (이미지 위 / 글 아래, 가장자리 서서히 투명) */
+@media (min-width: 768px) {
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img.ph-ba { inset: 3% 0 auto 0; height: 72%; width: auto; aspect-ratio: 900 / 1070; left: 50%; right: auto; translate: -50% 0; background-size: 100% 100%; -webkit-mask-image: radial-gradient(ellipse 50% 52% at 50% 46%, #000 52%, transparent 100%); mask-image: radial-gradient(ellipse 50% 52% at 50% 46%, #000 52%, transparent 100%); }
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img.ph-ai { inset: 10% 0 auto 0; aspect-ratio: 1672 / 941; background-size: 100% 100%; filter: brightness(.82) saturate(1.15); -webkit-mask-image: radial-gradient(ellipse 62% 62% at 50% 50%, #000 62%, transparent 100%); mask-image: radial-gradient(ellipse 62% 62% at 50% 50%, #000 62%, transparent 100%); }
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img.ph-indiv { inset: 8% 0 auto 0; aspect-ratio: 3 / 2; background-size: 100% 100%; -webkit-mask-image: radial-gradient(ellipse 52% 52% at 50% 50%, #000 52%, transparent 100%); mask-image: radial-gradient(ellipse 52% 52% at 50% 50%, #000 52%, transparent 100%); }
+}
+@media (max-width: 767px) { .ig-img.ph-ba, .ig-img.ph-ai, .ig-img.ph-indiv { background-size: contain; background-position: 50% 50%; background-repeat: no-repeat; } }
+
+/* AI 노출 카드: 검색창에 질문하면 답이 나타나는 기존 움직이는 화면(AiVisual)을 사진형 배치 위쪽에 */
+.pk-scard[data-kind="ig"] .pk-scard-bg { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%), linear-gradient(180deg, transparent 0, #000 6%, #000 80%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%), linear-gradient(180deg, transparent 0, #000 6%, #000 80%, transparent 100%); mask-composite: intersect; }
+@media (min-width: 768px) {
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .bv-stage { left: 9%; right: 9%; top: 9%; height: 48%; }
+}
+
+/* AI 노출 카드: 검색창 입력 → 결과 등장 (움직임 줄이기 설정이면 완성된 모습으로 정지) */
+.ais { background: none; font-size: 3cqw; color: #fff; }
+.ais-in { position: absolute; left: 11%; right: 11%; top: 9%; display: flex; flex-direction: column; gap: 2.4cqw; }
+.ais-bar { display: flex; align-items: center; gap: 2cqw; padding: 1.5cqw 1.6cqw 1.5cqw 3.2cqw; border-radius: 99px; background: rgba(255,255,255,.09); box-shadow: inset 0 0 0 1px rgba(150,185,255,.38), 0 3cqw 8cqw -3cqw rgba(48,97,255,.55); font-size: 3.1cqw; font-weight: 600; }
+.ais-bar svg { flex: none; width: 3.8cqw; height: 3.8cqw; color: #8fb0ff; }
+.ais-q { flex: 1; min-width: 0; overflow: hidden; }
+.ais-q b { display: inline-block; max-width: 100%; overflow: hidden; white-space: nowrap; vertical-align: bottom; border-right: .35cqw solid #7ea2ff; font-weight: 600; }
+.ais-go { flex: none; display: grid; place-items: center; width: 6.4cqw; height: 6.4cqw; border-radius: 50%; background: linear-gradient(135deg, #5b8dff, #2f55d8); font-style: normal; font-size: 3.2cqw; font-weight: 700; }
+.ais-item { display: flex; align-items: center; gap: 2.6cqw; padding: 1.8cqw 2.6cqw; border-radius: 2.4cqw; background: rgba(255,255,255,.06); }
+.ais-item.is-hit { background: rgba(70,120,255,.22); box-shadow: inset 0 0 0 1px rgba(130,170,255,.55); }
+.ais-item > div { flex: 1; min-width: 0; }
+.ais-logo { flex: none; width: 7cqw; height: 7cqw; border-radius: 1.8cqw; background: rgba(255,255,255,.12); }
+.is-hit .ais-logo { background: linear-gradient(135deg, #7ea5ff, #3a5bd6); box-shadow: 0 0 3cqw -.5cqw rgba(79,125,255,.8); }
+.ais-item b { display: block; font-size: 3.2cqw; font-weight: 700; } .ais-item b em { font-style: normal; display: inline-grid; place-items: center; width: 3.2cqw; height: 3.2cqw; margin-left: .8cqw; border-radius: 50%; background: #4f7dff; font-size: 2cqw; vertical-align: .1cqw; }
+.ais-item span { display: block; margin-top: .4cqw; font-size: 2.3cqw; color: rgba(255,255,255,.7); }
+.ais-line { display: block; height: 1.1cqw; margin: .7cqw 0; border-radius: 99px; background: rgba(255,255,255,.16); } .ais-line.s { width: 58%; }
+.ais-tags { display: flex; gap: 1.6cqw; } .ais-tags span { padding: 1cqw 2.4cqw; border-radius: 99px; background: rgba(79,125,255,.26); font-size: 2.3cqw; font-weight: 600; color: #cfdcff; }
+@keyframes ais-type { 0%, 4% { width: 0; } 26%, 96% { width: 100%; } 100% { width: 0; } }
+@keyframes ais-caret { 0%, 100% { border-color: #7ea2ff; } 50% { border-color: transparent; } }
+@keyframes ais-pop { 0%, 30% { opacity: 0; transform: translateY(2cqw); } 38%, 92% { opacity: 1; transform: none; } 98%, 100% { opacity: 0; transform: translateY(-1cqw); } }
+@media (prefers-reduced-motion: no-preference) {
+  .pk-scard[data-on="1"] .ais-q b { width: 0; animation: ais-type 8s steps(13, end) infinite, ais-caret .9s step-end infinite; }
+  .pk-scard[data-on="1"] .ais-item, .pk-scard[data-on="1"] .ais-tags { animation: ais-pop 8s ease infinite backwards; }
+  .pk-scard[data-on="1"] .ais-item:nth-of-type(2) { animation-delay: .35s; } .pk-scard[data-on="1"] .ais-item:nth-of-type(3) { animation-delay: .7s; } .pk-scard[data-on="1"] .ais-tags { animation-delay: 1.05s; }
+}
+
+/* 개별 상품 카드: 부스터 4종 이미지를 가운데 → 왼쪽 → 뒤 → 오른쪽으로 10초마다 한 바퀴 도는 회전 카드 (움직임 줄이기 설정이면 첫 장만 정지) */
+.ind { background: none; font-size: 2.6cqw; color: #fff; }
+.ind-stage { position: absolute; left: 0; right: 0; top: 8%; height: 50%; perspective: 120cqw; }
+.ind-item { position: absolute; left: 50%; top: 50%; width: 42cqw; aspect-ratio: 5 / 4; border-radius: 3cqw; background: #0b1230 center 25% / cover no-repeat; box-shadow: 0 4cqw 9cqw -3cqw rgba(0,0,0,.65), inset 0 0 0 1px rgba(255,255,255,.08); overflow: hidden; transform: translate(-50%, -50%); }
+.ind-item:nth-child(n+2) { opacity: 0; }
+.ind-item::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(5,8,22,.75)); }
+.ind-item span { position: absolute; left: 3cqw; bottom: 2.4cqw; z-index: 1; padding: .8cqw 2.2cqw; border-radius: 99px; background: rgba(8,14,44,.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); font-size: 2.3cqw; font-weight: 700; letter-spacing: .1em; }
+@keyframes ind-flow {
+  0%, 18% { transform: translate(-50%, -50%) translateX(0) scale(1) rotateY(0); opacity: 1; z-index: 3; }
+  25%, 43% { transform: translate(-50%, -50%) translateX(-30cqw) scale(.74) rotateY(32deg); opacity: .55; z-index: 2; }
+  50%, 68% { transform: translate(-50%, -50%) translateX(0) scale(.58); opacity: 0; z-index: 1; }
+  75%, 93% { transform: translate(-50%, -50%) translateX(30cqw) scale(.74) rotateY(-32deg); opacity: .55; z-index: 2; }
+  100% { transform: translate(-50%, -50%) translateX(0) scale(1) rotateY(0); opacity: 1; z-index: 3; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pk-scard[data-on="1"] .ind-item { animation: ind-flow 10s ease-in-out infinite; animation-delay: calc((var(--k) - 4) * 2.5s); }
 }

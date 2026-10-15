@@ -19,6 +19,9 @@ export interface PickerItem {
   below?: React.ReactNode;   // 패널 아래 설명
   icon?: React.ReactNode;    // stack: 카드 왼쪽 위 아이콘 칸
   tag?: string;              // stack: 카드 오른쪽 위 작은 글자
+  eyebrow?: string;          // stack: 제목 위 작은 영문 글자 (부스터 카드)
+  kind?: string;             // stack: 카드 종류 표시(ig·ba·ai·yt) — 아이콘 배지 선택용
+  bg?: React.ReactNode;      // stack: 섹션 전체 배경(PC 만, 이 항목이 활성일 때 서서히 나타남)
   wide?: boolean;            // stack: 그림이 카드 전체가 아니라 안쪽 격자(개별 상품 6종)
 }
 
@@ -44,9 +47,9 @@ function leadLines(lead: string) {
 }
 
 export default function PickerSection({
-  id, bg, lead, sub, items, cta, variant, acc = "a", btn,
+  id, bg, lead, sub, items, cta, variant, acc = "a", btn, igbg, igtx, ytchip,
 }: {
-  id: string; bg: string; lead: string; sub?: string; variant?: "a" | "b" | "c" | "stack"; acc?: "a" | "b" | "c"; btn?: string;
+  id: string; bg: string; lead: string; sub?: string; variant?: "a" | "b" | "c" | "stack"; acc?: "a" | "b" | "c"; btn?: string; igbg?: string; igtx?: string; ytchip?: string;
   items: PickerItem[]; cta: { label: string; href: string };
 }) {
   const wrap = useRef<HTMLDivElement>(null);
@@ -180,9 +183,10 @@ export default function PickerSection({
       } else cards.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" });
     };
     return (
-      <section id={id} className={`pk border-t border-hairline scroll-mt-20 pk-stack ${bg}`} data-step={active} data-acc={acc} data-btn={btn}>
+      <section id={id} className={`pk border-t border-hairline scroll-mt-20 pk-stack ${bg}`} data-step={active} data-acc={acc} data-btn={btn} data-igbg={igbg} data-igtx={igtx} data-ytchip={ytchip}>
         <div ref={wrap} className="pk-swrap" style={{ "--pk-n": n, "--pk-p": 0 } as React.CSSProperties}>
         <div className="pk-sstick">
+        {items.map((it, i) => it.bg ? <div key={it.label} className="pk-fullbg" data-on={i === active ? "1" : "0"} aria-hidden="true">{it.bg}</div> : null)}
         <div className="container-x pk-sgrid">
           <div className="pk-sleft">
             <div className="pk-sleft-in">
@@ -224,11 +228,12 @@ export default function PickerSection({
           </div>
           <div className="pk-sview"><div className="pk-scards">
             {items.map((it, i) => (
-              <article key={it.label} id={`${id}-item-${String(i + 1).padStart(2, "0")}`} ref={(el) => { cards.current[i] = el; }} className="pk-scard" data-on={i === active ? "1" : "0"} data-rel={i < active ? "-1" : i > active ? "1" : "0"} data-wide={it.wide ? "1" : "0"}>
+              <article key={it.label} id={`${id}-item-${String(i + 1).padStart(2, "0")}`} ref={(el) => { cards.current[i] = el; }} className="pk-scard" data-on={i === active ? "1" : "0"} data-rel={i < active ? "-1" : i > active ? "1" : "0"} data-wide={it.wide ? "1" : "0"} data-kind={it.kind}>
                 <div className="pk-scard-bg">{it.visual}</div>
                 <div className="pk-scard-top">
                 </div>
                 <div className="pk-scard-bottom">
+                  {it.eyebrow && <p className="pk-eb">{it.eyebrow}</p>}
                   <h3>{it.label}</h3>
                   {it.below}
                 </div>
