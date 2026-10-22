@@ -286,3 +286,15 @@
   .psc-ico svg { width: 14px; height: 14px; }
   .psc-feat-t b { font-size: min(13px, 3.5vw); letter-spacing: -.05em; }
 }
+
+/* 모바일: 번호(01~03)와 체크 표시를 같은 높이 중앙에 맞추고 번호는 더 작게, 카드 제목은 더 크고 또렷하게, 항목 박스는 더 작게 */
+@media (max-width: 767px) {
+  .psc-no { display: flex; align-items: center; height: 18px; font-size: 14px; line-height: 1; }
+  .psc-check { top: 18px; right: 20px; }
+  .psc-card-title { margin-top: 14px; font-size: min(27px, 7vw); text-shadow: 0 0 18px rgba(255,255,255,.18); }
+  .psc-card-title b { font-weight: 800; }
+  .psc-feat { gap: 4px; padding: 9px 5px; }
+  .psc-ico { width: 22px; height: 22px; }
+  .psc-ico svg { width: 12px; height: 12px; }
+  .psc-feat-t b { font-size: min(11.5px, 3.1vw); letter-spacing: -.06em; }
+}
