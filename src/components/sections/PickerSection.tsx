@@ -120,8 +120,8 @@ export default function PickerSection({
       } else if (mob === "f") {
         // 모바일 f: 카드를 전부 아래로 나열 — 탭 바로 아래에 닿아 있는 카드가 활성 탭 (탭을 눌러 이동하는 동안은 잠시 건너뜀)
         if (performance.now() < tapLock.current) return;
-        const tabs = el.querySelector<HTMLElement>(".pk-sgroups");
-        const line = (tabs ? tabs.getBoundingClientRect().bottom : 100) + 24;
+        const bar = el.querySelector<HTMLElement>(".pk-h");
+        const line = (bar ? bar.getBoundingClientRect().bottom : 100) + 24;
         let best = 0;
         cards.current.forEach((c, i) => { if (c && c.getBoundingClientRect().top <= line) best = i; });
         setActive(best);

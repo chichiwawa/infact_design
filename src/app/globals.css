@@ -1969,8 +1969,17 @@ html.strength-drag { scroll-snap-type: none !important; }
   .pk-stack[data-mob="f"] .pk-scards { gap: 16px; }
   .pk-stack[data-mob="f"] .pk-scard { opacity: 1; filter: none; }
 
-  .diff-col { width: 22vw; gap: 28px; opacity: .3; }
-  .diff-col .diff-img:nth-child(n+4) { display: none; }
-  .diff-col.l { top: 10%; transform: translateY(calc(var(--sp, 0) * 140px - 30px)); }
-  .diff-col.r { top: auto; bottom: 8%; transform: translateY(calc(30px - var(--sp, 0) * 140px)); }
+  .diff-col { width: max-content; flex-direction: row; gap: 0; left: 0; right: auto; opacity: .6; }
+  .diff-col .diff-img { width: 120px; margin-right: 12px; }
+  .diff-col.l { top: 60px; bottom: auto; animation: diff-row-l 40s linear infinite; }
+  .diff-col.r { top: auto; bottom: 20px; animation: diff-row-r 40s linear infinite; }
+}
+@keyframes diff-row-l { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes diff-row-r { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+@media (prefers-reduced-motion: reduce) { .diff-col { animation: none !important; } }
+
+/* 모바일 04 (2026-10-22): 탭(유입·근거…)을 없애고, "우리병원은 ○○이 필요해요" 문장이 위에 붙어 따라다님 — ○○ 는 지금 보는 카드에 맞춰 바뀜 */
+@media (max-width: 767px) {
+  .pk-stack[data-mob="f"][data-acc] .pk-sgroups { display: none; }
+  .pk-stack[data-mob="f"] .pk-h { position: sticky; top: 48px; z-index: 30; flex-wrap: nowrap; white-space: nowrap; margin: 0 -20px; padding: 12px 20px; font-size: 24px; background: rgba(5,7,15,.9); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 1px 0 rgba(255,255,255,.08); }
 }
