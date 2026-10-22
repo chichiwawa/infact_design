@@ -235,3 +235,9 @@
   .psc-desc { margin-top: 14px; }
   .psc-feats { margin-top: 20px; }
 }
+
+/* 모바일: 제목을 "성장단계에 맞춘" / "맞춤형 마케팅 전략." 두 줄로 고정 */
+@media (max-width: 767px) {
+  .psc-title b { display: block; white-space: nowrap; font-size: min(1.375em, 8.6vw); }
+  .psc-title i { font-size: min(1.375em, 8.6vw); }
+}
