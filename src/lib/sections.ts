@@ -34,7 +34,7 @@ export interface HeroData {
   chips?: { label: string; tone?: "dark" | "light" | "plus" | "white" | "glass" }[];  // 히어로에 떠다니는 알약 칩 (2026-10-13)
 }
 
-export interface NumbersItem { value: string; value_short?: string; label: string; body: string[] }  // body 줄 안의 **구절** 은 볼드 / value_short: 제목 아래 요약 줄 전용 값(없으면 value)
+export interface NumbersItem { value: string; value_short?: string; label: string; body: string[]; body_mobile?: string[] }  // body_mobile: 있으면 모바일에서만 이 줄바꿈으로 표시(글자도 한 단계 작게) / body 줄 안의 **구절** 은 볼드 / value_short: 제목 아래 요약 줄 전용 값(없으면 value)
 export interface NumbersData { intro: string; items: NumbersItem[] }
 
 /** 04 부스터 데이터 카드 — 운영 전/후 비교 (사진 대신 코드로 그림). 숫자는 실제 사례 수치만. */

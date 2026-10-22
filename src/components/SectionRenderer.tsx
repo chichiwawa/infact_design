@@ -41,7 +41,7 @@ function render(s: PageSection, biz: Business | null) {
           case "hero": return <Hero key={s.id} data={s.data as S.HeroData} />;
           case "numbers": return <Numbers key={s.id} data={s.data as S.NumbersData} />;
           case "package_steps": return <PackageSteps key={s.id} title={title} data={s.data as S.PackageStepsData} />;
-          case "marketing_tabs": return <MarketingTabs key={s.id} title={title} data={s.data as S.MarketingTabsData} mob="a" />;
+          case "marketing_tabs": return <MarketingTabs key={s.id} title={title} data={s.data as S.MarketingTabsData} mob="f" />;
           case "process": return <Process key={s.id} title={title} data={s.data as S.ProcessData} />;
           case "differentiators": return <Differentiators key={s.id} title={title} data={s.data as S.DifferentiatorsData} />;
           case "blog_latest": return <BlogLatest key={s.id} title={title} data={s.data as S.BlogLatestData} />;

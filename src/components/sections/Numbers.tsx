@@ -28,6 +28,8 @@ export default function Numbers({ data }: { data: NumbersData }) {
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight;
       const span = el.offsetHeight - vh;
+      // 모바일(2026-10-22): 화면 고정·스크롤 연동 없이 카드 줄을 손으로 직접 밀어 넘김(네이티브 가로 스크롤) → 이 계산 전부 건너뜀
+      if (matchMedia("(max-width: 767px)").matches) { setSnapLock("numbers", false); if (trackRef.current) trackRef.current.style.transform = ""; return; }
       // 고정 구간 안에서만 단계별 멈춤(스냅) 켬 — 밖에서는 평소 스크롤
       // 고정이 풀린 뒤 다음 섹션(03)이 올라오는 한 화면(span~span+vh)까지 포함 — 빠지면 그 사이에 어중간하게 멈춤.
       // 끝(= 나가기 지점 520vh)에 정확히 닿으면 끔: 모바일은 03 스냅 지점이 없어서 켜진 채면 아래로 갈 곳이 없어 갇힘
@@ -65,7 +67,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
     const root = document.documentElement;
     const onDown = (e: PointerEvent) => {
       if (e.pointerType === "mouse" && e.button !== 0) return;
-      if (e.pointerType === "touch") return; // 터치는 아래 touchstart/touchend 로 따로 처리 (세로 스크롤을 가로채 되돌리던 문제, 2026-10-22)
+      if (e.pointerType === "touch" || matchMedia("(max-width: 767px)").matches) return; // 터치는 아래 touchstart/touchend 로 따로 처리 (세로 스크롤을 가로채 되돌리던 문제, 2026-10-22)
       const track = trackRef.current;
       if (!track || track.children.length < 2) return;
       const rect = el.getBoundingClientRect();
@@ -101,6 +103,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
     let tx = 0, ty = 0;
     const tStart = (e: TouchEvent) => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; };
     const tEnd = (e: TouchEvent) => {
+      if (matchMedia("(max-width: 767px)").matches) return;
       const ddx = e.changedTouches[0].clientX - tx, ddy = e.changedTouches[0].clientY - ty;
       if (Math.abs(ddx) < 40 || Math.abs(ddx) < Math.abs(ddy) * 1.5) return;
       const rect = el.getBoundingClientRect();
@@ -122,6 +125,26 @@ export default function Numbers({ data }: { data: NumbersData }) {
       root.classList.remove("strength-drag");
     };
   }, [n]);
+
+  // 모바일: 카드 줄을 손으로 밀면 맨 앞에 온 카드가 활성(FACT 확정 모션 시작). 카드 줄 스크롤 위치 → 활성 번호
+  useEffect(() => {
+    const view = viewRef.current;
+    if (!view) return;
+    let raf = 0;
+    const calc = () => {
+      raf = 0;
+      const track = trackRef.current;
+      if (!track || !matchMedia("(max-width: 767px)").matches) return;
+      const x = view.scrollLeft + 20;
+      let best = 0, bestD = Infinity;
+      Array.from(track.children).forEach((c, i) => { const d = Math.abs((c as HTMLElement).offsetLeft - x); if (d < bestD) { bestD = d; best = i; } });
+      Array.from(track.children).forEach((c, i) => ((c as HTMLElement).dataset.active = i === best ? "1" : "0"));
+      setCur(best);
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(calc); };
+    view.addEventListener("scroll", onScroll, { passive: true });
+    return () => { view.removeEventListener("scroll", onScroll); if (raf) cancelAnimationFrame(raf); };
+  }, []);
 
   // 마우스 위치(카드 안 -1~1)를 CSS 변수로 — 카드 그림이 층마다 다르게 따라 움직인다 (React 상태를 쓰지 않음)
   const onCardMove = (e: React.PointerEvent) => {
@@ -221,10 +244,11 @@ export default function Numbers({ data }: { data: NumbersData }) {
               <article key={i} className={`strength-panel strength-card text-white nb-${i % 4}`} data-active={i === 0 ? "1" : "0"}>
                 <CardArt i={i % 4} />
                 <div className="relative">
-                  <div className="text-[15px] md:text-[17px] font-bold tracking-[1px] text-primary">{it.label}</div>
-                  <div className="text-[clamp(34px,3vw,46px)] font-extrabold leading-[1] tracking-[-1.5px] lg:tracking-[-3px] mt-3 md:mt-4">{it.value}</div>
-                  <p className="t-lead text-[16px] md:text-[17px] leading-[1.55] text-white/80 mt-4 md:mt-6">
-                    {it.body.map((line, j) => <span key={j} className="block">{bold(line)}</span>)}
+                  <div className="text-[13px] md:text-[17px] font-bold tracking-[1px] text-primary">{it.label}</div>
+                  <div className="text-[30px] md:text-[clamp(34px,3vw,46px)] font-extrabold leading-[1] tracking-[-1.5px] lg:tracking-[-3px] mt-3 md:mt-4">{it.value}</div>
+                  <p className="t-lead text-[14px] md:text-[17px] leading-[1.55] text-white/80 mt-3 md:mt-6" data-long={it.body_mobile ? "1" : undefined}>
+                    {it.body.map((line, j) => <span key={j} className={it.body_mobile ? "block max-md:hidden" : "block"}>{bold(line)}</span>)}
+                    {it.body_mobile?.map((line, j) => <span key={`m${j}`} className="hidden max-md:block">{bold(line)}</span>)}
                   </p>
                 </div>
                 <span className="strength-no" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
