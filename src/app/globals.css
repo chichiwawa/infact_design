@@ -2018,3 +2018,10 @@ html.strength-drag { scroll-snap-type: none !important; }
 @media (max-width: 767px) {
   .strength-card { border-radius: 12px; }
 }
+
+/* 모바일: 강점 카드의 번호(01)와 CHECKING/FACT 표시를 같은 높이 중앙에 맞추고 표시는 작게 */
+@media (max-width: 767px) {
+  .strength-no { top: 18px; left: 20px; font-size: 11px; line-height: 20px; }
+  .strength-stat { top: 20px; right: 20px; font-size: 9px; width: 8.4em; height: 1.7em; }
+  .strength-stat b { top: 50%; transform: translateY(-50%); }
+}
