@@ -2025,3 +2025,9 @@ html.strength-drag { scroll-snap-type: none !important; }
   .strength-stat { top: 20px; right: 20px; font-size: 9px; width: 8.4em; height: 1.7em; }
   .strength-stat b { top: 50%; transform: translateY(-50%); }
 }
+
+/* 모바일: FACT/CHECKING 세로 중앙을 transform 대신 margin auto 로 (등장 애니메이션이 transform 을 덮어써 아래로 처지던 문제) */
+@media (max-width: 767px) {
+  .strength-stat { top: 18px; height: 20px; }
+  .strength-stat b { top: 0; bottom: 0; margin: auto 0; height: fit-content; transform: none; }
+}
