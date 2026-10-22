@@ -2031,3 +2031,16 @@ html.strength-drag { scroll-snap-type: none !important; }
   .strength-stat { top: 18px; height: 20px; }
   .strength-stat b { top: 0; bottom: 0; margin: auto 0; height: fit-content; transform: none; }
 }
+
+/* ── 노트북(1024~1600px) 폭: 화면이 꽉 차 보여서 글자·여백 비율을 줄임 (2026-10-22) ──
+   전체 zoom 은 스크롤 핀 섹션(innerHeight 계산)을 깨뜨리므로 쓰지 않고, 타이포 스케일과 좌우 여백만 줄인다. */
+@media (min-width: 1024px) and (max-width: 1600px) {
+  :root { --edge: clamp(56px, 5.5vw, 84px); }
+  .t-display { font-size: 64px; letter-spacing: -2px; }
+  .t-h-xl { font-size: 48px; letter-spacing: -1.5px; }
+  .t-h-lg { font-size: 38px; letter-spacing: -1.1px; }
+  .t-h-md { font-size: 20px; }
+  .t-lead { font-size: 17px; }
+  .t-body-lg { font-size: 16px; }
+  .t-stat { font-size: 48px; letter-spacing: -1.6px; }
+}
