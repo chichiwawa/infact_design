@@ -241,3 +241,18 @@
   .psc-title b { display: block; white-space: nowrap; font-size: min(1.375em, 8.6vw); }
   .psc-title i { font-size: min(1.375em, 8.6vw); }
 }
+
+/* 모바일: 항목 박스는 PC와 같이 아이콘 왼쪽 · 글씨 오른쪽, 2×2 */
+@media (max-width: 767px) {
+  .psc-feats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .psc-feat { flex-direction: row; text-align: left; align-items: center; gap: 8px; padding: 10px 8px; }
+  .psc-ico { flex: none; width: 34px; height: 34px; }
+  .psc-ico svg { width: 18px; height: 18px; }
+  .psc-feat-t b { white-space: normal; word-break: keep-all; font-size: 13px; line-height: 1.25; letter-spacing: -.04em; }
+}
+
+/* 모바일: 굵은 줄 바로 옆에 마침표가 붙도록 — 줄바꿈을 block 대신 앞쪽 개행으로 처리 */
+@media (max-width: 767px) {
+  .psc-title b { display: inline; }
+  .psc-title b::before { content: "\A"; white-space: pre; }
+}
