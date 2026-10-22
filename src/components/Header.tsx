@@ -76,7 +76,7 @@ export default function Header() {
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-[color,background-color,border-color] duration-300 ${open ? "bg-elevated" : scrolled ? `backdrop-blur-md border-b ${onDark ? "bg-[rgba(8,10,20,.72)] border-white/10" : "bg-white/80 border-black/5"}` : "bg-transparent"} ${onDark ? "text-white" : "text-ink"}`}
       >
-        <div className="container-x flex items-center justify-between h-20">
+        <div className="container-x flex items-center justify-between h-12 md:h-20">
           {/* 2026-09-23 사용자 로고 PNG(흰색 "INFACT.")로 교체 — 글자·점을 잘라 CSS mask 로 그려 색은 currentColor(헤더 흰/검 전환 그대로), 점만 시그니처 블루(파란 CTA 위에서는 흰색, 2026-09-22 규칙 유지) */}
           <Link href="/" className="logo" aria-label="인팩트컴퍼니 홈" onClick={(e) => { if (rawPathname === "/") { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); } }}>
             <span className="logo-word" aria-hidden="true" />

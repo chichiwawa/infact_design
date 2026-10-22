@@ -65,6 +65,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
     const root = document.documentElement;
     const onDown = (e: PointerEvent) => {
       if (e.pointerType === "mouse" && e.button !== 0) return;
+      if (e.pointerType === "touch") return; // 터치는 아래 touchstart/touchend 로 따로 처리 (세로 스크롤을 가로채 되돌리던 문제, 2026-10-22)
       const track = trackRef.current;
       if (!track || track.children.length < 2) return;
       const rect = el.getBoundingClientRect();
@@ -96,11 +97,26 @@ export default function Numbers({ data }: { data: NumbersData }) {
       root.classList.remove("strength-drag");
       smoothScrollTo(top);
     };
+    // 터치: 가로로 확실히 밀었을 때만 이전/다음 카드로. 세로 움직임은 브라우저 기본 스크롤에 맡긴다
+    let tx = 0, ty = 0;
+    const tStart = (e: TouchEvent) => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; };
+    const tEnd = (e: TouchEvent) => {
+      const ddx = e.changedTouches[0].clientX - tx, ddy = e.changedTouches[0].clientY - ty;
+      if (Math.abs(ddx) < 40 || Math.abs(ddx) < Math.abs(ddy) * 1.5) return;
+      const rect = el.getBoundingClientRect();
+      const sp = el.offsetHeight - window.innerHeight;
+      if (sp <= 0 || rect.top > 1 || -rect.top > sp + 1) return;
+      const next = Math.min(n - 1, Math.max(0, Math.round((-rect.top / sp) * (n - 1)) + (ddx < 0 ? 1 : -1)));
+      smoothScrollTo(window.scrollY + rect.top + (next / (n - 1)) * sp);
+    };
+    view.addEventListener("touchstart", tStart, { passive: true });
+    view.addEventListener("touchend", tEnd, { passive: true });
     view.addEventListener("pointerdown", onDown);
     view.addEventListener("pointermove", onMove);
     view.addEventListener("pointerup", onUp);
     view.addEventListener("pointercancel", onUp);
     return () => {
+      view.removeEventListener("touchstart", tStart); view.removeEventListener("touchend", tEnd);
       view.removeEventListener("pointerdown", onDown); view.removeEventListener("pointermove", onMove);
       view.removeEventListener("pointerup", onUp); view.removeEventListener("pointercancel", onUp);
       root.classList.remove("strength-drag");
@@ -144,7 +160,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
     view?.addEventListener("pointerenter", enter);
     view?.addEventListener("pointerleave", leave);
     const id = window.setInterval(() => {
-      if (document.hidden || hover || performance.now() - lastInput < 5000) return;
+      if (document.hidden || hover || performance.now() - lastInput < 5000 || matchMedia("(max-width: 767px)").matches) return; // 모바일은 자동 넘김 없음
       const rect = el.getBoundingClientRect();
       const span = el.offsetHeight - window.innerHeight;
       if (rect.top > 1 || -rect.top > span + 1) return; // 고정 구간 밖
