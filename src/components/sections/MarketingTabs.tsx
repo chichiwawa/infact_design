@@ -66,7 +66,7 @@ const isPhoto = (i: number) => i < 4;
 
 const BOOSTER_ICONS =["instagram", "camera", "search", "youtube"] as const;
 
-export default function MarketingTabs({ title, data, variant = "stack", acc = "b", btn, igbg = "b", igtx = "4", ytchip = "3", mob }: { title: string; data: MarketingTabsData; variant?: "a" | "b" | "c" | "stack"; acc?: "a" | "b" | "c"; btn?: string; igbg?: "a" | "b" | "c"; igtx?: "1" | "2" | "3" | "4"; ytchip?: "1" | "2" | "3" | "4" | "5"; mob?: "a" | "b" | "c" }) {
+export default function MarketingTabs({ title, data, variant = "stack", acc = "b", btn, igbg = "b", igtx = "4", ytchip = "3", mob }: { title: string; data: MarketingTabsData; variant?: "a" | "b" | "c" | "stack"; acc?: "a" | "b" | "c"; btn?: string; igbg?: "a" | "b" | "c"; igtx?: "1" | "2" | "3" | "4"; ytchip?: "1" | "2" | "3" | "4" | "5"; mob?: "a" | "b" | "c" | "d" | "e" | "f" }) {
   const items = data.categories.flatMap((c): PickerItem[] => {
     if (c.display === "grid") {
       // 격자 카테고리(개별 상품 6종)는 한 단계로

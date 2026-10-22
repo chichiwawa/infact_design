@@ -1823,9 +1823,9 @@ html.strength-drag { scroll-snap-type: none !important; }
   .pk-stack[data-mob] .pk-scard { min-height: 0; }
 
   /* a · c: 선택한 카드 1장만 */
-  .pk-stack:is([data-mob="a"], [data-mob="c"]) .pk-scard:not([data-on="1"]) { display: none; }
-  .pk-stack:is([data-mob="a"], [data-mob="c"]) .pk-sview { touch-action: pan-y; }
-  .pk-stack:is([data-mob="a"], [data-mob="c"]) .pk-scard[data-on="1"] { animation: pk-m-in .35s ease both; }
+  .pk-stack:is([data-mob="a"], [data-mob="c"], [data-mob="d"], [data-mob="e"], [data-mob="f"]) .pk-scard:not([data-on="1"]) { display: none; }
+  .pk-stack:is([data-mob="a"], [data-mob="c"], [data-mob="d"], [data-mob="e"], [data-mob="f"]) .pk-sview { touch-action: pan-y; }
+  .pk-stack:is([data-mob="a"], [data-mob="c"], [data-mob="d"], [data-mob="e"], [data-mob="f"]) .pk-scard[data-on="1"] { animation: pk-m-in .35s ease both; }
 
   /* b: 옆으로 미는 카드 줄 */
   .pk-stack[data-mob="b"] .pk-sview { margin: 0 -20px; }
@@ -1868,3 +1868,84 @@ html.strength-drag { scroll-snap-type: none !important; }
   .hero-copy { bottom: 38vh; }
 }
 @media (max-width: 767px) { .hero-desc { bottom: calc(38vh - 64px); } } /* "감이 아닌 팩트(FACT)로…" 도 글 덩어리 바로 아래로 올림 (2026-10-22) */
+
+/* 모바일 (2026-10-22): 첫 화면 글 덩어리 조금 아래로 / 02 강점은 화면 고정 없이 손으로 밀어 넘기는 가로 카드 줄, 01-04 페이지 표시 삭제, 카드 글 축소 */
+@media (max-width: 767px) {
+  .hero-copy { bottom: 34vh; }
+  .hero-desc { bottom: calc(34vh - 64px); }
+  .strength { height: auto; }
+  .strength .snap-point { display: none; }
+  .strength-inner { position: relative; height: auto; overflow: hidden; }
+  .strength-content { height: auto; padding: 84px 0 56px; }
+  .strength-head { margin-bottom: 8px; }
+  .strength-pager { display: none; }
+  .strength-viewport { overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 20px; scrollbar-width: none; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y; cursor: auto; padding: 16px 0 8px; }
+  .strength-viewport::-webkit-scrollbar { display: none; }
+  .strength-track { transform: none !important; padding: 0 20px; }
+  .strength-panel { scroll-snap-align: start; }
+  .strength-card { height: min(300px, 42vh); }
+}
+@media (max-width: 767px) { .fc-c0 { top: 14vh; } .fc-c1 { top: 18vh; } .fc-c2 { top: 29vh; } .fc-c3 { top: 33vh; } } /* CLAIM 카드 4장을 헤더~글 덩어리 사이 가운데로 내림 (2026-10-22) */
+
+/* ── 04 부스터 모바일 시안 d·e·f (2026-10-22): "탭을 누르려고 위로 다시 올라가야 하는" 불편 개선. 아이폰 SE(375×667) 기준. PC 영향 없음 ──
+   d: 한 화면에 전부(탭 위·카드 작게·문구 압축) / e: 탭을 화면 아래(엄지 위치)로, 카드는 사진 위에 글 / f: 탭이 화면 위에 붙어 따라다님 */
+@media (max-width: 767px) {
+  .pk-stack:is([data-mob="d"], [data-mob="e"]) { padding: 60px 0 14px; }
+  .pk-stack:is([data-mob="d"], [data-mob="e"]) .pk-lead .block { display: none; }
+  .pk-stack:is([data-mob="d"], [data-mob="e"]) .pk-lead { margin: 0; font-size: 12px; }
+  .pk-stack:is([data-mob="d"], [data-mob="e"]) .pk-h { font-size: 26px; }
+  .pk-stack:is([data-mob="d"], [data-mob="e"]) .pk-scard-bottom .pk-eb { display: none; }
+
+  /* d: 한 화면 — 그림을 낮게, 글 압축 */
+  .pk-stack[data-mob="d"] { min-height: 100svh; }
+  .pk-stack[data-mob="d"] .pk-sgrid { gap: 8px; }
+  .pk-stack[data-mob="d"][data-acc] .pk-sitem { padding: 8px 14px; font-size: 14px; }
+  .pk-stack[data-mob="d"] .pk-scard[data-kind] .pk-scard-bg { aspect-ratio: 16 / 7.4; margin-bottom: 6px; }
+  .pk-stack[data-mob="d"] { padding-top: 54px; }
+  .pk-stack[data-mob="d"] .pk-h { font-size: 24px; }
+  .pk-stack[data-mob="d"][data-acc] .pk-sgroups { padding-block: 0 2px; }
+  .pk-stack[data-mob="d"] .pk-sbtn { padding: 8px 16px; font-size: 13px; }
+  .pk-stack[data-mob="d"] .pk-scard-bottom h3 { font-size: 20px; margin-bottom: 6px; }
+  .pk-stack[data-mob="d"] .pk-scard-bottom .pk-below-body { font-size: 12.5px; line-height: 1.5; }
+  .pk-stack[data-mob="d"] .pk-scard-bottom .pk-below-body .block + .block { margin-top: 3px; }
+  .pk-stack[data-mob="d"] .yt-chips { margin-top: 10px; gap: 6px; }
+  .pk-stack[data-mob="d"] .pk-sbtn { margin-top: 0; }
+
+  /* e: 탭 = 화면 아래 막대(아이콘+단어), 카드 = 남는 높이를 사진이 채우고 글은 아래에 */
+  .pk-stack[data-mob="e"] { height: 100svh; min-height: 540px; padding-bottom: 10px; }
+  .pk-stack[data-mob="e"] .pk-swrap, .pk-stack[data-mob="e"] .pk-sstick, .pk-stack[data-mob="e"] .pk-sstick > .container-x { height: 100%; }
+  .pk-stack[data-mob="e"] .pk-sgrid { display: flex; flex-direction: column; height: 100%; gap: 10px; }
+  .pk-stack[data-mob="e"] .pk-sview { flex: 1 1 0; min-height: 0; position: relative; }
+  .pk-stack[data-mob="e"] .pk-scards { height: 100%; }
+  .pk-stack[data-mob="e"] .pk-scard[data-on="1"] { height: 100%; display: flex; flex-direction: column; }
+  .pk-stack[data-mob="e"] .pk-scard[data-kind] .pk-scard-bg { flex: 1 1 0; min-height: 0; aspect-ratio: auto; margin: 0; }
+  .pk-stack[data-mob="e"] .pk-scard .ig-img { background-size: cover; background-position: 50% 0; }
+  .pk-stack[data-mob="e"] .pk-scard-bottom { flex: none; }
+  .pk-stack[data-mob="e"] .pk-scard-bottom h3 { font-size: 21px; margin-bottom: 5px; }
+  .pk-stack[data-mob="e"] .pk-scard-bottom .pk-below-body { font-size: 12.5px; line-height: 1.5; }
+  .pk-stack[data-mob="e"] .pk-scard-bottom .pk-below-body .block + .block { margin-top: 2px; }
+  .pk-stack[data-mob="e"] .yt-chips { margin-top: 8px; gap: 6px; }
+  .pk-stack[data-mob="e"] .pk-sgroups { order: 5; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 0; padding: 0; overflow: visible; }
+  .pk-stack[data-mob="e"][data-acc] .pk-sitem { flex-direction: column; justify-content: center; gap: 3px; width: 100%; height: 58px; padding: 4px 0; border-radius: 14px; background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.14); font-size: 12px; }
+  .pk-stack[data-mob="e"] .pk-sico { display: grid; place-items: center; width: 22px; height: 22px; }
+  .pk-stack[data-mob="e"] .pk-sico svg { width: 20px; height: 20px; }
+  .pk-stack[data-mob="e"] .pk-sbtn { order: 6; margin-top: 0; }
+
+  .pk-stack:is([data-mob="d"], [data-mob="e"]) .yt-chips { flex-wrap: nowrap; } .pk-stack:is([data-mob="d"], [data-mob="e"]) .yt-chips li { font-size: 12.5px; }
+
+  /* f: 탭이 헤더 바로 아래에 붙어 스크롤해도 따라옴 (카드는 길어도 됨) */
+  .pk-stack[data-mob="f"] { padding-top: 48px; }
+  .pk-stack[data-mob="f"] .pk-lead, .pk-stack[data-mob="f"] .pk-h { padding-top: 12px; }
+  .pk-stack[data-mob="f"] .pk-h { padding-top: 0; font-size: 28px; }
+  .pk-stack[data-mob="f"] .pk-sgrid { gap: 12px; }
+  .pk-stack[data-mob="f"][data-acc] .pk-sgroups { position: sticky; top: 48px; z-index: 30; margin: 0 -20px; padding: 10px 20px; background: rgba(5,7,15,.9); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 1px 0 rgba(255,255,255,.08); }
+  .pk-stack[data-mob="f"] .pk-scard[data-kind] .pk-scard-bg { aspect-ratio: 16 / 10; }
+}
+@media (max-width: 767px) {
+  .pk-stack[data-mob="e"] { padding-top: 54px; }
+  .pk-stack[data-mob="e"] .pk-h { font-size: 24px; }
+  .pk-stack[data-mob="e"] .pk-sgrid { gap: 8px; }
+  .pk-stack[data-mob="e"] .yt-chips { display: none; }
+  .pk-stack[data-mob="e"] .pk-scard .ig-img { background-size: contain; background-position: 50% 50%; }
+  .pk-stack[data-mob="e"] .pk-scard[data-kind] .pk-scard-bg { margin-bottom: 6px; }
+}

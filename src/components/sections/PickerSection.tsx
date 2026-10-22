@@ -51,7 +51,7 @@ export default function PickerSection({
 }: {
   id: string; bg: string; lead: string; sub?: string; variant?: "a" | "b" | "c" | "stack"; acc?: "a" | "b" | "c"; btn?: string; igbg?: string; igtx?: string; ytchip?: string;
   /** 모바일(<768px) 전용 레이아웃 시안 — a 가로 탭 + 카드 1장 / b 옆으로 밀기 / c 타일 메뉴 + 카드 1장. 없으면 기존(세로로 쭉) */
-  mob?: "a" | "b" | "c";
+  mob?: "a" | "b" | "c" | "d" | "e" | "f";
   items: PickerItem[]; cta: { label: string; href: string };
 }) {
   const wrap = useRef<HTMLDivElement>(null);
@@ -161,7 +161,7 @@ export default function PickerSection({
   useEffect(() => {
     const el = wrap.current;
     const view = el?.querySelector<HTMLElement>(".pk-sview");
-    if (variant !== "stack" || (mob !== "a" && mob !== "c") || !view) return;
+    if (variant !== "stack" || !mob || mob === "b" || !view) return;
     let x0 = 0, y0 = 0, on = false;
     const down = (e: TouchEvent) => { on = true; x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; };
     const up = (e: TouchEvent) => {
@@ -234,8 +234,16 @@ export default function PickerSection({
         const track = el?.querySelector<HTMLElement>(".pk-scards"), c = cards.current[i];
         if (track && c) track.scrollTo({ left: c.offsetLeft - (track.clientWidth - c.offsetWidth) / 2, behavior: "smooth" });
         setActive(i);
-      } else if (mob) setActive(i);
-      else cards.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else if (mob) {
+        setActive(i);
+        // f: 탭이 위에 붙어 따라다니므로, 카드가 탭 아래로 밀려 올라가 있으면 카드 윗선이 탭 바로 아래에 오도록 되돌림
+        if (mob === "f") requestAnimationFrame(() => {
+          const tabs = el?.querySelector<HTMLElement>(".pk-sgroups"), view = el?.querySelector<HTMLElement>(".pk-sview");
+          if (!tabs || !view) return;
+          const gap = view.getBoundingClientRect().top - tabs.getBoundingClientRect().bottom;
+          if (gap < 0) window.scrollBy({ top: gap - 8, behavior: "smooth" });
+        });
+      } else cards.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" });
     };
     return (
       <section id={id} className={`pk border-t border-hairline scroll-mt-20 pk-stack ${bg}`} data-step={active} data-acc={acc} data-mob={mob} data-btn={btn} data-igbg={igbg} data-igtx={igtx} data-ytchip={ytchip}>
