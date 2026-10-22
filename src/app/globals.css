@@ -2007,3 +2007,9 @@ html.strength-drag { scroll-snap-type: none !important; }
   .pk-stack[data-mob="f"] .pk-lead, .pk-stack[data-mob="f"] .pk-eyebrow { padding-inline: 0; }
 }
 @media (max-width: 767px) { :root { --edge: 28px; } } /* 맨 위로 버튼도 헤더 안쪽 선에 맞춤 */
+
+/* 모바일: "인팩트만의 강점" 카드 폭 축소(74vw→66vw), 카드 라운드 16px — 마케팅전략 카드(.psc-card)도 같은 수치 */
+@media (max-width: 767px) {
+  .strength { --sw: 66vw; }
+  .strength-card { border-radius: 16px; }
+}

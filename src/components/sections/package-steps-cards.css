@@ -298,3 +298,8 @@
   .psc-ico svg { width: 12px; height: 12px; }
   .psc-feat-t b { font-size: min(11.5px, 3.1vw); letter-spacing: -.06em; }
 }
+
+/* 모바일: 카드 라운드를 "인팩트만의 강점" 카드와 같은 16px로 */
+@media (max-width: 767px) {
+  .psc-card { border-radius: 16px; }
+}
