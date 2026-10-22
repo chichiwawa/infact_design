@@ -47,9 +47,11 @@ function leadLines(lead: string) {
 }
 
 export default function PickerSection({
-  id, bg, lead, sub, items, cta, variant, acc = "a", btn, igbg, igtx, ytchip,
+  id, bg, lead, sub, items, cta, variant, acc = "a", btn, igbg, igtx, ytchip, mob,
 }: {
   id: string; bg: string; lead: string; sub?: string; variant?: "a" | "b" | "c" | "stack"; acc?: "a" | "b" | "c"; btn?: string; igbg?: string; igtx?: string; ytchip?: string;
+  /** 모바일(<768px) 전용 레이아웃 시안 — a 가로 탭 + 카드 1장 / b 옆으로 밀기 / c 타일 메뉴 + 카드 1장. 없으면 기존(세로로 쭉) */
+  mob?: "a" | "b" | "c";
   items: PickerItem[]; cta: { label: string; href: string };
 }) {
   const wrap = useRef<HTMLDivElement>(null);
@@ -114,6 +116,8 @@ export default function PickerSection({
           el.style.setProperty("--ch", `${Math.round(bottom - top)}px`);
         }
         setActive(Math.round(v));
+      } else if (mob) {
+        return; // 모바일 시안: 활성 항목은 탭·스와이프로만 바뀜 (아래 effect)
       } else {
         const mid = window.innerHeight * 0.5;
         let best = 0, bestD = Infinity;
@@ -131,7 +135,53 @@ export default function PickerSection({
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); if (raf) cancelAnimationFrame(raf); };
-  }, [variant, n]);
+  }, [variant, n, mob]);
+
+  // 모바일 시안 b: 카드 줄을 옆으로 밀면 가운데에 온 카드가 활성. 활성 탭은 항상 메뉴 가운데로 (2026-10-22)
+  useEffect(() => {
+    const el = wrap.current;
+    if (variant !== "stack" || !mob || !el) return;
+    const track = el.querySelector<HTMLElement>(".pk-scards");
+    if (!track || mob !== "b") return;
+    let raf = 0;
+    const onScroll = () => {
+      if (raf || !matchMedia("(max-width: 767px)").matches) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const mid = track.scrollLeft + track.clientWidth / 2;
+        let best = 0, bestD = Infinity;
+        cards.current.forEach((c, i) => { if (!c) return; const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (d < bestD) { bestD = d; best = i; } });
+        setActive(best);
+      });
+    };
+    track.addEventListener("scroll", onScroll, { passive: true });
+    return () => { track.removeEventListener("scroll", onScroll); if (raf) cancelAnimationFrame(raf); };
+  }, [variant, mob, n]);
+  // 모바일 시안 a·c: 카드 영역을 좌우로 밀면 다음/이전 항목으로 (2026-10-22). 세로 스크롤과 구분하려고 가로 이동이 세로보다 확실히 클 때만
+  useEffect(() => {
+    const el = wrap.current;
+    const view = el?.querySelector<HTMLElement>(".pk-sview");
+    if (variant !== "stack" || (mob !== "a" && mob !== "c") || !view) return;
+    let x0 = 0, y0 = 0, on = false;
+    const down = (e: TouchEvent) => { on = true; x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; };
+    const up = (e: TouchEvent) => {
+      if (!on || !matchMedia("(max-width: 767px)").matches) return;
+      on = false;
+      const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+      setActive((c) => Math.min(n - 1, Math.max(0, c + (dx < 0 ? 1 : -1))));
+    };
+    view.addEventListener("touchstart", down, { passive: true });
+    view.addEventListener("touchend", up, { passive: true });
+    return () => { view.removeEventListener("touchstart", down); view.removeEventListener("touchend", up); };
+  }, [variant, mob, n]);
+  useEffect(() => {
+    const el = wrap.current;
+    if (!mob || !el || !matchMedia("(max-width: 767px)").matches) return;
+    const row = el.querySelector<HTMLElement>(".pk-sgroups");
+    const chip = row?.querySelector<HTMLElement>('.pk-sitem[data-on="1"]');
+    if (row && chip) row.scrollTo({ left: chip.offsetLeft - (row.clientWidth - chip.offsetWidth) / 2, behavior: "smooth" });
+  }, [active, mob]);
 
   // stack 자동 순환 (2026-10-14): 화면이 고정된 동안 3.5초마다 다음 항목으로(제목 단어·카드·목록이 함께 바뀜), 마지막 다음은 처음으로 계속 반복.
   // 사용자가 스크롤·터치·클릭·키 입력을 하면 7초, 카드 위에 마우스가 있는 동안, 움직임 줄이기 설정일 때는 쉰다. PC 만.
@@ -180,10 +230,15 @@ export default function PickerSection({
         const top = el.getBoundingClientRect().top + window.scrollY;
         const span = el.offsetHeight - window.innerHeight;
         window.scrollTo({ top: top + (span * i) / Math.max(1, n - 1), behavior: "smooth" });
-      } else cards.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else if (mob === "b") {
+        const track = el?.querySelector<HTMLElement>(".pk-scards"), c = cards.current[i];
+        if (track && c) track.scrollTo({ left: c.offsetLeft - (track.clientWidth - c.offsetWidth) / 2, behavior: "smooth" });
+        setActive(i);
+      } else if (mob) setActive(i);
+      else cards.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" });
     };
     return (
-      <section id={id} className={`pk border-t border-hairline scroll-mt-20 pk-stack ${bg}`} data-step={active} data-acc={acc} data-btn={btn} data-igbg={igbg} data-igtx={igtx} data-ytchip={ytchip}>
+      <section id={id} className={`pk border-t border-hairline scroll-mt-20 pk-stack ${bg}`} data-step={active} data-acc={acc} data-mob={mob} data-btn={btn} data-igbg={igbg} data-igtx={igtx} data-ytchip={ytchip}>
         <div ref={wrap} className="pk-swrap" style={{ "--pk-n": n, "--pk-p": 0 } as React.CSSProperties}>
         <div className="pk-sstick">
         {items.map((it, i) => it.bg ? <div key={it.label} className="pk-fullbg" data-on={i === active ? "1" : "0"} aria-hidden="true">{it.bg}</div> : null)}
@@ -214,7 +269,9 @@ export default function PickerSection({
                           <li key={it.label}>
                             <button type="button" className="pk-sitem" data-on={i === active ? "1" : "0"} onClick={() => go(i)} aria-pressed={i === active} tabIndex={closed[gi] ? -1 : 0}>
                               <i aria-hidden="true" />
-                              <span>{it.label}</span>
+                              {it.icon && <em className="pk-sico" aria-hidden="true">{it.icon}</em>}
+                              <span className="pk-sl">{it.label}</span>
+                              <span className="pk-ss" aria-hidden="true">{it.need}</span>
                             </button>
                           </li>
                         ))}

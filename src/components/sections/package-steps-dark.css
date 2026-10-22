@@ -1,0 +1,104 @@
+/* 03 마케팅 설계 — 어두운 배경 시안 (a 3열 카드 / b 목록+큰 사진 / c 펼쳐지는 패널). 시안 전용, 본 사이트에는 적용 안 됨 */
+.psd { --psd-bg: #070b1c; position: relative; background: radial-gradient(900px 480px at 15% 0%, rgba(48,97,255,.22), transparent 70%), var(--psd-bg); color: #fff; padding: 140px 0 120px; overflow: hidden; }
+.psd-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 48px; }
+.psd-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .16em; color: #6b8cff; margin-bottom: 20px; }
+/* 제목 시안 a: 가운데 정렬 */
+.psd-head[data-h="a"] { flex-direction: column; align-items: center; text-align: center; gap: 24px; }
+.psd-head[data-h="a"] .psd-eyebrow { display: inline-block; padding: 7px 16px; border: 1px solid rgba(107,140,255,.5); border-radius: 999px; margin-bottom: 28px; }
+.psd-head[data-h="a"] .psd-title { font-size: clamp(34px, 4vw, 60px); }
+.psd-head[data-h="a"] .psd-intro { max-width: 640px; }
+/* 제목 시안 b: 왼쪽 정렬로 위→아래, 도입문은 파란 세로선 */
+.psd-head[data-h="b"] { flex-direction: column; align-items: flex-start; gap: 32px; }
+.psd-head[data-h="b"] .psd-title { font-size: clamp(36px, 4.4vw, 68px); }
+.psd-head[data-h="b"] .psd-intro { padding-left: 20px; border-left: 3px solid #3061ff; max-width: 640px; }
+/* 제목 시안 c: 왼쪽 제목 / 오른쪽 도입문 + 단계 알약 */
+.psd-head[data-h="c"] .psd-head-r { display: grid; gap: 24px; justify-items: start; }
+.psd-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.psd-steps li { display: inline-flex; gap: 8px; align-items: center; font-size: 14px; font-weight: 700; padding: 8px 16px; border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); }
+.psd-steps li span { color: #6b8cff; font-weight: 800; }
+.psd-title { font-size: clamp(30px, 3.4vw, 48px); font-weight: 800; line-height: 1.2; letter-spacing: -1.3px; }
+.psd-title em { font-style: normal; color: #6b8cff; }
+.psd-intro { font-size: 18px; line-height: 1.7; color: rgba(255,255,255,.62); max-width: 520px; }
+.psd-intro b { color: #fff; font-weight: 700; }
+.psd-badge { display: inline-block; font-size: 13px; font-weight: 700; padding: 7px 16px; border-radius: 999px; background: #3061ff; color: #fff; }
+.psd-no { font-size: 14px; font-weight: 700; letter-spacing: .08em; color: #6b8cff; }
+.psd-cta { font-size: 15px; font-weight: 700; color: #fff; display: inline-flex; gap: 8px; align-items: center; padding: 14px 24px; border-radius: 999px; background: #3061ff; }
+.psd-cta:hover { background: #2148d6; }
+.psd-check { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.psd-check li { position: relative; padding-left: 28px; font-size: 16px; line-height: 1.5; color: rgba(255,255,255,.88); }
+.psd-check li::before { content: "✓"; position: absolute; left: 0; top: 1px; width: 19px; height: 19px; border-radius: 50%; background: #3061ff; color: #fff; font-size: 11px; font-weight: 800; display: grid; place-items: center; }
+
+/* ── A: 3열 카드 — 한눈에 3개 비교, 글은 핵심만 ── */
+.psd-a-grid { margin-top: 64px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.psd-a-card { display: flex; flex-direction: column; border-radius: 28px; overflow: hidden; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.10); transition: transform .4s cubic-bezier(.2,.7,.2,1), border-color .3s, background .3s; }
+.psd-a-card:hover { transform: translateY(-8px); border-color: rgba(107,140,255,.6); background: rgba(255,255,255,.08); }
+.psd-a-img { position: relative; aspect-ratio: 4 / 3; background-size: cover; background-position: center; }
+.psd-a-img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,11,28,0) 45%, rgba(7,11,28,.85) 100%); }
+.psd-a-img .psd-no { position: absolute; left: 24px; bottom: 16px; z-index: 1; font-size: 40px; font-weight: 300; letter-spacing: 0; color: #fff; }
+.psd-a-body { padding: 28px 28px 32px; display: flex; flex-direction: column; flex: 1; }
+.psd-a-body h3 { margin-top: 16px; font-size: 26px; font-weight: 800; line-height: 1.3; letter-spacing: -.6px; }
+.psd-a-body p { margin-top: 12px; font-size: 16px; line-height: 1.6; color: rgba(255,255,255,.62); }
+.psd-a-tags { margin-top: auto; padding-top: 24px; display: flex; flex-wrap: wrap; gap: 8px; }
+.psd-a-tags span { font-size: 13px; font-weight: 600; padding: 5px 13px; border-radius: 999px; border: 1px solid rgba(255,255,255,.2); color: rgba(255,255,255,.75); }
+.psd-foot { margin-top: 48px; text-align: center; }
+
+/* ── B: 왼쪽 단계 목록 + 오른쪽 큰 사진 (선택한 단계만 자세히) ── */
+.psd-b { margin-top: 64px; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 56px; align-items: stretch; }
+.psd-b-list { display: flex; flex-direction: column; justify-content: center; border-top: 1px solid rgba(255,255,255,.14); }
+.psd-b-item { text-align: left; width: 100%; padding: 28px 0; border-bottom: 1px solid rgba(255,255,255,.14); background: none; color: rgba(255,255,255,.4); cursor: pointer; transition: color .35s; }
+.psd-b-item[data-on="1"], .psd-b-item:hover { color: #fff; }
+.psd-b-row { display: flex; align-items: baseline; gap: 20px; }
+.psd-b-row .psd-no { color: inherit; font-size: 15px; }
+.psd-b-row strong { font-size: clamp(26px, 2.6vw, 38px); font-weight: 800; letter-spacing: -1px; }
+.psd-b-item[data-on="1"] .psd-no { color: #6b8cff; }
+.psd-b-open { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s cubic-bezier(.2,.7,.2,1); }
+.psd-b-item[data-on="1"] .psd-b-open { grid-template-rows: 1fr; }
+.psd-b-open > div { overflow: hidden; }
+.psd-b-open p { margin-top: 14px; padding-left: 40px; font-size: 18px; line-height: 1.6; color: rgba(255,255,255,.7); }
+.psd-b-stage { position: relative; border-radius: 28px; overflow: hidden; min-height: 520px; background: #0e1530; }
+.psd-b-pic { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transform: scale(1.04); transition: opacity .6s, transform 1s cubic-bezier(.2,.7,.2,1); }
+.psd-b-pic[data-on="1"] { opacity: 1; transform: none; }
+.psd-b-stage::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,11,28,0) 40%, rgba(7,11,28,.92) 100%); }
+.psd-b-cap { position: absolute; left: 36px; right: 36px; bottom: 32px; z-index: 1; }
+.psd-b-cap > p { font-size: 13px; font-weight: 700; color: #6b8cff; margin-bottom: 14px; }
+
+/* ── C: 펼쳐지는 세로 패널 (선택한 패널이 넓어지며 글이 나타남) ── */
+.psd-c { margin-top: 64px; display: flex; gap: 16px; height: 560px; }
+.psd-c-p { position: relative; flex: 1 1 0; min-width: 0; border-radius: 28px; overflow: hidden; background-size: cover; background-position: center; cursor: pointer; transition: flex-grow .7s cubic-bezier(.2,.7,.2,1); border: 1px solid rgba(255,255,255,.1); }
+.psd-c-p[data-on="1"] { flex-grow: 3.4; cursor: default; }
+.psd-c-p::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(7,11,28,.25) 0%, rgba(7,11,28,.9) 100%); transition: background .5s; }
+.psd-c-p:not([data-on="1"])::before { background: rgba(7,11,28,.62); }
+.psd-c-p:not([data-on="1"]):hover::before { background: rgba(7,11,28,.4); }
+.psd-c-tab { position: absolute; z-index: 2; left: 28px; top: 28px; display: flex; align-items: center; gap: 14px; }
+.psd-c-tab .psd-no { font-size: 36px; font-weight: 300; letter-spacing: 0; color: #fff; }
+.psd-c-name { position: absolute; z-index: 2; left: 28px; bottom: 30px; font-size: 22px; font-weight: 800; white-space: nowrap; transition: opacity .3s; }
+.psd-c-p[data-on="1"] .psd-c-name { opacity: 0; }
+.psd-c-info { position: absolute; z-index: 2; left: 36px; right: 36px; bottom: 36px; opacity: 0; transform: translateY(16px); transition: opacity .45s, transform .6s cubic-bezier(.2,.7,.2,1); pointer-events: none; }
+.psd-c-p[data-on="1"] .psd-c-info { opacity: 1; transform: none; transition-delay: .25s; pointer-events: auto; }
+.psd-c-info h3 { margin-top: 14px; font-size: clamp(28px, 2.8vw, 40px); font-weight: 800; line-height: 1.25; letter-spacing: -1px; }
+.psd-c-info > p { margin-top: 12px; font-size: 18px; line-height: 1.6; color: rgba(255,255,255,.78); }
+.psd-c-info .psd-check { margin-top: 20px; }
+.psd-c-info .psd-cta { margin-top: 24px; }
+
+@media (max-width: 1023px) {
+  .psd { padding: 100px 0 80px; }
+  .psd-head:not([data-h="a"]) { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .psd-a-grid { grid-template-columns: 1fr; }
+  .psd-b { grid-template-columns: 1fr; gap: 28px; }
+  .psd-b-stage { min-height: 380px; order: -1; }
+  .psd-c { flex-direction: column; height: auto; }
+  .psd-c-p { flex: none; height: 96px; transition: height .6s cubic-bezier(.2,.7,.2,1); }
+  .psd-c-p[data-on="1"] { height: 460px; }
+  .psd-c-name { bottom: 50%; transform: translateY(50%); left: 90px; }
+  .psd-c-tab { top: 50%; transform: translateY(-50%); }
+  .psd-c-p[data-on="1"] .psd-c-tab { top: 28px; transform: none; }
+}
+@media (max-width: 767px) {
+  .psd { padding: 72px 0 64px; }
+  .psd-intro { font-size: 16px; }
+  .psd-b-cap { left: 20px; right: 20px; bottom: 20px; }
+  .psd-b-open p { padding-left: 0; font-size: 16px; }
+  .psd-c-info { left: 20px; right: 20px; bottom: 20px; }
+  .psd-c-info h3 { font-size: 24px; }
+  .psd-c-info > p { font-size: 15px; }
+}

@@ -66,7 +66,7 @@ const isPhoto = (i: number) => i < 4;
 
 const BOOSTER_ICONS =["instagram", "camera", "search", "youtube"] as const;
 
-export default function MarketingTabs({ title, data, variant = "stack", acc = "b", btn, igbg = "b", igtx = "4", ytchip = "3" }: { title: string; data: MarketingTabsData; variant?: "a" | "b" | "c" | "stack"; acc?: "a" | "b" | "c"; btn?: string; igbg?: "a" | "b" | "c"; igtx?: "1" | "2" | "3" | "4"; ytchip?: "1" | "2" | "3" | "4" | "5" }) {
+export default function MarketingTabs({ title, data, variant = "stack", acc = "b", btn, igbg = "b", igtx = "4", ytchip = "3", mob }: { title: string; data: MarketingTabsData; variant?: "a" | "b" | "c" | "stack"; acc?: "a" | "b" | "c"; btn?: string; igbg?: "a" | "b" | "c"; igtx?: "1" | "2" | "3" | "4"; ytchip?: "1" | "2" | "3" | "4" | "5"; mob?: "a" | "b" | "c" }) {
   const items = data.categories.flatMap((c): PickerItem[] => {
     if (c.display === "grid") {
       // 격자 카테고리(개별 상품 6종)는 한 단계로
@@ -120,7 +120,7 @@ export default function MarketingTabs({ title, data, variant = "stack", acc = "b
   return (
     <PickerSection
       id="marketing" bg="bg-night text-white on-dark pk-dark" lead={title} sub={variant === "stack" ? undefined : data.intro?.replace(/\n/g, " ")}
-      variant={variant} acc={acc} btn={btn} igbg={igbg} igtx={igtx} ytchip={ytchip} items={items} cta={{ label: data.cta_label.replace(/\s*→$/, ""), href: data.cta_href }}
+      variant={variant} acc={acc} btn={btn} igbg={igbg} igtx={igtx} ytchip={ytchip} mob={mob} items={items} cta={{ label: data.cta_label.replace(/\s*→$/, ""), href: data.cta_href }}
     />
   );
 }

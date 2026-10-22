@@ -183,7 +183,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
           <div className="strength-head">
             <h2 className="tracking-[-1px] md:tracking-[-2px]">
               <span className="block font-light text-white text-[26px] md:text-[clamp(28px,2.6vw,44px)] leading-[1.3] mb-2 md:mb-3">{l.split(" ").map((w, k) => <span key={k}>{k > 0 && " "}<b className="font-extrabold">{w.slice(0, 2)}</b>{w.slice(2)}</span>)}</span>
-              <span className="block font-bold text-white text-[40px] md:text-[clamp(46px,4.6vw,78px)] leading-[1.2] md:leading-[1.15] tracking-[-1.5px] md:tracking-[-3px]">{r.split(" ").map((w, k, arr) => <span key={k} className="block">{w}{k === arr.length - 1 && <i className="not-italic text-primary">.</i>}</span>)}</span>
+              <span className="block font-bold text-white text-[38px] md:text-[clamp(46px,4.6vw,78px)] leading-[1.2] md:leading-[1.15] tracking-[-1.5px] md:tracking-[-3px]">{r.split(" ").map((w, k, arr) => <span key={k} className="md:block">{k > 0 && " "}{w}{k === arr.length - 1 && <i className="not-italic text-primary">.</i>}</span>)}</span>
             </h2>
             <div className="strength-pager" role="group" aria-label="강점 카드 이동">
               <button type="button" aria-label="이전" disabled={cur <= 0} onClick={() => go(-1)}>
@@ -207,7 +207,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
                 <div className="relative">
                   <div className="text-[15px] md:text-[17px] font-bold tracking-[1px] text-primary">{it.label}</div>
                   <div className="text-[clamp(34px,3vw,46px)] font-extrabold leading-[1] tracking-[-1.5px] lg:tracking-[-3px] mt-3 md:mt-4">{it.value}</div>
-                  <p className="t-lead text-[15px] md:text-[17px] leading-[1.55] text-white/75 mt-5 md:mt-6">
+                  <p className="t-lead text-[16px] md:text-[17px] leading-[1.55] text-white/80 mt-4 md:mt-6">
                     {it.body.map((line, j) => <span key={j} className="block">{bold(line)}</span>)}
                   </p>
                 </div>
