@@ -119,17 +119,17 @@ export default function Header() {
         </div>
 
         <div id="mobile-menu" hidden={!open} className="md:hidden fixed inset-x-0 top-12 bottom-0 bg-elevated border-t border-hairline text-ink">
-          <nav aria-label="모바일 메뉴" className="container-x py-6 flex flex-col">
+          <nav aria-label="모바일 메뉴" className="container-x py-3 flex flex-col">
             {NAV.map((it) => (
               <Link
                 key={it.href}
                 href={it.href}
-                className={`py-5 text-[28px] font-extrabold tracking-[-0.8px] border-b border-hairline-soft ${isActive(it.href) ? "text-primary" : "text-ink"}`}
+                className={`py-3.5 text-[21px] font-extrabold tracking-[-0.6px] border-b border-hairline-soft ${isActive(it.href) ? "text-primary" : "text-ink"}`}
               >
                 {it.label}
               </Link>
             ))}
-            <Link href="/contact" className="btn-primary mt-8">문의하기</Link>
+            <Link href="/contact" className="btn-primary mt-6">문의하기</Link>
             <a href="/company-profile" target="_blank" rel="noopener" className="btn-secondary mt-3">회사소개서</a>
           </nav>
         </div>

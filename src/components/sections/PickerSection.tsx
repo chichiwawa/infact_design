@@ -14,6 +14,7 @@ import Link from "next/link";
 export interface PickerItem {
   label: string;       // 목록에 보이는 이름
   need: string;        // "우리 병원은 ___이 필요해요" 에 들어갈 단어
+  breakAfter?: string; // 카드 제목에서 이 글자 뒤에서 모바일 줄바꿈
   heading?: string;    // 이 항목 위에 붙는 목록 머리글 (예: "집중 공략 부스터 4종")
   visual: React.ReactNode;   // 오른쪽 그림 패널 안
   below?: React.ReactNode;   // 패널 아래 설명
@@ -308,7 +309,7 @@ export default function PickerSection({
                 </div>
                 <div className="pk-scard-bottom">
                   {it.eyebrow && <p className="pk-eb">{it.eyebrow}</p>}
-                  <h3>{it.label}</h3>
+                  <h3>{it.breakAfter && it.label.includes(it.breakAfter) ? <>{it.label.slice(0, it.label.indexOf(it.breakAfter) + it.breakAfter.length)}<br className="md:hidden" />{it.label.slice(it.label.indexOf(it.breakAfter) + it.breakAfter.length)}</> : it.label}</h3>
                   {it.below}
                 </div>
               </article>

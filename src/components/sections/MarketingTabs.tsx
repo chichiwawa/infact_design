@@ -72,6 +72,7 @@ export default function MarketingTabs({ title, data, variant = "stack", acc = "b
       // 격자 카테고리(개별 상품 6종)는 한 단계로
       return [{
         label: "영상, 블로그, 바이럴, 체험단, 광고, 디자인콘텐츠",
+        breakAfter: "바이럴,",
         need: "개별 상품",
         heading: c.label,
         icon: <Icon name="sparkles" className="w-6 h-6" />,

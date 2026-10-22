@@ -89,7 +89,8 @@ export default function PackageStepsDark({ title, data, variant }: { title: stri
             {items.map((it, i) => (
               <div key={it.title} className="psd-c-p" data-on={on === i ? 1 : 0} style={{ backgroundImage: `url(${it.image_url})` }} onClick={() => setOn(i)} onMouseEnter={() => setOn(i)} role="img" aria-label={it.image_alt}>
                 <div className="psd-c-tab"><span className="psd-no">{no(i)}</span></div>
-                <span className="psd-c-name">{it.title}</span>
+                {/* 접힌 상태 글씨: PC 는 단계 이름, 모바일은 "어떤 병원인지"(원인)를 먼저 */}
+                <span className="psd-c-name"><span className="psd-c-nt">{it.title}</span><span className="psd-c-nw">{it.target}</span></span>
                 <div className="psd-c-info">
                   <span className="psd-badge">{it.title}</span>
                   <h3>{it.target}</h3>

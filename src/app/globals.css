@@ -1980,6 +1980,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 
 /* 모바일 04 (2026-10-22): 탭(유입·근거…)을 없애고, "우리병원은 ○○이 필요해요" 문장이 위에 붙어 따라다님 — ○○ 는 지금 보는 카드에 맞춰 바뀜 */
 @media (max-width: 767px) {
+  .scroll-tag { display: none; } /* 헤더 위 스크롤 따라다니는 "INFACT" 글자 삭제 (모바일) */
   .pk-stack[data-mob="f"][data-acc] .pk-sgroups { display: none; }
-  .pk-stack[data-mob="f"] .pk-h { position: sticky; top: 48px; z-index: 30; flex-wrap: nowrap; white-space: nowrap; margin: 0 -20px; padding: 12px 20px; font-size: 24px; background: rgba(5,7,15,.9); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 1px 0 rgba(255,255,255,.08); }
+  .pk-stack[data-mob="f"] .pk-h { position: sticky; top: 48px; z-index: 30; flex-direction: column; align-items: flex-start; gap: 2px; margin: 0 -20px; padding: 12px 20px; font-size: 28px; line-height: 1.25; background: rgba(5,7,15,.9); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: 0 1px 0 rgba(255,255,255,.08); }
 }

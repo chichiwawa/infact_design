@@ -221,8 +221,8 @@ export default function Numbers({ data }: { data: NumbersData }) {
           {/* 왼쪽: 제목 + 페이지 이동 */}
           <div className="strength-head">
             <h2 className="tracking-[-1px] md:tracking-[-2px]">
-              <span className="block font-light text-white text-[26px] md:text-[clamp(28px,2.6vw,44px)] leading-[1.3] mb-2 md:mb-3">{l.split(" ").map((w, k) => <span key={k}>{k > 0 && " "}<b className="font-extrabold">{w.slice(0, 2)}</b>{w.slice(2)}</span>)}</span>
-              <span className="block font-bold text-white text-[38px] md:text-[clamp(46px,4.6vw,78px)] leading-[1.2] md:leading-[1.15] tracking-[-1.5px] md:tracking-[-3px]">{r.split(" ").map((w, k, arr) => <span key={k} className="md:block">{k > 0 && " "}{w}{k === arr.length - 1 && <i className="not-italic text-primary">.</i>}</span>)}</span>
+              <span className="block font-light text-white text-[21px] md:text-[clamp(28px,2.6vw,44px)] leading-[1.3] mb-2 md:mb-3">{l.split(" ").map((w, k) => <span key={k}>{k > 0 && " "}<b className="font-extrabold">{w.slice(0, 2)}</b>{w.slice(2)}</span>)}</span>
+              <span className="block font-bold text-white text-[30px] md:text-[clamp(46px,4.6vw,78px)] leading-[1.2] md:leading-[1.15] tracking-[-1.5px] md:tracking-[-3px]">{r.split(" ").map((w, k, arr) => <span key={k} className="md:block">{k > 0 && " "}{w}{k === arr.length - 1 && <i className="not-italic text-primary">.</i>}</span>)}</span>
             </h2>
             <div className="strength-pager" role="group" aria-label="강점 카드 이동">
               <button type="button" aria-label="이전" disabled={cur <= 0} onClick={() => go(-1)}>
@@ -245,8 +245,8 @@ export default function Numbers({ data }: { data: NumbersData }) {
                 <CardArt i={i % 4} />
                 <div className="relative">
                   <div className="text-[13px] md:text-[17px] font-bold tracking-[1px] text-primary">{it.label}</div>
-                  <div className="text-[30px] md:text-[clamp(34px,3vw,46px)] font-extrabold leading-[1] tracking-[-1.5px] lg:tracking-[-3px] mt-3 md:mt-4">{it.value}</div>
-                  <p className="t-lead text-[14px] md:text-[17px] leading-[1.55] text-white/80 mt-3 md:mt-6" data-long={it.body_mobile ? "1" : undefined}>
+                  <div className="text-[26px] md:text-[clamp(34px,3vw,46px)] font-extrabold leading-[1] tracking-[-1.5px] lg:tracking-[-3px] mt-3 md:mt-4">{it.value}</div>
+                  <p className="t-lead text-[13px] md:text-[17px] leading-[1.55] text-white/80 mt-3 md:mt-6" data-long={it.body_mobile ? "1" : undefined}>
                     {it.body.map((line, j) => <span key={j} className={it.body_mobile ? "block max-md:hidden" : "block"}>{bold(line)}</span>)}
                     {it.body_mobile?.map((line, j) => <span key={`m${j}`} className="hidden max-md:block">{bold(line)}</span>)}
                   </p>
