@@ -256,3 +256,11 @@
   .psc-title b { display: inline; }
   .psc-title b::before { content: "\A"; white-space: pre; }
 }
+
+/* 모바일: 항목 박스 줄바꿈 고정 — 한 줄은 줄바꿈 없이 폭에 맞춰 글씨 크기 조절, "CRM·재방문 / 설계"만 JSON 의 개행으로 두 줄 */
+@media (max-width: 767px) {
+  .psc-feat { gap: 6px; padding: 10px 7px; }
+  .psc-ico { width: 30px; height: 30px; }
+  .psc-ico svg { width: 16px; height: 16px; }
+  .psc-feat-t b { white-space: pre; font-size: clamp(10.5px, 3.2vw, 14px); letter-spacing: -.05em; }
+}
