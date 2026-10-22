@@ -1,0 +1,135 @@
+/* 03 마케팅 설계 — 전면 재구성 시안 g~k (PC + 모바일). 공통 배경·제목은 package-steps-dark.css 사용 */
+.psn .psd-head { margin-bottom: 0; }
+.psn-no { font-size: 14px; font-weight: 700; letter-spacing: .08em; color: #6b8cff; }
+.psn-arrow { flex: none; color: #6b8cff; }
+.psn-arrow-d { transform: rotate(90deg); }
+.psn-desc { font-size: 17px; line-height: 1.6; color: rgba(255,255,255,.75); margin-top: 14px; word-break: keep-all; }
+.psn-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.psn-tags span { font-size: 13px; font-weight: 600; padding: 5px 13px; border-radius: 999px; border: 1px solid rgba(255,255,255,.2); color: rgba(255,255,255,.75); }
+.psn-foot { margin-top: 40px; text-align: center; }
+.psn .psn-cta { margin-top: 24px; }
+
+/* 문제(Q) 와 해답(A) — 문제는 차분하게, 해답은 파란색으로 크게 */
+.psn-q small, .psn-a small { display: block; font-size: 12px; font-weight: 700; letter-spacing: .06em; color: #6b8cff; margin-bottom: 6px; }
+.psn-q p { font-size: 20px; font-weight: 600; line-height: 1.4; letter-spacing: -.02em; color: rgba(255,255,255,.82); word-break: keep-all; }
+.psn-a b { display: inline-block; font-size: clamp(28px, 3vw, 40px); font-weight: 800; line-height: 1.2; letter-spacing: -.04em; padding: 8px 22px 10px; border-radius: 16px; background: #3061ff; color: #fff; box-shadow: 0 8px 28px rgba(48,97,255,.45); }
+.psn-flow { margin: 10px 0 12px 8px; }
+
+/* ── G: 탭 + 큰 카드 ── */
+.psn-g { margin-top: 56px; }
+.psn-g-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
+.psn-g-tabs button { display: flex; align-items: center; gap: 12px; padding: 18px 22px; border-radius: 18px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.55); font-size: 20px; font-weight: 800; letter-spacing: -.03em; cursor: pointer; transition: all .3s; text-align: left; }
+.psn-g-tabs button[data-on="1"] { background: #3061ff; border-color: #3061ff; color: #fff; box-shadow: 0 8px 28px rgba(48,97,255,.4); }
+.psn-g-tabs button[data-on="1"] .psn-no { color: rgba(255,255,255,.8); }
+.psn-g-card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border-radius: 28px; overflow: hidden; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); }
+.psn-g-card[hidden] { display: none; }
+.psn-g-pic { background-size: cover; background-position: center; min-height: 480px; }
+.psn-g-body { padding: 44px 44px 48px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
+.psn-g-body .psd-check { margin-top: 20px; }
+
+/* ── H: 3장 모두 펼침 ── */
+.psn-h { margin-top: 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.psn-h-card { display: flex; flex-direction: column; border-radius: 28px; overflow: hidden; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); }
+.psn-h-pic { position: relative; aspect-ratio: 16 / 10; background-size: cover; background-position: center; }
+.psn-h-pic .psn-no { position: absolute; left: 20px; top: 16px; font-size: 32px; font-weight: 300; letter-spacing: 0; color: #fff; text-shadow: 0 2px 12px rgba(0,0,0,.5); }
+.psn-h-q { padding: 26px 28px 8px; }
+.psn-h-join { display: flex; justify-content: center; padding: 4px 0; }
+.psn-h-a { flex: 1; margin: 0 14px 14px; padding: 22px 18px 24px; border-radius: 20px; background: rgba(48,97,255,.16); border: 1px solid rgba(107,140,255,.45); }
+.psn-h-a .psn-a b { font-size: 28px; }
+.psn-h-a .psn-desc { font-size: 16px; }
+
+/* ── I: 가로 3줄 ── */
+.psn-i { margin-top: 56px; border-top: 1px solid rgba(255,255,255,.16); }
+.psn-i-row { border-bottom: 1px solid rgba(255,255,255,.16); }
+.psn-i-head { width: 100%; display: grid; grid-template-columns: 56px minmax(0, 1.3fr) 24px minmax(0, 1fr) 32px; align-items: center; gap: 20px; padding: 32px 0; background: none; color: rgba(255,255,255,.55); text-align: left; cursor: pointer; transition: color .3s; }
+.psn-i-row[data-on="1"] .psn-i-head, .psn-i-head:hover { color: #fff; }
+.psn-i-q { font-size: 22px; font-weight: 600; line-height: 1.35; letter-spacing: -.02em; word-break: keep-all; }
+.psn-i-q small { display: block; font-size: 12px; font-weight: 700; letter-spacing: .06em; color: #6b8cff; margin-bottom: 6px; }
+.psn-i-a { justify-self: start; font-size: clamp(22px, 2.4vw, 32px); font-weight: 800; letter-spacing: -.04em; padding: 8px 20px 10px; border-radius: 14px; background: rgba(48,97,255,.35); color: #fff; transition: background .3s; }
+.psn-i-row[data-on="1"] .psn-i-a { background: #3061ff; box-shadow: 0 8px 24px rgba(48,97,255,.4); }
+.psn-i-plus { position: relative; width: 22px; height: 22px; justify-self: end; }
+.psn-i-plus::before, .psn-i-plus::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; background: currentColor; transition: transform .3s; }
+.psn-i-plus::after { transform: rotate(90deg); }
+.psn-i-row[data-on="1"] .psn-i-plus::after { transform: rotate(0); }
+.psn-i-open { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s cubic-bezier(.2,.7,.2,1); }
+.psn-i-row[data-on="1"] .psn-i-open { grid-template-rows: 1fr; }
+.psn-i-inner { overflow: hidden; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 36px; align-items: center; padding: 0 0 0 76px; }
+.psn-i-row[data-on="1"] .psn-i-inner { padding-bottom: 36px; }
+.psn-i-pic { aspect-ratio: 16 / 10; border-radius: 22px; background-size: cover; background-position: center; }
+.psn-i-inner .psn-desc { margin-top: 0; }
+.psn-i-inner .psd-check { margin-top: 18px; }
+
+/* ── J: 옆으로 넘기는 큰 사진 카드 ── */
+.psn-j { margin-top: 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; outline: none; }
+.psn-j-card { position: relative; min-height: 600px; border-radius: 28px; overflow: hidden; background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,.12); display: flex; flex-direction: column; justify-content: flex-end; }
+.psn-j-card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,11,28,.15) 0%, rgba(7,11,28,.55) 40%, rgba(7,11,28,.95) 100%); }
+.psn-j-no { position: absolute; left: 24px; top: 20px; z-index: 1; font-size: 36px; font-weight: 300; letter-spacing: 0; color: #fff; }
+.psn-j-info { position: relative; z-index: 1; padding: 28px; display: flex; flex-direction: column; align-items: flex-start; }
+.psn-a-inline { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+.psn-a-inline .psn-arrow { color: #fff; }
+.psn-a-inline b { font-size: 30px; }
+
+/* ── K: 계단식 성장 ── */
+.psn-k { margin-top: 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: start; position: relative; padding-top: 0; }
+.psn-k-step { padding-top: calc((2 - var(--k)) * 72px); }
+.psn-k-dot { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.psn-k-dot span { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: #3061ff; color: #fff; font-size: 17px; font-weight: 800; box-shadow: 0 0 0 6px rgba(48,97,255,.25); }
+.psn-k-dot::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, rgba(107,140,255,.7), rgba(107,140,255,0)); }
+.psn-k-card { padding: 22px 24px 28px; border-radius: 28px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); }
+.psn-k-pic { aspect-ratio: 16 / 10; border-radius: 18px; background-size: cover; background-position: center; margin-bottom: 22px; }
+.psn-k-card .psn-a b { font-size: 30px; }
+.psn-k .psn-foot { grid-column: 1 / -1; padding-top: 0; margin-top: 8px; }
+
+/* ═══ 태블릿·모바일 ═══ */
+@media (max-width: 1023px) {
+  .psn-g-card { grid-template-columns: 1fr; }
+  .psn-g-pic { min-height: 0; aspect-ratio: 16 / 9; }
+  .psn-h { grid-template-columns: 1fr; }
+  .psn-h-pic { aspect-ratio: 16 / 8; }
+  .psn-j { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px; margin-left: -28px; margin-right: -28px; padding: 0 28px 8px; scrollbar-width: none; }
+  .psn-j::-webkit-scrollbar { display: none; }
+  .psn-j-card { flex: 0 0 min(78vw, 420px); scroll-snap-align: center; min-height: 560px; }
+  .psn-k { grid-template-columns: 1fr; gap: 0; padding-left: 36px; }
+  .psn-k::before { content: ""; position: absolute; left: 25px; top: 24px; bottom: 90px; width: 2px; background: linear-gradient(180deg, #3061ff, rgba(107,140,255,.2)); }
+  .psn-k-step { padding-top: 0; position: relative; margin-bottom: 28px; }
+  .psn-k-dot { position: absolute; left: -36px; top: 0; margin: 0; }
+  .psn-k-dot::after { display: none; }
+  .psn-k-dot span { width: 40px; height: 40px; font-size: 14px; box-shadow: 0 0 0 5px rgba(48,97,255,.25); }
+  .psn-k-card { margin-left: 18px; }
+}
+@media (max-width: 767px) {
+  .psn-q p { font-size: 17px; }
+  .psn-a b { font-size: 26px; padding: 7px 18px 9px; }
+  .psn-desc { font-size: 15px; }
+  .psn-g, .psn-h, .psn-i, .psn-j, .psn-k { margin-top: 32px; }
+  /* G: 탭은 한 줄 3칸(번호 위·이름 아래) */
+  .psn-g-tabs { gap: 8px; }
+  .psn-g-tabs button { flex-direction: column; align-items: flex-start; gap: 4px; padding: 12px 12px 14px; border-radius: 14px; font-size: 15px; }
+  .psn-g-tt { word-break: keep-all; line-height: 1.2; }
+  .psn-g-card { border-radius: 22px; }
+  .psn-g-body { padding: 24px 22px 28px; }
+  /* H */
+  .psn-h { gap: 16px; }
+  .psn-h-card { border-radius: 22px; }
+  .psn-h-q { padding: 20px 20px 4px; }
+  .psn-h-a { margin: 0 10px 10px; padding: 18px 16px 20px; }
+  .psn-h-a .psn-a b { font-size: 24px; }
+  .psn-h-a .psn-desc { font-size: 14px; }
+  /* I: 한 줄 머리 → 문제 위, 해답 아래로 쌓기 */
+  .psn-i-head { grid-template-columns: 34px minmax(0, 1fr) 24px; grid-template-areas: "n q p" ". a ."; row-gap: 12px; gap: 12px; padding: 22px 0; }
+  .psn-i-head .psn-no { grid-area: n; align-self: start; padding-top: 14px; }
+  .psn-i-q { grid-area: q; font-size: 16px; }
+  .psn-i-head .psn-arrow { display: none; }
+  .psn-i-a { grid-area: a; font-size: 22px; padding: 6px 16px 8px; }
+  .psn-i-plus { grid-area: p; align-self: start; margin-top: 14px; }
+  .psn-i-inner { grid-template-columns: 1fr; gap: 18px; padding-left: 0; }
+  .psn-i-row[data-on="1"] .psn-i-inner { padding-bottom: 28px; }
+  /* J */
+  .psn-j { margin-left: -28px; margin-right: -28px; }
+  .psn-j-card { flex-basis: 82vw; min-height: 540px; border-radius: 24px; }
+  .psn-j-info { padding: 22px; }
+  .psn-a-inline b { font-size: 26px; }
+  /* K */
+  .psn-k-card { padding: 16px 16px 22px; border-radius: 22px; }
+  .psn-k-card .psn-a b { font-size: 24px; }
+}

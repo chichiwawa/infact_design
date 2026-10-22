@@ -1,0 +1,205 @@
+/* 03 마케팅 설계 — 3카드 레이아웃 (파란색은 사이트 공통 블루 #3061ff / 글로우 #6b8cff) */
+.psc { position: relative; overflow: hidden; color: #fff; padding: 180px 0 120px; background:
+  radial-gradient(900px 520px at 50% 0%, rgba(48,97,255,.22), transparent 70%),
+  linear-gradient(rgba(107,140,255,.05) 1px, transparent 1px) 0 0 / 56px 56px,
+  linear-gradient(90deg, rgba(107,140,255,.05) 1px, transparent 1px) 0 0 / 56px 56px,
+  #070b1c; }
+.psc-head { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.psc-eyebrow { font-size: 17px; font-weight: 700; letter-spacing: .02em; color: #6b8cff; }
+.psc-title { margin-top: 36px; font-size: clamp(34px, 3.8vw, 58px); font-weight: 300; line-height: 1.2; letter-spacing: -.04em; }
+.psc-title b { font-weight: 800; }
+.psc-intro { margin-top: 28px; font-size: clamp(16px, 1.5vw, 22px); font-weight: 300; line-height: 1.5; color: rgba(255,255,255,.7); letter-spacing: -.02em; }
+.psc-intro b { font-weight: 600; color: #fff; }
+
+/* 단계 원: 01 ···· 02 ···· 03 */
+.psc-steps { list-style: none; margin: 56px 0 0; padding: 0; display: flex; align-items: flex-start; justify-content: center; gap: 0; }
+.psc-steps li { position: relative; width: 208px; }
+.psc-steps li + li::before { content: ""; position: absolute; top: 31px; right: 50%; width: 100%; margin-right: 31px; border-top: 1.5px dashed rgba(107,140,255,.35); z-index: 0; }
+.psc-steps button { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 14px; width: 100%; color: rgba(255,255,255,.85); background: none; cursor: pointer; }
+.psc-dot { width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center; font-size: 22px; font-weight: 500; background: #0b1230; border: 1.5px solid rgba(107,140,255,.35); color: rgba(255,255,255,.85); transition: border-color .3s, box-shadow .3s, color .3s; }
+.psc-step-name { font-size: 18px; font-weight: 700; letter-spacing: -.02em; }
+.psc-steps li[data-on="1"] .psc-dot { color: #6b8cff; border: 2.5px solid #3061ff; box-shadow: 0 0 0 5px rgba(48,97,255,.18), 0 0 24px rgba(48,97,255,.65); }
+
+/* 카드 3장 */
+.psc-grid { margin-top: 64px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; max-width: 1360px; margin-inline: auto; }
+.psc-card { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 22px 28px 40px; border-radius: 36px; border: 2px solid rgba(48,97,255,.75); background: linear-gradient(180deg, rgba(8,16,48,.92), rgba(5,10,32,.96)); transition: border-color .3s, box-shadow .3s, transform .4s cubic-bezier(.2,.7,.2,1); }
+.psc-card[data-on="1"] { border-color: #3061ff; box-shadow: 0 0 36px rgba(48,97,255,.35); transform: translateY(-6px); }
+.psc-no { align-self: flex-start; font-size: 30px; font-weight: 400; color: #3061ff; line-height: 1; }
+.psc-card-title { margin-top: 18px; font-size: clamp(24px, 2.2vw, 34px); font-weight: 300; line-height: 1.3; letter-spacing: -.04em; word-break: keep-all; }
+.psc-card-title b { font-weight: 800; color: #8aa6ff; }
+.psc-check { margin-top: 18px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: #3061ff; box-shadow: 0 0 12px rgba(48,97,255,.8); }
+.psc-desc { margin-top: 20px; font-size: 16px; line-height: 1.5; color: rgba(255,255,255,.78); letter-spacing: -.02em; word-break: keep-all; }
+
+/* 항목 2x2 */
+.psc-feats { margin-top: 38px; width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.psc-feat { display: flex; align-items: center; gap: 10px; padding: 10px 12px; text-align: left; border-radius: 12px; background: rgba(255,255,255,.05); border: 1px solid rgba(107,140,255,.22); }
+.psc-ico { flex: none; width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; background: linear-gradient(140deg, #4a7bff, #2148d6); box-shadow: 0 0 12px rgba(48,97,255,.55); }
+.psc-feat-t { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.psc-feat-t b { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: -.03em; white-space: nowrap; }
+.psc-feat-t small { font-size: 11px; line-height: 1.3; color: rgba(255,255,255,.6); letter-spacing: -.03em; word-break: keep-all; }
+
+/* 상품 버튼 */
+.psc-btn { margin-top: 36px; display: inline-flex; align-items: center; gap: 10px; padding: 13px 24px; border-radius: 999px; font-size: 18px; font-weight: 700; letter-spacing: -.02em; color: #fff; background: #3061ff; box-shadow: 0 8px 24px -6px rgba(48,97,255,.75); transition: background .2s, transform .2s; }
+.psc-btn:hover { background: #2148d6; transform: translateY(-2px); }
+.psc-btn-ar { width: 16px; height: 16px; border-radius: 50%; display: grid; place-items: center; background: #0a1330; }
+
+@media (max-width: 1199px) {
+  .psc-feat-t b { white-space: normal; }
+}
+@media (max-width: 1023px) {
+  .psc { padding: 140px 0 80px; }
+  .psc-grid { grid-template-columns: 1fr; max-width: 560px; }
+  .psc-card[data-on="1"] { transform: none; }
+}
+@media (max-width: 767px) {
+  .psc { padding: 110px 0 64px; }
+  .psc-eyebrow { font-size: 14px; }
+  .psc-title { margin-top: 24px; font-size: 30px; }
+  .psc-intro { margin-top: 18px; font-size: 15px; }
+  .psc-steps { margin-top: 36px; }
+  .psc-steps li { width: 33.33%; }
+  .psc-steps li + li::before { top: 24px; margin-right: 24px; }
+  .psc-dot { width: 48px; height: 48px; font-size: 17px; }
+  .psc-step-name { font-size: 14px; }
+  .psc-grid { margin-top: 40px; gap: 16px; }
+  .psc-card { padding: 18px 20px 30px; border-radius: 28px; }
+  .psc-no { font-size: 24px; }
+  .psc-card-title { font-size: 24px; }
+  .psc-desc { font-size: 14px; }
+  .psc-feats { margin-top: 28px; }
+  .psc-btn { margin-top: 28px; font-size: 16px; padding: 12px 22px; }
+}
+@media (max-width: 767px) {
+  .psc-step-name { white-space: nowrap; font-size: 13px; }
+  .psc-title { font-size: 26px; }
+  .psc-title .block { word-break: keep-all; }
+}
+@media (max-width: 480px) {
+  .psc-feats { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* 선택된 카드(data-on="1")만 파란색, 나머지는 무채색 (2026-10-22 색만 변경) */
+.psc-card { border-color: rgba(255,255,255,.14); background: rgba(255,255,255,.04); }
+.psc-card[data-on="1"] { border-color: #3061ff; background: linear-gradient(180deg, rgba(10,24,70,.92), rgba(5,12,38,.96)); }
+.psc-card:not([data-on="1"]) .psc-no { color: rgba(255,255,255,.6); }
+.psc-card:not([data-on="1"]) .psc-card-title b { color: #fff; }
+.psc-card:not([data-on="1"]) .psc-check { background: rgba(255,255,255,.22); box-shadow: none; }
+.psc-card:not([data-on="1"]) .psc-feat { border-color: rgba(255,255,255,.12); }
+.psc-card:not([data-on="1"]) .psc-ico { background: rgba(255,255,255,.12); box-shadow: none; }
+.psc-card:not([data-on="1"]) .psc-btn { background: transparent; color: rgba(255,255,255,.85); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.35); }
+.psc-card:not([data-on="1"]) .psc-btn:hover { background: rgba(255,255,255,.08); }
+.psc-card:not([data-on="1"]) .psc-btn-ar { background: rgba(255,255,255,.2); }
+.psc-card, .psc-no, .psc-check, .psc-ico, .psc-btn { transition: border-color .3s, background .3s, color .3s, box-shadow .3s, transform .4s cubic-bezier(.2,.7,.2,1); }
+
+/* 버튼 화살표: 어두운 동그라미 없이 얇고 긴 → */
+.psc-btn-ar svg { display: block; transition: transform .25s; }
+.psc-btn:hover .psc-btn-ar svg { transform: translateX(4px); }
+
+
+/* 버튼 글씨 옆: 동그라미 안에 화살표 */
+
+/* 항목 박스·버튼 모양 (2026-10-22 시안): 크고 빛나는 아이콘 타일, 파란 그라데이션 버튼 + 작은 어두운 원 화살표 */
+.psc-feats { gap: 12px; }
+.psc-feat { gap: 14px; padding: 12px 14px; border-radius: 18px; border-width: 0.4px; background: linear-gradient(160deg, rgba(20,44,120,.45), rgba(6,14,44,.6)); }
+.psc-card .psc-feat, .psc-card[data-on="1"] .psc-feat { border-color: rgba(255,255,255,.03); }
+.psc-ico { width: 54px; height: 54px; border-radius: 14px; background: linear-gradient(150deg, #2a5cf0, #0c2a9c); box-shadow: inset 0 0 14px rgba(120,170,255,.5), 0 0 12px rgba(48,97,255,.55); }
+.psc-feat-t { gap: 5px; }
+.psc-feat-t b { font-size: 15px; }
+.psc-feat-t small { font-size: 12.5px; color: rgba(255,255,255,.72); }
+.psc-btn { padding: 16px 32px; font-size: 22px; gap: 14px; }
+.psc-card[data-on="1"] .psc-btn { background: linear-gradient(180deg, #2148d6, #3b86ee); box-shadow: 0 10px 28px -8px rgba(48,97,255,.8), inset 0 0 0 1px rgba(255,255,255,.12); }
+.psc-btn-ar, .psc-card:not([data-on="1"]) .psc-btn-ar { width: 26px; height: 26px; background: #0a1330; box-shadow: none; }
+@media (max-width: 1199px) { .psc-feat { gap: 10px; padding: 10px; } .psc-ico { width: 46px; height: 46px; } .psc-feat-t b { font-size: 14px; } }
+@media (max-width: 767px) { .psc-btn { font-size: 18px; padding: 14px 26px; } }
+.psc-feat { gap: 11px; padding: 11px 12px; }
+.psc-ico { width: 46px; height: 46px; }
+.psc-feat-t b { font-size: 14px; }
+.psc-feat-t small { font-size: 12px; letter-spacing: -.05em; }
+@media (min-width: 1200px) { .psc-feat-t small { font-size: 11.5px; letter-spacing: -.06em; word-break: normal; } .psc-feat { gap: 9px; padding-inline: 10px; } }
+
+/* 버튼은 더 작게, 항목 글씨는 더 크게 */
+.psc-btn { padding: 11px 22px; font-size: 16px; gap: 10px; }
+.psc-btn-ar, .psc-card:not([data-on="1"]) .psc-btn-ar { width: 22px; height: 22px; }
+.psc-btn-ar svg { width: 10px; height: 10px; }
+.psc-feat { gap: 9px; padding: 10px; }
+.psc-ico { width: 42px; height: 42px; }
+.psc-ico svg { width: 24px; height: 24px; }
+.psc-feat-t b { font-size: 16px; }
+.psc-feat-t small { font-size: 12.5px; }
+@media (max-width: 767px) { .psc-btn { padding: 10px 20px; font-size: 15px; } .psc-feat-t b { font-size: 15px; } .psc-feat-t small { font-size: 12px; } }
+
+/* 버튼: 그라데이션 테두리 알약 + 꺾쇠(>) 화살표 (헤더 회사소개서 버튼과 같은 스타일) */
+.psc-btn, .psc-card:not([data-on="1"]) .psc-btn, .psc-card[data-on="1"] .psc-btn { position: relative; padding: 12px 24px; gap: 12px; font-size: 16px; color: #fff; background: rgba(8,16,48,.85); box-shadow: none; }
+.psc-card[data-on="1"] .psc-btn { box-shadow: 0 0 22px -4px rgba(77,163,255,.55); }
+.psc-btn::before { content: ""; position: absolute; inset: 0; padding: 1.5px; border-radius: inherit; background: linear-gradient(120deg, #4da3ff, #7ee8ff 50%, #a78bfa); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); pointer-events: none; }
+.psc-card:not([data-on="1"]) .psc-btn::before { opacity: .45; }
+.psc-btn:hover, .psc-card:not([data-on="1"]) .psc-btn:hover { background: rgba(255,255,255,.10); }
+.psc-btn-ar, .psc-card:not([data-on="1"]) .psc-btn-ar { width: auto; height: auto; border-radius: 0; background: none; }
+.psc-btn-ar svg { width: 14px; height: 14px; }
+
+/* 버튼 정렬·그라데이션 채움 / 활성 카드 빛 연하게 */
+.psc-btn, .psc-card:not([data-on="1"]) .psc-btn, .psc-card[data-on="1"] .psc-btn { align-self: center; line-height: 1; padding: 13px 22px 13px 26px; background: linear-gradient(120deg, #2148d6 0%, #3b86ee 55%, #5fb6f5 100%); }
+.psc-card:not([data-on="1"]) .psc-btn { background: linear-gradient(120deg, rgba(33,72,214,.55), rgba(59,134,238,.45) 55%, rgba(95,182,245,.4)); }
+.psc-btn:hover, .psc-card:not([data-on="1"]) .psc-btn:hover { filter: brightness(1.12); background: linear-gradient(120deg, #2148d6 0%, #3b86ee 55%, #5fb6f5 100%); }
+.psc-btn-ar { display: inline-flex; align-items: center; justify-content: center; }
+.psc-btn-ar svg { display: block; }
+.psc-card[data-on="1"] { box-shadow: 0 0 22px rgba(48,97,255,.14); }
+.psc-card[data-on="1"] .psc-btn { box-shadow: 0 0 16px -4px rgba(77,163,255,.35); }
+
+/* 아이콘: 진한 파랑 채움 대신 연한 반투명 파랑 타일 + 밝은 파랑 선 아이콘 */
+.psc-ico, .psc-card[data-on="1"] .psc-ico { border-radius: 50%; background: rgba(48,97,255,.22); box-shadow: none; }
+.psc-card[data-on="1"] .psc-ico svg { stroke: #7fa4ff; }
+.psc-card:not([data-on="1"]) .psc-ico { border-radius: 50%; background: rgba(255,255,255,.08); }
+.psc-card:not([data-on="1"]) .psc-ico svg { stroke: rgba(255,255,255,.7); }
+
+
+/* 카드 테두리 얇게(1px), 상품 버튼 테두리 제거 */
+.psc-card { border-width: 1px; }
+.psc-btn::before { display: none; }
+.psc-btn, .psc-card:not([data-on="1"]) .psc-btn { box-shadow: none; }
+.psc-card[data-on="1"] .psc-btn { box-shadow: 0 0 16px -4px rgba(77,163,255,.35); }
+
+/* PC: 단계 원 작게 · 연결선 길게 · 위아래 간격 줄여 한 화면에 */
+@media (min-width: 1200px) {
+  .psc { padding-top: 150px; padding-bottom: 80px; }
+  .psc-title { margin-top: 24px; }
+  .psc-intro { margin-top: 18px; }
+  .psc-steps { margin-top: 32px; }
+  .psc-steps li { width: 360px; }
+  .psc-steps li + li::before { top: 23px; margin-right: 23px; }
+  .psc-dot { width: 46px; height: 46px; font-size: 17px; }
+  .psc-steps button { gap: 10px; }
+  .psc-step-name { font-size: 16px; }
+  .psc-grid { margin-top: 36px; }
+}
+
+/* 카드별 포인트 색: 01 블루 · 02 청록 · 03 보라 (선택된 카드·단계 원에만 적용) */
+.psc-card:nth-child(1), .psc-steps li:nth-child(1) { --ac: #3061ff; --ac-l: #8aa6ff; --ac-rgb: 48,97,255; --ac-bg: 10,24,70; --ac-g2: #3b86ee; }
+.psc-card:nth-child(2), .psc-steps li:nth-child(2) { --ac: #109aaa; --ac-l: #52c9cf; --ac-rgb: 16,154,170; --ac-bg: 6,44,58; --ac-g2: #2fb5b8; }
+.psc-card:nth-child(3), .psc-steps li:nth-child(3) { --ac: #8b5cf6; --ac-l: #b8a2ff; --ac-rgb: 139,92,246; --ac-bg: 38,20,82; --ac-g2: #a98bff; }
+.psc-steps li[data-on="1"] .psc-dot { color: var(--ac-l); border-color: var(--ac); box-shadow: 0 0 0 5px rgba(var(--ac-rgb), .18), 0 0 24px rgba(var(--ac-rgb), .65); }
+.psc-card[data-on="1"] { border-color: var(--ac); background: linear-gradient(180deg, rgba(var(--ac-bg), .92), rgba(5,12,38,.96)); box-shadow: 0 0 22px rgba(var(--ac-rgb), .18); }
+.psc-card[data-on="1"] .psc-no { color: var(--ac-l); }
+.psc-card[data-on="1"] .psc-card-title b { color: var(--ac-l); }
+.psc-card[data-on="1"] .psc-check { background: var(--ac); box-shadow: 0 0 12px rgba(var(--ac-rgb), .8); }
+.psc-card[data-on="1"] .psc-ico { background: rgba(var(--ac-rgb), .22); }
+.psc-card[data-on="1"] .psc-ico svg { stroke: var(--ac-l); }
+.psc-card[data-on="1"] .psc-btn { background: linear-gradient(120deg, var(--ac), var(--ac-g2)); box-shadow: 0 0 16px -4px rgba(var(--ac-rgb), .5); }
+
+/* 제목 끝 점: "인팩트만의 강점." 처럼 굵고 크게 */
+.psc-title i { font-weight: 800; font-size: 1.25em; line-height: 0; }
+
+/* 선택 안 된 카드: 항목 박스·상품 버튼을 블랙 계열로 */
+.psc-card .psc-feat { background: linear-gradient(160deg, rgba(255,255,255,.05), rgba(8,9,14,.7)); }
+.psc-card:not([data-on="1"]) .psc-btn { background: #0b0c12; }
+
+/* 모바일: 카드 폭을 조금 줄여 가운데 정렬 */
+@media (max-width: 767px) {
+  .psc-grid { width: 92%; margin-inline: auto; }
+}
+
+/* 모바일: 상품 버튼 더 작게 */
+@media (max-width: 767px) {
+  .psc-btn, .psc-card:not([data-on="1"]) .psc-btn, .psc-card[data-on="1"] .psc-btn { padding: 8px 16px; font-size: 13px; gap: 8px; margin-top: 22px; }
+  .psc-btn-ar svg { width: 9px; height: 9px; }
+}

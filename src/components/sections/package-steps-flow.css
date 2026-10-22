@@ -1,0 +1,57 @@
+/* 03 마케팅 설계 — 문제→결과 흐름 시안 d/e/f. 시안 전용 */
+.psf-label { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .06em; color: #ff8a8a; margin-bottom: 10px; }
+
+/* ── D: 펼침 패널 ── */
+.psf-d .psd-c-name { display: none; }
+.psf-d-fold { position: absolute; z-index: 2; left: 28px; right: 24px; bottom: 30px; transition: opacity .3s; }
+.psd-c-p[data-on="1"] .psf-d-fold { opacity: 0; }
+.psf-d-q { font-size: 20px; font-weight: 800; line-height: 1.35; letter-spacing: -.5px; word-break: keep-all; }
+.psf-d-a { margin-top: 12px; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #fff; padding: 6px 14px 6px 10px; border-radius: 999px; background: #3061ff; }
+.psf-d-a svg { width: 16px; height: 16px; }
+.psf-d-open { display: grid; gap: 0; }
+.psf-d-problem h3 { margin-top: 0; font-size: clamp(28px, 2.8vw, 40px); }
+.psf-d-arrow { margin: 18px 0; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: #3061ff; color: #fff; transform: rotate(90deg); }
+.psf-d-solution { padding: 22px 24px; border-radius: 20px; background: rgba(48,97,255,.22); border: 1px solid rgba(107,140,255,.55); backdrop-filter: blur(6px); }
+.psf-d-solution p { margin-top: 12px; font-size: 17px; line-height: 1.55; color: rgba(255,255,255,.9); }
+.psf-d-solution .psd-cta { margin-top: 18px; padding: 11px 20px; font-size: 14px; }
+
+/* ── E: 가로 3줄 ── */
+.psf-e { margin-top: 56px; display: grid; gap: 16px; }
+.psf-e-row { display: grid; grid-template-columns: 56px minmax(0, 1fr) 48px minmax(0, 1fr) 220px; align-items: center; gap: 24px; padding: 20px 20px 20px 32px; border-radius: 28px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.10); transition: border-color .3s, background .3s; }
+.psf-e-row:hover { background: rgba(255,255,255,.08); }
+.psf-e-no { font-size: 34px; font-weight: 300; }
+.psf-e-q h3 { font-size: clamp(22px, 2.1vw, 30px); font-weight: 800; line-height: 1.3; letter-spacing: -.8px; word-break: keep-all; }
+.psf-e-mid { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: #3061ff; color: #fff; }
+.psf-e-a p { margin-top: 12px; font-size: 16px; line-height: 1.6; color: rgba(255,255,255,.72); word-break: keep-all; }
+.psf-e-pic { height: 132px; border-radius: 18px; background-size: cover; background-position: center; }
+
+/* ── F: 3열 카드 (문제 칸 → 해결 칸) ── */
+.psf-f { margin-top: 64px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.psf-f-card { display: flex; flex-direction: column; border-radius: 28px; overflow: hidden; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.10); }
+.psf-f-pic { position: relative; aspect-ratio: 16 / 9; background-size: cover; background-position: center; }
+.psf-f-pic::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,11,28,0) 50%, rgba(7,11,28,.7) 100%); }
+.psf-f-pic .psd-no { position: absolute; z-index: 1; left: 24px; bottom: 12px; font-size: 34px; font-weight: 300; letter-spacing: 0; color: #fff; }
+.psf-f-q { padding: 26px 28px 30px; background: rgba(255,90,90,.07); }
+.psf-f-q h3 { font-size: 24px; font-weight: 800; line-height: 1.35; letter-spacing: -.6px; word-break: keep-all; }
+.psf-f-join { position: relative; z-index: 1; width: 44px; height: 44px; margin: -22px auto -22px; border-radius: 50%; display: grid; place-items: center; background: #3061ff; color: #fff; border: 4px solid #0b1124; transform: rotate(90deg); }
+.psf-f-a { flex: 1; padding: 40px 28px 30px; background: rgba(48,97,255,.16); }
+.psf-f-a p { margin-top: 14px; font-size: 16px; line-height: 1.6; color: rgba(255,255,255,.85); word-break: keep-all; }
+.psf-f-a .psd-check { margin-top: 18px; }
+.psf-f-a .psd-check li { font-size: 14px; color: rgba(255,255,255,.7); }
+
+@media (max-width: 1023px) {
+  .psf-e-row { grid-template-columns: 1fr; gap: 14px; padding: 24px; }
+  .psf-e-no { font-size: 26px; }
+  .psf-e-mid { transform: rotate(90deg); width: 40px; height: 40px; }
+  .psf-e-pic { height: 160px; order: -1; }
+  .psf-f { grid-template-columns: 1fr; }
+  .psf-d-fold { left: 90px; bottom: 50%; transform: translateY(50%); }
+  .psf-d-q { font-size: 16px; }
+  .psf-d-a { display: none; }
+  .psd-c-p[data-on="1"] { height: 560px; }
+}
+@media (max-width: 767px) {
+  .psf-d-solution { padding: 16px 18px; }
+  .psf-d-solution p { font-size: 15px; }
+  .psf-d-problem h3 { font-size: 22px; }
+}

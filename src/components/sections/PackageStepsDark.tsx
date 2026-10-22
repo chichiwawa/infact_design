@@ -99,6 +99,41 @@ export default function PackageStepsDark({ title, data, variant }: { title: stri
                 <div className="psd-c-tab"><span className="psd-no">{no(i)}</span></div>
                 {/* 접힌 상태 글씨: PC 는 단계 이름, 모바일은 "어떤 병원인지"(원인)를 먼저 */}
                 <span className="psd-c-name"><span className="psd-c-nt">{it.title}</span><span className="psd-c-nw">{it.target.replace(/\.$/, "").split("\n").map((l, k) => <span key={k} className="block">{l}</span>)}</span></span>
+                {/* PC(1024px 이상) 전용 펼침 레이아웃: 문제 → ↓ → 해답 상품 박스. 모바일·태블릿은 아래 psd-c-info 사용 */}
+                <div className="psd-c-x">
+                  <div className="psd-x-top">
+                    <div className="psd-x-q">
+                      <span className="psd-x-step">{it.tag}</span>
+                      <h3>{it.target.split(/(?<=,) /).map((l, k) => <span key={k} className="block">{l}</span>)}</h3>
+                      <p>{it.body}</p>
+                    </div>
+                    <ul className="psd-x-res">{it.results?.map((r) => <li key={r}>{r}</li>)}</ul>
+                  </div>
+                  <div className="psd-x-down" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M6 13l6 6 6-6" /></svg></div>
+                  <div className="psd-x-sol">
+                    <div className="psd-x-sol-top">
+                      <div>
+                        <span className="psd-x-eyebrow">INFACT. SOLUTION</span>
+                        <h4>{it.title} 상품</h4>
+                        <p>{it.results?.[0]}</p>
+                      </div>
+                      <svg className="psd-x-graph" viewBox="0 0 160 110" fill="none" aria-hidden="true">
+                        <rect x="14" y="74" width="22" height="30" rx="3" fill="#2f6bff" />
+                        <rect x="46" y="58" width="22" height="46" rx="3" fill="#3d82ff" />
+                        <rect x="78" y="40" width="22" height="64" rx="3" fill="#56a0ff" />
+                        <rect x="110" y="22" width="22" height="82" rx="3" fill="#7cc0ff" />
+                        <path d="M10 62 L56 44 L86 28 L140 6" stroke="#8fd0ff" strokeWidth="3.5" strokeLinecap="round" />
+                        <path d="M128 4 L142 5 L138 19" stroke="#8fd0ff" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+                    <div className="psd-x-cards">
+                      {it.tags?.map((t, k) => (
+                        <div key={t} className="psd-x-card"><span className="psd-x-ico">{no(k)}</span><b>{t}</b></div>
+                      ))}
+                    </div>
+                    <Link href={data.cta_href} className="psd-cta psd-x-cta">{data.cta_label} →</Link>
+                  </div>
+                </div>
                 <div className="psd-c-info">
                   <span className="psd-badge">{it.title}</span>
                   <h3><span className="psd-c-tpc">{it.target.replace(/\n/g, " ")}</span><span className="psd-c-tm">{mbr(it.target.replace(/\.$/, "").replace(/\n/g, " "))}</span></h3>

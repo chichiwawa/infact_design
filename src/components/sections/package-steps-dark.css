@@ -31,7 +31,7 @@
 /* ── A: 3열 카드 — 한눈에 3개 비교, 글은 핵심만 ── */
 .psd-a-grid { margin-top: 64px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .psd-a-card { display: flex; flex-direction: column; border-radius: 28px; overflow: hidden; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.10); transition: transform .4s cubic-bezier(.2,.7,.2,1), border-color .3s, background .3s; }
-.psd-a-card:hover { transform: translateY(-8px); border-color: rgba(107,140,255,.6); background: rgba(255,255,255,.08); }
+.psd-a-card:hover { transform: translateY(-8px); background: rgba(255,255,255,.08); }
 .psd-a-img { position: relative; aspect-ratio: 4 / 3; background-size: cover; background-position: center; }
 .psd-a-img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,11,28,0) 45%, rgba(7,11,28,.85) 100%); }
 .psd-a-img .psd-no { position: absolute; left: 24px; bottom: 16px; z-index: 1; font-size: 40px; font-weight: 300; letter-spacing: 0; color: #fff; }
@@ -123,12 +123,51 @@
 .psd-c-tm { display: none; }
 /* 모바일 펼침: 왼쪽 문제 제목 / 오른쪽 단계 배지를 같은 줄에, 나머지는 전체 폭 */
 @media (max-width: 767px) {
-  .psd-c-info { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; align-items: end; }
-  .psd-c-info > * { grid-column: 1 / -1; }
-  .psd-c-info > .psd-badge { grid-column: 2; grid-row: 1; align-self: end; margin-bottom: 2px; font-size: 12px; padding: 6px 12px; white-space: nowrap; }
-  .psd-c-info > h3 { grid-column: 1; grid-row: 1; margin-top: 0; }
-  .psd-c-info > .psd-cta { justify-self: start; }
+  /* 위에서 아래로: ① 이런 병원이라면(작게) → ② 추천 단계(크게, 파란 강조) → 설명 → 결과 → 버튼 */
+  .psd-c-p[data-on="1"] { height: 500px; }
+  .psd-c-info { display: flex; flex-direction: column; align-items: flex-start; }
+  .psd-c-info > h3 { order: 1; margin-top: 0; font-size: 15px; font-weight: 600; line-height: 1.45; letter-spacing: -.02em; color: rgba(255,255,255,.78); }
+  .psd-c-info > h3::before { content: "이런 병원이라면"; display: block; margin-bottom: 4px; font-size: 12px; font-weight: 700; letter-spacing: .04em; color: #6b8cff; }
+  .psd-c-info > .psd-badge { order: 2; margin-top: 14px; font-size: 22px; font-weight: 800; letter-spacing: -.03em; padding: 9px 20px; line-height: 1.2; box-shadow: 0 6px 20px rgba(48,97,255,.45); }
+  .psd-c-info > .psd-badge::before { content: "추천  "; font-size: 12px; font-weight: 700; opacity: .85; vertical-align: 2px; }
+  .psd-c-info > p { order: 3; margin-top: 14px; font-size: 14px; line-height: 1.55; }
+  .psd-c-info > .psd-check { order: 4; margin-top: 14px; }
+  .psd-c-info > .psd-check li { font-size: 14px; }
+  .psd-c-info > .psd-cta { order: 5; }
 }
 @media (max-width: 767px) { .psd-c-tpc { display: none; } .psd-c-tm { display: inline; } } /* 모바일: 펼친 제목 끝 마침표 삭제 */
 .psd-c-nw { display: none; }
 @media (max-width: 767px) { .psd-c-nw { display: block; } }
+
+/* ── PC 펼침 패널(03 마케팅 설계): 문제 → ↓ → 해답 상품 박스 (1024px 이상) ── */
+.psd-c-x { display: none; }
+@media (min-width: 1024px) {
+  .psd-c { height: 660px; }
+  .psd-c-p[data-on="1"]::before { background: linear-gradient(180deg, rgba(7,11,28,.82) 0%, rgba(7,11,28,.94) 100%); }
+  .psd-c-p[data-on="1"] .psd-c-info { display: none; }
+  .psd-c-x { display: flex; flex-direction: column; position: absolute; z-index: 2; inset: 28px 30px 28px 30px; opacity: 0; transform: translateY(16px); transition: opacity .45s, transform .6s cubic-bezier(.2,.7,.2,1); pointer-events: none; }
+  .psd-c-p[data-on="1"] .psd-c-x { opacity: 1; transform: none; transition-delay: .25s; pointer-events: auto; }
+  .psd-c-tab { display: none; }
+  .psd-c-p[data-on="1"] .psd-c-tab { display: none; }
+  .psd-c-p:not([data-on="1"]) .psd-c-tab { display: flex; }
+  .psd-x-top { display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 20px; align-items: start; }
+  .psd-c-x { min-width: 0; }
+  .psd-x-step { font-size: 13px; font-weight: 800; letter-spacing: .14em; color: #6b8cff; }
+  .psd-x-q h3 { margin-top: 10px; font-size: 27px; font-weight: 800; line-height: 1.25; letter-spacing: -.04em; color: #fff; }
+  .psd-x-q p { margin-top: 12px; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.72); word-break: keep-all; }
+  .psd-x-res { list-style: none; margin: 0; padding: 14px 16px; display: grid; gap: 10px; border-radius: 14px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); }
+  .psd-x-res li { position: relative; padding-left: 26px; font-size: 12.5px; line-height: 1.45; color: rgba(255,255,255,.88); word-break: keep-all; }
+  .psd-x-res li::before { content: "✓"; position: absolute; left: 0; top: 0; width: 18px; height: 18px; border-radius: 50%; background: #3061ff; color: #fff; font-size: 11px; font-weight: 800; display: grid; place-items: center; }
+  .psd-x-down { align-self: center; margin: 14px 0; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; color: #fff; border: 1px solid rgba(107,140,255,.8); background: rgba(10,20,60,.7); box-shadow: 0 0 14px rgba(48,97,255,.5); }
+  .psd-x-sol { margin-top: auto; padding: 22px 24px 24px; border-radius: 20px; border: 1px solid rgba(80,130,255,.55); background: linear-gradient(160deg, rgba(14,34,96,.82), rgba(6,14,44,.9)); box-shadow: 0 0 28px rgba(48,97,255,.28) inset, 0 0 24px rgba(48,97,255,.2); }
+  .psd-x-sol-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .psd-x-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: .14em; color: #6b8cff; }
+  .psd-x-sol h4 { margin-top: 8px; font-size: 26px; font-weight: 800; letter-spacing: -.04em; color: #fff; }
+  .psd-x-sol-top p { margin-top: 8px; font-size: 14px; line-height: 1.55; color: rgba(255,255,255,.75); word-break: keep-all; }
+  .psd-x-graph { flex: none; width: 130px; height: auto; filter: drop-shadow(0 0 12px rgba(80,150,255,.6)); }
+  .psd-x-cards { margin-top: 18px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .psd-x-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); }
+  .psd-x-ico { flex: none; width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center; font-size: 12px; font-weight: 800; color: #fff; background: linear-gradient(140deg, #3d82ff, #1c3fd0); box-shadow: 0 0 10px rgba(61,130,255,.5); }
+  .psd-x-card b { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: -.02em; white-space: nowrap; }
+  .psd-x-cta { margin-top: 18px; padding: 11px 22px; font-size: 14px; background: #2f6bff; box-shadow: 0 0 16px rgba(47,107,255,.55); }
+}
