@@ -1988,9 +1988,17 @@ html.strength-drag { scroll-snap-type: none !important; }
 /* 모바일 04 (2026-10-22): 상품 카드 글씨를 "우리병원은 ○○이 필요해요" 문장보다 작게 */
 @media (max-width: 767px) {
   .pk-stack[data-mob="f"] .pk-scard-bottom h3 { font-size: 23px; line-height: 1.3; margin-bottom: 8px; }
-  .pk-stack[data-mob="f"] .pk-scard-bottom .pk-below-body { font-size: 14px; line-height: 1.55; }
+  .pk-stack[data-mob="f"] .pk-scard-bottom .pk-below-body { font-size: 13.5px; line-height: 1.55; letter-spacing: -.03em; }
   .pk-stack[data-mob="f"] .pk-scard-bottom .pk-eb { font-size: 12px; }
   .pk-stack[data-mob="f"] .yt-chips li { font-size: 13px; }
+}
+
+/* 모바일 04 (2026-10-22): 상품 설명은 모바일에서만 짧은 2줄 문구(body_m) 사용 */
+.pk-below-body.mb-m { display: none; }
+@media (max-width: 767px) {
+  .pk-below-body.mb-pc { display: none; }
+  .pk-below-body.mb-m { display: block; }
+  .mb-brk { display: block; }
 }
 
 /* 모바일 04 (2026-10-22): 카드 안쪽 좌우 여백을 없애 AI 노출 부스터·유튜브 부스터 글이 "우리병원은 ○○이 필요해요" 와 같은 왼쪽 선에 오게 */

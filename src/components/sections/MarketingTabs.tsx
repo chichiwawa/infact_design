@@ -82,7 +82,7 @@ export default function MarketingTabs({ title, data, variant = "stack", acc = "b
         visual: <IndividualShowcase />,
         below: (
           <>
-            <p className="pk-below-body">패키지가 아니어도 괜찮습니다. 병원 진단 후, 필요한 것만 골라 설계합니다.</p>
+            <p className="pk-below-body">패키지가 아니어도 괜찮습니다.<span className="mb-brk" /> 병원 진단 후, 필요한 것만 골라 설계합니다.</p>
             <ul className="yt-chips">
               <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="12" height="17" rx="2" /><path d="M9.5 4h5v2.5h-5z" /><path d="M9 13l2 2 4-4" /></svg></i><span>진단 후 설계</span></li>
               <li><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M5 8h9M18 8h1M5 16h2M11 16h8" /><circle cx="16" cy="8" r="2" /><circle cx="9" cy="16" r="2" /></svg></i><span>필요한 것만</span></li>
@@ -111,7 +111,12 @@ export default function MarketingTabs({ title, data, variant = "stack", acc = "b
       ),
       below: (
         <>
-          <p className="pk-below-body">{rich(it.body)}</p>
+          {it.body_m ? (
+            <>
+              <p className="pk-below-body mb-pc">{rich(it.body)}</p>
+              <p className="pk-below-body mb-m">{rich(it.body_m)}</p>
+            </>
+          ) : <p className="pk-below-body">{rich(it.body)}</p>}
           {isPhoto(i) && it.tags?.length ? <ul className="yt-chips">{it.tags.map((tg, k) => <li key={tg}><i>{CHIP_SETS[i]?.[k]}</i><span>{tg}</span></li>)}</ul> : null}
           {it.tags?.length && !isPhoto(i) ? <ul className="pk-tags">{it.tags.map((tg) => <li key={tg}>{tg}</li>)}</ul> : null}
         </>

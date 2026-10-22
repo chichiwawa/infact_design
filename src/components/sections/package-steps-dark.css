@@ -1,5 +1,5 @@
 /* 03 마케팅 설계 — 어두운 배경 시안 (a 3열 카드 / b 목록+큰 사진 / c 펼쳐지는 패널). 시안 전용, 본 사이트에는 적용 안 됨 */
-.psd { --psd-bg: #070b1c; position: relative; background: radial-gradient(900px 480px at 15% 0%, rgba(48,97,255,.22), transparent 70%), var(--psd-bg); color: #fff; padding: 140px 0 120px; overflow: hidden; }
+.psd { --psd-bg: #070b1c; position: relative; background: radial-gradient(900px 480px at 15% 0%, rgba(48,97,255,.22), transparent 70%), var(--psd-bg); color: #fff; padding: 220px 0 120px; overflow: hidden; }
 .psd-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 48px; }
 .psd-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .16em; color: #6b8cff; margin-bottom: 20px; }
 /* 제목 시안 a: 가운데 정렬 */
@@ -81,7 +81,7 @@
 .psd-c-info .psd-cta { margin-top: 24px; }
 
 @media (max-width: 1023px) {
-  .psd { padding: 100px 0 80px; }
+  .psd { padding: 160px 0 80px; }
   .psd-head:not([data-h="a"]) { flex-direction: column; align-items: flex-start; gap: 20px; }
   .psd-a-grid { grid-template-columns: 1fr; }
   .psd-b { grid-template-columns: 1fr; gap: 28px; }
@@ -94,7 +94,7 @@
   .psd-c-p[data-on="1"] .psd-c-tab { top: 28px; transform: none; }
 }
 @media (max-width: 767px) {
-  .psd { padding: 72px 0 64px; }
+  .psd { padding: 120px 0 64px; }
   .psd-intro { font-size: 16px; }
   .psd-b-cap { left: 20px; right: 20px; bottom: 20px; }
   .psd-b-open p { padding-left: 0; font-size: 16px; }
@@ -105,5 +105,19 @@
   .psd-c-nt { display: none; }
   .psd-c-name { left: 76px; right: 16px; white-space: normal; font-size: 17px; line-height: 1.3; letter-spacing: -.02em; word-break: keep-all; }
 }
+@media (max-width: 767px) {
+  .psd-steps { display: none; } /* 머리말 라운드 박스(유입 구축형·전환 성장형·통합 브랜드형) 삭제 */
+  .psd-c-info .psd-cta { margin-top: 16px; font-size: 13px; padding: 9px 16px; gap: 6px; } /* 패키지 상세 보기 버튼 축소 */
+}
+/* 모바일 접힌 카드: 번호는 위, 설명 문구는 아래 전체 폭에서 한 줄로 */
+@media (max-width: 767px) {
+  .psd-c-p:not([data-on="1"]) .psd-c-tab { top: 12px; left: 20px; transform: none; }
+  .psd-c-tab .psd-no { font-size: 26px; }
+  .psd-c-name { left: 20px; right: 12px; bottom: 14px; transform: none; white-space: nowrap; font-size: min(16px, 4.5vw); letter-spacing: -.04em; }
+  .psd-c-p:not([data-on="1"]) { height: 92px; }
+}
+@media (max-width: 767px) { .psd-mbr { display: block; height: 0; font-size: 0; } }
+.psd-c-tm { display: none; }
+@media (max-width: 767px) { .psd-c-tpc { display: none; } .psd-c-tm { display: inline; } } /* 모바일: 펼친 제목 끝 마침표 삭제 */
 .psd-c-nw { display: none; }
 @media (max-width: 767px) { .psd-c-nw { display: block; } }

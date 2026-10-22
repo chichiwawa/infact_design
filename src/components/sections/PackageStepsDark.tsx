@@ -5,15 +5,16 @@
  *  a: 3열 카드(한눈에 비교) / b: 왼쪽 단계 목록 + 오른쪽 큰 사진 / c: 가로로 펼쳐지는 패널
  *  데이터는 pages.json 의 package_steps 를 그대로 사용. 시안 전용이라 본 사이트(SectionRenderer)에는 연결 안 됨.
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { PackageStepsData } from "@/lib/sections";
 import "./package-steps-dark.css";
 
-function Head({ title, intro, variant, steps }: { title: string; intro?: string; variant: "a" | "b" | "c"; steps: string[] }) {
+export function Head({ title, intro, variant, steps }: { title: string; intro?: string; variant: "a" | "b" | "c"; steps: string[] }) {
   const parts = title.split("\n");
   const render = (t: string) => t.split(/(\*\*[^*]+\*\*)/).map((p, i) => (p.startsWith("**") ? <em key={i}>{p.slice(2, -2)}</em> : p));
-  const bold = (t: string) => t.split(/(\*\*[^*]+\*\*)/).map((p, i) => (p.startsWith("**") ? <b key={i}>{p.slice(2, -2)}</b> : p));
+  // 문장 끝(". ") 뒤는 모바일에서만 줄바꿈
+  const bold = (t: string) => t.split(/(\*\*[^*]+\*\*|(?<=\.) )/).map((p, i) => (p.startsWith("**") ? <b key={i}>{p.slice(2, -2)}</b> : p === " " ? <span key={i} className="psd-mbr"> </span> : p));
   return (
     <div className="psd-head" data-h={variant}>
       <div className="psd-head-l">
@@ -36,6 +37,10 @@ const no = (i: number) => String(i + 1).padStart(2, "0");
 
 export default function PackageStepsDark({ title, data, variant }: { title: string; data: PackageStepsData; variant: "a" | "b" | "c" }) {
   const [on, setOn] = useState(0);
+  // 모바일은 02번 카드부터 펼쳐서 시작
+  useEffect(() => {
+    if (variant === "c" && window.matchMedia("(max-width: 767px)").matches) setOn(1);
+  }, [variant]);
   const items = data.items;
   return (
     <section className="psd">
@@ -90,10 +95,10 @@ export default function PackageStepsDark({ title, data, variant }: { title: stri
               <div key={it.title} className="psd-c-p" data-on={on === i ? 1 : 0} style={{ backgroundImage: `url(${it.image_url})` }} onClick={() => setOn(i)} onMouseEnter={() => setOn(i)} role="img" aria-label={it.image_alt}>
                 <div className="psd-c-tab"><span className="psd-no">{no(i)}</span></div>
                 {/* 접힌 상태 글씨: PC 는 단계 이름, 모바일은 "어떤 병원인지"(원인)를 먼저 */}
-                <span className="psd-c-name"><span className="psd-c-nt">{it.title}</span><span className="psd-c-nw">{it.target}</span></span>
+                <span className="psd-c-name"><span className="psd-c-nt">{it.title}</span><span className="psd-c-nw">{it.target.replace(/\.$/, "").split("\n").map((l, k) => <span key={k} className="block">{l}</span>)}</span></span>
                 <div className="psd-c-info">
                   <span className="psd-badge">{it.title}</span>
-                  <h3>{it.target}</h3>
+                  <h3><span className="psd-c-tpc">{it.target.replace(/\n/g, " ")}</span><span className="psd-c-tm">{it.target.replace(/\.$/, "").replace(/\n/g, " ")}</span></h3>
                   <p>{it.body}</p>
                   <ul className="psd-check">{it.results?.slice(0, 1).map((r) => <li key={r}>{r}</li>)}</ul>
                   <Link href={data.cta_href} className="psd-cta">{data.cta_label} →</Link>
