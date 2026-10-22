@@ -107,17 +107,28 @@
 }
 @media (max-width: 767px) {
   .psd-steps { display: none; } /* 머리말 라운드 박스(유입 구축형·전환 성장형·통합 브랜드형) 삭제 */
-  .psd-c-info .psd-cta { margin-top: 16px; font-size: 13px; padding: 9px 16px; gap: 6px; } /* 패키지 상세 보기 버튼 축소 */
+  /* 패키지 상세 보기 버튼: 헤더 "회사소개서" 버튼(btn-sm-line)과 같은 그라데이션 테두리 알약, 크기만 축소 */
+  .psd-c-info .psd-cta { position: relative; margin-top: 16px; font-size: 13px; font-weight: 700; line-height: 1.2; padding: 8px 16px; min-height: 34px; gap: 6px; justify-content: center; color: #fff; background: rgba(255,255,255,.05); }
+  .psd-c-info .psd-cta:hover { background: rgba(255,255,255,.10); }
+  .psd-c-info .psd-cta::before { content: ""; position: absolute; inset: 0; padding: 1.5px; border-radius: inherit; background: linear-gradient(120deg, #4da3ff, #7ee8ff 50%, #a78bfa); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); pointer-events: none; }
 }
 /* 모바일 접힌 카드: 번호는 위, 설명 문구는 아래 전체 폭에서 한 줄로 */
 @media (max-width: 767px) {
   .psd-c-p:not([data-on="1"]) .psd-c-tab { top: 12px; left: 20px; transform: none; }
-  .psd-c-tab .psd-no { font-size: 26px; }
-  .psd-c-name { left: 20px; right: 12px; bottom: 14px; transform: none; white-space: nowrap; font-size: min(16px, 4.5vw); letter-spacing: -.04em; }
+  .psd-c-tab .psd-no { font-size: 15px; font-weight: 600; } /* 번호는 작게, 아래 설명 문구가 더 눈에 띄게 */
+  .psd-c-name { left: 20px; right: 12px; bottom: 14px; transform: none; white-space: nowrap; font-size: min(22px, calc((100vw - 88px) / 16.8)); letter-spacing: -.04em; }
   .psd-c-p:not([data-on="1"]) { height: 92px; }
 }
 @media (max-width: 767px) { .psd-mbr { display: block; height: 0; font-size: 0; } }
 .psd-c-tm { display: none; }
+/* 모바일 펼침: 왼쪽 문제 제목 / 오른쪽 단계 배지를 같은 줄에, 나머지는 전체 폭 */
+@media (max-width: 767px) {
+  .psd-c-info { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; align-items: end; }
+  .psd-c-info > * { grid-column: 1 / -1; }
+  .psd-c-info > .psd-badge { grid-column: 2; grid-row: 1; align-self: end; margin-bottom: 2px; font-size: 12px; padding: 6px 12px; white-space: nowrap; }
+  .psd-c-info > h3 { grid-column: 1; grid-row: 1; margin-top: 0; }
+  .psd-c-info > .psd-cta { justify-self: start; }
+}
 @media (max-width: 767px) { .psd-c-tpc { display: none; } .psd-c-tm { display: inline; } } /* 모바일: 펼친 제목 끝 마침표 삭제 */
 .psd-c-nw { display: none; }
 @media (max-width: 767px) { .psd-c-nw { display: block; } }

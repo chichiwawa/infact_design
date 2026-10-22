@@ -10,6 +10,9 @@ import Link from "next/link";
 import type { PackageStepsData } from "@/lib/sections";
 import "./package-steps-dark.css";
 
+// 쉼표(", ") 뒤는 모바일에서만 줄바꿈 (PC 는 그대로 공백)
+const mbr = (t: string) => t.split(/(?<=,) /).flatMap((p, i) => (i === 0 ? [p] : [<span key={i} className="psd-mbr"> </span>, p]));
+
 export function Head({ title, intro, variant, steps }: { title: string; intro?: string; variant: "a" | "b" | "c"; steps: string[] }) {
   const parts = title.split("\n");
   const render = (t: string) => t.split(/(\*\*[^*]+\*\*)/).map((p, i) => (p.startsWith("**") ? <em key={i}>{p.slice(2, -2)}</em> : p));
@@ -98,8 +101,8 @@ export default function PackageStepsDark({ title, data, variant }: { title: stri
                 <span className="psd-c-name"><span className="psd-c-nt">{it.title}</span><span className="psd-c-nw">{it.target.replace(/\.$/, "").split("\n").map((l, k) => <span key={k} className="block">{l}</span>)}</span></span>
                 <div className="psd-c-info">
                   <span className="psd-badge">{it.title}</span>
-                  <h3><span className="psd-c-tpc">{it.target.replace(/\n/g, " ")}</span><span className="psd-c-tm">{it.target.replace(/\.$/, "").replace(/\n/g, " ")}</span></h3>
-                  <p>{it.body}</p>
+                  <h3><span className="psd-c-tpc">{it.target.replace(/\n/g, " ")}</span><span className="psd-c-tm">{mbr(it.target.replace(/\.$/, "").replace(/\n/g, " "))}</span></h3>
+                  <p>{mbr(it.body)}</p>
                   <ul className="psd-check">{it.results?.slice(0, 1).map((r) => <li key={r}>{r}</li>)}</ul>
                   <Link href={data.cta_href} className="psd-cta">{data.cta_label} →</Link>
                 </div>
