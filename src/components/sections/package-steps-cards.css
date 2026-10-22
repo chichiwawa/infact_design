@@ -277,3 +277,12 @@
 @media (max-width: 767px) {
   .psc-no { font-size: 18px; }
 }
+
+/* 모바일: 항목 박스를 카드 안쪽 여백까지 넓혀 "CRM·재방문 설계"도 한 줄로, 아이콘·글씨가 박스 안에 맞게 */
+@media (max-width: 767px) {
+  .psc-feats { width: calc(100% + 12px); margin-inline: -6px; gap: 6px; }
+  .psc-feat { gap: 5px; padding: 10px 6px; min-width: 0; overflow: hidden; }
+  .psc-ico { width: 26px; height: 26px; }
+  .psc-ico svg { width: 14px; height: 14px; }
+  .psc-feat-t b { font-size: min(13px, 3.5vw); letter-spacing: -.05em; }
+}
