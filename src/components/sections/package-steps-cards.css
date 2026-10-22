@@ -272,3 +272,8 @@
   .psc-check { width: 18px; height: 18px; top: 22px; right: 22px; }
   .psc-check svg { width: 10px; height: 10px; }
 }
+
+/* 모바일: 번호(02)를 체크 표시와 비율이 맞게 축소 */
+@media (max-width: 767px) {
+  .psc-no { font-size: 18px; }
+}
