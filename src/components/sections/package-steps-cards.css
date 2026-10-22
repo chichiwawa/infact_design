@@ -223,3 +223,15 @@
   .psc-feat-t b { white-space: nowrap; font-size: 14px; }
   .psc-feat-t small { font-size: 11px; }
 }
+
+/* 항목 박스: 회색 보조 설명 숨기고 흰색 제목만 (PC·모바일 공통) */
+.psc-feat-t small { display: none; }
+.psc-feat-t b { white-space: normal; word-break: keep-all; }
+
+/* 모바일: 체크 표시를 제목 아래 별도 줄에서 빼 카드 오른쪽 위(번호 옆)로 옮기고 위아래 간격 줄임 */
+@media (max-width: 767px) {
+  .psc-check { position: absolute; top: 20px; right: 20px; margin-top: 0; }
+  .psc-card-title { margin-top: 10px; }
+  .psc-desc { margin-top: 14px; }
+  .psc-feats { margin-top: 20px; }
+}

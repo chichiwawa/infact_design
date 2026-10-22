@@ -6,7 +6,7 @@
  *  카드 문구는 pages.json 의 package_steps 항목(heading · desc · features · title)에서 가져온다.
  *  스타일은 package-steps-cards.css. 이전 펼침 패널 버전은 PackageStepsDark.tsx(variant "c") 에 그대로 남아 있음.
  */
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import type { PackageStepsData } from "@/lib/sections";
 import "./package-steps-cards.css";
@@ -26,6 +26,20 @@ const lines = (t: string) => t.split("\n").map((l, i) => <span key={i} className
 
 export default function PackageStepsCards({ title, data }: { title: string; data: PackageStepsData }) {
   const [on, setOn] = useState(1); // 처음엔 02(전환 성장형)를 강조
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  // 모바일(카드가 세로로 쌓이는 폭): 스크롤로 화면 가운데에 걸친 카드를 자동 활성화
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid || !window.matchMedia("(max-width: 1023px)").matches) return;
+    const cards = Array.from(grid.children);
+    const io = new IntersectionObserver(
+      (es) => es.forEach((e) => { if (e.isIntersecting) setOn(cards.indexOf(e.target)); }),
+      { rootMargin: "-45% 0px -45% 0px" },
+    );
+    cards.forEach((c) => io.observe(c));
+    return () => io.disconnect();
+  }, []);
   return (
     <section className="psc on-dark">
       <div className="container-x">
@@ -45,7 +59,7 @@ export default function PackageStepsCards({ title, data }: { title: string; data
           </ol>
         </div>
 
-        <div className="psc-grid">
+        <div className="psc-grid" ref={gridRef}>
           {data.items.map((it, i) => (
             <article key={it.title} className="psc-card" data-on={on === i ? 1 : 0} onMouseEnter={() => setOn(i)}>
               <span className="psc-no">{no(i)}</span>
