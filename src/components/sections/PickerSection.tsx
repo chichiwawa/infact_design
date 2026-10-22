@@ -94,6 +94,7 @@ export default function PickerSection({
 
   // stack: 오른쪽 카드가 세로로 쌓이고, 화면 중앙에 걸친 카드가 활성 항목 (2026-10-14, axiom-power-template 참고)
   const cards = useRef<(HTMLElement | null)[]>([]);
+  const tapLock = useRef(0); // 모바일 f: 탭을 눌러 스크롤 이동 중에는 스크롤 감지로 활성 탭이 바뀌지 않게
   useEffect(() => {
     if (variant !== "stack") return;
     const el = wrap.current;
@@ -116,6 +117,14 @@ export default function PickerSection({
           el.style.setProperty("--ch", `${Math.round(bottom - top)}px`);
         }
         setActive(Math.round(v));
+      } else if (mob === "f") {
+        // 모바일 f: 카드를 전부 아래로 나열 — 탭 바로 아래에 닿아 있는 카드가 활성 탭 (탭을 눌러 이동하는 동안은 잠시 건너뜀)
+        if (performance.now() < tapLock.current) return;
+        const tabs = el.querySelector<HTMLElement>(".pk-sgroups");
+        const line = (tabs ? tabs.getBoundingClientRect().bottom : 100) + 24;
+        let best = 0;
+        cards.current.forEach((c, i) => { if (c && c.getBoundingClientRect().top <= line) best = i; });
+        setActive(best);
       } else if (mob) {
         return; // 모바일 시안: 활성 항목은 탭·스와이프로만 바뀜 (아래 effect)
       } else {
@@ -161,7 +170,7 @@ export default function PickerSection({
   useEffect(() => {
     const el = wrap.current;
     const view = el?.querySelector<HTMLElement>(".pk-sview");
-    if (variant !== "stack" || !mob || mob === "b" || !view) return;
+    if (variant !== "stack" || !mob || mob === "b" || mob === "f" || !view) return;
     let x0 = 0, y0 = 0, on = false;
     const down = (e: TouchEvent) => { on = true; x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; };
     const up = (e: TouchEvent) => {
@@ -236,13 +245,13 @@ export default function PickerSection({
         setActive(i);
       } else if (mob) {
         setActive(i);
-        // f: 탭이 위에 붙어 따라다니므로, 카드가 탭 아래로 밀려 올라가 있으면 카드 윗선이 탭 바로 아래에 오도록 되돌림
-        if (mob === "f") requestAnimationFrame(() => {
-          const tabs = el?.querySelector<HTMLElement>(".pk-sgroups"), view = el?.querySelector<HTMLElement>(".pk-sview");
-          if (!tabs || !view) return;
-          const gap = view.getBoundingClientRect().top - tabs.getBoundingClientRect().bottom;
-          if (gap < 0) window.scrollBy({ top: gap - 8, behavior: "smooth" });
-        });
+        // f: 카드가 전부 나열돼 있으므로, 눌러진 카드의 윗선이 따라다니는 탭(헤더 48px 아래) 바로 밑에 오도록 스크롤
+        if (mob === "f") {
+          const tabs = el?.querySelector<HTMLElement>(".pk-sgroups"), c = cards.current[i];
+          if (!tabs || !c) return;
+          tapLock.current = performance.now() + 900;
+          window.scrollTo({ top: window.scrollY + c.getBoundingClientRect().top - (48 + tabs.offsetHeight + 8), behavior: "smooth" });
+        }
       } else cards.current[i]?.scrollIntoView({ behavior: "smooth", block: "center" });
     };
     return (

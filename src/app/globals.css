@@ -1823,9 +1823,9 @@ html.strength-drag { scroll-snap-type: none !important; }
   .pk-stack[data-mob] .pk-scard { min-height: 0; }
 
   /* a · c: 선택한 카드 1장만 */
-  .pk-stack:is([data-mob="a"], [data-mob="c"], [data-mob="d"], [data-mob="e"], [data-mob="f"]) .pk-scard:not([data-on="1"]) { display: none; }
+  .pk-stack:is([data-mob="a"], [data-mob="c"], [data-mob="d"], [data-mob="e"]) .pk-scard:not([data-on="1"]) { display: none; }
   .pk-stack:is([data-mob="a"], [data-mob="c"], [data-mob="d"], [data-mob="e"], [data-mob="f"]) .pk-sview { touch-action: pan-y; }
-  .pk-stack:is([data-mob="a"], [data-mob="c"], [data-mob="d"], [data-mob="e"], [data-mob="f"]) .pk-scard[data-on="1"] { animation: pk-m-in .35s ease both; }
+  .pk-stack:is([data-mob="a"], [data-mob="c"], [data-mob="d"], [data-mob="e"]) .pk-scard[data-on="1"] { animation: pk-m-in .35s ease both; }
 
   /* b: 옆으로 미는 카드 줄 */
   .pk-stack[data-mob="b"] .pk-sview { margin: 0 -20px; }
@@ -1957,4 +1957,20 @@ html.strength-drag { scroll-snap-type: none !important; }
   .fc-c0 { top: 18vh; } .fc-c1 { top: 22vh; } .fc-c2 { top: 33vh; } .fc-c3 { top: 37vh; }
   .strength-card { height: min(340px, 50vh); }
   .strength-card p[data-long] { font-size: 13px; }
+}
+
+/* 모바일 (2026-10-22): ① 첫 화면 글 덩어리를 CLAIM 카드 아래로 더 내림 + 십자(+) 무늬 삭제
+   ② 04 부스터: 탭은 위에 붙어 따라오고, 카드 4장은 숨김 없이 전부 아래로 나열 ③ 05 차별점: 좌우 이미지를 작게 줄이고 스크롤에 따라 위아래로 살짝 움직임 */
+@media (max-width: 767px) {
+  .fc-cross { display: none; }
+  .hero-copy { bottom: 17vh; }
+  .hero-desc { bottom: calc(17vh - 64px); }
+
+  .pk-stack[data-mob="f"] .pk-scards { gap: 16px; }
+  .pk-stack[data-mob="f"] .pk-scard { opacity: 1; filter: none; }
+
+  .diff-col { width: 22vw; gap: 28px; opacity: .3; }
+  .diff-col .diff-img:nth-child(n+4) { display: none; }
+  .diff-col.l { top: 10%; transform: translateY(calc(var(--sp, 0) * 140px - 30px)); }
+  .diff-col.r { top: auto; bottom: 8%; transform: translateY(calc(30px - var(--sp, 0) * 140px)); }
 }

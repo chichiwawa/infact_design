@@ -118,7 +118,7 @@ export default function Header() {
           </div>
         </div>
 
-        <div id="mobile-menu" hidden={!open} className="md:hidden fixed inset-x-0 top-20 bottom-0 bg-elevated border-t border-hairline text-ink">
+        <div id="mobile-menu" hidden={!open} className="md:hidden fixed inset-x-0 top-12 bottom-0 bg-elevated border-t border-hairline text-ink">
           <nav aria-label="모바일 메뉴" className="container-x py-6 flex flex-col">
             {NAV.map((it) => (
               <Link
