@@ -303,3 +303,9 @@
 @media (max-width: 767px) {
   .psc-card { border-radius: 16px; }
 }
+
+/* 카드 라운드 더 줄임: PC 36px→20px, 모바일 16px→12px */
+.psc-card { border-radius: 20px; }
+@media (max-width: 767px) {
+  .psc-card { border-radius: 12px; }
+}

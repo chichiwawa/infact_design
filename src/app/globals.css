@@ -2013,3 +2013,8 @@ html.strength-drag { scroll-snap-type: none !important; }
   .strength { --sw: 56vw; }
   .strength-card { border-radius: 16px; }
 }
+
+/* 모바일: 강점 카드 라운드도 마케팅전략 카드와 같은 12px */
+@media (max-width: 767px) {
+  .strength-card { border-radius: 12px; }
+}
