@@ -264,3 +264,11 @@
   .psc-ico svg { width: 16px; height: 16px; }
   .psc-feat-t b { white-space: pre; font-size: clamp(10.5px, 3.2vw, 14px); letter-spacing: -.05em; }
 }
+
+/* 모바일: 카드 제목은 JSON 의 줄바꿈 그대로 두 줄 고정(폭에 맞춰 글씨 조절), 회색 설명은 더 작게, 체크 표시 축소 */
+@media (max-width: 767px) {
+  .psc-card-title { white-space: nowrap; font-size: min(24px, 6.2vw); }
+  .psc-desc { font-size: clamp(11px, 3.1vw, 13px); }
+  .psc-check { width: 18px; height: 18px; top: 22px; right: 22px; }
+  .psc-check svg { width: 10px; height: 10px; }
+}
