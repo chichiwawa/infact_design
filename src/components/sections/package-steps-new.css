@@ -12,7 +12,7 @@
 /* 문제(Q) 와 해답(A) — 문제는 차분하게, 해답은 파란색으로 크게 */
 .psn-q small, .psn-a small { display: block; font-size: 12px; font-weight: 700; letter-spacing: .06em; color: #6b8cff; margin-bottom: 6px; }
 .psn-q p { font-size: 20px; font-weight: 600; line-height: 1.4; letter-spacing: -.02em; color: rgba(255,255,255,.82); word-break: keep-all; }
-.psn-a b { display: inline-block; font-size: clamp(28px, 3vw, 40px); font-weight: 800; line-height: 1.2; letter-spacing: -.04em; padding: 8px 22px 10px; border-radius: 16px; background: #3061ff; color: #fff; box-shadow: 0 8px 28px rgba(48,97,255,.45); }
+.psn-a b { display: inline-block; font-size: clamp(28px, calc(3vw * var(--zi)), 40px); font-weight: 800; line-height: 1.2; letter-spacing: -.04em; padding: 8px 22px 10px; border-radius: 16px; background: #3061ff; color: #fff; box-shadow: 0 8px 28px rgba(48,97,255,.45); }
 .psn-flow { margin: 10px 0 12px 8px; }
 
 /* ── G: 탭 + 큰 카드 ── */
@@ -45,7 +45,7 @@
 .psn-i-row[data-on="1"] .psn-i-head, .psn-i-head:hover { color: #fff; }
 .psn-i-q { font-size: 22px; font-weight: 600; line-height: 1.35; letter-spacing: -.02em; word-break: keep-all; }
 .psn-i-q small { display: block; font-size: 12px; font-weight: 700; letter-spacing: .06em; color: #6b8cff; margin-bottom: 6px; }
-.psn-i-a { justify-self: start; font-size: clamp(22px, 2.4vw, 32px); font-weight: 800; letter-spacing: -.04em; padding: 8px 20px 10px; border-radius: 14px; background: rgba(48,97,255,.35); color: #fff; transition: background .3s; }
+.psn-i-a { justify-self: start; font-size: clamp(22px, calc(2.4vw * var(--zi)), 32px); font-weight: 800; letter-spacing: -.04em; padding: 8px 20px 10px; border-radius: 14px; background: rgba(48,97,255,.35); color: #fff; transition: background .3s; }
 .psn-i-row[data-on="1"] .psn-i-a { background: #3061ff; box-shadow: 0 8px 24px rgba(48,97,255,.4); }
 .psn-i-plus { position: relative; width: 22px; height: 22px; justify-self: end; }
 .psn-i-plus::before, .psn-i-plus::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; margin-top: -1px; background: currentColor; transition: transform .3s; }
@@ -88,7 +88,7 @@
   .psn-h-pic { aspect-ratio: 16 / 8; }
   .psn-j { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px; margin-left: -28px; margin-right: -28px; padding: 0 28px 8px; scrollbar-width: none; }
   .psn-j::-webkit-scrollbar { display: none; }
-  .psn-j-card { flex: 0 0 min(78vw, 420px); scroll-snap-align: center; min-height: 560px; }
+  .psn-j-card { flex: 0 0 min(calc(78vw * var(--zi)), 420px); scroll-snap-align: center; min-height: 560px; }
   .psn-k { grid-template-columns: 1fr; gap: 0; padding-left: 36px; }
   .psn-k::before { content: ""; position: absolute; left: 25px; top: 24px; bottom: 90px; width: 2px; background: linear-gradient(180deg, #3061ff, rgba(107,140,255,.2)); }
   .psn-k-step { padding-top: 0; position: relative; margin-bottom: 28px; }
@@ -126,7 +126,7 @@
   .psn-i-row[data-on="1"] .psn-i-inner { padding-bottom: 28px; }
   /* J */
   .psn-j { margin-left: -28px; margin-right: -28px; }
-  .psn-j-card { flex-basis: 82vw; min-height: 540px; border-radius: 24px; }
+  .psn-j-card { flex-basis: calc(82vw * var(--zi)); min-height: 540px; border-radius: 24px; }
   .psn-j-info { padding: 22px; }
   .psn-a-inline b { font-size: 26px; }
   /* K */

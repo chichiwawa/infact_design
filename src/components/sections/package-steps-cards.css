@@ -6,9 +6,9 @@
   #070b1c; }
 .psc-head { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .psc-eyebrow { font-size: 17px; font-weight: 700; letter-spacing: .02em; color: #6b8cff; }
-.psc-title { margin-top: 36px; font-size: clamp(34px, 3.8vw, 58px); font-weight: 300; line-height: 1.2; letter-spacing: -.04em; }
+.psc-title { margin-top: 36px; font-size: clamp(34px, calc(3.8vw * var(--zi)), 58px); font-weight: 300; line-height: 1.2; letter-spacing: -.04em; }
 .psc-title b { font-weight: 800; }
-.psc-intro { margin-top: 28px; font-size: clamp(16px, 1.5vw, 22px); font-weight: 300; line-height: 1.5; color: rgba(255,255,255,.7); letter-spacing: -.02em; }
+.psc-intro { margin-top: 28px; font-size: clamp(16px, calc(1.5vw * var(--zi)), 22px); font-weight: 300; line-height: 1.5; color: rgba(255,255,255,.7); letter-spacing: -.02em; }
 .psc-intro b { font-weight: 600; color: #fff; }
 
 /* 단계 원: 01 ···· 02 ···· 03 */
@@ -25,7 +25,7 @@
 .psc-card { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 22px 28px 40px; border-radius: 36px; border: 2px solid rgba(48,97,255,.75); background: linear-gradient(180deg, rgba(8,16,48,.92), rgba(5,10,32,.96)); transition: border-color .3s, box-shadow .3s, transform .4s cubic-bezier(.2,.7,.2,1); }
 .psc-card[data-on="1"] { border-color: #3061ff; box-shadow: 0 0 36px rgba(48,97,255,.35); transform: translateY(-6px); }
 .psc-no { align-self: flex-start; font-size: 30px; font-weight: 400; color: #3061ff; line-height: 1; }
-.psc-card-title { margin-top: 18px; font-size: clamp(24px, 2.2vw, 34px); font-weight: 300; line-height: 1.3; letter-spacing: -.04em; word-break: keep-all; }
+.psc-card-title { margin-top: 18px; font-size: clamp(24px, calc(2.2vw * var(--zi)), 34px); font-weight: 300; line-height: 1.3; letter-spacing: -.04em; word-break: keep-all; }
 .psc-card-title b { font-weight: 800; color: #8aa6ff; }
 .psc-check { margin-top: 18px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: #3061ff; box-shadow: 0 0 12px rgba(48,97,255,.8); }
 .psc-desc { margin-top: 20px; font-size: 16px; line-height: 1.5; color: rgba(255,255,255,.78); letter-spacing: -.02em; word-break: keep-all; }
@@ -238,8 +238,8 @@
 
 /* 모바일: 제목을 "성장단계에 맞춘" / "맞춤형 마케팅 전략." 두 줄로 고정 */
 @media (max-width: 767px) {
-  .psc-title b { display: block; white-space: nowrap; font-size: min(1.375em, 8.6vw); }
-  .psc-title i { font-size: min(1.375em, 8.6vw); }
+  .psc-title b { display: block; white-space: nowrap; font-size: min(1.375em, calc(8.6vw * var(--zi))); }
+  .psc-title i { font-size: min(1.375em, calc(8.6vw * var(--zi))); }
 }
 
 /* 모바일: 항목 박스는 PC와 같이 아이콘 왼쪽 · 글씨 오른쪽, 2×2 */
@@ -262,13 +262,13 @@
   .psc-feat { gap: 6px; padding: 10px 7px; }
   .psc-ico { width: 30px; height: 30px; }
   .psc-ico svg { width: 16px; height: 16px; }
-  .psc-feat-t b { white-space: pre; font-size: clamp(10.5px, 3.2vw, 14px); letter-spacing: -.05em; }
+  .psc-feat-t b { white-space: pre; font-size: clamp(10.5px, calc(3.2vw * var(--zi)), 14px); letter-spacing: -.05em; }
 }
 
 /* 모바일: 카드 제목은 JSON 의 줄바꿈 그대로 두 줄 고정(폭에 맞춰 글씨 조절), 회색 설명은 더 작게, 체크 표시 축소 */
 @media (max-width: 767px) {
-  .psc-card-title { white-space: nowrap; font-size: min(24px, 6.2vw); }
-  .psc-desc { font-size: clamp(11px, 3.1vw, 13px); }
+  .psc-card-title { white-space: nowrap; font-size: min(24px, calc(6.2vw * var(--zi))); }
+  .psc-desc { font-size: clamp(11px, calc(3.1vw * var(--zi)), 13px); }
   .psc-check { width: 18px; height: 18px; top: 22px; right: 22px; }
   .psc-check svg { width: 10px; height: 10px; }
 }
@@ -284,19 +284,19 @@
   .psc-feat { gap: 5px; padding: 10px 6px; min-width: 0; overflow: hidden; }
   .psc-ico { width: 26px; height: 26px; }
   .psc-ico svg { width: 14px; height: 14px; }
-  .psc-feat-t b { font-size: min(13px, 3.5vw); letter-spacing: -.05em; }
+  .psc-feat-t b { font-size: min(13px, calc(3.5vw * var(--zi))); letter-spacing: -.05em; }
 }
 
 /* 모바일: 번호(01~03)와 체크 표시를 같은 높이 중앙에 맞추고 번호는 더 작게, 카드 제목은 더 크고 또렷하게, 항목 박스는 더 작게 */
 @media (max-width: 767px) {
   .psc-no { display: flex; align-items: center; height: 18px; font-size: 14px; line-height: 1; }
   .psc-check { top: 18px; right: 20px; }
-  .psc-card-title { margin-top: 14px; font-size: min(27px, 7vw); text-shadow: 0 0 18px rgba(255,255,255,.18); }
+  .psc-card-title { margin-top: 14px; font-size: min(27px, calc(7vw * var(--zi))); text-shadow: 0 0 18px rgba(255,255,255,.18); }
   .psc-card-title b { font-weight: 800; }
   .psc-feat { gap: 4px; padding: 9px 5px; }
   .psc-ico { width: 22px; height: 22px; }
   .psc-ico svg { width: 12px; height: 12px; }
-  .psc-feat-t b { font-size: min(11.5px, 3.1vw); letter-spacing: -.06em; }
+  .psc-feat-t b { font-size: min(11.5px, calc(3.1vw * var(--zi))); letter-spacing: -.06em; }
 }
 
 /* 모바일: 카드 라운드를 "인팩트만의 강점" 카드와 같은 16px로 */

@@ -5,18 +5,18 @@
 /* 제목 시안 a: 가운데 정렬 */
 .psd-head[data-h="a"] { flex-direction: column; align-items: center; text-align: center; gap: 24px; }
 .psd-head[data-h="a"] .psd-eyebrow { display: inline-block; padding: 7px 16px; border: 1px solid rgba(107,140,255,.5); border-radius: 999px; margin-bottom: 28px; }
-.psd-head[data-h="a"] .psd-title { font-size: clamp(34px, 4vw, 60px); }
+.psd-head[data-h="a"] .psd-title { font-size: clamp(34px, calc(4vw * var(--zi)), 60px); }
 .psd-head[data-h="a"] .psd-intro { max-width: 640px; }
 /* 제목 시안 b: 왼쪽 정렬로 위→아래, 도입문은 파란 세로선 */
 .psd-head[data-h="b"] { flex-direction: column; align-items: flex-start; gap: 32px; }
-.psd-head[data-h="b"] .psd-title { font-size: clamp(36px, 4.4vw, 68px); }
+.psd-head[data-h="b"] .psd-title { font-size: clamp(36px, calc(4.4vw * var(--zi)), 68px); }
 .psd-head[data-h="b"] .psd-intro { padding-left: 20px; border-left: 3px solid #3061ff; max-width: 640px; }
 /* 제목 시안 c: 왼쪽 제목 / 오른쪽 도입문 + 단계 알약 */
 .psd-head[data-h="c"] .psd-head-r { display: grid; gap: 24px; justify-items: start; }
 .psd-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .psd-steps li { display: inline-flex; gap: 8px; align-items: center; font-size: 14px; font-weight: 700; padding: 8px 16px; border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); }
 .psd-steps li span { color: #6b8cff; font-weight: 800; }
-.psd-title { font-size: clamp(30px, 3.4vw, 48px); font-weight: 800; line-height: 1.2; letter-spacing: -1.3px; }
+.psd-title { font-size: clamp(30px, calc(3.4vw * var(--zi)), 48px); font-weight: 800; line-height: 1.2; letter-spacing: -1.3px; }
 .psd-title em { font-style: normal; color: #6b8cff; }
 .psd-intro { font-size: 18px; line-height: 1.7; color: rgba(255,255,255,.62); max-width: 520px; }
 .psd-intro b { color: #fff; font-weight: 700; }
@@ -49,7 +49,7 @@
 .psd-b-item[data-on="1"], .psd-b-item:hover { color: #fff; }
 .psd-b-row { display: flex; align-items: baseline; gap: 20px; }
 .psd-b-row .psd-no { color: inherit; font-size: 15px; }
-.psd-b-row strong { font-size: clamp(26px, 2.6vw, 38px); font-weight: 800; letter-spacing: -1px; }
+.psd-b-row strong { font-size: clamp(26px, calc(2.6vw * var(--zi)), 38px); font-weight: 800; letter-spacing: -1px; }
 .psd-b-item[data-on="1"] .psd-no { color: #6b8cff; }
 .psd-b-open { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s cubic-bezier(.2,.7,.2,1); }
 .psd-b-item[data-on="1"] .psd-b-open { grid-template-rows: 1fr; }
@@ -75,7 +75,7 @@
 .psd-c-p[data-on="1"] .psd-c-name { opacity: 0; }
 .psd-c-info { position: absolute; z-index: 2; left: 36px; right: 36px; bottom: 36px; opacity: 0; transform: translateY(16px); transition: opacity .45s, transform .6s cubic-bezier(.2,.7,.2,1); pointer-events: none; }
 .psd-c-p[data-on="1"] .psd-c-info { opacity: 1; transform: none; transition-delay: .25s; pointer-events: auto; }
-.psd-c-info h3 { margin-top: 14px; font-size: clamp(28px, 2.8vw, 40px); font-weight: 800; line-height: 1.25; letter-spacing: -1px; }
+.psd-c-info h3 { margin-top: 14px; font-size: clamp(28px, calc(2.8vw * var(--zi)), 40px); font-weight: 800; line-height: 1.25; letter-spacing: -1px; }
 .psd-c-info > p { margin-top: 12px; font-size: 18px; line-height: 1.6; color: rgba(255,255,255,.78); }
 .psd-c-info .psd-check { margin-top: 20px; }
 .psd-c-info .psd-cta { margin-top: 24px; }
@@ -116,7 +116,7 @@
 @media (max-width: 767px) {
   .psd-c-p:not([data-on="1"]) .psd-c-tab { top: 12px; left: 20px; transform: none; }
   .psd-c-tab .psd-no { font-size: 15px; font-weight: 600; } /* 번호는 작게, 아래 설명 문구가 더 눈에 띄게 */
-  .psd-c-name { left: 20px; right: 12px; bottom: 14px; transform: none; white-space: nowrap; font-size: min(22px, calc((100vw - 88px) / 16.8)); letter-spacing: -.04em; }
+  .psd-c-name { left: 20px; right: 12px; bottom: 14px; transform: none; white-space: nowrap; font-size: min(22px, calc((calc(100vw * var(--zi)) - 88px) / 16.8)); letter-spacing: -.04em; }
   .psd-c-p:not([data-on="1"]) { height: 92px; }
 }
 @media (max-width: 767px) { .psd-mbr { display: block; height: 0; font-size: 0; } }

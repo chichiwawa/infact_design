@@ -9,6 +9,7 @@
  *   c 돋보기 렌즈(커서 둘레 격자·카드가 밝아짐) / d 거대한 FACT 글자(커서 둘레만 파랗게 채워짐)
  */
 import { useEffect, useRef } from "react";
+import { zoomInv } from "@/lib/zoom";
 
 type Variant = "a" | "b" | "c" | "d";
 /** 위에서 아래로 내려오는 스캔 광선 모양 — 생략하면 기존(굵은 블루 띠) / line 가는 레이저 / curtain 넓은 빛 커튼 / prism 컬러 라인 + 스캔라인 꼬리 */
@@ -50,7 +51,7 @@ export default function FactCheckBg({ variant = "a", beam }: { variant?: Variant
       const inside = e.clientY >= r.top && e.clientY <= r.bottom && window.scrollY < window.innerHeight;
       el.dataset.on = inside ? "1" : "0";
       if (!inside) return;
-      tx = e.clientX - r.left; ty = e.clientY - r.top;
+      { const zi = zoomInv(); tx = (e.clientX - r.left) * zi; ty = (e.clientY - r.top) * zi; }
       if (!seen) { x = tx; y = ty; seen = true; }
       if (!raf) raf = requestAnimationFrame(tick);
     };

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { NAV } from "@/lib/nav";
+import { zoomInv } from "@/lib/zoom";
 
 /**
  * Header — 항상 투명, 글자색만 전환.
@@ -38,7 +39,7 @@ export default function Header() {
       raf = 0;
       const y = window.scrollY;
       setScrolled(y > 24);
-      const under = document.elementFromPoint(window.innerWidth / 2, 84);
+      const under = document.elementFromPoint(window.innerWidth / 2, 84 / zoomInv());
       setOverDark(Boolean(under && under.closest(".on-dark")));
       setOverBlue(Boolean(under && under.closest(".bg-primary")));
       const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -48,7 +49,7 @@ export default function Header() {
          글자마다 기울기·높낮이가 제각각이고, 스크롤이 2% 나아갈 때마다 새로 뽑아서 달그락거리며 따라온다 */
       const tag = dotRef.current;
       if (tag) {
-        const cw = document.documentElement.clientWidth;
+        const cw = window.innerWidth * zoomInv(); // CSS px (html zoom 보정)
         tag.style.transform = `translateX(${Math.max(0, Math.min(cw - tag.offsetWidth, p * cw - tag.offsetWidth))}px)`;
         tag.dataset.state = p < 0.004 ? "hidden" : p > 0.995 ? "end" : "";
         const step = Math.floor(p * 50);

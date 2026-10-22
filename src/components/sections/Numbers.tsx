@@ -27,7 +27,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
       raf = 0;
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight;
-      const span = el.offsetHeight - vh;
+      const span = el.getBoundingClientRect().height - vh;
       // 모바일(2026-10-22): 화면 고정·스크롤 연동 없이 카드 줄을 손으로 직접 밀어 넘김(네이티브 가로 스크롤) → 이 계산 전부 건너뜀
       if (matchMedia("(max-width: 767px)").matches) { setSnapLock("numbers", false); if (trackRef.current) trackRef.current.style.transform = ""; return; }
       // 고정 구간 안에서만 단계별 멈춤(스냅) 켬 — 밖에서는 평소 스크롤
@@ -71,8 +71,8 @@ export default function Numbers({ data }: { data: NumbersData }) {
       const track = trackRef.current;
       if (!track || track.children.length < 2) return;
       const rect = el.getBoundingClientRect();
-      span = el.offsetHeight - window.innerHeight;
-      step = (track.children[1] as HTMLElement).offsetLeft - (track.children[0] as HTMLElement).offsetLeft;
+      span = el.getBoundingClientRect().height - window.innerHeight;
+      step = ((track.children[1] as HTMLElement).offsetLeft - (track.children[0] as HTMLElement).offsetLeft) * (rect.height / el.offsetHeight); // 드래그 거리(화면 px)와 맞추려고 zoom 배율 곱함
       k = span / ((n - 1) * step);
       startX = e.clientX; startY = window.scrollY; dx = 0; id = e.pointerId;
       startF = (-rect.top / span) * (n - 1);
@@ -107,7 +107,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
       const ddx = e.changedTouches[0].clientX - tx, ddy = e.changedTouches[0].clientY - ty;
       if (Math.abs(ddx) < 40 || Math.abs(ddx) < Math.abs(ddy) * 1.5) return;
       const rect = el.getBoundingClientRect();
-      const sp = el.offsetHeight - window.innerHeight;
+      const sp = el.getBoundingClientRect().height - window.innerHeight;
       if (sp <= 0 || rect.top > 1 || -rect.top > sp + 1) return;
       const next = Math.min(n - 1, Math.max(0, Math.round((-rect.top / sp) * (n - 1)) + (ddx < 0 ? 1 : -1)));
       smoothScrollTo(window.scrollY + rect.top + (next / (n - 1)) * sp);
@@ -163,7 +163,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    const span = el.offsetHeight - window.innerHeight;
+    const span = el.getBoundingClientRect().height - window.innerHeight;
     const next = Math.min(n - 1, Math.max(0, Math.round((-rect.top / span) * (n - 1)) + delta));
     smoothScrollTo(window.scrollY + rect.top + (next / Math.max(1, n - 1)) * span);
   };
@@ -185,7 +185,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
     const id = window.setInterval(() => {
       if (document.hidden || hover || performance.now() - lastInput < 5000 || matchMedia("(max-width: 767px)").matches) return; // 모바일은 자동 넘김 없음
       const rect = el.getBoundingClientRect();
-      const span = el.offsetHeight - window.innerHeight;
+      const span = el.getBoundingClientRect().height - window.innerHeight;
       if (rect.top > 1 || -rect.top > span + 1) return; // 고정 구간 밖
       const idx = Math.round((-rect.top / span) * (n - 1));
       if (idx >= n - 1) {
@@ -209,7 +209,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
     <section ref={ref} className="strength text-white on-dark" aria-label="수치로 증명하는 강점">
       {/* 스크롤 멈춤 지점: 위로 나가기 · 제목(0) · 카드별 가운데 · 아래로 나가기 */}
       {snapTops(n).map((t) => (
-        <div key={t} aria-hidden="true" className="snap-point" style={{ top: `${t}vh` }} />
+        <div key={t} aria-hidden="true" className="snap-point" style={{ top: `calc(${t}vh * var(--zi))` }} />
       ))}
       <div className="strength-inner">
         <div aria-hidden="true" className="strength-bg absolute inset-0">

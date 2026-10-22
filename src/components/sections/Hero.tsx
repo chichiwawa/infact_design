@@ -12,6 +12,7 @@
 import { useEffect, useRef } from "react";
 import type { HeroData } from "@/lib/sections";
 import FactCheckBg from "@/components/FactCheckBg";
+import { zoomInv } from "@/lib/zoom";
 
 /** 문구 안의 **구절** 을 굵게(<b>) — 색은 그대로 */
 function Rich({ text }: { text: string }) {
@@ -71,7 +72,7 @@ export default function Hero({ data, background, cursorGlow = false }: { data: H
       const inside = e.clientY >= r.top && e.clientY <= r.bottom && window.scrollY < window.innerHeight;
       glow.dataset.on = inside ? "1" : "0";
       if (!inside) return;
-      tx = e.clientX; ty = e.clientY - r.top;
+      { const zi = zoomInv(); tx = e.clientX * zi; ty = (e.clientY - r.top) * zi; }
       if (x < -9000) { x = tx; y = ty; }
       if (!raf) raf = requestAnimationFrame(tick);
     };
@@ -92,7 +93,7 @@ export default function Hero({ data, background, cursorGlow = false }: { data: H
         <div className="hero-grain absolute inset-0" />
       </div>
 
-      <div className="hero-in relative h-[100svh]">
+      <div className="hero-in relative h-[calc(100svh*var(--zi))]">
         <div className="hero-copy">
           <p className="hero-eyebrow hero-appear hero-appear--soft" style={{ "--d": ".2s" } as React.CSSProperties}><Rich text={data.eyebrow} /></p>
           <h1 className="hero-h1">

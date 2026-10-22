@@ -7,7 +7,7 @@
  *   - 타이틀·서브텍스트를 한 줄로: DB 의 `\n` 개행 제거(제목은 공백으로, 서브텍스트는 공백으로) — 서브텍스트 문단의 `max-w-[32ch]`(줄바꿈 유도용)도 같이 제거
  *   - 스텝 5개 본문을 전부 2행으로 재작성(DB 값 자체를 수정 — `scripts/`가 아니라 일회성 스크립트로 해당 page_sections row만 UPDATE, seed 전체 재실행 금지 규칙 준수), 본문 문단에 `whitespace-pre-line` 추가해 `\n` 이 실제 줄바꿈으로 렌더되게 함
  *   - 박스 안 타이틀 y좌표 정렬: 04(MarketingTabs) 격자에서 겪은 것과 같은 원인(`md:mt-auto` 로 바닥 정렬 → 본문 줄 수 다르면 타이틀 높이 어긋남) — `md:mt-auto` 제거, 번호 아래 고정 gap(기존 `gap-5`)으로 top-anchor 전환. 이제 본문이 전부 2행이라 자연히도 맞지만, 구조적으로도 줄 수와 무관하게 정렬됨
- *  2026-09-16 섹션이 모니터 크기와 무관하게 항상 화면 전체를 채우도록(사용자 지적 — 섹션 높이가 짧아 위아래 섹션이 살짝 보임): `min-h-[100dvh] flex items-center` 추가(기존 `section-y` 패딩은 유지 — 짧은 화면에서 콘텐츠가 화면 경계에 바로 붙지 않도록 최소 여백 역할). 콘텐츠+패딩이 100dvh 보다 작으면 남는 공간을 flex 로 위아래 분배해 정확히 한 화면을 채우고, 콘텐츠가 더 크면(좁은 화면에서 카드가 여러 줄로 줄바꿈되는 경우 등) 자연스럽게 그 이상으로 늘어남.
+ *  2026-09-16 섹션이 모니터 크기와 무관하게 항상 화면 전체를 채우도록(사용자 지적 — 섹션 높이가 짧아 위아래 섹션이 살짝 보임): `min-h-[calc(100dvh*var(--zi))] flex items-center` 추가(기존 `section-y` 패딩은 유지 — 짧은 화면에서 콘텐츠가 화면 경계에 바로 붙지 않도록 최소 여백 역할). 콘텐츠+패딩이 100dvh 보다 작으면 남는 공간을 flex 로 위아래 분배해 정확히 한 화면을 채우고, 콘텐츠가 더 크면(좁은 화면에서 카드가 여러 줄로 줄바꿈되는 경우 등) 자연스럽게 그 이상으로 늘어남.
  *  2026-09-16 PC 스텝을 화살표(쉐브론) 리본 체인으로 재설계(사용자 제공 레퍼런스 — "Step 01" 화살표가 오른쪽으로 이어지는 인포그래픽).
  *   1차: clip-path 이중 겹치기로 만들었다가 사용자가 "레퍼런스랑 정말 같냐"고 지적 — 세로로 너무 길쭉하고(레퍼런스는 얇고 넓은 리본), 뾰족함이 약하고(레퍼런스는 훨씬 두드러진 화살표), 모서리가 각지고(레퍼런스는 둥근 모서리), 테두리가 흐릿하고(진짜 stroke 가 아니라 3px 인셋 이중 도형 트릭), 그림자도 없어서 완전히 다시 만듦.
  *   2차: 진짜 SVG `<path>` + `stroke`(윤곽선) + `filter: drop-shadow`(도형 실루엣을 따라가는 그림자)로 교체. `roundedPolygonPath()` 헬퍼로 꼭짓점 목록을 받아 각 모서리를 둥글린 path data 를 생성(레퍼런스처럼 뾰족한 끝도 살짝 둥글게). 비율도 레퍼런스에 맞춰 훨씬 낮고 넓게(260px → 150px), 뾰족한 정도(팁 깊이)도 폭 대비 훨씬 크게 키움.
@@ -140,7 +140,7 @@ function vBandPath() {
 
 export default function Process({ title, data }: { title: string; data: ProcessData }) {
   return (
-    <section className="section-y min-h-[100dvh] flex items-center bg-canvas border-t border-hairline">
+    <section className="section-y min-h-[calc(100dvh*var(--zi))] flex items-center bg-canvas border-t border-hairline">
       <div className="container-x">
         {/* 제목·부제 중앙 정렬 (2026-09-16 사용자 요청) */}
         <div className="text-center" data-reveal>

@@ -69,7 +69,7 @@ export default function PickerSection({
       raf = 0;
       if (!mq.matches) return;
       const r = el.getBoundingClientRect();
-      const span = el.offsetHeight - window.innerHeight;
+      const span = el.getBoundingClientRect().height - window.innerHeight;
       if (span <= 0) return;
       const p = Math.min(0.9999, Math.max(0, -r.top / span));
       setActive(Math.floor(p * n));
@@ -86,7 +86,7 @@ export default function PickerSection({
     if (!el) return;
     if (matchMedia("(min-width: 768px)").matches) {
       const top = el.getBoundingClientRect().top + window.scrollY;
-      const span = el.offsetHeight - window.innerHeight;
+      const span = el.getBoundingClientRect().height - window.innerHeight;
       window.scrollTo({ top: top + (span * (i + 0.5)) / n, behavior: "smooth" });
     } else {
       setActive(i);
@@ -106,7 +106,7 @@ export default function PickerSection({
       raf = 0;
       if (mq.matches) {
         // PC: 화면이 멈춘 채 스크롤 진행률만큼 오른쪽 카드 줄이 위로 이동
-        const span = el.offsetHeight - window.innerHeight;
+        const span = el.getBoundingClientRect().height - window.innerHeight;
         const p = span <= 0 ? 0 : Math.min(1, Math.max(0, -el.getBoundingClientRect().top / span));
         const v = p * (n - 1);
         el.style.setProperty("--pk-p", String(v));
@@ -114,8 +114,9 @@ export default function PickerSection({
         const lead = el.querySelector<HTMLElement>(".pk-lead"), btn = el.querySelector<HTMLElement>(".pk-sbtn"), view = el.querySelector<HTMLElement>(".pk-sview");
         if (lead && btn && view) {
           const top = lead.getBoundingClientRect().top, bottom = btn.getBoundingClientRect().bottom;
-          el.style.setProperty("--pk-top", `${Math.round(top - view.getBoundingClientRect().top)}px`);
-          el.style.setProperty("--ch", `${Math.round(bottom - top)}px`);
+          const z = el.getBoundingClientRect().height / el.offsetHeight; // html zoom 배율(1 또는 0.8) — 화면 px 를 CSS px 로 환산
+          el.style.setProperty("--pk-top", `${Math.round((top - view.getBoundingClientRect().top) / z)}px`);
+          el.style.setProperty("--ch", `${Math.round((bottom - top) / z)}px`);
         }
         setActive(Math.round(v));
       } else if (mob === "f") {
@@ -210,7 +211,7 @@ export default function PickerSection({
     const id = window.setInterval(() => {
       if (document.hidden || hover || performance.now() - lastInput < 7000 || !matchMedia("(min-width: 768px)").matches) return;
       const rect = el.getBoundingClientRect();
-      const span = el.offsetHeight - window.innerHeight;
+      const span = el.getBoundingClientRect().height - window.innerHeight;
       if (rect.top > 1 || -rect.top > span) return; // 고정 구간 밖
       const idx = Math.round((-rect.top / span) * (n - 1));
       const next = (idx + 1) % n;
@@ -238,7 +239,7 @@ export default function PickerSection({
       const el = wrap.current;
       if (el && matchMedia("(min-width: 768px)").matches) {
         const top = el.getBoundingClientRect().top + window.scrollY;
-        const span = el.offsetHeight - window.innerHeight;
+        const span = el.getBoundingClientRect().height - window.innerHeight;
         window.scrollTo({ top: top + (span * i) / Math.max(1, n - 1), behavior: "smooth" });
       } else if (mob === "b") {
         const track = el?.querySelector<HTMLElement>(".pk-scards"), c = cards.current[i];
