@@ -2188,3 +2188,9 @@ html.strength-drag { scroll-snap-type: none !important; }
 .cr-proc .ph-head { opacity: clamp(0, calc((var(--cr-p) - .4) * 2.5), 1); transform: translateY(calc((1 - var(--cr-s)) * 11vh * var(--zi) - var(--cr-s) * 8vh * var(--zi) + (1 - clamp(0, (var(--cr-p) - .4) * 2.5, 1)) * 36px)); }
 .cr-proc .ph-track { opacity: var(--cr-s); }
 .cr-over { display: none; }
+
+/* 04 노트북 폭(1024~1600px): 왼쪽 메뉴 글과 오른쪽 카드 사이 간격을 좁힘 — 열 사이 간격 약 절반 + 카드가 왼쪽 열 쪽으로 붙도록 오른쪽 여백만 남김 (2026-10-28) */
+@media (min-width: 1024px) and (max-width: 1600px) {
+  .pk-sgrid { gap: clamp(16px, calc(2vw * var(--zi)), 32px); }
+  .pk-sview { width: 96%; margin-right: calc(1.5vw * var(--zi)); }
+}
