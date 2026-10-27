@@ -9,7 +9,7 @@ import Hero from "./sections/Hero";
 import Numbers from "./sections/Numbers";
 import PackageSteps from "./sections/PackageSteps";
 import MarketingTabs from "./sections/MarketingTabs";
-import Process from "./sections/Process";
+import Process from "./sections/ProcessAlt";
 import Differentiators from "./sections/Differentiators";
 import LogoMarquee from "./sections/LogoMarquee";
 import BlogLatest from "./sections/BlogLatest";

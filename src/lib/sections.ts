@@ -53,8 +53,10 @@ export interface MarketingTabsData {
 }
 
 export interface ProcessData {
+  /** 큰 선언 문구: [앞줄, 뒷줄(**강조** 가능)] */
+  statement?: [string, string];
   subtitle: string;
-  steps: { tag: string; title: string; body: string; icon: IconName }[];
+  steps: { tag: string; title: string; body: string; icon: IconName; en?: string }[];
   note: string;
 }
 

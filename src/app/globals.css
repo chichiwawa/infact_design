@@ -1561,8 +1561,9 @@ html.strength-drag { scroll-snap-type: none !important; }
 .pk-stack[data-ytchip="2"] .yt-chips { flex-direction: row; flex-wrap: wrap; justify-content: flex-end; width: 250px; }
 /* 3: 배경 없이 아이콘 + 글자만 (세로 목록) */
 .pk-stack[data-ytchip="3"] .yt-chips { gap: 12px; }
-.pk-stack[data-ytchip="3"] .yt-chips li, .pk-stack[data-ytchip="3"] .yt-chips li:nth-child(n) { padding: 0; background: none; font-size: 13px; color: rgba(255,255,255,.78); }
-.pk-stack[data-ytchip="3"] .yt-chips li i { width: 26px; height: 26px; background: rgba(140,180,255,.16); }
+.pk-stack[data-ytchip="3"] .yt-chips li, .pk-stack[data-ytchip="3"] .yt-chips li:nth-child(n) { padding: 0; background: none; font-size: 14.5px; color: rgba(255,255,255,.78); }
+.pk-stack[data-ytchip="3"] .yt-chips li i { width: 30px; height: 30px; background: rgba(140,180,255,.16); }
+.pk-stack[data-ytchip="3"] .yt-chips li svg { width: 16px; height: 16px; }
 /* 4: 작은 타일 2열 (첫 칸 넓게) */
 .pk-stack[data-ytchip="4"] .yt-chips { display: grid; grid-template-columns: 1fr 1fr; width: 210px; }
 .pk-stack[data-ytchip="4"] .yt-chips li, .pk-stack[data-ytchip="4"] .yt-chips li:nth-child(n) { flex-direction: column; align-items: flex-start; gap: 6px; padding: 9px 11px; border-radius: 12px; font-size: 12px; }
@@ -1592,7 +1593,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 
 /* 전후사진 · AI 노출 · 개별 상품 카드도 사진형 배치 (이미지 위 / 글 아래, 가장자리 서서히 투명) */
 @media (min-width: 768px) {
-  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img.ph-ba { inset: 3% 0 auto 0; height: 72%; width: auto; aspect-ratio: 900 / 1070; left: 50%; right: auto; translate: -50% 0; background-size: 100% 100%; -webkit-mask-image: radial-gradient(ellipse 50% 52% at 50% 46%, #000 52%, transparent 100%); mask-image: radial-gradient(ellipse 50% 52% at 50% 46%, #000 52%, transparent 100%); }
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img.ph-ba { inset: 3% 0 auto 0; height: 66%; width: auto; aspect-ratio: 972 / 1313; left: 50%; right: auto; translate: -50% 0; background-size: 100% 100%; filter: drop-shadow(0 24px 40px rgba(0,0,0,.55)); -webkit-mask-image: none; mask-image: none; }
   .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img.ph-ai { inset: 10% 0 auto 0; aspect-ratio: 1672 / 941; background-size: 100% 100%; filter: brightness(.82) saturate(1.15); -webkit-mask-image: radial-gradient(ellipse 62% 62% at 50% 50%, #000 62%, transparent 100%); mask-image: radial-gradient(ellipse 62% 62% at 50% 50%, #000 62%, transparent 100%); }
   .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img.ph-indiv { inset: 8% 0 auto 0; aspect-ratio: 3 / 2; background-size: 100% 100%; -webkit-mask-image: radial-gradient(ellipse 52% 52% at 50% 50%, #000 52%, transparent 100%); mask-image: radial-gradient(ellipse 52% 52% at 50% 50%, #000 52%, transparent 100%); }
 }
@@ -1632,16 +1633,20 @@ html.strength-drag { scroll-snap-type: none !important; }
 
 /* 개별 상품 카드: 부스터 4종 이미지를 가운데 → 왼쪽 → 뒤 → 오른쪽으로 10초마다 한 바퀴 도는 회전 카드 (움직임 줄이기 설정이면 첫 장만 정지) */
 .ind { background: none; font-size: 2.6cqw; color: #fff; }
-.ind-stage { position: absolute; left: 0; right: 0; top: 8%; height: 50%; perspective: 120cqw; }
-.ind-item { position: absolute; left: 50%; top: 50%; width: 42cqw; aspect-ratio: 5 / 4; border-radius: 3cqw; background: #0b1230 center 25% / cover no-repeat; box-shadow: 0 4cqw 9cqw -3cqw rgba(0,0,0,.65), inset 0 0 0 1px rgba(255,255,255,.08); overflow: hidden; transform: translate(-50%, -50%); }
+.ind-stage { position: absolute; left: 0; right: 0; top: 3%; height: 62%; perspective: 120cqw; }
+.ind-item { position: absolute; left: 50%; top: 50%; width: 52cqw; aspect-ratio: 5 / 4; border-radius: 3cqw; background: #0b1230 center / contain no-repeat; padding: 2cqw; box-sizing: border-box; background-origin: content-box; box-shadow: 0 4cqw 9cqw -3cqw rgba(0,0,0,.65), inset 0 0 0 1px rgba(255,255,255,.08); overflow: hidden; transform: translate(-50%, -50%); }
+.ind-item.ind-small { width: 44cqw; aspect-ratio: 16 / 10; }
+.ind-item.ind-wide { aspect-ratio: 16 / 10; }
+.ind-item.ind-port { width: 25cqw; aspect-ratio: 941 / 1672; }
+.ind-item.ind-tall { width: 30.8cqw; aspect-ratio: 972 / 1313; background-size: 100% 100%; }
 .ind-item:nth-child(n+2) { opacity: 0; }
 .ind-item::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(5,8,22,.75)); }
-.ind-item span { position: absolute; left: 3cqw; bottom: 2.4cqw; z-index: 1; padding: .8cqw 2.2cqw; border-radius: 99px; background: rgba(8,14,44,.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); font-size: 2.3cqw; font-weight: 700; letter-spacing: .1em; }
+.ind-item span { position: absolute; left: 2.6cqw; bottom: 2.2cqw; z-index: 1; padding: .6cqw 1.8cqw; border-radius: 99px; background: rgba(8,14,44,.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); font-size: 1.9cqw; font-weight: 700; letter-spacing: .08em; }
 @keyframes ind-flow {
   0%, 18% { transform: translate(-50%, -50%) translateX(0) scale(1) rotateY(0); opacity: 1; z-index: 3; }
-  25%, 43% { transform: translate(-50%, -50%) translateX(-30cqw) scale(.74) rotateY(32deg); opacity: .55; z-index: 2; }
+  25%, 43% { transform: translate(-50%, -50%) translateX(-34cqw) scale(.74) rotateY(32deg); opacity: .55; z-index: 2; }
   50%, 68% { transform: translate(-50%, -50%) translateX(0) scale(.58); opacity: 0; z-index: 1; }
-  75%, 93% { transform: translate(-50%, -50%) translateX(30cqw) scale(.74) rotateY(-32deg); opacity: .55; z-index: 2; }
+  75%, 93% { transform: translate(-50%, -50%) translateX(34cqw) scale(.74) rotateY(-32deg); opacity: .55; z-index: 2; }
   100% { transform: translate(-50%, -50%) translateX(0) scale(1) rotateY(0); opacity: 1; z-index: 3; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -1931,7 +1936,7 @@ html.strength-drag { scroll-snap-type: none !important; }
   .pk-stack[data-mob="e"] .pk-sico svg { width: 20px; height: 20px; }
   .pk-stack[data-mob="e"] .pk-sbtn { order: 6; margin-top: 0; }
 
-  .pk-stack:is([data-mob="d"], [data-mob="e"]) .yt-chips { flex-wrap: nowrap; } .pk-stack:is([data-mob="d"], [data-mob="e"]) .yt-chips li { font-size: 12.5px; }
+  .pk-stack:is([data-mob="d"], [data-mob="e"]) .yt-chips { flex-wrap: nowrap; } .pk-stack:is([data-mob="d"], [data-mob="e"]) .yt-chips li { font-size: 14px; }
 
   /* f: 탭이 헤더 바로 아래에 붙어 스크롤해도 따라옴 (카드는 길어도 됨) */
   .pk-stack[data-mob="f"] { padding-top: 48px; }
@@ -1990,7 +1995,7 @@ html.strength-drag { scroll-snap-type: none !important; }
   .pk-stack[data-mob="f"] .pk-scard-bottom h3 { font-size: 23px; line-height: 1.3; margin-bottom: 8px; }
   .pk-stack[data-mob="f"] .pk-scard-bottom .pk-below-body { font-size: 13.5px; line-height: 1.55; letter-spacing: -.03em; }
   .pk-stack[data-mob="f"] .pk-scard-bottom .pk-eb { font-size: 12px; }
-  .pk-stack[data-mob="f"] .yt-chips li { font-size: 13px; }
+  .pk-stack[data-mob="f"] .yt-chips li { font-size: 14.5px; }
 }
 
 /* 모바일 04 (2026-10-22): 상품 설명은 모바일에서만 짧은 2줄 문구(body_m) 사용 */
@@ -2039,4 +2044,56 @@ html.strength-drag { scroll-snap-type: none !important; }
 @media (min-width: 1024px) and (max-width: 1600px) {
   :root { --zi: 1.25; }
   html { zoom: 0.8; }
+}
+
+/* 04 나머지 상품 배경 블러 (2026-10-27): 전후사진·AI 노출·개별 상품도 인스타·유튜브처럼 흐린 풀배경 */
+.pk-softbg { position: absolute; inset: 0; overflow: hidden; }
+.pk-softbg-img { position: absolute; inset: -6% 22% -6% 22%; background: 50% 30% / cover no-repeat; filter: blur(34px) brightness(.42) saturate(1.2); }
+.pk-softbg-vis { position: absolute; left: 30%; right: 6%; top: 8%; bottom: 8%; filter: blur(22px) brightness(.55) saturate(1.1); transform: scale(1.25); transform-origin: 60% 50%; }
+.pk-softbg-vis .bv { position: absolute; inset: 0; }
+.pk-softbg::before { content: ""; position: absolute; inset: 0; }
+.pk-softbg[data-tone="ba"]::before { background: radial-gradient(52% 66% at 70% 34%, rgba(80,120,255,.3), transparent 70%), radial-gradient(40% 50% at 30% 90%, rgba(150,90,255,.2), transparent 70%); }
+.pk-softbg[data-tone="ai"]::before { background: radial-gradient(52% 66% at 72% 32%, rgba(40,170,255,.3), transparent 70%), radial-gradient(40% 50% at 25% 85%, rgba(60,90,230,.24), transparent 70%); }
+.pk-softbg[data-tone="ind"]::before { background: radial-gradient(52% 66% at 70% 34%, rgba(70,110,255,.3), transparent 70%), radial-gradient(40% 50% at 40% 100%, rgba(110,80,240,.22), transparent 70%); }
+
+/* 04 PC: 그룹 제목(집중 공략 부스터 4종 · 개별 상품 6종) 글자 키움 */
+@media (min-width: 768px) {
+  .pk-stack[data-acc="b"] .pk-shead { font-size: clamp(19px, calc(1.45vw * var(--zi)), 24px); }
+  .pk-stack[data-acc="b"] .pk-shead svg { width: 18px; height: 18px; }
+}
+
+/* 전후사진 배경: 블러 줄이고 블루 톤으로 통일 (2026-10-27) */
+.pk-softbg[data-tone="ba"] .pk-softbg-img { inset: 4% 28% 4% 28%; filter: grayscale(1) sepia(1) hue-rotate(190deg) saturate(3.2) brightness(.5) blur(14px); }
+.pk-softbg[data-tone="ba"]::before { background: radial-gradient(52% 66% at 70% 34%, rgba(52,112,255,.38), transparent 70%), radial-gradient(50% 60% at 22% 80%, rgba(30,72,210,.3), transparent 70%); }
+
+/* 전후사진 배경: 얼굴 사진 대신 블루 그라데이션 — 왼쪽(전)은 어둡고 오른쪽(후)은 밝게, 가운데 은은한 빛줄기 (2026-10-27) */
+.pk-softbg[data-tone="ba"]::before { background: radial-gradient(46% 70% at 74% 40%, rgba(70,130,255,.5), transparent 72%), radial-gradient(40% 60% at 40% 45%, rgba(30,60,170,.3), transparent 72%), radial-gradient(50% 50% at 60% 105%, rgba(90,150,255,.22), transparent 70%); }
+.pk-softbg[data-tone="ba"]::after { content: ""; position: absolute; top: -10%; bottom: -10%; left: 54%; width: 120px; transform: translateX(-50%) skewX(-8deg); background: linear-gradient(90deg, transparent, rgba(130,175,255,.2), transparent); filter: blur(24px); }
+
+/* 전후사진 배경 은은하게 (2026-10-27) */
+.pk-softbg[data-tone="ba"]::before { background: radial-gradient(46% 70% at 74% 40%, rgba(70,130,255,.26), transparent 72%), radial-gradient(40% 60% at 40% 45%, rgba(30,60,170,.16), transparent 72%), radial-gradient(50% 50% at 60% 105%, rgba(90,150,255,.1), transparent 70%); }
+.pk-softbg[data-tone="ba"]::after { background: linear-gradient(90deg, transparent, rgba(130,175,255,.08), transparent); }
+
+/* 전후사진 배경: 여자 사진을 인스타 부스터처럼 강하게 흐리게, 블루 톤 (2026-10-27) */
+.pk-softbg[data-tone="ba"] .pk-softbg-img { inset: -8% 18% -8% 18%; background-position: 50% 28%; filter: grayscale(1) sepia(1) hue-rotate(190deg) saturate(3) brightness(.5) blur(48px); opacity: .85; }
+
+/* 전후사진 배경 시안 3종 (2026-10-27) — /demo/ba-1, ba-2, ba-3. 사진 없이 블루 톤 */
+@media (min-width: 768px) {
+  [data-bav] .pk-softbg[data-tone="ba"] .pk-softbg-img { display: none; }
+  /* 1. 오로라: 오른쪽 위에서 흘러내리는 푸른 빛 */
+  [data-bav="1"] .pk-softbg[data-tone="ba"]::before { background: radial-gradient(60% 55% at 78% 22%, rgba(70,130,255,.4), transparent 70%), radial-gradient(55% 45% at 55% 70%, rgba(40,90,230,.28), transparent 70%), radial-gradient(40% 40% at 20% 90%, rgba(30,60,170,.25), transparent 70%); filter: blur(30px); }
+  [data-bav="1"] .pk-softbg[data-tone="ba"]::after { display: none; }
+  /* 2. 전/후 패널: 왼쪽 어두운 패널 · 오른쪽 밝은 패널이 흐리게 나란히 */
+  [data-bav="2"] .pk-softbg[data-tone="ba"]::before { background: radial-gradient(50% 60% at 82% 45%, rgba(90,150,255,.34), transparent 72%); }
+  [data-bav="2"] .pk-softbg[data-tone="ba"]::after { display: block; top: 16%; bottom: 16%; left: 38%; width: 52%; transform: none; border-radius: 40px; background: linear-gradient(90deg, rgba(25,45,120,.5) 0 49%, rgba(90,150,255,.4) 51% 100%); filter: blur(46px); }
+  /* 3. 보케: 크고 작은 푸른 빛망울 */
+  [data-bav="3"] .pk-softbg[data-tone="ba"]::before { background: radial-gradient(circle at 62% 30%, rgba(90,150,255,.45) 0 9%, transparent 10%), radial-gradient(circle at 78% 58%, rgba(70,120,255,.4) 0 13%, transparent 14%), radial-gradient(circle at 48% 66%, rgba(110,170,255,.3) 0 6%, transparent 7%), radial-gradient(circle at 88% 24%, rgba(60,110,240,.35) 0 7%, transparent 8%), radial-gradient(circle at 68% 84%, rgba(90,140,255,.3) 0 8%, transparent 9%); filter: blur(34px); }
+  [data-bav="3"] .pk-softbg[data-tone="ba"]::after { display: none; }
+}
+
+/* 전후사진 배경: 시안 1(오로라) 확정 — 메인 적용 (2026-10-27) */
+@media (min-width: 768px) {
+  .pk-softbg[data-tone="ba"] .pk-softbg-img { display: none; }
+  .pk-softbg[data-tone="ba"]::before { background: radial-gradient(60% 55% at 78% 22%, rgba(70,130,255,.4), transparent 70%), radial-gradient(55% 45% at 55% 70%, rgba(40,90,230,.28), transparent 70%), radial-gradient(40% 40% at 20% 90%, rgba(30,60,170,.25), transparent 70%); filter: blur(30px); }
+  .pk-softbg[data-tone="ba"]::after { display: none; }
 }

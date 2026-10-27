@@ -15,7 +15,7 @@ const CARDS = [
   "/media/4c4993e7-035e-490a-904c-3018cf878c27.webp",
   "/media/ig-hero.webp",
   "/media/yt-hero.webp",
-  "/media/ba-face.webp",
+  "/media/ba-face-new.webp",
 ];
 
 /** 좌우 컬럼 이미지 6장 (diff-1~6.webp) */

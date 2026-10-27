@@ -25,6 +25,16 @@ function rich(body: string) {
   ));
 }
 
+/** 섹션 전체 배경(PC): 항목 화면을 크게 키워 흐리게 깔고, 항목마다 다른 색 빛을 얹음. 스타일은 globals.css 의 .pk-softbg */
+function SoftBg({ tone, src, children }: { tone: "ba" | "ai" | "ind"; src?: string; children?: React.ReactNode }) {
+  return (
+    <div className="pk-softbg" data-tone={tone} aria-hidden="true">
+      {src && <i className="pk-softbg-img" style={{ backgroundImage: `url(${src})` }} />}
+      {children && <div className="pk-softbg-vis">{children}</div>}
+    </div>
+  );
+}
+
 /** 부스터 4종 카드 그림(코드로 그림). 순서 = 인스타 · 전후사진 · AI 노출 · 유튜브 */
 const BOOSTER_VISUALS = [InstaVisual, BeforeAfterVisual, AiSearchVisual, YoutubeVisual];
 
@@ -32,7 +42,7 @@ const BOOSTER_EYEBROWS = ["INSTAGRAM", "BEFORE & AFTER", "AI SEARCH", "YOUTUBE"]
 const BOOSTER_KINDS = ["ig", "ba", "ai", "yt"];
 
 /** 사진형 카드(인스타·유튜브): 이미지가 카드 위쪽, 글이 아래 / 섹션 전체 배경은 같은 이미지를 흐리게 */
-const PHOTO_SRC: (string | undefined)[] = [undefined, "/media/ba-face.webp", undefined, "/media/yt-hero.webp"];
+const PHOTO_SRC: (string | undefined)[] = [undefined, "/media/ba-face-new.webp", undefined, "/media/yt-hero.webp"];
 /** 유튜브 카드: 가운데 사진 양옆에 놓일 작은 영상 카드 2장(왼쪽·오른쪽). 다른 썸네일로 바꾸려면 같은 이름으로 public/media 에 덮어쓰기 */
 const PHOTO_SIDES: ([string, string] | undefined)[] = [undefined, undefined, undefined, ["/media/yt-side-1.webp", "/media/yt-side-2.webp"]];
 /** 유튜브 카드 오른쪽 장식 칩 아이콘 (채널 운영 · 월 1회 촬영 · 롱폼+숏츠) */
@@ -79,6 +89,7 @@ export default function MarketingTabs({ title, data, variant = "stack", acc = "b
         tag: `INDIVIDUAL ${c.items.length}`,
         eyebrow: "INDIVIDUAL 6",
         kind: "ig",
+        bg: <SoftBg tone="ind"><IndividualShowcase /></SoftBg>,
         visual: <IndividualShowcase />,
         below: (
           <>
@@ -99,7 +110,7 @@ export default function MarketingTabs({ title, data, variant = "stack", acc = "b
       tag: `BOOSTER ${String(i + 1).padStart(2, "0")}`,
       eyebrow: BOOSTER_EYEBROWS[i],
       kind: isPhoto(i) ? "ig" : BOOSTER_KINDS[i],
-      bg: i === 0 || i === 3 ? <InstaVisual src={PHOTO_SRC[i]} draw={i === 0} /> : undefined,
+      bg: i === 0 || i === 3 ? <InstaVisual src={PHOTO_SRC[i]} draw={i === 0} /> : <SoftBg tone={i === 1 ? "ba" : "ai"}>{i === 2 ? <AiSearchVisual /> : null}</SoftBg>,
       visual: BOOSTER_VISUALS[i] ? (
         (() => { if (PHOTO_SRC[i]) return <InstaVisual src={PHOTO_SRC[i]} draw={false} sides={PHOTO_SIDES[i]} variant={PHOTO_VARIANT[i]} />; const V = BOOSTER_VISUALS[i]; return <V />; })()
       ) : it.data_card ? (

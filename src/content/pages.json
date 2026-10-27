@@ -407,35 +407,44 @@
         "body": null,
         "data": {
           "note": "모든 패키지는 사전 병원 진단 후 맞춤 설계됩니다.",
+          "statement": [
+            "마케팅 채널은 계속 바뀝니다.",
+            "병원마다 **진단부터 다시** 합니다."
+          ],
           "steps": [
             {
               "tag": "STEP 1",
               "body": "병원의 현재 고민을\n접수합니다.",
               "icon": "chat",
+              "en": "INQUIRY",
               "title": "문의"
             },
             {
               "tag": "STEP 2",
               "body": "마케팅 현황·주력 시술·\n경쟁병원까지 진단합니다.",
               "icon": "search",
+              "en": "DIAGNOSIS",
               "title": "진단"
             },
             {
               "tag": "STEP 3",
               "body": "진단 결과 위에 병원에\n꼭 맞는 전략을 설계합니다.",
               "icon": "blueprint",
+              "en": "DESIGN",
               "title": "설계"
             },
             {
               "tag": "STEP 4",
               "body": "설계한 전략을 직접\n실행하며 성과를 만듭니다.",
               "icon": "gear",
+              "en": "EXECUTION",
               "title": "실행"
             },
             {
               "tag": "STEP 5",
               "body": "월간 리포트와 월 미팅으로\n더 나은 방향으로 개선합니다.",
               "icon": "chart",
+              "en": "MANAGEMENT",
               "title": "관리"
             }
           ],

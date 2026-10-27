@@ -48,7 +48,6 @@ export function AiSearchVisual() {
           <div><b>인팩트의원 <em><svg viewBox="0 0 12 12" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path pathLength="1" d="M2.6 6.4l2.3 2.3 4.5-4.9" /></svg></em></b><span>피부과 전문의 · 레이저 · 공식 홈페이지</span></div>
         </div>
         <div className="ais-item"><i className="ais-logo" /><div><i className="ais-line" /><i className="ais-line s" /></div></div>
-        <div className="ais-item"><i className="ais-logo" /><div><i className="ais-line" /><i className="ais-line s" /></div></div>
         <div className="ais-tags"><span>진료 정보</span><span>공식 홈페이지 ↗</span></div>
       </div>
     </div>
@@ -58,7 +57,7 @@ export function AiSearchVisual() {
 /** 개별 상품 6종 = 위 부스터 4종에 쓴 이미지를 돌려 보여주는 회전 카드 (가운데 → 왼쪽 → 뒤 → 오른쪽 → 가운데 …, 스타일: globals.css 의 .ind-*) */
 const SHOWCASE = [
   { src: "/media/ig-hero4.webp", label: "INSTAGRAM" },
-  { src: "/media/ba-face.webp", label: "BEFORE & AFTER" },
+  { src: "/media/ba-face-new.webp", label: "BEFORE & AFTER" },
   { src: "/media/04f0c9aa-1050-4a48-87d3-5f5a8d838cdd.png", label: "AI SEARCH" },
   { src: "/media/yt-hero.webp", label: "YOUTUBE" },
 ];
@@ -67,7 +66,7 @@ export function IndividualShowcase() {
     <div className="bv ind" aria-hidden="true">
       <div className="ind-stage">
         {SHOWCASE.map((it, k) => (
-          <div key={it.label} className="ind-item" style={{ backgroundImage: `url(${it.src})`, "--k": k } as React.CSSProperties}>
+          <div key={it.label} className={it.src.includes("ba-face") ? "ind-item ind-tall" : it.label === "AI SEARCH" ? "ind-item ind-small" : it.label === "YOUTUBE" ? "ind-item ind-port" : "ind-item ind-wide"} style={{ backgroundImage: `url(${it.src})`, "--k": k } as React.CSSProperties}>
             <span>{it.label}</span>
           </div>
         ))}
@@ -77,7 +76,7 @@ export function IndividualShowcase() {
 }
 
 export function BeforeAfterVisual() {
-  // 전후사진 = 한 얼굴을 반으로 나눈 사진(public/media/ba-face.webp, 배경 제거한 누끼: 왼쪽 AFTER / 오른쪽 BEFORE) + 가운데 선을 따라 흐르는 푸른 빛
+  // 전후사진 = 한 얼굴을 반으로 나눈 사진(public/media/ba-face.webp) + 가운데 선을 따라 흐르는 푸른 빛
   return (
     <div className="bv bv-face" aria-hidden="true">
       <div className="bv-face-frame">
