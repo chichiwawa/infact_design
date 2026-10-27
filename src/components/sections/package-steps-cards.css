@@ -349,3 +349,8 @@
 .psc-beam::after { bottom: -1px; height: 2px; background: linear-gradient(90deg, transparent, #4da3ff 12%, #7ee8ff 38%, #a78bfa 64%, #4da3ff 88%, transparent); box-shadow: 0 0 14px 1px rgba(110,190,255,.75), 0 0 46px 8px rgba(110,100,255,.28); }
 @keyframes psc-beam { 0% { transform: translateY(-100%); opacity: 0; } 6% { opacity: 1; } 70% { opacity: 1; } 80%, 100% { transform: translateY(calc(var(--psc-h, 1400px) + 100%)); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .psc-beam { display: none; } }
+
+/* 노트북 폭(1024~1600px): 마케팅 전략 섹션이 한 화면에 세로로 다 들어오도록 위아래 여백을 줄이고 전체를 약 12% 축소 (2026-10-28) */
+@media (min-width: 1200px) and (max-width: 1600px) {
+  .psc { zoom: .88; padding-top: 120px; padding-bottom: 56px; }
+}
