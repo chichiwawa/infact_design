@@ -34,6 +34,8 @@ export interface HeroData {
   chips?: { label: string; tone?: "dark" | "light" | "plus" | "white" | "glass" }[];  // 히어로에 떠다니는 알약 칩 (2026-10-13)
 }
 
+/** 히어로 아래 동그라미 섹션: 왼쪽 문구 · 가운데 동그라미 · 오른쪽 문구 */
+export interface CircleRevealData { left: string; right: string; process_title?: string; process?: ProcessData }  // over: 동그라미가 화면을 채운 뒤 그 위에 뜨는 문구(줄 단위, **구절** 은 블루 강조)
 export interface NumbersItem { value: string; value_short?: string; label: string; body: string[]; body_mobile?: string[] }  // body_mobile: 있으면 모바일에서만 이 줄바꿈으로 표시(글자도 한 단계 작게) / body 줄 안의 **구절** 은 볼드 / value_short: 제목 아래 요약 줄 전용 값(없으면 value)
 export interface NumbersData { intro: string; items: NumbersItem[] }
 
@@ -123,7 +125,7 @@ export type SectionKind =
   | "hero" | "numbers" | "package_steps" | "marketing_tabs" | "process" | "differentiators" | "logo_marquee" | "final_cta"
   | "blog_latest"
   | "pain_quotes" | "packages" | "boosters" | "products"
-  | "contact_intro";
+  | "contact_intro" | "circle_reveal";
 
 export interface PageSection {
   id: string;

@@ -1,0 +1,21 @@
+/* 05 차별점 — 스크롤 텍스트 (2026-10-15). 회색 → 시그니처 블루는 --p(0~1) 로 보간. 연한 블루 배경 + 관련 사진 4장 콜라주 */
+.diff-wrap { position: relative; background: #eef3ff; }
+.diff-stick { position: sticky; top: 0; height: 100dvh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.diff-bg { position: absolute; inset: 0;
+  background: radial-gradient(60% 55% at 50% 50%, #ffffff 0%, rgba(255,255,255,0) 100%), radial-gradient(50% 50% at 0% 0%, #cddcff 0%, transparent 70%), radial-gradient(50% 50% at 100% 100%, #cddcff 0%, transparent 70%), #e9f0ff; }
+.diff-body { position: relative; z-index: 2; width: min(640px, calc(100% - 40px)); }
+.diff-title { font-size: clamp(30px, 3.6vw, 52px); font-weight: 800; letter-spacing: -.04em; line-height: 1.2; color: var(--color-primary); margin-bottom: clamp(28px, 4vw, 48px); }
+.diff-list { display: flex; flex-direction: column; gap: clamp(18px, 2.6vw, 30px); }
+.diff-line { display: flex; gap: 16px; align-items: flex-start; font-size: clamp(20px, 2.1vw, 30px); font-weight: 800; line-height: 1.4; letter-spacing: -.04em; word-break: keep-all;
+  color: color-mix(in srgb, var(--color-primary) calc(var(--p, 0) * 100%), #aab0bd); }
+.diff-check { flex: none; margin-top: .22em; width: .9em; height: .9em; }
+.diff-card { position: absolute; z-index: 1; border-radius: 28px; background-size: cover; background-position: center; box-shadow: 0 30px 70px -28px rgba(48, 97, 255, .45); }
+.diff-p1 { left: 4%; top: 9%; width: min(14vw, 270px); aspect-ratio: 3 / 4; transform: rotate(-4deg); background-position: 50% 30%; }
+.diff-p2 { left: 12%; bottom: 7%; width: min(15vw, 290px); aspect-ratio: 1.15; transform: rotate(3deg); }
+.diff-p3 { right: 5%; top: 8%; width: min(13vw, 250px); aspect-ratio: 4 / 5; transform: rotate(3deg); background-position: 50% 30%; background-color: #fff; }
+.diff-p4 { right: 10%; bottom: 8%; width: min(15vw, 290px); aspect-ratio: 1; transform: rotate(-3deg); background-position: 55% 55%; }
+@media (max-width: 899px) {
+  .diff-p2, .diff-p3 { display: none; }
+  .diff-p1 { left: -6%; top: 4%; width: 36vw; }
+  .diff-p4 { right: -6%; bottom: 4%; width: 36vw; }
+}

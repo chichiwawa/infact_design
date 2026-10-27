@@ -2097,3 +2097,94 @@ html.strength-drag { scroll-snap-type: none !important; }
   .pk-softbg[data-tone="ba"]::before { background: radial-gradient(60% 55% at 78% 22%, rgba(70,130,255,.4), transparent 70%), radial-gradient(55% 45% at 55% 70%, rgba(40,90,230,.28), transparent 70%), radial-gradient(40% 40% at 20% 90%, rgba(30,60,170,.25), transparent 70%); filter: blur(30px); }
   .pk-softbg[data-tone="ba"]::after { display: none; }
 }
+
+/* ── 히어로 아래 동그라미 섹션 (2026-10-27, btsoft 레퍼런스) ──
+   --cr-p(0~1)는 CircleReveal.tsx 가 스크롤에 맞춰 갱신. 동그라미는 지름 --cr-d 에서 시작해 화면 대각선을 덮을 때까지 커진다. */
+.cr { --cr-p: 0; --cr-d: clamp(150px, calc(19vw * var(--zi)), 360px); position: relative; background: #fff; color: #0a0a0a; height: calc(100dvh * var(--zi) * 2.6); }
+.cr-stage { position: sticky; top: 0; height: calc(100dvh * var(--zi)); overflow: hidden; display: flex; align-items: center; justify-content: center; gap: calc(var(--cr-d) * .32); }
+.cr-circle { position: relative; z-index: 2; flex: none; width: var(--cr-d); height: var(--cr-d); border-radius: 50%; overflow: hidden; background: #000;
+  transform: scale(calc(1 + var(--cr-p) * 9)); will-change: transform; }
+.cr-ribbon { position: absolute; inset: -25%; background:
+  radial-gradient(34% 70% at 30% 40%, rgba(40,80,200,.38), transparent 70%),
+  radial-gradient(30% 60% at 72% 70%, rgba(70,60,200,.28), transparent 70%),
+  conic-gradient(from 200deg at 55% 50%, #000 0 30%, #07122e 38%, #000 48%, #0b0b1c 62%, #000 75%); animation: cr-spin 26s linear infinite; }
+@keyframes cr-spin { to { transform: rotate(360deg); } }
+.cr-text { position: relative; z-index: 1; flex: 1 1 0; margin: 0; font-size: clamp(20px, calc(2.9vw * var(--zi)), 56px); font-weight: 800; line-height: 1.25; letter-spacing: -.05em; word-break: keep-all;
+  opacity: calc(1 - var(--cr-p) * 3.2); will-change: transform, opacity; }
+.cr-text--l { text-align: right; transform: translateX(calc(var(--cr-p) * -30vw)); }
+.cr-text--r { text-align: left; transform: translateX(calc(var(--cr-p) * 30vw)); }
+@media (max-width: 767px) {
+  .cr { --cr-d: calc(34vw * var(--zi)); }
+  .cr-stage { flex-direction: column; gap: calc(var(--cr-d) * .5); }
+  .cr-text { flex: none; font-size: clamp(22px, calc(7vw * var(--zi)), 34px); text-align: center; }
+  .cr-text--l { transform: translateY(calc(var(--cr-p) * -40vh)); } .cr-text--r { transform: translateY(calc(var(--cr-p) * 40vh)); }
+}
+@media (prefers-reduced-motion: reduce) { .cr-ribbon { animation: none; } }
+
+/* 동그라미가 화면을 채운 뒤 그 위에 뜨는 문구 (진행도 0.55~0.85 에서 아래서 올라오며 등장) */
+.cr-over { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; margin: 0; color: #fff; pointer-events: none;
+  font-size: clamp(30px, calc(5vw * var(--zi)), 84px); font-weight: 800; line-height: 1.2; letter-spacing: -.05em; word-break: keep-all;
+  opacity: clamp(0, calc((var(--cr-p) - .55) * 3.4), 1); transform: translateY(calc((1 - clamp(0, (var(--cr-p) - .55) * 3.4, 1)) * 40px)); }
+@media (max-width: 767px) { .cr-over { font-size: clamp(28px, calc(8vw * var(--zi)), 44px); padding: 0 20px; } }
+
+/* ── 동그라미 섹션 시안 a/b/c (2026-10-27): 로고의 블루 점 + 팩트체크 요소 ── */
+.cr[data-v] .cr-ribbon { display: none; }
+.cr[data-v] .cr-circle { background: #3061ff; }
+.cr[data-v] .cr-over { text-shadow: 0 2px 30px rgba(10,30,120,.35); }
+/* a — 로고의 파란 점이 그대로 커져 화면을 채움 */
+.cr[data-v="a"] .cr-circle { box-shadow: 0 0 calc(var(--cr-d) * .4) rgba(48,97,255,.55); }
+/* b — 검은 원 위로 스캔선이 훑고 → 체크가 그려지고 → 블루로 바뀌며 확장 */
+.cr[data-v="b"] .cr-circle { background: #07091a; transform: scale(calc(1 + clamp(0, (var(--cr-p) - .25) / .75, 1) * 9)); }
+.cr[data-v="b"] .cr-ribbon { display: block; opacity: .9; }
+.cr-blue { position: absolute; inset: 0; background: #3061ff; opacity: clamp(0, calc((var(--cr-p) - .2) * 6), 1); }
+.cr-scan { position: absolute; top: 0; bottom: 0; width: 3px; left: calc(var(--cr-p) * 400% - 6%); background: linear-gradient(180deg, transparent, #9fe7ff, transparent); box-shadow: 0 0 22px 6px rgba(120,190,255,.7); opacity: clamp(0, calc(1 - var(--cr-p) * 4), 1); }
+.cr-check { position: absolute; inset: 24%; width: 52%; height: 52%; opacity: clamp(0, calc(1 - (var(--cr-p) - .3) * 8), 1); }
+.cr-check path { stroke: #fff; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - clamp(0, (var(--cr-p) - .08) * 5, 1)); }
+.cr[data-v="b"] .cr-text--l { opacity: clamp(.18, calc(1 - var(--cr-p) * 6), 1); text-decoration: line-through; text-decoration-thickness: .08em; text-decoration-color: rgba(10,10,10,calc(var(--cr-p) * 8)); }
+/* c — 블루 점 위에 FACT ✓ 도장, 스크롤하면 바깥으로 번지는 검증 물결 */
+.cr[data-v="c"] .cr-circle { box-shadow: 0 0 0 calc(var(--cr-d) * .07) rgba(48,97,255,.16), 0 0 0 calc(var(--cr-d) * .16) rgba(48,97,255,.08); }
+.cr-fact { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; color: #fff; font-size: calc(var(--cr-d) * .2); font-weight: 800; letter-spacing: -.02em; line-height: 1; opacity: clamp(0, calc(1 - var(--cr-p) * 7), 1); }
+.cr-fact b { display: block; margin-top: .25em; font-size: 1.25em; }
+.cr-rings { position: absolute; left: 50%; top: 50%; width: var(--cr-d); height: var(--cr-d); margin: calc(var(--cr-d) / -2) 0 0 calc(var(--cr-d) / -2); z-index: 1; pointer-events: none; }
+.cr-rings i { position: absolute; inset: 0; border-radius: 50%; border: 2px solid #3061ff; will-change: transform; }
+.cr-rings i:nth-child(1) { transform: scale(calc(1 + var(--cr-p) * 6)); opacity: clamp(0, calc(.9 - var(--cr-p) * 1.4), 1); }
+.cr-rings i:nth-child(2) { transform: scale(calc(1 + var(--cr-p) * 11)); opacity: clamp(0, calc(.7 - var(--cr-p) * 1.1), 1); }
+.cr-rings i:nth-child(3) { transform: scale(calc(1 + var(--cr-p) * 16)); opacity: clamp(0, calc(.5 - var(--cr-p) * .8), 1); }
+
+/* ── 04 진행 프로세스 가로 스크롤 (2026-10-27) — 앞 동그라미 섹션의 검은 화면에서 이어짐 ── */
+.ph { position: relative; background: #000; color: #fff; }
+.ph-stage { position: sticky; top: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: calc(7vh * var(--zi)); }
+.ph-head { position: relative; text-align: center; padding: 0 20px; }
+.ph-eyebrow { margin: 0 0 1em; font-size: clamp(11px, calc(.85vw * var(--zi)), 15px); font-weight: 700; letter-spacing: .18em; color: #6b8cff; }
+.ph-title { margin: 0; font-size: clamp(28px, calc(3.4vw * var(--zi)), 64px); font-weight: 800; line-height: 1.2; letter-spacing: -.05em; color: #fff; word-break: keep-all; }
+.ph-glow { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(60% 60% at 70% 60%, rgba(48,97,255,.26), transparent 70%), radial-gradient(45% 45% at 10% 20%, rgba(80,140,255,.12), transparent 70%); transition: opacity .5s; }
+.ph-track { position: relative; will-change: transform; padding: 0 calc(8vw * var(--zi)); }
+.ph-list { display: flex; margin: 0; padding: 0; list-style: none; width: max-content; }
+.ph-card { position: relative; flex: none; width: calc(26vw * var(--zi)); padding: calc(46px) calc(3vw * var(--zi)) 0 0; }
+.ph-dot { position: absolute; left: 0; top: 0; width: 15px; height: 15px; border-radius: 50%; background: rgba(255,255,255,.3); transform: scale(.47); transition: transform .5s, background .5s, box-shadow .5s; }
+.ph-line { position: absolute; left: 15px; top: 7px; right: 0; height: 1px; background: rgba(255,255,255,.22); }
+.ph-line::after { content: ""; position: absolute; inset: 0; background: #fff; transform-origin: left; transform: scaleX(0); transition: transform .6s ease-out; }
+.ph-card[data-on="1"] .ph-dot { background: #3061ff; transform: none; }
+.ph-card[data-cur="1"] .ph-dot { box-shadow: 0 0 18px 4px rgba(48,97,255,.7); transform: scale(1.15); }
+.ph-card[data-on="1"]:not([data-cur="1"]) .ph-line::after, .ph-card[data-cur="1"] .ph-line::after { transform: scaleX(1); }
+.ph-card[data-cur="1"] .ph-line::after { transform: scaleX(0); }
+.ph-tag { margin: 0 0 14px; font-size: 13px; font-weight: 700; letter-spacing: .16em; color: rgba(107,140,255,.45); transition: color .5s; }
+.ph-en { margin: 0; font-size: clamp(26px, calc(2.6vw * var(--zi)), 50px); font-weight: 800; line-height: 1.05; letter-spacing: -.04em; color: rgba(255,255,255,.2); transition: color .5s; }
+.ph-body { margin: 12px 0 0; font-size: clamp(13px, calc(1vw * var(--zi)), 19px); line-height: 1.6; letter-spacing: -.02em; color: rgba(255,255,255,.2); transition: color .5s; word-break: keep-all; }
+.ph-body b { font-weight: 700; }
+.ph-card[data-on="1"] .ph-tag { color: #6b8cff; }
+.ph-card[data-on="1"] .ph-en { color: rgba(255,255,255,.55); }
+.ph-card[data-on="1"] .ph-body { color: rgba(255,255,255,.5); }
+.ph-card[data-cur="1"] .ph-en { color: #fff; }
+.ph-card[data-cur="1"] .ph-body { color: rgba(255,255,255,.88); }
+@media (max-width: 767px) { .ph-track { padding: 0 calc(10vw * var(--zi)); } .ph-card { width: calc(78vw * var(--zi)); padding-right: calc(8vw * var(--zi)); } .ph-en { font-size: clamp(28px, calc(8.5vw * var(--zi)), 44px); } .ph-body { font-size: 15px; } }
+
+/* 동그라미 위 문구: 작은 영문 라벨 + 큰 제목 */
+.cr-over-eyebrow { display: block; margin-bottom: .9em; font-size: clamp(12px, calc(1.05vw * var(--zi)), 18px); font-weight: 700; letter-spacing: .18em; color: #6b8cff; text-shadow: none; }
+.cr-over-h { margin: 0; font-size: inherit; font-weight: inherit; letter-spacing: inherit; line-height: inherit; }
+
+/* 동그라미가 화면을 채우는 동안(--cr-p .45→.85) 그 위로 프로세스 제목·단계 줄이 떠오름 (2026-10-27) */
+.cr-proc { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; justify-content: center; gap: calc(7vh * var(--zi)); color: #fff; }
+.cr-proc .ph-head { opacity: clamp(0, calc((var(--cr-p) - .4) * 2.5), 1); transform: translateY(calc((1 - var(--cr-s)) * 11vh * var(--zi) - var(--cr-s) * 8vh * var(--zi) + (1 - clamp(0, (var(--cr-p) - .4) * 2.5, 1)) * 36px)); }
+.cr-proc .ph-track { opacity: var(--cr-s); }
+.cr-over { display: none; }

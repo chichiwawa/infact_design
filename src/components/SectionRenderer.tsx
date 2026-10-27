@@ -18,6 +18,7 @@ import PainQuotes from "./sections/PainQuotes";
 import Packages from "./sections/Packages";
 import Boosters from "./sections/Boosters";
 import Products from "./sections/Products";
+import CircleReveal from "./sections/CircleReveal";
 import ContactIntro from "./sections/ContactIntro";
 
 /** ⚠️ 섹션 사이에 마커 요소를 끼우면 안 됨 — 서비스 01→02 덮기 효과가 `.pain + .pain-m + section` 형제 선택자라 끊긴다(46차 회귀, 50차 수정). */
@@ -52,6 +53,7 @@ function render(s: PageSection, biz: Business | null) {
           case "boosters": return <Boosters key={s.id} title={title} data={s.data as S.BoostersData} />;
           case "products": return <Products key={s.id} title={title} data={s.data as S.ProductsData} />;
           case "contact_intro": return <ContactIntro key={s.id} data={s.data as S.ContactIntroData} biz={biz} />;
+          case "circle_reveal": return <CircleReveal key={s.id} data={s.data as S.CircleRevealData} />;
           default: return null;
         }
   }

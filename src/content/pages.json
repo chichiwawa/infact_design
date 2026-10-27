@@ -401,56 +401,61 @@
         "sort_order": 3
       },
       {
-        "id": "9218ea82-b0de-4f0c-b541-f1e345c3610f",
-        "kind": "process",
-        "title": "진단하고, 설계하고, **직접 실행**합니다",
+        "id": "c1rc1e00-0000-4000-8000-reveal000001",
+        "kind": "circle_reveal",
+        "title": null,
         "body": null,
         "data": {
-          "note": "모든 패키지는 사전 병원 진단 후 맞춤 설계됩니다.",
-          "statement": [
-            "마케팅 채널은 계속 바뀝니다.",
-            "병원마다 **진단부터 다시** 합니다."
-          ],
-          "steps": [
-            {
-              "tag": "STEP 1",
-              "body": "병원의 현재 고민을\n접수합니다.",
-              "icon": "chat",
-              "en": "INQUIRY",
-              "title": "문의"
-            },
-            {
-              "tag": "STEP 2",
-              "body": "마케팅 현황·주력 시술·\n경쟁병원까지 진단합니다.",
-              "icon": "search",
-              "en": "DIAGNOSIS",
-              "title": "진단"
-            },
-            {
-              "tag": "STEP 3",
-              "body": "진단 결과 위에 병원에\n꼭 맞는 전략을 설계합니다.",
-              "icon": "blueprint",
-              "en": "DESIGN",
-              "title": "설계"
-            },
-            {
-              "tag": "STEP 4",
-              "body": "설계한 전략을 직접\n실행하며 성과를 만듭니다.",
-              "icon": "gear",
-              "en": "EXECUTION",
-              "title": "실행"
-            },
-            {
-              "tag": "STEP 5",
-              "body": "월간 리포트와 월 미팅으로\n더 나은 방향으로 개선합니다.",
-              "icon": "chart",
-              "en": "MANAGEMENT",
-              "title": "관리"
-            }
-          ],
-          "subtitle": "병원의 현재 상태를 진단하고, 전략을 설계하여 제안드립니다"
+          "left": "감이 아닌 팩트로,",
+          "right": "병원의 가치를 키웁니다.",
+          "process_title": "진단하고, 설계하고, **직접 실행**합니다",
+          "process": {
+            "note": "모든 패키지는 사전 병원 진단 후 맞춤 설계됩니다.",
+            "statement": [
+              "마케팅 채널은 계속 바뀝니다.",
+              "병원마다 **진단부터 다시** 합니다."
+            ],
+            "steps": [
+              {
+                "tag": "STEP 1",
+                "body": "병원의 현재 고민을\n접수합니다.",
+                "icon": "chat",
+                "en": "INQUIRY",
+                "title": "문의"
+              },
+              {
+                "tag": "STEP 2",
+                "body": "마케팅 현황·주력 시술·\n경쟁병원까지 진단합니다.",
+                "icon": "search",
+                "en": "DIAGNOSIS",
+                "title": "진단"
+              },
+              {
+                "tag": "STEP 3",
+                "body": "진단 결과 위에 병원에\n꼭 맞는 전략을 설계합니다.",
+                "icon": "blueprint",
+                "en": "DESIGN",
+                "title": "설계"
+              },
+              {
+                "tag": "STEP 4",
+                "body": "설계한 전략을 직접\n실행하며 성과를 만듭니다.",
+                "icon": "gear",
+                "en": "EXECUTION",
+                "title": "실행"
+              },
+              {
+                "tag": "STEP 5",
+                "body": "월간 리포트와 월 미팅으로\n더 나은 방향으로 개선합니다.",
+                "icon": "chart",
+                "en": "MANAGEMENT",
+                "title": "관리"
+              }
+            ],
+            "subtitle": "병원의 현재 상태를 진단하고, 전략을 설계하여 제안드립니다"
+          }
         },
-        "sort_order": 4
+        "sort_order": 1
       },
       {
         "id": "3fc3baca-eda5-4cef-a00d-592dab0a6f63",

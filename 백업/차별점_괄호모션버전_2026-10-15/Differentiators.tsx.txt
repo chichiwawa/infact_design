@@ -1,0 +1,68 @@
+"use client";
+
+/**
+ * 05 차별점 4가지 — 가운데 문구 1개 + 양옆 큰 괄호 ( ) 레이아웃 (2026-10-15 사용자 요청, hobro.digital "Got project?" 참고)
+ *  - 래퍼(wrap) 안에서 화면 하나를 sticky 로 고정, 스크롤에 따라 문구가 하나씩 교체된다.
+ *  - 문구가 바뀌는 구간에서 괄호가 바깥으로 벌어졌다 닫히고, 문구는 회색 → 파란색으로 들어온다.
+ *  - 모션 값은 React 상태가 아니라 CSS 변수(--q, --d, --spread)를 직접 갱신 (리렌더·className 충돌 방지).
+ */
+import { useEffect, useRef } from "react";
+import type { DifferentiatorsData } from "@/lib/sections";
+
+export default function Differentiators({ title, data }: { title: string; data: DifferentiatorsData }) {
+  const wrap = useRef<HTMLElement>(null);
+  const lines = useRef<(HTMLLIElement | null)[]>([]);
+  const stage = useRef<HTMLDivElement>(null);
+  const cnt = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const el = wrap.current;
+    if (!el) return;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const r = el.getBoundingClientRect();
+      const total = r.height - window.innerHeight;
+      const p = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 1;
+      const n = data.items.length;
+      // 앞뒤 8% 는 여백. 나머지를 문구 수로 나눠, q = 현재 위치(0 ~ n-1, 연속값)
+      const q = Math.min(1, Math.max(0, (p - 0.08) / 0.84)) * (n - 1);
+      lines.current.forEach((li, i) => li?.style.setProperty("--d", String(i - q)));
+      const f = q - Math.floor(q);
+      const spread = Math.sin(Math.PI * f); // 문구 사이 구간에서 1 → 괄호가 가장 크게 벌어짐
+      stage.current?.style.setProperty("--spread", String(spread));
+      cnt.current && (cnt.current.textContent = String(Math.round(q) + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0"));
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [data.items.length]);
+
+  return (
+    <section ref={wrap} className="diff-wrap" style={{ height: `${100 + data.items.length * 60}dvh` }}>
+      <div className="diff-stick">
+        <div className="diff-body">
+          <h2 className="diff-title">{title.replace(/\*\*/g, "")}</h2>
+          <div ref={stage} className="diff-stage">
+            <svg className="diff-paren l" viewBox="0 0 40 200" preserveAspectRatio="none" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden><path d="M38 2 C2 56 2 144 38 198" vectorEffect="non-scaling-stroke" /></svg>
+            <span ref={cnt} className="diff-count">01 / 04</span>
+            <ol className="diff-list">
+              {data.items.map((it, i) => (
+                <li key={it.title} ref={(n) => { lines.current[i] = n; }} className="diff-line" style={{ ["--d" as string]: i }}>
+                  {it.title}.
+                </li>
+              ))}
+            </ol>
+            <svg className="diff-paren r" viewBox="0 0 40 200" preserveAspectRatio="none" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden><path d="M38 2 C2 56 2 144 38 198" vectorEffect="non-scaling-stroke" /></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

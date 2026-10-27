@@ -1,76 +1,73 @@
 "use client";
 /**
- * 04 진행 프로세스 — 검은 배경 스크롤 점등형(2026-10-27, btsoft 레퍼런스).
- * 왼쪽 선언 문구는 고정, 오른쪽 세로선을 따라 스크롤할 때마다 단계가 하나씩 켜진다.
- * 구간 높이(단계 수 × 한 화면)를 스크롤하는 동안 안쪽 화면이 sticky 로 붙어 있다.
- * 현재 단계는 투명 감지 칸(IntersectionObserver)으로 잡는다 — html zoom 에서도 값이 틀어지지 않는다.
- * 켜짐 표시는 className 이 아니라 data-on 으로(Motion.tsx 가 className 을 건드리므로).
+ * 04 진행 프로세스 — 가로 스크롤형(2026-10-27). 문의 → 진단 → 설계 → 실행 → 관리.
+ * 제목(INFACT. PROCESS / 진단하고, 설계하고, 직접 실행합니다.)은 화면 위쪽 가운데, 단계 줄은 그 아래(2026-10-27 시안).
+ * 세로로 스크롤하는 동안 안쪽 화면이 sticky 로 붙어 있고, 단계 줄이 왼쪽으로 흐른다(--ph-x 가 아니라 transform 직접 갱신).
+ * 화면 가운데를 지난 단계는 점등된다. 점등 표시는 className 이 아니라 data-on 으로(Motion.tsx 가 className 을 건드리므로).
+ * 길이 계산은 CSS px(html zoom 보정: zoomInv) 기준.
  */
 import { useEffect, useRef, useState } from "react";
 import Accent from "@/components/Accent";
 import type { ProcessData } from "@/lib/sections";
+import { zoomInv } from "@/lib/zoom";
 
-/* 단계마다 다른 위치·색조의 파란 빛 — 켜진 단계에 맞춰 배경이 천천히 바뀐다 */
-const GLOWS = [
-  "radial-gradient(60% 55% at 85% 12%, rgba(48,97,255,.30), transparent 70%)",
-  "radial-gradient(60% 55% at 90% 38%, rgba(48,97,255,.34), transparent 70%), radial-gradient(40% 40% at 10% 90%, rgba(80,140,255,.14), transparent 70%)",
-  "radial-gradient(65% 55% at 70% 62%, rgba(70,60,255,.32), transparent 70%)",
-  "radial-gradient(65% 60% at 80% 75%, rgba(48,97,255,.40), transparent 70%), radial-gradient(40% 40% at 15% 20%, rgba(48,97,255,.16), transparent 70%)",
-  "radial-gradient(70% 60% at 50% 100%, rgba(90,150,255,.38), transparent 72%)",
-];
 const VH = "calc(100dvh*var(--zi))";
 
-export default function ProcessAlt({ title, data }: { title: string; data: ProcessData }) {
+export default function ProcessAlt({ title, data }: { title?: string; data: ProcessData }) {
   const n = data.steps.length;
   const [on, setOn] = useState(0);
-  const marks = useRef<(HTMLDivElement | null)[]>([]);
+  const secRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const cards = useRef<(HTMLLIElement | null)[]>([]);
 
   useEffect(() => {
-    const io = new IntersectionObserver(
-      (es) => es.forEach((e) => { if (e.isIntersecting) setOn(Number((e.target as HTMLElement).dataset.i)); }),
-      { rootMargin: "-50% 0px -50% 0px" },
-    );
-    marks.current.forEach((m) => m && io.observe(m));
-    return () => io.disconnect();
+    const sec = secRef.current, track = trackRef.current;
+    if (!sec || !track) return;
+    let raf = 0, last = -1;
+    const update = () => {
+      raf = 0;
+      const zi = zoomInv();
+      const r = sec.getBoundingClientRect();
+      const span = r.height - window.innerHeight;
+      const p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+      const max = Math.max(0, track.scrollWidth - window.innerWidth * zi);
+      track.style.transform = `translate3d(${(-p * max).toFixed(1)}px,0,0)`;
+      // 카드 중심이 화면 폭의 62% 보다 왼쪽에 오면 켜짐 (마지막 카드는 끝에서 반드시 켜지도록 p 도 함께 본다)
+      let lit = 0;
+      cards.current.forEach((c, i) => {
+        if (!c) return;
+        const b = c.getBoundingClientRect();
+        if (b.left + b.width / 2 < window.innerWidth * 0.62 || (i === n - 1 && p > 0.97)) lit = i;
+      });
+      if (lit !== last) { last = lit; setOn(lit); }
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); if (raf) cancelAnimationFrame(raf); };
   }, [n]);
 
   return (
-    <section className="relative bg-black text-white" style={{ height: `calc(${VH}*${n + 1})` }}>
-      <div aria-hidden="true" className="absolute inset-x-0 top-0">
-        {data.steps.map((s, i) => (
-          <div key={s.tag} data-i={i} ref={(el) => { marks.current[i] = el; }} style={{ height: VH }} />
-        ))}
-      </div>
-
-      <div className="sticky top-0 overflow-hidden" style={{ height: VH }}>
-        {data.steps.map((s, i) => (
-          <div key={s.tag} aria-hidden="true" className="absolute inset-0 pointer-events-none transition-opacity duration-[900ms] ease-out" style={{ opacity: i === on ? 1 : 0, background: GLOWS[i % GLOWS.length] }} />
-        ))}
-        <div className="container-x relative h-full grid items-center gap-8 lg:gap-16 lg:grid-cols-[1fr_1fr] content-center">
-          <div data-reveal>
-            <p className="mb-5 md:mb-7 text-[12px] md:text-[13px] font-bold tracking-[.16em] text-[#6b8cff]">INFACT. PROCESS</p>
-            <h2 className="t-h-xl text-white tracking-[-0.05em]">
-              <span className="block">진단하고, 설계하고,</span>
-              <span className="block"><Accent text="**직접 실행**합니다." /></span>
-            </h2>
-            <p className="mt-5 md:mt-6 text-[15px] md:text-[18px] leading-[1.7] text-white/55 max-w-[460px]">{data.subtitle}</p>
-          </div>
-
-          <div className="relative pl-9 md:pl-[88px]">
-            <span aria-hidden="true" className="absolute left-[7px] top-2 bottom-2 w-px bg-white/25" />
-            <span aria-hidden="true" className="absolute left-[7px] top-2 w-px bg-white transition-[height] duration-500 ease-out" style={{ height: `calc((100% - 16px)*${on / (n - 1)})` }} />
-            <ul className="flex flex-col gap-5 md:gap-9">
-              {data.steps.map((s, i) => (
-                <li key={s.tag} data-on={i === on ? "1" : "0"} className="relative group">
-                  <span aria-hidden="true" className="absolute -left-9 md:-left-[88px] top-[10px] md:top-[18px] w-[15px] h-[15px] grid place-items-center">
-                    <span className="block rounded-full transition-all duration-500 bg-white/30 w-[7px] h-[7px] group-data-[on='1']:bg-primary group-data-[on='1']:w-[15px] group-data-[on='1']:h-[15px] group-data-[on='1']:shadow-[0_0_18px_4px_rgba(48,97,255,.7)]" />
-                  </span>
-                  <p className="text-[30px] md:text-[56px] font-extrabold leading-[1.05] tracking-[-0.04em] transition-colors duration-500 text-white/20 group-data-[on='1']:text-white">{s.en ?? s.title}</p>
-                  <p className="mt-1 md:mt-2 text-[16px] md:text-[22px] tracking-[-0.02em] transition-colors duration-500 text-white/20 group-data-[on='1']:text-white/85 whitespace-pre-line"><b className="font-bold">{s.title}</b> — {s.body.replace(/\n/g, " ")}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
+    <section ref={secRef} className="ph on-dark" style={{ height: `calc(${VH}*${n * 0.7 + 1})` }} aria-label="진행 프로세스">
+      <div className="ph-stage" style={{ height: VH }}>
+        <div aria-hidden="true" className="ph-glow" style={{ opacity: 0.55 + (on / Math.max(1, n - 1)) * 0.45 }} />
+        <div className="ph-head">
+          <p className="ph-eyebrow">INFACT. PROCESS</p>
+          <h2 className="ph-title"><Accent text={`${(title ?? "").replace("설계하고, ", "설계하고,\n")}.`} /></h2>
+        </div>
+        <div ref={trackRef} className="ph-track">
+          <ul className="ph-list">
+            {data.steps.map((s, i) => (
+              <li key={s.tag} ref={(el) => { cards.current[i] = el; }} data-on={i <= on ? "1" : "0"} data-cur={i === on ? "1" : "0"} className="ph-card">
+                <span aria-hidden="true" className="ph-dot" />
+                {i < n - 1 && <span aria-hidden="true" className="ph-line" />}
+                <p className="ph-tag">{s.tag}</p>
+                <p className="ph-en">{s.en ?? s.title}</p>
+                <p className="ph-body"><b>{s.title}</b> — {s.body.replace(/\n/g, " ")}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

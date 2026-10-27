@@ -1,0 +1,17 @@
+/* 05 차별점 — 가운데 문구 + 양옆 괄호 (2026-10-15). --d: 문구가 현재 위치에서 떨어진 정도(0=중앙), --spread: 괄호 벌어짐(0~1) */
+.diff-wrap { position: relative; background: #fff; }
+.diff-stick { position: sticky; top: 0; height: 100dvh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.diff-body { width: min(1180px, calc(100% - 40px)); display: flex; flex-direction: column; align-items: center; text-align: center; }
+.diff-title { font-size: clamp(30px, 3.8vw, 56px); font-weight: 800; letter-spacing: -.04em; line-height: 1.2; color: var(--color-ink, #0a0a0a); margin-bottom: clamp(36px, 7vh, 84px); }
+.diff-stage { position: relative; width: 100%; height: clamp(220px, 36vh, 340px); display: flex; align-items: center; justify-content: center; }
+.diff-count { position: absolute; left: 50%; top: 4%; transform: translateX(-50%); font: 500 clamp(14px, 1.4vw, 20px)/1 "Outfit", var(--font-sans); letter-spacing: .08em; color: #9aa0ad; }
+.diff-list { position: relative; width: min(620px, 78%); height: 100%; }
+.diff-line { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: clamp(24px, 3.5vw, 52px); font-weight: 800; line-height: 1.35; letter-spacing: -.04em; word-break: keep-all; padding-top: 3%;
+  --a: max(0, calc(1 - (var(--d) * var(--d)) * 4)); /* 중앙일 때 1, 반 칸만 벗어나도 0 */
+  opacity: var(--a); transform: translateY(calc(var(--d) * 56px)) scale(calc(.94 + var(--a) * .06)); filter: blur(calc((1 - var(--a)) * 6px));
+  color: color-mix(in srgb, var(--color-primary) calc(var(--a) * 100%), #aab0bd); will-change: transform, opacity; }
+.diff-paren { position: absolute; top: 0; height: 100%; width: clamp(28px, 4.4vw, 64px); color: #111;
+  transform: translateX(calc(var(--spread, 0) * var(--dir) * clamp(18px, 4vw, 70px))) scaleY(calc(1 + var(--spread, 0) * .12)); }
+.diff-paren.l { left: 0; --dir: -1; }
+.diff-paren.r { right: 0; --dir: 1; transform: translateX(calc(var(--spread, 0) * var(--dir) * clamp(18px, 4vw, 70px))) scaleX(-1) scaleY(calc(1 + var(--spread, 0) * .12)); }
+@media (max-width: 640px) { .diff-list { width: 74%; } .diff-line { font-size: 22px; } }

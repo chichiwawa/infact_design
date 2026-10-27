@@ -42,6 +42,7 @@ export default function PackageStepsCards({ title, data }: { title: string; data
   }, []);
   return (
     <section className="psc on-dark">
+      <div className="psc-beam" aria-hidden="true" />
       <div className="container-x">
         <div className="psc-head">
           <p className="psc-eyebrow">INFACT. GROWTH DESIGN</p>
