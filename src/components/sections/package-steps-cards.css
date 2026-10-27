@@ -354,3 +354,14 @@
 @media (min-width: 1200px) and (max-width: 1600px) {
   .psc { zoom: .88; padding-top: 120px; padding-bottom: 56px; }
 }
+
+/* 노트북 폭: 박스 안 글씨(설명·항목 제목)를 키움. 상품 버튼은 카드 아랫선에 살짝 걸치게 (2026-10-28) */
+@media (min-width: 1200px) and (max-width: 1600px) {
+  .psc-grid { max-width: 1340px; }
+  .psc-desc { font-size: 19px; }
+  .psc-feat-t b { font-size: 17px; letter-spacing: -.05em; }
+  .psc-ico { width: 40px; height: 40px; }
+  .psc-card { padding-bottom: 22px; }
+  .psc-btn, .psc-card:not([data-on="1"]) .psc-btn, .psc-card[data-on="1"] .psc-btn { margin-bottom: -38px; position: relative; z-index: 2; }
+  .psc { padding-bottom: 80px; }
+}
