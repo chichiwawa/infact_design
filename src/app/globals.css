@@ -2319,8 +2319,8 @@ html.strength-drag { scroll-snap-type: none !important; }
   .pk-stack .pk-sleft-in .pk-lead { font-size: clamp(13px, 2.5svh, 18px); }
   .pk-stack .pk-h { margin-top: 2.2svh; font-size: clamp(24px, 5.4svh, 42px); line-height: 1.22; }
   .pk-stack .pk-sgroups { margin-top: 3.2svh; gap: 2.8svh; }
-  .pk-stack[data-acc] .pk-shead { padding-block: 1svh; font-size: 14px; }
-  .pk-stack[data-acc] .pk-sitem { padding-block: .7svh; font-size: 13px; }
+  .pk-stack[data-acc] .pk-shead { padding-block: 1.2svh; font-size: 15px; }
+  .pk-stack[data-acc] .pk-sitem { padding-block: 1.3svh; font-size: 15px; }
   .pk-stack .pk-cta, .pk-stack .pk-sbtn { margin-top: 1.4svh; }
   .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom h3 { font-size: clamp(22px, 5svh, 34px); margin-bottom: 1.8svh; }
   .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body { font-size: clamp(12px, 2svh, 14px); line-height: 1.6; }
@@ -2330,8 +2330,8 @@ html.strength-drag { scroll-snap-type: none !important; }
 @media (min-width: 768px) and (max-width: 1180px) and (max-height: 650px), (min-width: 768px) and (pointer: coarse) and (max-height: 650px) {
   .pk-stack .pk-h { font-size: clamp(22px, 4.8svh, 34px); }
   .pk-stack .pk-sgroups { margin-top: 2svh; gap: 1.8svh; }
-  .pk-stack[data-acc] .pk-shead { padding-block: .4svh; }
-  .pk-stack[data-acc] .pk-sitem { padding-block: .3svh; }
+  .pk-stack[data-acc] .pk-shead { padding-block: .6svh; }
+  .pk-stack[data-acc] .pk-sitem { padding-block: .8svh; }
   .pk-stack .pk-cta, .pk-stack .pk-sbtn { margin-top: 1svh; padding-block: 7px; }
   .pk-stack .pk-sleft-in .pk-lead { line-height: 1.25; }
 }
@@ -2360,8 +2360,8 @@ html.strength-drag { scroll-snap-type: none !important; }
 }
 /* 가로(화면 높이 낮음)일 때는 높이 기준으로 한 번 더 줄임 */
 @media (min-width: 768px) and (max-height: 900px) and (max-width: 1180px), (min-width: 768px) and (max-height: 900px) and (pointer: coarse) {
-  .diff-stick .diff-logo { font-size: clamp(15px, 2.6svh, 22px); }
-  .diff-stick .diff-title { font-size: clamp(26px, min(calc(3.6vw * var(--zi)), 6.4svh), 44px); }
-  .diff-stick .diff-line { font-size: clamp(15px, min(calc(1.9vw * var(--zi)), 3.4svh), 24px); }
-  .diff-stick .diff-list { margin-top: clamp(20px, 3.6svh, 40px); gap: clamp(8px, 1.5svh, 16px); }
+  .diff-stick .diff-logo { font-size: clamp(16px, 3svh, 24px); }
+  .diff-stick .diff-title { font-size: clamp(26px, min(calc(4.1vw * var(--zi)), 7.4svh), 50px); }
+  .diff-stick .diff-line { font-size: clamp(16px, min(calc(2.2vw * var(--zi)), 3.9svh), 28px); }
+  .diff-stick .diff-list { margin-top: clamp(22px, 4svh, 44px); gap: clamp(10px, 1.8svh, 18px); }
 }
