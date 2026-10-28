@@ -365,3 +365,6 @@
   .psc-btn, .psc-card:not([data-on="1"]) .psc-btn, .psc-card[data-on="1"] .psc-btn { margin-bottom: -38px; position: relative; z-index: 2; }
   .psc { padding-bottom: 80px; }
 }
+
+/* 2026-10-28 01·02·03 카드 사이 간격을 조금 넓힘 (PC·노트북, 3열일 때) — 맨 끝에 둬서 위 값을 덮음 */
+@media (min-width: 1024px) { .psc-grid { gap: 40px; } }
