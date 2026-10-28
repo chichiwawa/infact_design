@@ -53,7 +53,7 @@ function render(s: PageSection, biz: Business | null) {
           case "boosters": return <Boosters key={s.id} title={title} data={s.data as S.BoostersData} />;
           case "products": return <Products key={s.id} title={title} data={s.data as S.ProductsData} />;
           case "contact_intro": return <ContactIntro key={s.id} data={s.data as S.ContactIntroData} biz={biz} />;
-          case "circle_reveal": return <CircleReveal key={s.id} data={s.data as S.CircleRevealData} />;
+          case "circle_reveal": return <CircleReveal key={s.id} data={s.data as S.CircleRevealData} variant="d" />;
           default: return null;
         }
   }

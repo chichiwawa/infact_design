@@ -2120,6 +2120,19 @@ html.strength-drag { scroll-snap-type: none !important; }
 @keyframes cr-spin { to { transform: rotate(360deg); } }
 .cr-text { position: relative; z-index: 1; flex: 1 1 0; margin: 0; font-size: clamp(20px, calc(2.9vw * var(--zi)), 56px); font-weight: 800; line-height: 1.25; letter-spacing: -.05em; word-break: keep-all;
   opacity: calc(1 - var(--cr-p) * 3.2); will-change: transform, opacity; }
+.cr-hl { font-style: normal; color: #3061ff; }
+/* 배경 효과 — 동그라미가 커지기 시작하면 사라진다 */
+.cr-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; opacity: clamp(0, calc(1 - var(--cr-p) * 3.5), 1); }
+.cr-bg-glow { position: absolute; border-radius: 50%; filter: blur(70px); will-change: transform; }
+.cr-bg-glow--a { width: 46vw; height: 46vw; left: -10vw; top: -14vw; background: radial-gradient(circle, rgba(48,97,255,.28), transparent 68%); animation: cr-drift-a 16s ease-in-out infinite alternate; }
+.cr-bg-glow--b { width: 42vw; height: 42vw; right: -8vw; bottom: -16vw; background: radial-gradient(circle, rgba(112,86,255,.24), transparent 68%); animation: cr-drift-b 19s ease-in-out infinite alternate; }
+.cr-bg-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(48,97,255,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(48,97,255,.07) 1px, transparent 1px); background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(70% 60% at 50% 50%, #000 20%, transparent 100%); mask-image: radial-gradient(70% 60% at 50% 50%, #000 20%, transparent 100%); }
+.cr-bg-dot { position: absolute; bottom: -10px; width: 6px; height: 6px; border-radius: 50%; background: #3061ff; box-shadow: 0 0 14px 3px rgba(48,97,255,.5); opacity: 0; animation: cr-rise linear infinite; }
+@keyframes cr-drift-a { to { transform: translate(8vw, 6vw) scale(1.12); } }
+@keyframes cr-drift-b { to { transform: translate(-7vw, -5vw) scale(1.1); } }
+@keyframes cr-rise { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: .7; } 85% { opacity: .5; } 100% { transform: translateY(-105vh); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .cr-bg-glow, .cr-bg-dot { animation: none; } }
 .cr-text--l { text-align: right; transform: translateX(calc(var(--cr-p) * -30vw)); }
 .cr-text--r { text-align: left; transform: translateX(calc(var(--cr-p) * 30vw)); }
 @media (max-width: 767px) {
@@ -2209,3 +2222,44 @@ html.strength-drag { scroll-snap-type: none !important; }
   .pk-sgrid { grid-template-columns: minmax(0, .8fr) minmax(0, 1.45fr); gap: clamp(16px, calc(2vw * var(--zi)), 32px); }
   .pk-sview { width: 96%; margin-right: calc(3vw * var(--zi)); }
 }
+
+/* ── 동그라미 "팩트체크" 모션 시안 d·e·f (2026-10-28) — 스크롤 전 대기 상태에서 반복, 스크롤하면 사라짐 ── */
+.cr[data-v="d"] .cr-ribbon, .cr[data-v="e"] .cr-ribbon, .cr[data-v="f"] .cr-ribbon { display: block; }
+.cr[data-v="d"] .cr-circle, .cr[data-v="e"] .cr-circle, .cr[data-v="f"] .cr-circle { background: #000; }
+.cr-fc { position: absolute; left: 50%; top: 50%; width: var(--cr-d); height: var(--cr-d); margin: calc(var(--cr-d) / -2) 0 0 calc(var(--cr-d) / -2); z-index: 1; pointer-events: none; opacity: clamp(0, calc(1 - var(--cr-p) * 6), 1); }
+.fc-in { position: absolute; inset: 0; opacity: clamp(0, calc(1 - var(--cr-p) * 8), 1); } /* 동그라미가 커지기 시작하면 안쪽 효과(체크 포함)는 바로 사라짐 — 화면을 채우는 큰 체크 방지 */
+.fc-fill, .fc-scan, .fc-check, .fc-radar, .fc-cross { position: absolute; }
+.fc-fill { inset: 0; background: #3061ff; opacity: 0; animation: fc-fill 5s ease-in-out infinite; }
+.fc-check { inset: 24%; width: 52%; height: 52%; }
+.fc-check path { stroke: #fff; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: fc-check 5s ease-in-out infinite; }
+.cr[data-v="f"] .fc-fill, .cr[data-v="f"] .fc-check path { animation-duration: 6s; }
+/* d: 스캔선이 위→아래로 훑고 → 파랗게 확정되며 체크 + 링 퍼짐 */
+.fc-scan { left: 0; right: 0; height: 3px; top: 0; background: linear-gradient(90deg, transparent, #9fe7ff, transparent); box-shadow: 0 0 22px 6px rgba(120,190,255,.7); animation: fc-scan 5s ease-in-out infinite; }
+.fc-pulse { position: absolute; inset: 0; border-radius: 50%; border: 2px solid #3061ff; opacity: 0; animation: fc-pulse 5s ease-out infinite; }
+.fc-pulse--2 { animation-delay: .35s; }
+@keyframes fc-scan { 0% { top: 0; opacity: 0; } 6% { opacity: 1; } 40% { top: 100%; opacity: 1; } 44%, 100% { top: 100%; opacity: 0; } }
+@keyframes fc-fill { 0%, 42% { opacity: 0; } 52%, 84% { opacity: 1; } 96%, 100% { opacity: 0; } }
+@keyframes fc-check { 0%, 46% { stroke-dashoffset: 1; opacity: 1; } 62%, 84% { stroke-dashoffset: 0; opacity: 1; } 96%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes fc-pulse { 0%, 48% { transform: scale(1); opacity: 0; } 50% { opacity: .8; } 78%, 100% { transform: scale(1.7); opacity: 0; } }
+/* e: 레이더 회전 + 타깃 락 브래킷 + CHECKING → ✓ FACT */
+.fc-radar { inset: -10%; background: conic-gradient(from 0deg, transparent 0 70%, rgba(80,150,255,.55) 98%, rgba(160,220,255,.9) 100%); border-radius: 50%; animation: cr-spin 2.6s linear infinite; }
+.fc-cross { inset: 0; background: linear-gradient(rgba(130,170,255,.28), rgba(130,170,255,.28)) center / 1px 100% no-repeat, linear-gradient(rgba(130,170,255,.28), rgba(130,170,255,.28)) center / 100% 1px no-repeat, radial-gradient(circle, transparent 0 30%, rgba(130,170,255,.22) 30.5% 31.5%, transparent 32% 60%, rgba(130,170,255,.22) 60.5% 61.5%, transparent 62%); }
+.fc-brs { position: absolute; inset: -13%; animation: fc-lock 5s ease-in-out infinite; }
+.fc-brs i { position: absolute; width: 16%; height: 16%; border: 0 solid #3061ff; }
+.fc-brs i:nth-child(1) { left: 0; top: 0; border-width: 3px 0 0 3px; border-top-left-radius: 8px; }
+.fc-brs i:nth-child(2) { right: 0; top: 0; border-width: 3px 3px 0 0; border-top-right-radius: 8px; }
+.fc-brs i:nth-child(3) { left: 0; bottom: 0; border-width: 0 0 3px 3px; border-bottom-left-radius: 8px; }
+.fc-brs i:nth-child(4) { right: 0; bottom: 0; border-width: 0 3px 3px 0; border-bottom-right-radius: 8px; }
+@keyframes fc-lock { 0% { transform: scale(1.2) rotate(8deg); opacity: .25; } 46%, 88% { transform: scale(1) rotate(0); opacity: 1; } 100% { transform: scale(1.2) rotate(8deg); opacity: 0; } }
+.fc-pill { position: absolute; left: 50%; top: calc(100% + var(--cr-d) * .2); transform: translateX(-50%); display: grid; place-items: center; font-size: clamp(11px, calc(var(--cr-d) * .07), 15px); font-weight: 800; letter-spacing: .08em; color: #3061ff; white-space: nowrap; }
+.fc-pill b { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: .55em; padding: .55em 1.1em; border-radius: 999px; border: 1px solid rgba(48,97,255,.35); background: rgba(255,255,255,.85); }
+.fc-pill .p1 i { width: .6em; height: .6em; border-radius: 50%; background: #3061ff; animation: fc-blink .8s steps(2) infinite; }
+.fc-pill .p2 { background: #3061ff; border-color: #3061ff; color: #fff; }
+.fc-pill .p1 { animation: fc-p1 5s infinite; } .fc-pill .p2 { animation: fc-p2 5s infinite; }
+@keyframes fc-blink { 50% { opacity: .15; } }
+@keyframes fc-p1 { 0%, 46% { opacity: 1; } 50%, 96% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes fc-p2 { 0%, 46% { opacity: 0; transform: scale(.9); } 52%, 88% { opacity: 1; transform: scale(1); } 96%, 100% { opacity: 0; } }
+/* f: 둘레 점 12개가 차례로 점등 → 전부 켜지면 원이 파랗게 확정되며 체크 */
+.fc-dot { position: absolute; left: 50%; top: 50%; width: calc(var(--cr-d) * .035); height: calc(var(--cr-d) * .035); margin: calc(var(--cr-d) * -.0175) 0 0 calc(var(--cr-d) * -.0175); border-radius: 50%; background: #c7d3f5; transform: rotate(var(--a)) translateY(calc(var(--cr-d) * -.66)); animation: fc-dot 6s ease-in-out infinite; }
+@keyframes fc-dot { 0% { background: #c7d3f5; box-shadow: none; } 3%, 74% { background: #3061ff; box-shadow: 0 0 calc(var(--cr-d) * .05) calc(var(--cr-d) * .012) rgba(48,97,255,.55); } 90%, 100% { background: #c7d3f5; box-shadow: none; } }
+@media (prefers-reduced-motion: reduce) { .fc-fill, .fc-scan, .fc-pulse, .fc-radar, .fc-brs, .fc-pill b, .fc-dot, .fc-check path { animation: none; } .fc-check path { stroke-dashoffset: 0; } .fc-fill { opacity: 1; } .fc-pill .p1, .fc-scan { display: none; } }

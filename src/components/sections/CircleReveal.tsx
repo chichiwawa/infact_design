@@ -16,8 +16,13 @@ const GROW = 1.3; // 동그라미가 커지는 구간 길이(화면 높이 배�
 const SHOW = 0.6; // 제목이 선명해진 뒤 단계 줄이 떠오르는 구간(화면 높이 배수)
 const PER_STEP = 0.7; // 단계 하나를 지나는 데 쓰는 스크롤(화면 높이 배수)
 
-/** variant: 생략 = 기본(검은 동그라미) / a 로고 블루 점 / b 스캔 → 체크 검증 / c FACT 도장 + 물결 */
-export default function CircleReveal({ data, variant }: { data: CircleRevealData; variant?: "a" | "b" | "c" }) {
+/** "**강조**" → 로고 블루 글자 */
+function hl(s: string) {
+  return s.split(/(\*\*[^*]+\*\*)/).map((t, i) => (t.startsWith("**") ? <em key={i} className="cr-hl">{t.slice(2, -2)}</em> : t));
+}
+
+/** variant: 생략 = 기본(검은 동그라미) / a 로고 블루 점 / b 스캔 → 체크 검증 / c FACT 도장 + 물결 / d 스캔선 → 체크 / e 레이더 + 타깃 락 + CHECKING→FACT / f 검증 점 12개 순서 점등 → 체크 */
+export default function CircleReveal({ data, variant }: { data: CircleRevealData; variant?: "a" | "b" | "c" | "d" | "e" | "f" }) {
   const secRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const cards = useRef<(HTMLLIElement | null)[]>([]);
@@ -63,12 +68,43 @@ export default function CircleReveal({ data, variant }: { data: CircleRevealData
   const height = n ? `calc(100dvh*var(--zi)*${(GROW + SHOW + 1 + n * PER_STEP).toFixed(2)})` : undefined;
 
   return (
-    <section ref={secRef} className={dark ? "cr on-dark" : "cr"} data-v={variant} style={{ height }} aria-label={`${data.left} ${data.right}`}>
+    <section ref={secRef} className={dark ? "cr on-dark" : "cr"} data-v={variant} style={{ height }} aria-label={`${data.left} ${data.right}`.replace(/\*\*/g, "")}>
       <div className="cr-stage">
-        <p className="cr-text cr-text--l">{data.left}</p>
+        {/* 배경 효과: 로고 블루 오로라 + 옅은 격자 + 떠오르는 빛 점 (동그라미가 커지면 서서히 사라짐) */}
+        <div className="cr-bg" aria-hidden="true">
+          <i className="cr-bg-glow cr-bg-glow--a" />
+          <i className="cr-bg-glow cr-bg-glow--b" />
+          <i className="cr-bg-grid" />
+          {[8, 19, 31, 44, 56, 68, 79, 91].map((x, k) => <i key={x} className="cr-bg-dot" style={{ left: `${x}%`, animationDelay: `${-k * 1.7}s`, animationDuration: `${11 + (k % 3) * 3}s` }} />)}
+        </div>
+        <p className="cr-text cr-text--l">{hl(data.left)}</p>
         {variant === "c" && <div className="cr-rings" aria-hidden="true"><i /><i /><i /></div>}
+        {(variant === "d" || variant === "e" || variant === "f") && (
+          <div className="cr-fc" aria-hidden="true">
+            {variant === "d" && <><i className="fc-pulse" /><i className="fc-pulse fc-pulse--2" /></>}
+            {(variant === "d" || variant === "e") && (
+              <>
+                <div className="fc-brs"><i /><i /><i /><i /></div>
+                <span className="fc-pill"><b className="p1"><i />CHECKING</b><b className="p2">✓ FACT</b></span>
+              </>
+            )}
+            {variant === "f" && Array.from({ length: 12 }, (_, k) => <i key={k} className="fc-dot" style={{ ["--a" as string]: `${k * 30}deg`, animationDelay: `${k * 0.3}s` }} />)}
+          </div>
+        )}
         <div className="cr-circle" aria-hidden="true">
           <i className="cr-ribbon" />
+          {(variant === "d" || variant === "e" || variant === "f") && (
+            <span className="fc-in">
+              {(variant === "d" || variant === "e") && <><i className="fc-radar" /><i className="fc-cross" /></>}
+              {(variant === "d" || variant === "f") && (
+                <>
+                  <i className="fc-fill" />
+                  {variant === "d" && <i className="fc-scan" />}
+                  <svg className="fc-check" viewBox="0 0 100 100" fill="none"><path d="M26 52 L43 69 L76 33" pathLength={1} /></svg>
+                </>
+              )}
+            </span>
+          )}
           {variant === "b" && (
             <>
               <i className="cr-blue" />
@@ -78,7 +114,7 @@ export default function CircleReveal({ data, variant }: { data: CircleRevealData
           )}
           {variant === "c" && <span className="cr-fact">FACT<b>✓</b></span>}
         </div>
-        <p className="cr-text cr-text--r">{data.right}</p>
+        <p className="cr-text cr-text--r">{hl(data.right)}</p>
 
         {n > 0 && (
           <div className="cr-proc">
