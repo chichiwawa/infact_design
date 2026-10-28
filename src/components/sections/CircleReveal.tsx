@@ -78,6 +78,7 @@ export default function CircleReveal({ data, variant }: { data: CircleRevealData
           {[8, 19, 31, 44, 56, 68, 79, 91].map((x, k) => <i key={x} className="cr-bg-dot" style={{ left: `${x}%`, animationDelay: `${-k * 1.7}s`, animationDuration: `${11 + (k % 3) * 3}s` }} />)}
         </div>
         <p className="cr-text cr-text--l">{hl(data.left)}</p>
+        <div className="cr-core">
         {variant === "c" && <div className="cr-rings" aria-hidden="true"><i /><i /><i /></div>}
         {(variant === "d" || variant === "e" || variant === "f") && (
           <div className="cr-fc" aria-hidden="true">
@@ -113,6 +114,7 @@ export default function CircleReveal({ data, variant }: { data: CircleRevealData
             </>
           )}
           {variant === "c" && <span className="cr-fact">FACT<b>✓</b></span>}
+        </div>
         </div>
         <p className="cr-text cr-text--r">{hl(data.right)}</p>
 

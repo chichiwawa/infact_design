@@ -2123,6 +2123,14 @@ html.strength-drag { scroll-snap-type: none !important; }
 .cr-text { position: relative; z-index: 1; flex: 1 1 0; margin: 0; font-size: clamp(20px, calc(2.9vw * var(--zi)), 56px); font-weight: 800; line-height: 1.25; letter-spacing: -.05em; word-break: keep-all;
   opacity: calc(1 - var(--cr-p) * 3.2); will-change: transform, opacity; }
 .cr-hl { font-style: normal; color: #3061ff; }
+/* PC 정렬(2026-10-28): 동그라미는 화면 정중앙, 왼쪽 문구의 왼쪽 끝 = 헤더 로고 왼쪽 선, 오른쪽 문구의 오른쪽 끝 = 헤더 오른쪽 선(.container-x 와 같은 좌우 선, hero-x 공식).
+   .cr-core 는 동그라미·효과(브래킷·라벨·링)의 기준점 */
+.cr-core { position: relative; flex: none; width: var(--cr-d); height: var(--cr-d); }
+@media (min-width: 768px) {
+  .cr-stage { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); column-gap: 24px; padding-inline: max(48px, calc((100% - 1664px) / 2)); box-sizing: border-box; }
+  .cr-text--l { text-align: left; justify-self: start; margin-left: clamp(24px, calc(3.5vw * var(--zi)), 72px); } /* 로고 선보다 조금 안쪽 */
+  .cr-text--r { text-align: right; justify-self: end; }
+}
 /* 배경 효과 — 동그라미가 커지기 시작하면 사라진다 */
 .cr-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; opacity: clamp(0, calc(1 - var(--cr-p) * 3.5), 1); }
 .cr-bg-glow { position: absolute; border-radius: 50%; filter: blur(70px); will-change: transform; }
@@ -2228,25 +2236,25 @@ html.strength-drag { scroll-snap-type: none !important; }
 /* ── 동그라미 "팩트체크" 모션 시안 d·e·f (2026-10-28) — 스크롤 전 대기 상태에서 반복, 스크롤하면 사라짐 ── */
 .cr[data-v="d"] .cr-ribbon, .cr[data-v="e"] .cr-ribbon, .cr[data-v="f"] .cr-ribbon { display: block; }
 .cr[data-v="d"] .cr-circle, .cr[data-v="e"] .cr-circle, .cr[data-v="f"] .cr-circle { background: #000; }
-.cr-fc { position: absolute; left: 50%; top: 50%; width: var(--cr-d); height: var(--cr-d); margin: calc(var(--cr-d) / -2) 0 0 calc(var(--cr-d) / -2); z-index: 1; pointer-events: none; opacity: clamp(0, calc(1 - var(--cr-p) * 6), 1); }
-.fc-in { position: absolute; inset: 0; opacity: clamp(0, calc(1 - var(--cr-p) * 8), 1); } /* 동그라미가 커지기 시작하면 안쪽 효과(체크 포함)는 바로 사라짐 — 화면을 채우는 큰 체크 방지 */
+.cr-fc { position: absolute; left: 50%; top: 50%; width: var(--cr-d); height: var(--cr-d); margin: calc(var(--cr-d) / -2) 0 0 calc(var(--cr-d) / -2); z-index: 1; pointer-events: none; opacity: clamp(0, calc(1 - var(--cr-p) * 4), 1); }
+.fc-in { position: absolute; inset: 0; opacity: clamp(0, calc(1 - var(--cr-p) * 4), 1); } /* 동그라미가 커지기 시작하면 안쪽 효과(체크 포함)는 바로 사라짐 — 화면을 채우는 큰 체크 방지 */
 .fc-fill, .fc-scan, .fc-check, .fc-radar, .fc-cross { position: absolute; }
-.fc-fill { inset: 0; background: #3061ff; opacity: 0; animation: fc-fill 5s ease-in-out infinite; }
+.fc-fill { inset: 0; background: #3061ff; opacity: 0; animation: fc-fill 3s ease-in-out infinite; }
 .fc-check { inset: 24%; width: 52%; height: 52%; }
-.fc-check path { stroke: #fff; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: fc-check 5s ease-in-out infinite; }
+.fc-check path { stroke: #fff; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: fc-check 3s ease-in-out infinite; }
 .cr[data-v="f"] .fc-fill, .cr[data-v="f"] .fc-check path { animation-duration: 6s; }
 /* d: 스캔선이 위→아래로 훑고 → 파랗게 확정되며 체크 + 링 퍼짐 */
-.fc-scan { left: 0; right: 0; height: 3px; top: 0; background: linear-gradient(90deg, transparent, #9fe7ff, transparent); box-shadow: 0 0 22px 6px rgba(120,190,255,.7); animation: fc-scan 5s ease-in-out infinite; }
-.fc-pulse { position: absolute; inset: 0; border-radius: 50%; border: 2px solid #3061ff; opacity: 0; animation: fc-pulse 5s ease-out infinite; }
-.fc-pulse--2 { animation-delay: .35s; }
+.fc-scan { left: 0; right: 0; height: 3px; top: 0; background: linear-gradient(90deg, transparent, #9fe7ff, transparent); box-shadow: 0 0 22px 6px rgba(120,190,255,.7); animation: fc-scan 3s ease-in-out infinite; }
+.fc-pulse { position: absolute; inset: 0; border-radius: 50%; border: 2px solid #3061ff; opacity: 0; animation: fc-pulse 3s ease-out infinite; }
+.fc-pulse--2 { animation-delay: .2s; }
 @keyframes fc-scan { 0% { top: 0; opacity: 0; } 6% { opacity: 1; } 40% { top: 100%; opacity: 1; } 44%, 100% { top: 100%; opacity: 0; } }
 @keyframes fc-fill { 0%, 42% { opacity: 0; } 52%, 84% { opacity: 1; } 96%, 100% { opacity: 0; } }
 @keyframes fc-check { 0%, 46% { stroke-dashoffset: 1; opacity: 1; } 62%, 84% { stroke-dashoffset: 0; opacity: 1; } 96%, 100% { stroke-dashoffset: 0; opacity: 0; } }
 @keyframes fc-pulse { 0%, 48% { transform: scale(1); opacity: 0; } 50% { opacity: .8; } 78%, 100% { transform: scale(1.7); opacity: 0; } }
 /* e: 레이더 회전 + 타깃 락 브래킷 + CHECKING → ✓ FACT */
-.fc-radar { inset: -10%; background: conic-gradient(from 0deg, transparent 0 70%, rgba(80,150,255,.55) 98%, rgba(160,220,255,.9) 100%); border-radius: 50%; animation: cr-spin 2.6s linear infinite; }
+.fc-radar { inset: -10%; background: conic-gradient(from 0deg, transparent 0 70%, rgba(80,150,255,.55) 98%, rgba(160,220,255,.9) 100%); border-radius: 50%; animation: cr-spin 1.6s linear infinite; }
 .fc-cross { inset: 0; background: linear-gradient(rgba(130,170,255,.28), rgba(130,170,255,.28)) center / 1px 100% no-repeat, linear-gradient(rgba(130,170,255,.28), rgba(130,170,255,.28)) center / 100% 1px no-repeat, radial-gradient(circle, transparent 0 30%, rgba(130,170,255,.22) 30.5% 31.5%, transparent 32% 60%, rgba(130,170,255,.22) 60.5% 61.5%, transparent 62%); }
-.fc-brs { position: absolute; inset: -13%; animation: fc-lock 5s ease-in-out infinite; }
+.fc-brs { position: absolute; inset: -13%; animation: fc-lock 3s ease-in-out infinite; }
 .fc-brs i { position: absolute; width: 16%; height: 16%; border: 0 solid #3061ff; }
 .fc-brs i:nth-child(1) { left: 0; top: 0; border-width: 3px 0 0 3px; border-top-left-radius: 8px; }
 .fc-brs i:nth-child(2) { right: 0; top: 0; border-width: 3px 3px 0 0; border-top-right-radius: 8px; }
@@ -2257,7 +2265,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 .fc-pill b { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: .55em; padding: .55em 1.1em; border-radius: 999px; border: 1px solid rgba(48,97,255,.35); background: rgba(255,255,255,.85); }
 .fc-pill .p1 i { width: .6em; height: .6em; border-radius: 50%; background: #3061ff; animation: fc-blink .8s steps(2) infinite; }
 .fc-pill .p2 { background: #3061ff; border-color: #3061ff; color: #fff; }
-.fc-pill .p1 { animation: fc-p1 5s infinite; } .fc-pill .p2 { animation: fc-p2 5s infinite; }
+.fc-pill .p1 { animation: fc-p1 3s infinite; } .fc-pill .p2 { animation: fc-p2 3s infinite; }
 @keyframes fc-blink { 50% { opacity: .15; } }
 @keyframes fc-p1 { 0%, 46% { opacity: 1; } 50%, 96% { opacity: 0; } 100% { opacity: 1; } }
 @keyframes fc-p2 { 0%, 46% { opacity: 0; transform: scale(.9); } 52%, 88% { opacity: 1; transform: scale(1); } 96%, 100% { opacity: 0; } }
