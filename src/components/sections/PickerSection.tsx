@@ -47,6 +47,14 @@ function leadLines(lead: string) {
   );
 }
 
+/** breakAfter 가 있으면 그 글자 뒤에서 항상(PC·노트북·모바일) 줄바꿈 */
+const lbl = (it: { label: string; breakAfter?: string }) => {
+  const k = it.breakAfter ? it.label.indexOf(it.breakAfter) : -1;
+  if (k < 0 || !it.breakAfter) return it.label;
+  const e = k + it.breakAfter.length;
+  return <>{it.label.slice(0, e)}<br />{it.label.slice(e).trimStart()}</>;
+};
+
 export default function PickerSection({
   id, bg, lead, sub, items, cta, variant, acc = "a", btn, igbg, igtx, ytchip, mob,
 }: {
@@ -289,7 +297,7 @@ export default function PickerSection({
                             <button type="button" className="pk-sitem" data-on={i === active ? "1" : "0"} onClick={() => go(i)} aria-pressed={i === active} tabIndex={closed[gi] ? -1 : 0}>
                               <i aria-hidden="true" />
                               {it.icon && <em className="pk-sico" aria-hidden="true">{it.icon}</em>}
-                              <span className="pk-sl">{it.label}</span>
+                              <span className="pk-sl">{lbl(it)}</span>
                               <span className="pk-ss" aria-hidden="true">{it.need}</span>
                             </button>
                           </li>
@@ -310,7 +318,7 @@ export default function PickerSection({
                 </div>
                 <div className="pk-scard-bottom">
                   {it.eyebrow && <p className="pk-eb">{it.eyebrow}</p>}
-                  <h3>{it.breakAfter && it.label.includes(it.breakAfter) ? <>{it.label.slice(0, it.label.indexOf(it.breakAfter) + it.breakAfter.length)}<br className="md:hidden" />{it.label.slice(it.label.indexOf(it.breakAfter) + it.breakAfter.length)}</> : it.label}</h3>
+                  <h3>{lbl(it)}</h3>
                   {it.below}
                 </div>
               </article>
@@ -349,7 +357,7 @@ export default function PickerSection({
                         <li key={it.label}>
                           <button type="button" className="pk-item" data-on={i === active ? "1" : "0"} onClick={() => pick(i)} aria-pressed={i === active}>
                             <em aria-hidden="true">{String(i + 1).padStart(2, "0")}</em>
-                            <span>{it.label}</span>
+                            <span>{lbl(it)}</span>
                           </button>
                         </li>
                       ))}
@@ -393,7 +401,7 @@ export default function PickerSection({
                     {it.heading && <p className="pk-listlabel">{it.heading}</p>}
                     <button type="button" className="pk-item" data-on={i === active ? "1" : "0"} onClick={() => pick(i)} aria-pressed={i === active}>
                       <i aria-hidden="true" />
-                      <span>{it.label}</span>
+                      <span>{lbl(it)}</span>
                     </button>
                   </li>
                 ))}
