@@ -1642,14 +1642,17 @@ html.strength-drag { scroll-snap-type: none !important; }
 .ind-item.ind-wide { aspect-ratio: 16 / 10; }
 .ind-item.ind-port { width: 25cqw; aspect-ratio: 941 / 1672; }
 .ind-item.ind-tall { width: 30.8cqw; aspect-ratio: 972 / 1313; background-size: 100% 100%; }
+/* AI 검색 카드가 가운데일 때 양옆(전후사진 왼쪽·유튜브 오른쪽)만 간격을 넓힘 — 나머지 조합은 그대로 */
+.ind-item.ind-tall { --sl: 30; }
+.ind-item.ind-port { --sr: 28; }
 .ind-item:nth-child(n+2) { opacity: 0; }
 .ind-item::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(5,8,22,.75)); }
 .ind-item span { position: absolute; left: 2.6cqw; bottom: 2.2cqw; z-index: 1; padding: .6cqw 1.8cqw; border-radius: 99px; background: rgba(8,14,44,.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); font-size: 1.9cqw; font-weight: 700; letter-spacing: .08em; }
 @keyframes ind-flow {
   0%, 18% { transform: translate(-50%, -50%) translateX(0) scale(1) rotateY(0); opacity: 1; z-index: 3; }
-  25%, 43% { transform: translate(-50%, -50%) translateX(-23cqw) scale(.74) rotateY(32deg); opacity: .55; z-index: 2; }
+  25%, 43% { transform: translate(-50%, -50%) translateX(calc(var(--sl, 23) * -1cqw)) scale(.74) rotateY(32deg); opacity: .55; z-index: 2; }
   50%, 68% { transform: translate(-50%, -50%) translateX(0) scale(.58); opacity: 0; z-index: 1; }
-  75%, 93% { transform: translate(-50%, -50%) translateX(23cqw) scale(.74) rotateY(-32deg); opacity: .55; z-index: 2; }
+  75%, 93% { transform: translate(-50%, -50%) translateX(calc(var(--sr, 23) * 1cqw)) scale(.74) rotateY(-32deg); opacity: .55; z-index: 2; }
   100% { transform: translate(-50%, -50%) translateX(0) scale(1) rotateY(0); opacity: 1; z-index: 3; }
 }
 @media (prefers-reduced-motion: no-preference) {
