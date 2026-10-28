@@ -1623,6 +1623,8 @@ html.strength-drag { scroll-snap-type: none !important; }
 .ais-item span { display: block; margin-top: .4cqw; font-size: 2.3cqw; color: rgba(255,255,255,.7); }
 .ais-line { display: block; height: 1.1cqw; margin: .7cqw 0; border-radius: 99px; background: rgba(255,255,255,.16); } .ais-line.s { width: 58%; }
 .ais-tags { display: flex; gap: 1.6cqw; } .ais-tags span { padding: 1cqw 2.4cqw; border-radius: 99px; background: rgba(79,125,255,.26); font-size: 2.3cqw; font-weight: 600; color: #cfdcff; }
+/* 2026-10-28 AI 검색창 전체를 축소(안으로 넣는 게 아니라 크기 자체를 줄임) — PC·노트북·모바일 공통 */
+.ais-in { transform: scale(.72); transform-origin: 50% 0; top: 13%; }
 @keyframes ais-type { 0%, 4% { width: 0; } 26%, 96% { width: 100%; } 100% { width: 0; } }
 @keyframes ais-caret { 0%, 100% { border-color: #7ea2ff; } 50% { border-color: transparent; } }
 @keyframes ais-pop { 0%, 30% { opacity: 0; transform: translateY(2cqw); } 38%, 92% { opacity: 1; transform: none; } 98%, 100% { opacity: 0; transform: translateY(-1cqw); } }
