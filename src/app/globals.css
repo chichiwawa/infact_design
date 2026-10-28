@@ -1638,13 +1638,13 @@ html.strength-drag { scroll-snap-type: none !important; }
 .ind { background: none; font-size: 2.6cqw; color: #fff; }
 .ind-stage { position: absolute; left: 0; right: 0; top: 3%; height: 62%; perspective: 120cqw; transform: scale(.8); transform-origin: 50% 40%; }
 .ind-item { position: absolute; left: 50%; top: 50%; width: 52cqw; aspect-ratio: 5 / 4; border-radius: 3cqw; background: #0b1230 center / contain no-repeat; padding: 2cqw; box-sizing: border-box; background-origin: content-box; box-shadow: 0 4cqw 9cqw -3cqw rgba(0,0,0,.65), inset 0 0 0 1px rgba(255,255,255,.08); overflow: hidden; transform: translate(-50%, -50%); }
-.ind-item.ind-small { width: 44cqw; aspect-ratio: 16 / 10; }
+.ind-item.ind-small { aspect-ratio: 16 / 10; }
 .ind-item.ind-wide { aspect-ratio: 16 / 10; }
 .ind-item.ind-port { width: 25cqw; aspect-ratio: 941 / 1672; }
 .ind-item.ind-tall { width: 30.8cqw; aspect-ratio: 972 / 1313; background-size: 100% 100%; }
 /* AI 검색 카드가 가운데일 때 양옆(전후사진 왼쪽·유튜브 오른쪽)만 간격을 넓힘 — 나머지 조합은 그대로 */
-.ind-item.ind-tall { --sl: 30; }
-.ind-item.ind-port { --sr: 28; }
+.ind-item.ind-tall { --sl: 34; --sr: 35; }
+.ind-item.ind-port { --sl: 33; --sr: 32; }
 .ind-item:nth-child(n+2) { opacity: 0; }
 .ind-item::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(5,8,22,.75)); }
 .ind-item span { position: absolute; left: 2.6cqw; bottom: 2.2cqw; z-index: 1; padding: .6cqw 1.8cqw; border-radius: 99px; background: rgba(8,14,44,.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); font-size: 1.9cqw; font-weight: 700; letter-spacing: .08em; }
