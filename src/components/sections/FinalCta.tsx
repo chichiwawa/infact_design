@@ -3,8 +3,13 @@
  */
 import Link from "next/link";
 import type { FinalCtaData } from "@/lib/sections";
+import "./final-cta-variants.css";
 
-export default function FinalCta({ data }: { data: FinalCtaData }) {
+type V = "a" | "b" | "c" | "d" | "e";
+
+/** variant a~e: 어두운 톤 시안(/demo/cta-a ~ cta-e). 생략하면 기존 파란 밴드. */
+export default function FinalCta({ data, variant }: { data: FinalCtaData; variant?: V }) {
+  if (variant) return <Variant data={data} v={variant} />;
   return (
     <section className="relative bg-primary text-on-primary on-dark overflow-hidden">
       {/* 제목은 DB headline 의 \n 그대로 세 줄(2026-09-22 "지금 문의하시면, / 병원 마케팅 진단 / 리포트를 보내드립니다."). 가장 긴 줄이 56px 에서 ~480px 라 1.3fr 열(1440 에서 742px)에 여유 있음.
@@ -33,6 +38,42 @@ export default function FinalCta({ data }: { data: FinalCtaData }) {
             </a>
           )}
           <ul className="t-body text-mute mt-8 pt-6 border-t border-hairline space-y-1.5">
+            {data.contacts.map((c) => <li key={c}>{c}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Variant({ data, v }: { data: FinalCtaData; v: V }) {
+  return (
+    <section className={`fcta fcta-${v} ${v === "d" ? "" : "on-dark"}`}>
+      <div className="fcta-bg" aria-hidden="true" />
+      <div className="fcta-in container-x section-y fcta-grid grid gap-12 lg:grid-cols-[1.3fr_1fr] lg:gap-16 items-start">
+        <div data-reveal>
+          <h2 className="fcta-h t-h-xl whitespace-pre-line">{data.headline}</h2>
+          {data.sub && <p className="fcta-sub t-lead mt-6 whitespace-pre-line">{data.sub}</p>}
+          <div className="fcta-offers mt-10 grid gap-4 sm:grid-cols-2">
+            {data.offers.map((o) => (
+              <div key={o.title} className="fcta-offer">
+                <p className="t-h-md">{o.title}</p>
+                <p className="t-body mt-2">{o.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="fcta-card" data-reveal="2">
+          <p className="fcta-ink t-h-md">지금 문의하기</p>
+          <p className="fcta-mute t-body text-body mt-2">영업일 기준 1일 내에 담당자가 연락드립니다.</p>
+          <div className="fcta-btns">
+            <Link href={data.cta_href} className="btn-primary w-full mt-8">{data.cta_label} <span className="btn-arrow">↗</span></Link>
+            {data.kakao_label && data.kakao_url && (
+              <a href={data.kakao_url} target="_blank" rel="noopener noreferrer" className="btn-secondary w-full mt-3">{data.kakao_label}</a>
+            )}
+          </div>
+          <ul className="fcta-list fcta-mute t-body text-mute mt-8 pt-6 border-t border-hairline space-y-1.5">
             {data.contacts.map((c) => <li key={c}>{c}</li>)}
           </ul>
         </div>

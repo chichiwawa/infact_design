@@ -2193,13 +2193,13 @@ html.strength-drag { scroll-snap-type: none !important; }
 .ph-track { position: relative; will-change: transform; padding: 0 calc(8vw * var(--zi)); }
 .ph-list { display: flex; margin: 0; padding: 0; list-style: none; width: max-content; }
 .ph-card { position: relative; flex: none; width: calc(26vw * var(--zi)); padding: calc(46px) calc(3vw * var(--zi)) 0 0; }
-.ph-dot { position: absolute; left: 0; top: 0; width: 15px; height: 15px; border-radius: 50%; background: rgba(255,255,255,.3); transform: scale(.47); transition: transform .5s, background .5s, box-shadow .5s; }
+.ph-dot { position: absolute; left: 0; top: 0; width: 15px; height: 15px; border-radius: 50%; background: #3d4048; transform: scale(.47); transition: transform .5s, background .5s, box-shadow .5s; }
 .ph-line { position: absolute; left: 15px; top: 7px; right: 0; height: 1px; background: rgba(255,255,255,.22); }
 .ph-line::after { content: ""; position: absolute; inset: 0; background: #fff; transform-origin: left; transform: scaleX(0); transition: transform .6s ease-out; }
 .ph-dot::after { content: ""; position: absolute; inset: -7px; border-radius: 50%; border: 1px solid rgba(120,160,255,.55); opacity: 0; transform: scale(.6); transition: opacity .5s, transform .5s; }
-.ph-card[data-on="1"] .ph-dot { background: radial-gradient(circle at 50% 50%, #9db8ff 0%, #4a78ff 55%, #3061ff 100%); transform: none; box-shadow: 0 0 10px 2px rgba(48,97,255,.55), 0 0 22px 6px rgba(48,97,255,.28); }
-.ph-card[data-cur="1"] .ph-dot { background: radial-gradient(circle at 50% 50%, #fff 0%, #a9c0ff 35%, #4a78ff 80%); box-shadow: 0 0 12px 3px rgba(90,135,255,.85), 0 0 30px 10px rgba(48,97,255,.5), 0 0 60px 18px rgba(48,97,255,.25); transform: scale(1.3); }
-.ph-card[data-cur="1"] .ph-dot::after { opacity: 1; transform: scale(1); }
+.ph-card[data-on="1"] .ph-dot { background: #3061ff; transform: none; box-shadow: 0 0 0 1.5px rgba(140,175,255,.85), 0 0 12px 3px rgba(70,115,255,.55); }
+.ph-card[data-cur="1"] .ph-dot { background: #3061ff; box-shadow: 0 0 0 2px #cfdcff, 0 0 14px 3px rgba(90,135,255,.9), 0 0 34px 8px rgba(48,97,255,.55); transform: scale(1.3); }
+.ph-card[data-cur="1"] .ph-dot::after { opacity: 1; transform: scale(1); border: 1.5px solid rgba(160,190,255,.95); box-shadow: 0 0 12px 1px rgba(90,135,255,.7), inset 0 0 10px rgba(90,135,255,.45); }
 .ph-card[data-on="1"]:not([data-cur="1"]) .ph-line::after, .ph-card[data-cur="1"] .ph-line::after { transform: scaleX(1); }
 .ph-card[data-cur="1"] .ph-line::after { transform: scaleX(0); }
 .ph-tag { margin: 0 0 14px; font-size: 13px; font-weight: 700; letter-spacing: .16em; color: rgba(107,140,255,.45); transition: color .5s; }
@@ -2210,7 +2210,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 .ph-tag { display: inline-block; padding: .38em 1.1em; border: 1px solid rgba(107,140,255,.3); border-radius: 999px; line-height: 1.2; }
 .ph-card[data-on="1"] .ph-tag { border-color: #3061ff; }
 .ph-name { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .6em; margin: 0; }
-.ph-ko { font-size: clamp(40px, calc(4.2vw * var(--zi)), 76px); font-weight: 800; line-height: 1.1; letter-spacing: -.05em; color: #6b6f78; transition: color .5s, text-shadow .5s; }
+.ph-ko { font-size: clamp(40px, calc(4.2vw * var(--zi)), 76px); font-weight: 800; line-height: 1.1; letter-spacing: -.05em; color: #3d4048; transition: color .5s, text-shadow .5s; }
 .ph-name .ph-en { font-size: clamp(13px, calc(1.1vw * var(--zi)), 21px); }
 .ph-card[data-on="1"] .ph-ko { color: rgba(255,255,255,.8); }
 .ph-card[data-on="1"] .ph-name .ph-en { color: #3a68e0; }
@@ -2372,4 +2372,17 @@ html.strength-drag { scroll-snap-type: none !important; }
 /* 아이패드: 유튜브 이미지를 키워 이미지와 아래 설명글 사이 간격을 좁힘 */
 @media (min-width: 768px) and (max-width: 1180px), (min-width: 768px) and (pointer: coarse) {
   .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img.yt-img { height: 79%; }
+}
+
+/* 전후사진 카드(PC): 유튜브 카드처럼 가운데 얼굴 + 양옆에 비스듬히 기울어진 눈(왼쪽)·코(오른쪽) 카드. 모바일은 얼굴만 */
+.ba-side { display: none; }
+@media (min-width: 768px) {
+  .ba-photo { container-type: size; }
+  .ba-photo::after, .ba-photo .ig-shine, .ba-photo .ig-pulse { display: none; }
+  .ba-side { display: block; height: 26cqh; aspect-ratio: 972 / 657; top: 25cqh; border-radius: 16px; }
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ba-photo .ig-img.ph-ba { top: 8%; height: 56%; }
+  .ba-side::after { display: none; }
+  .ba-side.yt-l { left: calc(50% - 59cqh); }
+  .ba-side.yt-r { left: calc(50% + 21cqh); }
+  .pk-scard-bg:has(.ba-photo) { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%), linear-gradient(180deg, transparent 0, #000 5%, #000 80%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%), linear-gradient(180deg, transparent 0, #000 5%, #000 80%, transparent 100%); mask-composite: intersect; }
 }

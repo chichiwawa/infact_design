@@ -1,0 +1,60 @@
+/* 최종 CTA 시안 a~e — 파란 풀블리드 대신 사이트의 어두운 톤에 맞춘 배경 */
+.fcta { position: relative; overflow: hidden; color: #fff; isolation: isolate; }
+.fcta-in { position: relative; z-index: 1; }
+.fcta-h { color: #fff; }
+.fcta-sub { color: rgba(255,255,255,.7); }
+.fcta-offer { border-radius: 16px; padding: 24px; transition: border-color .3s, background .3s; }
+.fcta-offer p:first-child { color: #fff; }
+.fcta-offer p:last-child { color: rgba(255,255,255,.65); }
+.fcta-card { border-radius: 28px; padding: 40px; }
+.fcta-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+@media (max-width: 767px) { .fcta-card { padding: 28px; } .fcta-offer { padding: 20px; } }
+
+/* A — 검정 + 오른쪽 위 파란 빛 번짐, 유리 카드, 흰 폼 카드 */
+.fcta-a { background: #0a0a0a; }
+.fcta-a .fcta-bg { background: radial-gradient(60% 70% at 85% 0%, rgba(48,97,255,.38), transparent 70%), radial-gradient(40% 50% at 0% 100%, rgba(48,97,255,.14), transparent 70%); }
+.fcta-a .fcta-offer { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.12); }
+.fcta-a .fcta-offer:hover { border-color: rgba(107,140,255,.6); }
+.fcta-a .fcta-card { background: #fff; color: #171717; box-shadow: 0 30px 80px -30px rgba(48,97,255,.5); }
+
+/* B — 짙은 남색 그라데이션 + 격자선, 어두운 폼 카드(파란 테두리) */
+.fcta-b { background: linear-gradient(180deg, #070b1c 0%, #0a0a0a 100%); }
+.fcta-b .fcta-bg { background-image: linear-gradient(rgba(107,140,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(107,140,255,.08) 1px, transparent 1px); background-size: 56px 56px; -webkit-mask-image: radial-gradient(70% 80% at 50% 40%, #000, transparent); mask-image: radial-gradient(70% 80% at 50% 40%, #000, transparent); }
+.fcta-b .fcta-offer { background: rgba(48,97,255,.08); border: 1px solid rgba(107,140,255,.25); }
+.fcta-b .fcta-card { background: rgba(14,20,48,.85); border: 1px solid rgba(107,140,255,.5); box-shadow: 0 0 60px rgba(48,97,255,.25), inset 0 0 40px rgba(48,97,255,.08); }
+.fcta-b .fcta-card .fcta-ink { color: #fff; }
+.fcta-b .fcta-card .fcta-mute { color: rgba(255,255,255,.55); }
+.fcta-b .fcta-card .btn-secondary { background: transparent; color: #fff; border-color: rgba(255,255,255,.25); }
+.fcta-b .fcta-card .fcta-list { border-color: rgba(255,255,255,.12); }
+
+/* C — 순검정, 혜택은 번호 매긴 줄 목록, 카드는 파란 테두리 빛 */
+.fcta-c { background: #0a0a0a; }
+.fcta-c .fcta-offers { display: block !important; counter-reset: o; border-top: 1px solid rgba(255,255,255,.14); }
+.fcta-c .fcta-offer { display: grid; grid-template-columns: 56px 1fr; column-gap: 8px; border-radius: 0; padding: 22px 0; border-bottom: 1px solid rgba(255,255,255,.14); background: none; counter-increment: o; }
+.fcta-c .fcta-offer::before { content: "0" counter(o); grid-row: span 2; font-weight: 800; font-size: 15px; letter-spacing: .1em; color: #6b8cff; padding-top: 4px; }
+.fcta-c .fcta-card { background: #fff; color: #171717; box-shadow: 0 0 0 1px rgba(107,140,255,.9), 0 0 50px rgba(48,97,255,.45); }
+
+/* D — 밝은 회백색 바탕 + 검은 글씨, 카드는 검정(반전) */
+.fcta-d { background: #f4f6fa; color: #171717; }
+.fcta-d .fcta-h { color: #171717; }
+.fcta-d .fcta-sub { color: #4d4d4d; }
+.fcta-d .fcta-bg { background: radial-gradient(50% 60% at 100% 0%, rgba(48,97,255,.12), transparent 70%); }
+.fcta-d .fcta-offer { background: #fff; border: 1px solid #e3e7f0; }
+.fcta-d .fcta-offer p:first-child { color: #171717; }
+.fcta-d .fcta-offer p:last-child { color: #4d4d4d; }
+.fcta-d .fcta-card { background: #0a0a0a; color: #fff; box-shadow: 0 30px 60px -30px rgba(0,0,0,.5); }
+.fcta-d .fcta-card .fcta-ink { color: #fff; }
+.fcta-d .fcta-card .fcta-mute { color: rgba(255,255,255,.55); }
+.fcta-d .fcta-card .btn-secondary { background: transparent; color: #fff; border-color: rgba(255,255,255,.25); }
+.fcta-d .fcta-card .fcta-list { border-color: rgba(255,255,255,.14); }
+
+/* E — 가운데 정렬, 아래에서 올라오는 파란 반원 빛, 가로로 넓은 카드 */
+.fcta-e { background: #0a0a0a; text-align: center; }
+.fcta-e .fcta-bg { background: radial-gradient(80% 60% at 50% 115%, rgba(48,97,255,.6), rgba(48,97,255,.15) 50%, transparent 75%); }
+.fcta-e .fcta-bg::after { content: ""; position: absolute; left: 50%; bottom: -55%; width: min(1100px, 120%); aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; border: 1px solid rgba(140,175,255,.5); box-shadow: 0 0 60px rgba(48,97,255,.5), inset 0 0 60px rgba(48,97,255,.25); }
+.fcta-e .fcta-grid { display: block !important; }
+.fcta-e .fcta-offers { max-width: 860px; margin-inline: auto; }
+.fcta-e .fcta-offer { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.14); text-align: left; backdrop-filter: blur(6px); }
+.fcta-e .fcta-card { max-width: 760px; margin: 56px auto 0; text-align: left; background: rgba(255,255,255,.96); color: #171717; }
+.fcta-e .fcta-card .fcta-btns { display: grid; gap: 12px; }
+@media (min-width: 768px) { .fcta-e .fcta-card .fcta-btns { grid-template-columns: 1fr 1fr; } .fcta-e .fcta-card .fcta-btns > * { margin-top: 32px !important; } }

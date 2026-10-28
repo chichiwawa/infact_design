@@ -16,8 +16,9 @@ export function InstaVisual({ src, draw = true, sides, variant = "yt" }: { src?:
   const bgImg = src ? { backgroundImage: `url(${src})` } : undefined;
   // 인스타 = 이미지 강조형: 스마트폰 이미지(public/media/ig-hero.webp)가 카드 왼쪽을 채우고, 빛이 천천히 흐름. 스타일은 globals.css 의 .ig-* 참고.
   return (
-    <div className={sides ? "bv ig-photo yt-photo" : "bv ig-photo"} aria-hidden="true">
+    <div className={sides ? "bv ig-photo yt-photo" : variant === "ba" ? "bv ig-photo ba-photo" : "bv ig-photo"} aria-hidden="true">
       <div className={src && variant === "yt" ? "ig-back yt-back" : "ig-back"} style={bgImg} />
+      {variant === "ba" && <><i className="yt-side yt-l ba-side" style={{ backgroundImage: "url(/media/ba-eye.webp)" }} /><i className="yt-side yt-r ba-side" style={{ backgroundImage: "url(/media/ba-nose.webp)" }} /></>}
       {sides && <><i className="yt-side yt-l" style={{ backgroundImage: `url(${sides[0]})` }} /><i className="yt-side yt-r" style={{ backgroundImage: `url(${sides[1]})` }} /></>}
       <div className={!src ? "ig-img" : variant === "yt" ? "ig-img yt-img" : `ig-img ph-${variant}`} style={bgImg}>
         {draw && <svg className="ig-draw" viewBox="0 0 1860 1086" aria-hidden="true">
