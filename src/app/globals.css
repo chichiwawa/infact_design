@@ -2317,7 +2317,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 /* 아이패드 가로(화면 높이 낮음): 04 섹션 전체를 한 화면에 들어오게 글자·간격을 화면 높이에 맞춰 축소 */
 @media (min-width: 768px) and (max-width: 1180px) and (max-height: 800px), (min-width: 768px ) and (max-height: 900px) and (pointer: coarse) {
   .pk-stack .pk-sleft-in .pk-lead { font-size: clamp(12px, 2.1svh, 16px); }
-  .pk-stack .pk-h { margin-top: 3.6svh; font-size: clamp(28px, 6.8svh, 52px); line-height: 1.2; }
+  .pk-stack .pk-h { margin-top: 3.6svh; font-size: clamp(30px, min(8svh, calc(5vw * var(--zi))), 64px); line-height: 1.2; }
   .pk-stack .pk-sgroups { margin-top: 3.2svh; gap: 2.8svh; }
   .pk-stack[data-acc] .pk-shead { padding-block: 1svh; font-size: 18px; }
   .pk-stack[data-acc] .pk-sitem { padding-block: 1.3svh; font-size: 15px; }
@@ -2328,7 +2328,7 @@ html.strength-drag { scroll-snap-type: none !important; }
   .pk-stack[data-igtx] .pk-scard[data-kind="ig"]:has(.ph-ba) .pk-scard-bottom { margin-bottom: 0; }
 }
 @media (min-width: 768px) and (max-width: 1180px) and (max-height: 650px), (min-width: 768px) and (pointer: coarse) and (max-height: 650px) {
-  .pk-stack .pk-h { margin-top: 2.6svh; font-size: clamp(26px, 6.2svh, 40px); }
+  .pk-stack .pk-h { margin-top: 2.6svh; font-size: clamp(30px, min(8svh, calc(5vw * var(--zi))), 64px); }
   .pk-stack .pk-sgroups { margin-top: 2svh; gap: 1.8svh; }
   .pk-stack[data-acc] .pk-shead { padding-block: .6svh; }
   .pk-stack[data-acc] .pk-sitem { padding-block: .8svh; }

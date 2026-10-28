@@ -125,6 +125,12 @@ export default function PickerSection({
           const z = el.getBoundingClientRect().height / el.offsetHeight; // html zoom 배율(1 또는 0.8) — 화면 px 를 CSS px 로 환산
           el.style.setProperty("--pk-top", `${Math.round((top - view.getBoundingClientRect().top) / z)}px`);
           el.style.setProperty("--ch", `${Math.round((bottom - top) / z)}px`);
+          // 아이패드(좁은 폭·터치): 오른쪽 카드를 왼쪽 열 높이에 맞추면 이미지가 작아지므로, 헤더 바로 아래부터 화면 아래까지 크게 쓴다
+          if (matchMedia("(max-width: 1180px), (pointer: coarse)").matches && window.innerHeight < 900) {
+            const t0 = 92, b0 = window.innerHeight - 26; // 화면 px
+            el.style.setProperty("--pk-top", `${Math.round((t0 - view.getBoundingClientRect().top) / z)}px`);
+            el.style.setProperty("--ch", `${Math.round((b0 - t0) / z)}px`);
+          }
         }
         setActive(Math.round(v));
       } else if (mob === "f") {
