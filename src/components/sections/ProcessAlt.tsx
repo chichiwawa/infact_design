@@ -63,8 +63,8 @@ export default function ProcessAlt({ title, data }: { title?: string; data: Proc
                 <span aria-hidden="true" className="ph-dot" />
                 {i < n - 1 && <span aria-hidden="true" className="ph-line" />}
                 <p className="ph-tag">{s.tag}</p>
-                <p className="ph-en">{s.en ?? s.title}</p>
-                <p className="ph-body"><b>{s.title}</b> — {s.body.replace(/\n/g, " ")}</p>
+                <p className="ph-name"><span className="ph-ko">{s.title}</span><span className="ph-en">{s.en}</span></p>
+                <p className="ph-body">{s.body.replace(/\n/g, " ")}</p>
               </li>
             ))}
           </ul>

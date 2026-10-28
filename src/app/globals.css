@@ -2196,14 +2196,26 @@ html.strength-drag { scroll-snap-type: none !important; }
 .ph-dot { position: absolute; left: 0; top: 0; width: 15px; height: 15px; border-radius: 50%; background: rgba(255,255,255,.3); transform: scale(.47); transition: transform .5s, background .5s, box-shadow .5s; }
 .ph-line { position: absolute; left: 15px; top: 7px; right: 0; height: 1px; background: rgba(255,255,255,.22); }
 .ph-line::after { content: ""; position: absolute; inset: 0; background: #fff; transform-origin: left; transform: scaleX(0); transition: transform .6s ease-out; }
-.ph-card[data-on="1"] .ph-dot { background: #3061ff; transform: none; }
-.ph-card[data-cur="1"] .ph-dot { box-shadow: 0 0 18px 4px rgba(48,97,255,.7); transform: scale(1.15); }
+.ph-dot::after { content: ""; position: absolute; inset: -7px; border-radius: 50%; border: 1px solid rgba(120,160,255,.55); opacity: 0; transform: scale(.6); transition: opacity .5s, transform .5s; }
+.ph-card[data-on="1"] .ph-dot { background: radial-gradient(circle at 50% 50%, #9db8ff 0%, #4a78ff 55%, #3061ff 100%); transform: none; box-shadow: 0 0 10px 2px rgba(48,97,255,.55), 0 0 22px 6px rgba(48,97,255,.28); }
+.ph-card[data-cur="1"] .ph-dot { background: radial-gradient(circle at 50% 50%, #fff 0%, #a9c0ff 35%, #4a78ff 80%); box-shadow: 0 0 12px 3px rgba(90,135,255,.85), 0 0 30px 10px rgba(48,97,255,.5), 0 0 60px 18px rgba(48,97,255,.25); transform: scale(1.3); }
+.ph-card[data-cur="1"] .ph-dot::after { opacity: 1; transform: scale(1); }
 .ph-card[data-on="1"]:not([data-cur="1"]) .ph-line::after, .ph-card[data-cur="1"] .ph-line::after { transform: scaleX(1); }
 .ph-card[data-cur="1"] .ph-line::after { transform: scaleX(0); }
 .ph-tag { margin: 0 0 14px; font-size: 13px; font-weight: 700; letter-spacing: .16em; color: rgba(107,140,255,.45); transition: color .5s; }
 .ph-en { margin: 0; font-size: clamp(26px, calc(2.6vw * var(--zi)), 50px); font-weight: 800; line-height: 1.05; letter-spacing: -.04em; color: rgba(255,255,255,.2); transition: color .5s; }
 .ph-body { margin: 12px 0 0; font-size: clamp(13px, calc(1vw * var(--zi)), 19px); line-height: 1.6; letter-spacing: -.02em; color: rgba(255,255,255,.2); transition: color .5s; word-break: keep-all; }
 .ph-body b { font-weight: 700; }
+/* STEP 알약 + 큰 한글(파랑) 옆에 영문(흰색) 같은 줄 + 아래 설명 */
+.ph-tag { display: inline-block; padding: .38em 1.1em; border: 1px solid rgba(107,140,255,.3); border-radius: 999px; line-height: 1.2; }
+.ph-card[data-on="1"] .ph-tag { border-color: #3061ff; }
+.ph-name { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .6em; margin: 0; }
+.ph-ko { font-size: clamp(40px, calc(4.2vw * var(--zi)), 76px); font-weight: 800; line-height: 1.1; letter-spacing: -.05em; color: #6b6f78; transition: color .5s, text-shadow .5s; }
+.ph-name .ph-en { font-size: clamp(13px, calc(1.1vw * var(--zi)), 21px); }
+.ph-card[data-on="1"] .ph-ko { color: rgba(255,255,255,.8); }
+.ph-card[data-on="1"] .ph-name .ph-en { color: #3a68e0; }
+.ph-card[data-cur="1"] .ph-name .ph-en { color: #4a78ff; }
+.ph-card[data-cur="1"] .ph-ko { color: #fff; text-shadow: 0 0 28px rgba(255,255,255,.25); }
 .ph-card[data-on="1"] .ph-tag { color: #6b8cff; }
 .ph-card[data-on="1"] .ph-en { color: rgba(255,255,255,.55); }
 .ph-card[data-on="1"] .ph-body { color: rgba(255,255,255,.5); }
@@ -2273,3 +2285,11 @@ html.strength-drag { scroll-snap-type: none !important; }
 .fc-dot { position: absolute; left: 50%; top: 50%; width: calc(var(--cr-d) * .035); height: calc(var(--cr-d) * .035); margin: calc(var(--cr-d) * -.0175) 0 0 calc(var(--cr-d) * -.0175); border-radius: 50%; background: #c7d3f5; transform: rotate(var(--a)) translateY(calc(var(--cr-d) * -.66)); animation: fc-dot 6s ease-in-out infinite; }
 @keyframes fc-dot { 0% { background: #c7d3f5; box-shadow: none; } 3%, 74% { background: #3061ff; box-shadow: 0 0 calc(var(--cr-d) * .05) calc(var(--cr-d) * .012) rgba(48,97,255,.55); } 90%, 100% { background: #c7d3f5; box-shadow: none; } }
 @media (prefers-reduced-motion: reduce) { .fc-fill, .fc-scan, .fc-pulse, .fc-radar, .fc-brs, .fc-pill b, .fc-dot, .fc-check path { animation: none; } .fc-check path { stroke-dashoffset: 0; } .fc-fill { opacity: 1; } .fc-pill .p1, .fc-scan { display: none; } }
+
+/* 프로세스 구간(PC): 헤더 위 "INFACT" 글자는 숨김. 켜진 단계의 동그라미 안에는 팩트체크처럼 체크 표시가 그려진다 */
+@media (min-width: 768px) { html[data-proc] .scroll-tag { opacity: 0 !important; } }
+.ph-dot { width: 24px; height: 24px; top: -4.5px; transform: scale(.29); }
+.ph-line { left: 24px; }
+.ph-dot svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ph-dot path { stroke: #fff; stroke-width: 11; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .55s ease-out .15s; }
+.ph-card[data-on="1"] .ph-dot path { stroke-dashoffset: 0; }

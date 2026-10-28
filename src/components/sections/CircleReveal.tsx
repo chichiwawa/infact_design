@@ -15,6 +15,7 @@ import { zoomInv } from "@/lib/zoom";
 const GROW = 1.3; // 동그라미가 커지는 구간 길이(화면 높이 배수)
 const SHOW = 0.6; // 제목이 선명해진 뒤 단계 줄이 떠오르는 구간(화면 높이 배수)
 const PER_STEP = 0.7; // 단계 하나를 지나는 데 쓰는 스크롤(화면 높이 배수)
+const HOLD = 0.5; // 마지막 단계(관리)에서 멈춰 머무는 스크롤(화면 높이 배수)
 
 /** "**강조**" → 로고 블루 글자 */
 function hl(s: string) {
@@ -44,10 +45,11 @@ export default function CircleReveal({ data, variant }: { data: CircleRevealData
       const span = r.height - H;
       const p = Math.min(1, Math.max(0, scrolled / (GROW * H)));
       root.style.setProperty("--cr-p", p.toFixed(4));
-      setDark(p >= 0.85 && r.bottom > 84 / zoomInv()); // 동그라미가 화면을 채워 배경이 어두워진 뒤에만 헤더를 흰 글씨로
+      setDark(p >= 0.85 && r.bottom > 84 / zoomInv());
+      if (n) { if (p >= 0.85 && r.bottom > 84 / zoomInv()) document.documentElement.dataset.proc = "1"; else delete document.documentElement.dataset.proc; } // 헤더 위 INFACT 글자 숨김용 // 동그라미가 화면을 채워 배경이 어두워진 뒤에만 헤더를 흰 글씨로
       if (!track) return;
       root.style.setProperty("--cr-s", Math.min(1, Math.max(0, (scrolled - GROW * H) / (SHOW * H))).toFixed(4));
-      const hp = Math.min(1, Math.max(0, (scrolled - (GROW + SHOW) * H) / Math.max(1, span - (GROW + SHOW) * H)));
+      const hp = Math.min(1, Math.max(0, (scrolled - (GROW + SHOW) * H) / Math.max(1, span - (GROW + SHOW + HOLD) * H)));
       const max = Math.max(0, track.scrollWidth - window.innerWidth * zoomInv());
       track.style.transform = `translate3d(${(-hp * max).toFixed(1)}px,0,0)`;
       let lit = 0;
@@ -62,10 +64,10 @@ export default function CircleReveal({ data, variant }: { data: CircleRevealData
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
-    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); if (raf) cancelAnimationFrame(raf); };
+    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); if (raf) cancelAnimationFrame(raf); delete document.documentElement.dataset.proc; };
   }, [n]);
 
-  const height = n ? `calc(100dvh*var(--zi)*${(GROW + SHOW + 1 + n * PER_STEP).toFixed(2)})` : undefined;
+  const height = n ? `calc(100dvh*var(--zi)*${(GROW + SHOW + 1 + n * PER_STEP + HOLD).toFixed(2)})` : undefined;
 
   return (
     <section ref={secRef} className={dark ? "cr on-dark" : "cr"} data-v={variant} style={{ height }} aria-label={`${data.left} ${data.right}`.replace(/\*\*/g, "")}>
@@ -128,11 +130,11 @@ export default function CircleReveal({ data, variant }: { data: CircleRevealData
               <ul className="ph-list">
                 {steps.map((s, i) => (
                   <li key={s.tag} ref={(el) => { cards.current[i] = el; }} data-on={i <= on ? "1" : "0"} data-cur={i === on ? "1" : "0"} className="ph-card">
-                    <span aria-hidden="true" className="ph-dot" />
+                    <span aria-hidden="true" className="ph-dot"><svg viewBox="0 0 100 100" fill="none"><path d="M24 52 L43 70 L77 32" pathLength={1} /></svg></span>
                     {i < n - 1 && <span aria-hidden="true" className="ph-line" />}
                     <p className="ph-tag">{s.tag}</p>
-                    <p className="ph-en">{s.en ?? s.title}</p>
-                    <p className="ph-body"><b>{s.title}</b> — {s.body.replace(/\n/g, " ")}</p>
+                    <p className="ph-name"><span className="ph-ko">{s.title}</span><span className="ph-en">{s.en}</span></p>
+                    <p className="ph-body">{s.body.replace(/\n/g, " ")}</p>
                   </li>
                 ))}
               </ul>
