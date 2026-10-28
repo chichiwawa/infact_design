@@ -84,12 +84,12 @@ export default function Header() {
             <span className={`logo-dot ${onDark && overBlue && !open ? "text-white" : "text-primary"}`} aria-hidden="true" />
           </Link>
 
-          <nav aria-label="주 메뉴" className="hidden md:flex items-center gap-8 ml-auto mr-8">
+          <nav aria-label="주 메뉴" className="hidden md:flex items-center gap-1 lg:gap-8 ml-auto mr-2 lg:mr-8 whitespace-nowrap">
             {NAV.map((it) => (
               <Link
                 key={it.href}
                 href={it.href}
-                className={`nav-glow font-outfit text-[19px] px-5 py-2.5 rounded-full ${
+                className={`nav-glow font-outfit text-[17px] lg:text-[19px] px-3 lg:px-5 py-2.5 rounded-full ${
                   isActive(it.href)
                     ? "font-bold"
                     : onDark ? "text-white/70 hover:text-white" : "text-body"
@@ -101,7 +101,7 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 whitespace-nowrap">
             <a href="/company-profile" target="_blank" rel="noopener" className="!hidden md:!inline-flex btn-sm-line">회사소개서</a>
             <Link href="/contact" className="!hidden md:!inline-flex btn-sm">문의하기</Link>
             <button
