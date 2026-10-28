@@ -369,3 +369,9 @@
 /* 2026-10-28 01·02·03 카드 사이 간격을 조금 넓힘 (PC·노트북, 3열일 때) — 맨 끝에 둬서 위 값을 덮음 */
 @media (min-width: 1024px) { .psc-grid { gap: 30px; } }
 @media (min-width: 1024px) and (max-width: 1600px) { .psc-grid { gap: 25px; } }
+
+/* 아이패드 가로(1024~1199): 카드 3열이라 칸이 좁아 항목 이름이 두 줄로 꺾임 → 한 열로 세워 이름이 한 줄로 보이게 */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .psc-feats { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .psc-feat-t b { white-space: nowrap; }
+}

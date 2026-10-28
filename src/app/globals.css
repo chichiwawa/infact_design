@@ -2315,7 +2315,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 }
 
 /* 아이패드 가로(화면 높이 낮음): 04 섹션 전체를 한 화면에 들어오게 글자·간격을 화면 높이에 맞춰 축소 */
-@media (min-width: 768px) and (max-width: 1180px) and (max-height: 800px) {
+@media (min-width: 768px) and (max-width: 1180px) and (max-height: 800px), (min-width: 768px ) and (max-height: 900px) and (pointer: coarse) {
   .pk-stack .pk-sleft-in .pk-lead { font-size: clamp(13px, 2.5svh, 18px); }
   .pk-stack .pk-h { margin-top: 1.2svh; font-size: clamp(24px, 5.4svh, 42px); }
   .pk-stack .pk-sgroups { margin-top: 1.6svh; gap: 1.4svh; }
@@ -2327,7 +2327,7 @@ html.strength-drag { scroll-snap-type: none !important; }
   /* 이미지가 카드 안에 있는 전후사진 카드는 끌어올리지 않음(사진과 겹침) */
   .pk-stack[data-igtx] .pk-scard[data-kind="ig"]:has(.ph-ba) .pk-scard-bottom { margin-bottom: 0; }
 }
-@media (min-width: 768px) and (max-width: 1180px) and (max-height: 650px) {
+@media (min-width: 768px) and (max-width: 1180px) and (max-height: 650px), (min-width: 768px) and (pointer: coarse) and (max-height: 650px) {
   .pk-stack .pk-h { font-size: clamp(22px, 4.8svh, 34px); }
   .pk-stack .pk-sgroups { margin-top: 1svh; gap: .8svh; }
   .pk-stack[data-acc] .pk-shead { padding-block: .4svh; }
@@ -2336,6 +2336,25 @@ html.strength-drag { scroll-snap-type: none !important; }
   .pk-stack .pk-sleft-in .pk-lead { line-height: 1.25; }
 }
 /* 이미지가 카드 안에 있는 카드(전후사진·AI·개별상품·유튜브)는 설명을 끌어올리지 않는다(이미지와 겹침) — 위 규칙들보다 뒤에 둬야 함 */
-@media (min-width: 768px) and (max-width: 1180px) {
+@media (min-width: 768px) and (max-width: 1180px), (min-width: 768px) and (pointer: coarse) {
   .pk-stack[data-igtx] .pk-scard[data-kind="ig"]:has(.ph-ba, .ph-ai, .ph-indiv, .yt-img) .pk-scard-bottom { margin-bottom: 0; }
+}
+
+/* 아이패드: "인팩트만의 차별점" 글자 덩어리 축소 — 양옆 사진과 겹치지 않게 */
+@media (min-width: 768px) and (max-width: 1180px) {
+  .diff-stick .diff-logo { font-size: clamp(16px, calc(1.9vw * var(--zi)), 24px); }
+  .diff-stick .diff-title { margin-top: 10px; font-size: clamp(28px, calc(3.9vw * var(--zi)), 48px); }
+  .diff-stick .diff-list { margin-top: clamp(26px, calc(4.5vh * var(--zi)), 48px); gap: clamp(10px, calc(1.8vh * var(--zi)), 18px); }
+  .diff-stick .diff-line { font-size: clamp(16px, calc(2.15vw * var(--zi)), 26px); }
+}
+
+/* 아이패드: 04 프로세스 설명글을 한 줄로 — 카드 폭을 넓히고 글자를 폭에 맞춰 줄임 */
+@media (min-width: 768px) and (max-width: 1180px) {
+  .cr-proc .ph-card { width: calc(42vw * var(--zi)); }
+  .cr-proc .ph-body { white-space: nowrap; font-size: clamp(11px, calc(1.45vw * var(--zi)), 16px); letter-spacing: -.03em; }
+}
+/* 아이패드: 이미지가 카드 안에 있는 카드(전후사진·AI·개별상품·유튜브)는 이미지 칸을 글 위의 남는 공간으로 두어,
+   카드 높이가 달라져도 이미지와 설명글이 겹치지도 멀어지지도 않게 한다 */
+@media (min-width: 768px) and (max-width: 1180px), (min-width: 768px) and (pointer: coarse) {
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"]:has(.ph-ba, .ph-ai, .ph-indiv, .yt-img) .pk-scard-bg { position: relative; inset: auto; flex: 1 1 0; min-height: 0; width: 100%; margin-bottom: 18px; }
 }
