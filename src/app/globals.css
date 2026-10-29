@@ -2469,3 +2469,38 @@ html[data-ipad-land] .pk-stack .pk-cta, html[data-ipad-land] .pk-stack .pk-sbtn 
 html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom { margin-bottom: calc(var(--ipad-h) * .075); }
 html[data-ipad-land] .pk-stack .pk-fullbg .ig-img { translate: 0 calc(var(--ipad-h) * .02); }
 html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"]:has(.ph-ba) .pk-scard-bottom { margin-bottom: calc(var(--ipad-h) * .035); } /* 전후사진은 사진이 아래까지 내려와 있어 덜 올림 */
+
+/* ── 아이패드 가로 2차 보정 (2026-10-29) ── */
+/* iOS 는 줄여 보이는(zoom) 페이지의 글자를 자동으로 키워(약 1.4배) 메뉴·제목이 커 보였다 → 끔 */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+}
+/* 왼쪽 메뉴 글자 크기 고정(PC 비율). 단위는 zoom 뒤의 CSS px */
+html[data-ipad-land] .pk-stack .pk-shead { font-size: 21px; }
+html[data-ipad-land] .pk-stack .pk-sitem { font-size: 16px; }
+/* cqh·cqw(컨테이너 단위)는 사파리 zoom 에서 어긋나므로 카드 높이/폭을 px 로 바꿔 PC와 같은 배열로 */
+html[data-ipad-land] .pk-stack { --cqh: calc(var(--ch) / 100); }
+html[data-ipad-land] .yt-side { height: calc(46 * var(--cqh)); top: calc(15.5 * var(--cqh)); }
+html[data-ipad-land] .yt-l { left: calc(50% - 47.4 * var(--cqh)); }
+html[data-ipad-land] .yt-r { left: calc(50% + 21.5 * var(--cqh)); }
+html[data-ipad-land] .yt-side.yt-r { top: calc(20 * var(--cqh)); }
+html[data-ipad-land] .ba-side { height: calc(26 * var(--cqh)); top: calc(25 * var(--cqh)); }
+html[data-ipad-land] .ba-side.yt-l { left: calc(50% - 59 * var(--cqh)); }
+html[data-ipad-land] .ba-side.yt-r { left: calc(50% + 21 * var(--cqh)); top: calc(25 * var(--cqh)); }
+/* 개별 상품: 유튜브·인스타·전후사진 3장 겹침 — 폭은 카드 폭/100(--ipad-cw) 기준 px, 좌우 이동은 자기 폭 대비 % */
+html[data-ipad-land] .ind { font-size: calc(2.6 * var(--ipad-cw, 8px)); }
+html[data-ipad-land] .ind-stage { perspective: calc(120 * var(--ipad-cw, 8px)); }
+html[data-ipad-land] .ind-item { --iw: 52; width: calc(var(--iw) * var(--ipad-cw, 8px)); border-radius: calc(3 * var(--ipad-cw, 8px)); padding: calc(2 * var(--ipad-cw, 8px)); }
+html[data-ipad-land] .ind-item.ind-port { --iw: 25; }
+html[data-ipad-land] .ind-item.ind-tall { --iw: 30.8; }
+html[data-ipad-land] .ind-item span { left: calc(2.6 * var(--ipad-cw, 8px)); bottom: calc(2.2 * var(--ipad-cw, 8px)); padding: calc(.6 * var(--ipad-cw, 8px)) calc(1.8 * var(--ipad-cw, 8px)); font-size: calc(1.9 * var(--ipad-cw, 8px)); }
+@keyframes ind-flow-p {
+  0%, 18% { transform: translate(-50%, -50%) translateX(0) scale(1) rotateY(0); opacity: 1; z-index: 3; }
+  25%, 43% { transform: translate(-50%, -50%) translateX(calc(var(--sl, 23) / var(--iw) * -100%)) scale(.74) rotateY(32deg); opacity: .55; z-index: 2; }
+  50%, 68% { transform: translate(-50%, -50%) translateX(0) scale(.58); opacity: 0; z-index: 1; }
+  75%, 93% { transform: translate(-50%, -50%) translateX(calc(var(--sr, 23) / var(--iw) * 100%)) scale(.74) rotateY(-32deg); opacity: .55; z-index: 2; }
+  100% { transform: translate(-50%, -50%) translateX(0) scale(1) rotateY(0); opacity: 1; z-index: 3; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html[data-ipad-land] .pk-scard[data-on="1"] .ind-item { animation-name: ind-flow-p; }
+}

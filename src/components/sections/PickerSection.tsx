@@ -210,22 +210,35 @@ export default function PickerSection({
     const root = document.documentElement;
     const mq = matchMedia("(min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse)");
     let lastW = 0, lastH = 0;
+    // 아이패드 사파리는 innerHeight 가 실제 보이는 높이보다 작게(하단 영역 몫을 뺀 채) 나와 섹션 아래에 띠가 보였다 → 가장 큰 값(보이는 영역·큰 뷰포트)을 쓴다
+    const probe = document.createElement("div");
+    probe.setAttribute("aria-hidden", "true");
+    probe.style.cssText = "position:fixed;left:0;top:0;width:0;height:100lvh;visibility:hidden;pointer-events:none";
+    document.body.appendChild(probe);
+    const vars = ["--ipad-w", "--ipad-h", "--ipad-cw"];
     const apply = () => {
       if (!mq.matches) {
         root.removeAttribute("data-ipad-land");
-        root.style.removeProperty("--ipad-w");
-        root.style.removeProperty("--ipad-h");
+        vars.forEach((k) => root.style.removeProperty(k));
         lastW = lastH = 0;
         return;
       }
-      const w = window.innerWidth, h = window.innerHeight;
+      const zi = zoomInv();
+      const w = window.innerWidth;
+      // 큰 뷰포트 값은 사파리·크롬의 zoom 계산이 달라 엉뚱하게 클 수 있어 innerHeight 의 1.2배까지만 인정
+      const big = Math.min(probe.getBoundingClientRect().height, window.innerHeight * 1.2);
+      const h = Math.max(window.innerHeight, window.visualViewport?.height ?? 0, big);
       // 사파리 주소창이 접혔다 펴지며 높이가 조금씩 변할 때는 레이아웃을 흔들지 않는다
       if (w === lastW && Math.abs(h - lastH) < 120) return;
       lastW = w; lastH = h;
-      const zi = zoomInv();
       root.setAttribute("data-ipad-land", "");
       root.style.setProperty("--ipad-w", `${w * zi}px`);
       root.style.setProperty("--ipad-h", `${h * zi}px`);
+      // 카드 폭(CSS px)/100 — cqw 대신 쓰는 개별 상품 3장 겹침 이미지용
+      requestAnimationFrame(() => {
+        const card = document.querySelector<HTMLElement>(".pk-stack .pk-scard");
+        if (card) root.style.setProperty("--ipad-cw", `${card.offsetWidth / 100}px`);
+      });
     };
     apply();
     mq.addEventListener("change", apply);
@@ -233,9 +246,9 @@ export default function PickerSection({
     return () => {
       mq.removeEventListener("change", apply);
       window.removeEventListener("resize", apply);
+      probe.remove();
       root.removeAttribute("data-ipad-land");
-      root.style.removeProperty("--ipad-w");
-      root.style.removeProperty("--ipad-h");
+      vars.forEach((k) => root.style.removeProperty(k));
     };
   }, [variant]);
 
