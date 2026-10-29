@@ -2589,3 +2589,10 @@ html[data-ipad-land] .pk-scard[data-wide="1"] .pk-grid6 li > span:last-child { f
 html[data-ipad-land] .pk-scard[data-wide="1"] .pk-scard-bottom h3 { font-size: 20px; margin-bottom: 6px; }
 html[data-ipad-land] .pk-scard[data-wide="1"] .pk-scard-bottom .pk-below-body { font-size: 12px; line-height: 1.45; max-width: none; }
 html[data-ipad-land] .pk-scard[data-wide="1"] .pk-scard-bottom .pk-eb { font-size: 11px; }
+
+/* 아이패드 가로 11차: 04 '개별 상품 6종' 오른쪽 카드 — "진단 후 설계 / 필요한 것만" 칩 글씨가 커서 옆 아이콘과 겹치던 것을 글씨·아이콘을 줄이고 간격을 둬서 해결 (2026-10-29)
+   (10차의 .pk-grid6 규칙은 이 카드가 아니라 쓰이지 않는 격자용이라 영향 없음) */
+html[data-ipad-land] .pk-stack .yt-chips li, html[data-ipad-land] .pk-stack .yt-chips li:nth-child(n) { font-size: 11px; gap: 7px; white-space: nowrap; line-height: 1.2; letter-spacing: -.02em; }
+html[data-ipad-land] .pk-stack .yt-chips li i { flex: none; width: 22px; height: 22px; }
+html[data-ipad-land] .pk-stack .yt-chips li svg { width: 12px; height: 12px; }
+html[data-ipad-land] .pk-stack[data-ytchip="5"] .yt-chips li, html[data-ipad-land] .pk-stack[data-ytchip="5"] .yt-chips li:nth-child(n) { width: 66px; height: 66px; font-size: 9.5px; white-space: normal; }
