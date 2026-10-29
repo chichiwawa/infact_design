@@ -389,3 +389,11 @@
   .psc-ico svg { width: 20px; height: 20px; }
   .psc-feat-t b { font-size: 14px; letter-spacing: -.05em; white-space: nowrap; }
 }
+
+/* 아이패드 가로 3차 (2026-10-29): 카드 번호(01~03) 작게, 카드 3장 묶음 가로 확대, 섹션 제목 살짝 축소 */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  .psc-no { font-size: 20px; }
+  .psc-dot { font-size: 15px; }
+  .psc-grid { max-width: 1480px; }
+  .psc-title { font-size: 46px; }
+}
