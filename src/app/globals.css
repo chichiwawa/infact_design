@@ -2394,7 +2394,6 @@ html.strength-drag { scroll-snap-type: none !important; }
 
 /* 아이패드 가로: 04 제목 두 줄 글씨 축소 / 인스타 카드 설명을 위로 올려 이미지에 붙이고(한 화면 안에 들어오게) 스크롤 때 아래 검은 틈이 비치지 않게 배경을 아래까지 채움 */
 @media (min-width: 768px) and (max-width: 1180px) and (orientation: landscape), (min-width: 768px) and (pointer: coarse) and (orientation: landscape) {
-  .pk-stack[data-igtx] .pk-scard[data-kind="ig"]:not(:has(.ph-ba, .ph-ai, .ph-indiv, .yt-img)) .pk-scard-bottom { margin-bottom: calc(14svh * var(--zi)); }
   .pk-stack .pk-fullbg .ig-img { translate: 0 1svh; }
   .pk-sstick { background: radial-gradient(70% 50% at 80% 0%, #0b1c4d 0%, #070c1c 55%, #05070f 100%); }
   .pk-fullbg { bottom: -2px; }
@@ -2405,6 +2404,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 @media (min-width: 768px) and (max-width: 1180px) and (orientation: landscape), (min-width: 768px) and (pointer: coarse) and (orientation: landscape) {
   .pk-stack[data-igtx] .pk-scard[data-kind="ig"] .pk-scard-bottom { margin-bottom: 0; margin-top: 0; flex: none; min-height: calc(25svh * var(--zi)); }
   .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .pk-scard-bg { display: block; position: relative; inset: auto; flex: 1 1 0; min-height: 0; width: 100%; margin-bottom: 18px; }
-  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img.yt-img { height: 94%; }
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img.yt-img { height: 68%; top: 3%; }
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img.ph-indiv { inset: 2% -8% auto -8%; }
   .pk-stack .pk-fullbg .ig-img { translate: 0 -9svh; }
 }
