@@ -2519,3 +2519,12 @@ html[data-ipad-land] .pk-stack .pk-sitem { font-size: 14px; }
 html[data-ipad-land] .pk-stack .pk-sgroups { max-width: 270px; }
 html[data-ipad-land] .pk-stack .pk-cta, html[data-ipad-land] .pk-stack .pk-sbtn { font-size: 13px; }
 html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"]:has(.ph-ba) .pk-scard-bottom { margin-bottom: calc(var(--ipad-h) * -.02); } /* 전후사진: 양옆 눈·코 카드와 설명이 겹치지 않게 내림 */
+
+/* 아이패드 가로 4차: 왼쪽 덩어리 전체를 같은 비율로 75%로 축소 + "진단은 정밀하게, 전략은 확실하게" 한 줄 고정 (2026-10-29). 비율은 zoom 값 하나만 고친다 */
+html[data-ipad-land] .pk-stack .pk-sleft-in .pk-lead { font-size: 12px; }
+html[data-ipad-land] .pk-stack .pk-h { font-size: 40px; margin-top: calc(var(--ipad-h) * .02); }
+html[data-ipad-land] .pk-stack .pk-shead { font-size: 14px; }
+html[data-ipad-land] .pk-stack .pk-sitem { font-size: 11px; }
+html[data-ipad-land] .pk-stack .pk-sgroups { max-width: 210px; }
+html[data-ipad-land] .pk-stack .pk-cta, html[data-ipad-land] .pk-stack .pk-sbtn { font-size: 11px; }
+html[data-ipad-land] .pk-stack .pk-sleft-in .pk-lead, html[data-ipad-land] .pk-stack .pk-sleft-in .pk-lead * { white-space: nowrap; }
