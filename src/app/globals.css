@@ -2579,3 +2579,13 @@ html[data-ipad-land] .strength-pager { font-size: 10px; }
 /* 아이패드 가로 9차: "진단은 정밀하게, 전략은 확실하게" 글씨를 12px → 17px 로 키움(영문 줄도 살짝). 한 줄 고정은 그대로 (2026-10-29) */
 html[data-ipad-land] .pk-stack .pk-sleft-in .pk-lead .block { font-size: 17px; }
 html[data-ipad-land] .pk-stack .pk-sleft-in .pk-eyebrow { font-size: 13px; }
+
+/* 아이패드 가로 10차: 04 '개별 상품 6종' 카드 — 아래 제목·설명 글자를 줄이고 6칸 격자는 위쪽에 두어 서로 겹치지 않게 (2026-10-29) */
+html[data-ipad-land] .pk-scard[data-wide="1"] .pk-grid6 { inset: 64px 20px 170px; gap: 8px; }
+html[data-ipad-land] .pk-scard[data-wide="1"] .pk-grid6 li { padding: 10px; }
+html[data-ipad-land] .pk-scard[data-wide="1"] .pk-grid6-pic { width: 46px; }
+html[data-ipad-land] .pk-scard[data-wide="1"] .pk-grid6 b { font-size: 15px; }
+html[data-ipad-land] .pk-scard[data-wide="1"] .pk-grid6 li > span:last-child { font-size: 11px; line-height: 1.3; }
+html[data-ipad-land] .pk-scard[data-wide="1"] .pk-scard-bottom h3 { font-size: 20px; margin-bottom: 6px; }
+html[data-ipad-land] .pk-scard[data-wide="1"] .pk-scard-bottom .pk-below-body { font-size: 12px; line-height: 1.45; max-width: none; }
+html[data-ipad-land] .pk-scard[data-wide="1"] .pk-scard-bottom .pk-eb { font-size: 11px; }
