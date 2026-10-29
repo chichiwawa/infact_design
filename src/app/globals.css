@@ -2295,18 +2295,18 @@ html.strength-drag { scroll-snap-type: none !important; }
 .ph-card[data-on="1"] .ph-dot path { stroke-dashoffset: 0; }
 
 /* ── 아이패드(태블릿) 보정 (2026-10-28) ── */
-@media (min-width: 768px) {
+@media (min-width: 768px) and (orientation: portrait) {
   /* 04 인스타 카드: 이미지와 아래 설명 사이 간격 좁힘 — 설명 덩어리를 위로 끌어올림(화면 높이에 비례) */
   /* 고정 화면이 헤더(80px) 밑으로 파고들지 않게 위쪽 여유를 두고, 넘치면 위가 아니라 아래로 잘리게 */
   .pk-sstick { padding-top: 80px; align-items: center; box-sizing: border-box; }
   .pk-sleft-in { padding-top: 0; }
 }
-@media (min-width: 768px) and (max-width: 1100px) {
+@media (min-width: 768px) and (max-width: 1100px) and (orientation: portrait) {
   /* 좁은 폭: 오른쪽 아이콘 칩이 설명 글과 겹치지 않도록 글 아래 가로 줄로 */
   .pk-stack[data-mob] .pk-scard .yt-chips { position: static; width: auto; flex-direction: row; flex-wrap: wrap; justify-content: flex-start; gap: 8px; margin-top: 14px; }
   .pk-stack[data-mob] .pk-scard .yt-chips li, .pk-stack[data-mob] .pk-scard .yt-chips li:nth-child(n) { margin: 0; }
 }
-@media (min-width: 768px) and (max-width: 1180px) {
+@media (min-width: 768px) and (max-width: 1180px) and (orientation: portrait) {
   /* 04 인스타 카드: 이미지와 아래 설명 사이 간격 좁힘 — 설명 덩어리를 위로 끌어올림(화면 높이에 비례) */
   .pk-stack[data-igtx] .pk-scard[data-kind="ig"] .pk-scard-bottom { margin-bottom: calc(9svh * var(--zi)); }
 }
@@ -2315,7 +2315,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 }
 
 /* 아이패드 가로(화면 높이 낮음): 04 섹션 전체를 한 화면에 들어오게 글자·간격을 화면 높이에 맞춰 축소 */
-@media (min-width: 768px) and (max-width: 1180px) and (max-height: 800px), (min-width: 768px ) and (max-height: 900px) and (pointer: coarse) {
+@media (min-width: 768px) and (max-width: 1180px) and (max-height: 800px) and (orientation: portrait), (min-width: 768px ) and (max-height: 900px) and (pointer: coarse) and (orientation: portrait) {
   .pk-stack .pk-sleft-in .pk-lead { font-size: clamp(12px, 2.1svh, 16px); }
   .pk-stack .pk-h { margin-top: 3.6svh; font-size: clamp(26px, min(7svh, calc(4.3vw * var(--zi))), 56px); line-height: 1.2; }
   .pk-stack .pk-sgroups { margin-top: 3.2svh; gap: 2.8svh; }
@@ -2327,7 +2327,7 @@ html.strength-drag { scroll-snap-type: none !important; }
   /* 이미지가 카드 안에 있는 전후사진 카드는 끌어올리지 않음(사진과 겹침) */
   .pk-stack[data-igtx] .pk-scard[data-kind="ig"]:has(.ph-ba) .pk-scard-bottom { margin-bottom: 0; }
 }
-@media (min-width: 768px) and (max-width: 1180px) and (max-height: 650px), (min-width: 768px) and (pointer: coarse) and (max-height: 650px) {
+@media (min-width: 768px) and (max-width: 1180px) and (max-height: 650px) and (orientation: portrait), (min-width: 768px) and (pointer: coarse) and (max-height: 650px) and (orientation: portrait) {
   .pk-stack .pk-h { margin-top: 2.6svh; font-size: clamp(26px, min(7svh, calc(4.3vw * var(--zi))), 56px); }
   .pk-stack .pk-sgroups { margin-top: 2svh; gap: 1.8svh; }
   .pk-stack[data-acc] .pk-shead { padding-block: .6svh; }
@@ -2336,7 +2336,7 @@ html.strength-drag { scroll-snap-type: none !important; }
   .pk-stack .pk-sleft-in .pk-lead { line-height: 1.25; }
 }
 /* 이미지가 카드 안에 있는 카드(전후사진·AI·개별상품·유튜브)는 설명을 끌어올리지 않는다(이미지와 겹침) — 위 규칙들보다 뒤에 둬야 함 */
-@media (min-width: 768px) and (max-width: 1180px), (min-width: 768px) and (pointer: coarse) {
+@media (min-width: 768px) and (max-width: 1180px) and (orientation: portrait), (min-width: 768px) and (pointer: coarse) and (orientation: portrait) {
   .pk-stack[data-igtx] .pk-scard[data-kind="ig"]:has(.ph-ba, .ph-ai, .ph-indiv, .yt-img) .pk-scard-bottom { margin-bottom: 0; }
 }
 
@@ -2355,7 +2355,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 }
 /* 아이패드: 이미지가 카드 안에 있는 카드(전후사진·AI·개별상품·유튜브)는 이미지 칸을 글 위의 남는 공간으로 두어,
    카드 높이가 달라져도 이미지와 설명글이 겹치지도 멀어지지도 않게 한다 */
-@media (min-width: 768px) and (max-width: 1180px), (min-width: 768px) and (pointer: coarse) {
+@media (min-width: 768px) and (max-width: 1180px) and (orientation: portrait), (min-width: 768px) and (pointer: coarse) and (orientation: portrait) {
   .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"]:has(.ph-ba, .ph-ai, .ph-indiv) .pk-scard-bg { position: relative; inset: auto; flex: 1 1 0; min-height: 0; width: 100%; margin-bottom: 18px; }
 }
 /* 가로(화면 높이 낮음)일 때는 높이 기준으로 한 번 더 줄임 */
@@ -2366,11 +2366,11 @@ html.strength-drag { scroll-snap-type: none !important; }
   .diff-stick .diff-list { margin-top: clamp(22px, 4svh, 44px); gap: clamp(10px, 1.8svh, 18px); }
 }
 /* 아이패드: 인스타 이미지가 설명글에 가리지 않게 이미지를 살짝 위로 */
-@media (min-width: 768px) and (max-width: 1180px), (min-width: 768px) and (pointer: coarse) {
+@media (min-width: 768px) and (max-width: 1180px) and (orientation: portrait), (min-width: 768px) and (pointer: coarse) and (orientation: portrait) {
   .pk-stack .pk-fullbg .ig-img { translate: 0 -3svh; }
 }
 /* 아이패드: 유튜브 이미지를 키워 이미지와 아래 설명글 사이 간격을 좁힘 */
-@media (min-width: 768px) and (max-width: 1180px), (min-width: 768px) and (pointer: coarse) {
+@media (min-width: 768px) and (max-width: 1180px) and (orientation: portrait), (min-width: 768px) and (pointer: coarse) and (orientation: portrait) {
   .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img.yt-img { height: 79%; }
 }
 
@@ -2388,12 +2388,12 @@ html.strength-drag { scroll-snap-type: none !important; }
 }
 
 /* 아이패드: 04 전후사진 — 사진을 아래로 내려 키워서 아래 설명글과의 간격을 좁힘 (양옆 눈·코 카드도 같이 내림) */
-@media (min-width: 768px) and (max-width: 1180px), (min-width: 768px) and (pointer: coarse) {
+@media (min-width: 768px) and (max-width: 1180px) and (orientation: portrait), (min-width: 768px) and (pointer: coarse) and (orientation: portrait) {
   /* PC와 동일한 배열을 쓰도록 아이패드 전용 위치 조정은 두지 않음 */
 }
 
 /* 아이패드 가로: 04 제목 두 줄 글씨 축소 / 인스타 카드 설명을 위로 올려 이미지에 붙이고(한 화면 안에 들어오게) 스크롤 때 아래 검은 틈이 비치지 않게 배경을 아래까지 채움 */
-@media (min-width: 768px) and (max-width: 1180px) and (orientation: landscape), (min-width: 768px) and (pointer: coarse) and (orientation: landscape) {
+@media (min-width: 768px) and (max-width: 1180px) and (orientation: portrait), (min-width: 768px) and (pointer: coarse) and (orientation: portrait) {
   .pk-stack .pk-fullbg .ig-img { translate: 0 1svh; }
   .pk-sstick { background: radial-gradient(70% 50% at 80% 0%, #0b1c4d 0%, #070c1c 55%, #05070f 100%); }
   .pk-fullbg { bottom: -2px; }
@@ -2401,7 +2401,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 
 /* 아이패드 가로: 5개 카드(인스타·전후사진·AI·유튜브·개별상품) 통일 — 설명 덩어리는 모두 같은 높이의 칸에 같은 위치(위쪽 맞춤)로,
    이미지는 모두 그 위 칸을 채우게. (위의 개별 규칙들보다 뒤에 둬야 함) */
-@media (min-width: 768px) and (max-width: 1180px) and (orientation: landscape), (min-width: 768px) and (pointer: coarse) and (orientation: landscape) {
+@media (min-width: 768px) and (max-width: 1180px) and (orientation: portrait), (min-width: 768px) and (pointer: coarse) and (orientation: portrait) {
   .pk-stack[data-igtx] .pk-scard[data-kind="ig"] .pk-scard-bottom { margin-bottom: 0; margin-top: 0; flex: none; min-height: calc(25svh * var(--zi)); }
   .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .pk-scard-bg { display: block; position: relative; inset: auto; flex: 1 1 0; min-height: 0; width: 100%; margin-bottom: 18px; }
   .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img.yt-img { height: 68%; top: 3%; }
