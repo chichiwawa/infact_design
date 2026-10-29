@@ -397,3 +397,9 @@
   .psc-grid { max-width: 1480px; }
   .psc-title { font-size: 46px; }
 }
+
+/* 아이패드 가로 4차 (2026-10-29): 소개 문구 축소 + 섹션이 한 화면을 꽉 채우고 아래가 잘리지 않게(아래 여백 확대·최소 높이 = 화면 높이) */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  .psc-intro { font-size: 16px; margin-top: 14px; }
+  .psc { min-height: calc(var(--ipad-h, 100svh) / 1.1); padding-bottom: 120px; box-sizing: border-box; }
+}
