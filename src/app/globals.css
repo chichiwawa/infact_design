@@ -2599,3 +2599,10 @@ html[data-ipad-land] .pk-stack[data-ytchip="5"] .yt-chips li, html[data-ipad-lan
 
 /* 아이패드 가로 12차: 04 개별 상품 카드 제목 "영상, 블로그, 바이럴, / 체험단, 광고, 디자인콘텐츠" 글씨 축소 (2026-10-29). 두 줄 줄바꿈은 그대로 */
 html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .pk-scard-bottom h3 { font-size: min(42px, calc(7 * var(--ipad-cw, 6px))); line-height: 1.25; margin-bottom: 8px; }
+
+/* 아이패드 가로 13차: 04 오른쪽 카드(개별 상품·AI 노출 부스터 등)의 아래 설명 글씨를 줄이고, 오른쪽 아래 칩/아이콘 자리를 비워 줄바꿈되게 해 겹침 방지 (2026-10-29)
+   설명 폭 = 카드 폭의 58%(칩이 차지하는 오른쪽 자리 제외). 겹치면 58% 를 더 줄이고, 글씨는 11px 을 고친다 */
+html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body { font-size: 11px; line-height: 1.5; max-width: 58%; white-space: normal; word-break: keep-all; }
+html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body .block, html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body span { white-space: normal; }
+html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-eb { font-size: 11px; }
+html[data-ipad-land] .pk-stack .yt-chips li, html[data-ipad-land] .pk-stack .yt-chips li:nth-child(n) { font-size: 10.5px; }
