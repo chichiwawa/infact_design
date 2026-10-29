@@ -2397,8 +2397,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 
 /* 아이패드 가로: 04 제목 두 줄 글씨 축소 / 인스타 카드 설명을 위로 올려 이미지에 붙이고(한 화면 안에 들어오게) 스크롤 때 아래 검은 틈이 비치지 않게 배경을 아래까지 채움 */
 @media (min-width: 768px) and (max-width: 1180px) and (orientation: landscape), (min-width: 768px) and (pointer: coarse) and (orientation: landscape) {
-  .pk-stack .pk-h { font-size: clamp(22px, min(5.2svh, calc(3.3vw * var(--zi))), 42px); }
-  .pk-stack[data-igtx] .pk-scard[data-kind="ig"]:not(:has(.ph-ba, .ph-ai, .ph-indiv, .yt-img)) .pk-scard-bottom { margin-bottom: calc(17svh * var(--zi)); }
+  .pk-stack[data-igtx] .pk-scard[data-kind="ig"]:not(:has(.ph-ba, .ph-ai, .ph-indiv, .yt-img)) .pk-scard-bottom { margin-bottom: calc(14svh * var(--zi)); }
   .pk-stack .pk-fullbg .ig-img { translate: 0 1svh; }
   .pk-sstick { background: radial-gradient(70% 50% at 80% 0%, #0b1c4d 0%, #070c1c 55%, #05070f 100%); }
   .pk-fullbg { bottom: -2px; }
