@@ -2537,3 +2537,13 @@ html[data-ipad-land] .pk-stack .pk-sleft-in .pk-lead, html[data-ipad-land] .pk-s
   .psc .psc-card-title { font-size: 34px; }
   .psc .psc-desc { font-size: 17px; }
 }
+
+/* 아이패드 가로 5차: 위계 재조정 — 제목(우리병원은 ㅇㅇ가 필요해요)이 가장 크게, 영문·진단 문구는 작게, 메뉴는 손가락으로 누르기 쉽게 키우고 오른쪽 카드 글자와 비슷한 크기로 (2026-10-29) */
+html[data-ipad-land] .pk-stack .pk-sleft-in .pk-lead { font-size: 10px; }
+html[data-ipad-land] .pk-stack .pk-h { font-size: 58px; margin-top: calc(var(--ipad-h) * .022); }
+html[data-ipad-land] .pk-stack .pk-shead { font-size: 22px; padding-block: 12px; min-height: 48px; }
+html[data-ipad-land] .pk-stack .pk-sitem { font-size: 18px; padding-block: 11px; }
+html[data-ipad-land] .pk-stack .pk-sgroups { max-width: 340px; gap: calc(var(--ipad-h) * .018); }
+html[data-ipad-land] .pk-stack .pk-cta, html[data-ipad-land] .pk-stack .pk-sbtn { font-size: 16px; }
+html[data-ipad-land] .pk-stack .pk-sleft-in .pk-eyebrow { font-size: 14px; margin-bottom: 4px; }
+html[data-ipad-land] .pk-stack .pk-sleft-in .pk-lead .block { font-size: 14px; }
