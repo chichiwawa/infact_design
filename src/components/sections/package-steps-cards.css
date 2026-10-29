@@ -376,3 +376,16 @@
   .psc { zoom: 1.2; }
   .psc-feats { margin-bottom: auto; }
 }
+
+/* 아이패드 가로 2차 (2026-10-29): 카드 제목·설명은 줄바꿈 고정(제목 두 줄 / 설명 두 줄)하고 글자·항목 박스를 줄여 01·02·03 카드의 항목·버튼 높이가 똑같이 맞게 한다.
+   배율(zoom)을 1.2 → 1.1 로 낮춰 카드 안 글씨가 박스를 넘지 않게. 숫자만 고치면 된다 */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  .psc { zoom: 1.1; }
+  .psc-card-title { font-size: 30px; }
+  .psc-card-title .block, .psc-desc .block { white-space: nowrap; }
+  .psc-desc { font-size: 16px; min-height: 3em; }
+  .psc-feat { gap: 6px; padding: 8px; }
+  .psc-ico { width: 34px; height: 34px; }
+  .psc-ico svg { width: 20px; height: 20px; }
+  .psc-feat-t b { font-size: 14px; letter-spacing: -.05em; white-space: nowrap; }
+}
