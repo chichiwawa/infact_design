@@ -115,7 +115,7 @@
 .psc-ico { width: 46px; height: 46px; }
 .psc-feat-t b { font-size: 14px; }
 .psc-feat-t small { font-size: 12px; letter-spacing: -.05em; }
-@media (min-width: 1200px) { .psc-feat-t small { font-size: 11.5px; letter-spacing: -.06em; word-break: normal; } .psc-feat { gap: 9px; padding-inline: 10px; } }
+@media (min-width: 1200px), (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) { .psc-feat-t small { font-size: 11.5px; letter-spacing: -.06em; word-break: normal; } .psc-feat { gap: 9px; padding-inline: 10px; } }
 
 /* 버튼은 더 작게, 항목 글씨는 더 크게 */
 .psc-btn { padding: 11px 22px; font-size: 16px; gap: 10px; }
@@ -160,7 +160,7 @@
 .psc-card[data-on="1"] .psc-btn { box-shadow: 0 0 16px -4px rgba(77,163,255,.35); }
 
 /* PC: 단계 원 작게 · 연결선 길게 · 위아래 간격 줄여 한 화면에 */
-@media (min-width: 1200px) {
+@media (min-width: 1200px), (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
   .psc { padding-top: 150px; padding-bottom: 80px; }
   .psc-title { margin-top: 24px; }
   .psc-intro { margin-top: 18px; }
@@ -311,7 +311,7 @@
 }
 
 /* PC: 카드 박스만 정말 조금 줄임 (카드 안 위아래 간격·항목 박스 높이만, 글씨 크기는 그대로) */
-@media (min-width: 1200px) {
+@media (min-width: 1200px), (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
   .psc-card { padding: 20px 28px 32px; }
   .psc-card-title { margin-top: 14px; }
   .psc-check { margin-top: 14px; }
@@ -322,14 +322,14 @@
 }
 
 /* PC: 가로 전체 축소 — 카드 3장 묶음 폭 1360px → 1180px, 카드 사이 간격도 약간 줄임 */
-@media (min-width: 1200px) {
+@media (min-width: 1200px), (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
   .psc-grid { max-width: 1180px; gap: 20px; }
   .psc-steps li { width: 320px; }
   .psc-card { padding-inline: 24px; }
 }
 
 /* PC: 항목 글씨("브랜드 기본 세팅", "CRM·재방문 설계")는 한 줄로 — 그만큼 카드 묶음 폭을 1180px → 1260px로 조금 넓힘 */
-@media (min-width: 1200px) {
+@media (min-width: 1200px), (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
   .psc-grid { max-width: 1260px; }
   .psc-feat-t b { white-space: nowrap; }
   .psc-feat { gap: 8px; padding-inline: 9px; }
@@ -337,7 +337,7 @@
 }
 
 /* PC: 카드 아래 배경이 잘려 보이지 않게 아래 여백을 넉넉히 */
-@media (min-width: 1200px) {
+@media (min-width: 1200px), (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
   .psc { padding-bottom: 150px; }
 }
 
@@ -351,12 +351,12 @@
 @media (prefers-reduced-motion: reduce) { .psc-beam { display: none; } }
 
 /* 노트북 폭(1024~1600px): 마케팅 전략 섹션이 한 화면에 세로로 다 들어오도록 위아래 여백을 줄이고 전체를 약 12% 축소 (2026-10-28) */
-@media (min-width: 1200px) and (max-width: 1600px) {
+@media (min-width: 1200px) and (max-width: 1600px), (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
   .psc { zoom: .88; padding-top: 120px; padding-bottom: 56px; }
 }
 
 /* 노트북 폭: 박스 안 글씨(설명·항목 제목)를 키움. 상품 버튼은 카드 아랫선에 살짝 걸치게 (2026-10-28) */
-@media (min-width: 1200px) and (max-width: 1600px) {
+@media (min-width: 1200px) and (max-width: 1600px), (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
   .psc-grid { max-width: 1340px; }
   .psc-desc { font-size: 19px; }
   .psc-feat-t b { font-size: 17px; letter-spacing: -.05em; }
@@ -370,8 +370,9 @@
 @media (min-width: 1024px) { .psc-grid { gap: 30px; } }
 @media (min-width: 1024px) and (max-width: 1600px) { .psc-grid { gap: 25px; } }
 
-/* 아이패드 가로(1024~1199): 카드 3열이라 칸이 좁아 항목 이름이 두 줄로 꺾임 → 한 열로 세워 이름이 한 줄로 보이게 */
-@media (min-width: 1024px) and (max-width: 1199px) {
-  .psc-feats { grid-template-columns: minmax(0, 1fr); gap: 8px; }
-  .psc-feat-t b { white-space: nowrap; }
+/* 아이패드 가로: 노트북(약 1440px 화면) 배치를 그대로 — 아이패드는 화면을 60% 로 줄여 보여 레이아웃 폭이 약 1700~1900px 이므로 이 섹션만 1.2배(.6×1.2=.72, 노트북 .88 과 같은 화면 비율)로 키워
+   카드 제목 두 줄·항목 한 줄·카드 3장 높이/버튼 위치가 노트북과 같아진다. 배율을 바꾸려면 아래 zoom 값만 고친다 (2026-10-29) */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  .psc { zoom: 1.2; }
+  .psc-feats { margin-bottom: auto; }
 }

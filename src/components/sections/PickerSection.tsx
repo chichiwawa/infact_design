@@ -227,7 +227,9 @@ export default function PickerSection({
       const w = window.innerWidth;
       // 큰 뷰포트 값은 사파리·크롬의 zoom 계산이 달라 엉뚱하게 클 수 있어 innerHeight 의 1.2배까지만 인정
       const big = Math.min(probe.getBoundingClientRect().height, window.innerHeight * 1.2);
-      const h = Math.max(window.innerHeight, window.visualViewport?.height ?? 0, big);
+      // 가로 화면의 실제 기기 높이(screen)도 후보에 넣되 innerHeight 의 1.2배까지만 — 아래쪽 배경이 잘려 보이는 문제 방지
+      const dev = Math.min(Math.min(screen.width, screen.height), window.innerHeight * 1.2);
+      const h = Math.max(window.innerHeight, window.visualViewport?.height ?? 0, big, dev);
       // 사파리 주소창이 접혔다 펴지며 높이가 조금씩 변할 때는 레이아웃을 흔들지 않는다
       if (w === lastW && Math.abs(h - lastH) < 120) return;
       lastW = w; lastH = h;
