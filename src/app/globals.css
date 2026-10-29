@@ -2389,10 +2389,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 
 /* 아이패드: 04 전후사진 — 사진을 아래로 내려 키워서 아래 설명글과의 간격을 좁힘 (양옆 눈·코 카드도 같이 내림) */
 @media (min-width: 768px) and (max-width: 1180px), (min-width: 768px) and (pointer: coarse) {
-  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ba-photo .ig-img.ph-ba { top: 20%; height: 60%; }
-  .ba-side { top: 35cqh; }
-  .ba-side.yt-l { left: calc(50% - 61cqh); }
-  .ba-side.yt-r { left: calc(50% + 23cqh); }
+  /* PC와 동일한 배열을 쓰도록 아이패드 전용 위치 조정은 두지 않음 */
 }
 
 /* 아이패드 가로: 04 제목 두 줄 글씨 축소 / 인스타 카드 설명을 위로 올려 이미지에 붙이고(한 화면 안에 들어오게) 스크롤 때 아래 검은 틈이 비치지 않게 배경을 아래까지 채움 */
