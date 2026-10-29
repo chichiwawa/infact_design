@@ -2399,3 +2399,12 @@ html.strength-drag { scroll-snap-type: none !important; }
   .pk-sstick { background: radial-gradient(70% 50% at 80% 0%, #0b1c4d 0%, #070c1c 55%, #05070f 100%); }
   .pk-fullbg { bottom: -2px; }
 }
+
+/* 아이패드 가로: 5개 카드(인스타·전후사진·AI·유튜브·개별상품) 통일 — 설명 덩어리는 모두 같은 높이의 칸에 같은 위치(위쪽 맞춤)로,
+   이미지는 모두 그 위 칸을 채우게. (위의 개별 규칙들보다 뒤에 둬야 함) */
+@media (min-width: 768px) and (max-width: 1180px) and (orientation: landscape), (min-width: 768px) and (pointer: coarse) and (orientation: landscape) {
+  .pk-stack[data-igtx] .pk-scard[data-kind="ig"] .pk-scard-bottom { margin-bottom: 0; margin-top: 0; flex: none; min-height: calc(25svh * var(--zi)); }
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .pk-scard-bg { display: block; position: relative; inset: auto; flex: 1 1 0; min-height: 0; width: 100%; margin-bottom: 18px; }
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img.yt-img { height: 94%; }
+  .pk-stack .pk-fullbg .ig-img { translate: 0 -9svh; }
+}
