@@ -2606,3 +2606,19 @@ html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-be
 html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body .block, html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body span { white-space: normal; }
 html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-eb { font-size: 11px; }
 html[data-ipad-land] .pk-stack .yt-chips li, html[data-ipad-land] .pk-stack .yt-chips li:nth-child(n) { font-size: 10.5px; }
+
+/* 아이패드 가로 14차: 04 오른쪽 카드(인스타·전후사진·AI·유튜브·개별상품) 글씨 전체 축소 — 영문 라벨·제목·설명·오른쪽 칩 (2026-10-29). 숫자(px)만 고치면 된다 */
+html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom h3 { font-size: 26px; margin-bottom: 6px; }
+html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .pk-scard-bottom h3 { font-size: min(32px, calc(5.4 * var(--ipad-cw, 6px))); }
+html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body { font-size: 9.5px; line-height: 1.5; }
+html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-eb { font-size: 9px; }
+html[data-ipad-land] .pk-stack .yt-chips li, html[data-ipad-land] .pk-stack .yt-chips li:nth-child(n) { font-size: 9.5px; gap: 6px; }
+html[data-ipad-land] .pk-stack .yt-chips li i { width: 18px; height: 18px; }
+html[data-ipad-land] .pk-stack .yt-chips li svg { width: 10px; height: 10px; }
+html[data-ipad-land] .pk-stack[data-ytchip="5"] .yt-chips li, html[data-ipad-land] .pk-stack[data-ytchip="5"] .yt-chips li:nth-child(n) { font-size: 8.5px; }
+
+/* 아이패드 가로 15차: 04 개별 상품 카드 제목을 3줄("영상, 블로그," / "바이럴, 체험단, 광고," / "디자인 콘텐츠")·28px 로 (2026-10-29). 다른 화면에서는 기존 2줄 */
+.pk-ip-only { display: none; }
+html[data-ipad-land] .pk-stack .pk-pc-only { display: none; }
+html[data-ipad-land] .pk-stack .pk-ip-only { display: inline; }
+html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .pk-scard-bottom h3 { font-size: 28px; line-height: 1.25; }

@@ -16,6 +16,7 @@ export interface PickerItem {
   label: string;       // 목록에 보이는 이름
   need: string;        // "우리 병원은 ___이 필요해요" 에 들어갈 단어
   breakAfter?: string; // 카드 제목에서 이 글자 뒤에서 모바일 줄바꿈
+  ipadBreaks?: string[]; // 아이패드 가로에서만, 카드 제목의 이 글자들 뒤에서 줄바꿈(이때 breakAfter 줄바꿈은 무시)
   heading?: string;    // 이 항목 위에 붙는 목록 머리글 (예: "집중 공략 부스터 4종")
   visual: React.ReactNode;   // 오른쪽 그림 패널 안
   below?: React.ReactNode;   // 패널 아래 설명
@@ -49,7 +50,22 @@ function leadLines(lead: string) {
 }
 
 /** breakAfter 가 있으면 그 글자 뒤에서 항상(PC·노트북·모바일) 줄바꿈 */
-const lbl = (it: { label: string; breakAfter?: string }) => {
+const lbl = (it: { label: string; breakAfter?: string; ipadBreaks?: string[] }, ipad = false) => {
+  if (ipad && it.ipadBreaks?.length) {
+    const parts: React.ReactNode[] = [];
+    let rest = it.label;
+    it.ipadBreaks.forEach((b, i) => {
+      const k = rest.indexOf(b);
+      if (k < 0) return;
+      parts.push(rest.slice(0, k + b.length), <br key={i} />);
+      rest = rest.slice(k + b.length).trimStart();
+    });
+    parts.push(rest);
+    const k0 = it.breakAfter ? it.label.indexOf(it.breakAfter) : -1;
+    if (k0 < 0 || !it.breakAfter) return <>{parts}</>;
+    const e0 = k0 + it.breakAfter.length;
+    return <><span className="pk-pc-only">{it.label.slice(0, e0)}<br />{it.label.slice(e0).trimStart()}</span><span className="pk-ip-only">{parts}</span></>;
+  }
   const k = it.breakAfter ? it.label.indexOf(it.breakAfter) : -1;
   if (k < 0 || !it.breakAfter) return it.label;
   const e = k + it.breakAfter.length;
@@ -370,7 +386,7 @@ export default function PickerSection({
                 </div>
                 <div className="pk-scard-bottom">
                   {it.eyebrow && <p className="pk-eb">{it.eyebrow}</p>}
-                  <h3>{lbl(it)}</h3>
+                  <h3>{lbl(it, true)}</h3>
                   {it.below}
                 </div>
               </article>
