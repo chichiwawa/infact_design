@@ -2528,3 +2528,12 @@ html[data-ipad-land] .pk-stack .pk-sitem { font-size: 11px; }
 html[data-ipad-land] .pk-stack .pk-sgroups { max-width: 210px; }
 html[data-ipad-land] .pk-stack .pk-cta, html[data-ipad-land] .pk-stack .pk-sbtn { font-size: 11px; }
 html[data-ipad-land] .pk-stack .pk-sleft-in .pk-lead, html[data-ipad-land] .pk-stack .pk-sleft-in .pk-lead * { white-space: nowrap; }
+
+/* 아이패드 가로: 03 마케팅 전략 — 카드 3장을 PC처럼 넓게(줄인 화면 폭 기준), 항목은 2열로 (2026-10-29) */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  .psc .psc-grid { width: 94%; max-width: 1700px; gap: 36px; }
+  .psc .psc-feats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .psc .psc-feat-t b { white-space: nowrap; }
+  .psc .psc-card-title { font-size: 34px; }
+  .psc .psc-desc { font-size: 17px; }
+}
