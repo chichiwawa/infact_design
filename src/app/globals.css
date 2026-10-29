@@ -2510,3 +2510,12 @@ html[data-ipad-land] .ind-item span { left: calc(2.6 * var(--ipad-cw, 8px)); bot
   .psc-card-title { min-height: calc(2 * 1.3em); font-size: 30px; }
   .psc-desc { min-height: calc(2 * 1.5em); }
 }
+
+/* 아이패드 가로 3차: 왼쪽 텍스트 덩어리(진단은 정밀하게 / 우리병원은 [ㅇㅇ] 필요해요 / 메뉴) 글자를 더 축소 (2026-10-29). 크기를 바꾸려면 아래 px 값만 고친다 */
+html[data-ipad-land] .pk-stack .pk-sleft-in .pk-lead { font-size: 16px; line-height: 1.35; }
+html[data-ipad-land] .pk-stack .pk-h { font-size: 52px; line-height: 1.15; }
+html[data-ipad-land] .pk-stack .pk-shead { font-size: 18px; }
+html[data-ipad-land] .pk-stack .pk-sitem { font-size: 14px; }
+html[data-ipad-land] .pk-stack .pk-sgroups { max-width: 270px; }
+html[data-ipad-land] .pk-stack .pk-cta, html[data-ipad-land] .pk-stack .pk-sbtn { font-size: 13px; }
+html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"]:has(.ph-ba) .pk-scard-bottom { margin-bottom: calc(var(--ipad-h) * -.02); } /* 전후사진: 양옆 눈·코 카드와 설명이 겹치지 않게 내림 */
