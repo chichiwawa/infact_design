@@ -10,6 +10,7 @@
  */
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { zoomInv } from "@/lib/zoom";
 
 export interface PickerItem {
   label: string;       // 목록에 보이는 이름
@@ -201,6 +202,42 @@ export default function PickerSection({
     const chip = row?.querySelector<HTMLElement>('.pk-sitem[data-on="1"]');
     if (row && chip) row.scrollTo({ left: chip.offsetLeft - (row.clientWidth - chip.offsetWidth) / 2, behavior: "smooth" });
   }, [active, mob]);
+
+  // 아이패드 가로: 사파리는 html zoom 아래에서 vw·vh·svh 를 크롬과 다르게 계산해(툴바 높이도 빠짐) 04 섹션이 화면보다 커지고 헤더·아래쪽에 잘렸다.
+  // 그래서 이 구간만 단위(vw·vh)를 쓰지 않고, 실제 화면 크기를 읽어 --ipad-w / --ipad-h(CSS px)로 넘긴다. 쓰는 곳: globals.css 의 html[data-ipad-land]
+  useEffect(() => {
+    if (variant !== "stack") return;
+    const root = document.documentElement;
+    const mq = matchMedia("(min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse)");
+    let lastW = 0, lastH = 0;
+    const apply = () => {
+      if (!mq.matches) {
+        root.removeAttribute("data-ipad-land");
+        root.style.removeProperty("--ipad-w");
+        root.style.removeProperty("--ipad-h");
+        lastW = lastH = 0;
+        return;
+      }
+      const w = window.innerWidth, h = window.innerHeight;
+      // 사파리 주소창이 접혔다 펴지며 높이가 조금씩 변할 때는 레이아웃을 흔들지 않는다
+      if (w === lastW && Math.abs(h - lastH) < 120) return;
+      lastW = w; lastH = h;
+      const zi = zoomInv();
+      root.setAttribute("data-ipad-land", "");
+      root.style.setProperty("--ipad-w", `${w * zi}px`);
+      root.style.setProperty("--ipad-h", `${h * zi}px`);
+    };
+    apply();
+    mq.addEventListener("change", apply);
+    window.addEventListener("resize", apply);
+    return () => {
+      mq.removeEventListener("change", apply);
+      window.removeEventListener("resize", apply);
+      root.removeAttribute("data-ipad-land");
+      root.style.removeProperty("--ipad-w");
+      root.style.removeProperty("--ipad-h");
+    };
+  }, [variant]);
 
   // stack 자동 순환 (2026-10-14): 화면이 고정된 동안 3.5초마다 다음 항목으로(제목 단어·카드·목록이 함께 바뀜), 마지막 다음은 처음으로 계속 반복.
   // 사용자가 스크롤·터치·클릭·키 입력을 하면 7초, 카드 위에 마우스가 있는 동안, 움직임 줄이기 설정일 때는 쉰다. PC 만.

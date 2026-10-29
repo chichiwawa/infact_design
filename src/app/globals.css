@@ -2445,3 +2445,27 @@ html.strength-drag { scroll-snap-type: none !important; }
   :root { --zi: 1.4286; }
   html { zoom: 0.7; }
 }
+
+/* ── 아이패드 가로(1024~1366, 터치) 04 섹션 전면 보정 (2026-10-29) ──
+   PickerSection.tsx 가 실제 화면 크기를 --ipad-w / --ipad-h(CSS px, 화면 px × 1/zoom)로 html 에 넣고 data-ipad-land 를 붙인다.
+   vw·vh 를 쓰지 않으므로 사파리/크롬 계산 차이와 상관없이 04 섹션이 정확히 한 화면(헤더 아래 포함)에 들어온다.
+   배율·크기를 바꾸려면 아래 숫자(--ipad-h 의 비율)만 고친다. */
+html[data-ipad-land] .pk-stack { --hd: 84px; --ch: calc((var(--ipad-h) - var(--hd)) * .72); }
+html[data-ipad-land] .pk-swrap { height: calc(var(--ipad-h) * (1 + var(--pk-n) * .7)); }
+html[data-ipad-land] .pk-sstick { height: var(--ipad-h); padding-top: var(--hd); box-sizing: border-box; background: radial-gradient(70% 50% at 80% 0%, #0b1c4d 0%, #070c1c 55%, #05070f 100%); }
+html[data-ipad-land] .pk-fullbg { top: var(--hd); bottom: 0; }
+html[data-ipad-land] .pk-sview { height: calc(var(--ipad-h) - var(--hd)); }
+html[data-ipad-land] .pk-sleft-in { padding-top: 0; }
+html[data-ipad-land] .pk-sgrid { gap: calc(var(--ipad-w) * .02); }
+html[data-ipad-land] .pk-sview { margin-right: calc(var(--ipad-w) * .03); }
+/* 왼쪽 열: "우리병원은 / [유입] 이 필요해요" 두 줄 고정(PC와 동일), 글자·간격은 화면 높이 비율 */
+html[data-ipad-land] .pk-stack .pk-sleft-in .pk-lead { font-size: calc(var(--ipad-h) * .0165); }
+html[data-ipad-land] .pk-stack .pk-h { margin-top: calc(var(--ipad-h) * .025); font-size: min(66px, calc(var(--ipad-h) * .058)); line-height: 1.15; }
+html[data-ipad-land] .pk-stack .pk-h1, html[data-ipad-land] .pk-stack .pk-h2 { white-space: nowrap; }
+html[data-ipad-land] .pk-stack .pk-h2 { flex-wrap: nowrap; }
+html[data-ipad-land] .pk-stack .pk-sgroups { margin-top: calc(var(--ipad-h) * .03); gap: calc(var(--ipad-h) * .022); }
+html[data-ipad-land] .pk-stack .pk-cta, html[data-ipad-land] .pk-stack .pk-sbtn { margin-top: calc(var(--ipad-h) * .016); }
+/* 상품 카드: 이미지와 아래 설명 덩어리 사이 빈 공간을 줄임 — 설명을 위로 끌어올리고(화면 높이 비례) 인스타 이미지는 살짝 아래로 */
+html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom { margin-bottom: calc(var(--ipad-h) * .075); }
+html[data-ipad-land] .pk-stack .pk-fullbg .ig-img { translate: 0 calc(var(--ipad-h) * .02); }
+html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"]:has(.ph-ba) .pk-scard-bottom { margin-bottom: calc(var(--ipad-h) * .035); } /* 전후사진은 사진이 아래까지 내려와 있어 덜 올림 */
