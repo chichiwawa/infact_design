@@ -403,3 +403,14 @@
   .psc-intro { font-size: 16px; margin-top: 14px; }
   .psc { min-height: calc(var(--ipad-h, 100svh) / 1.1); padding-bottom: 120px; box-sizing: border-box; }
 }
+
+/* 아이패드 가로 5차 (2026-10-29): 카드 3장을 세로로 늘리고(위아래 여백·항목 박스 높이) 항목 글씨(블로그 운영·바이럴 등)를 살짝 키움 */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  .psc-card { padding-top: 30px; padding-bottom: 34px; }
+  .psc-card-title { margin-top: 22px; }
+  .psc-check { margin-top: 22px; }
+  .psc-desc { margin-top: 22px; }
+  .psc-feats { margin-top: 36px; gap: 14px; }
+  .psc-feat { padding: 14px 8px; }
+  .psc-feat-t b { font-size: 15px; }
+}
