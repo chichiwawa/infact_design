@@ -2386,3 +2386,11 @@ html.strength-drag { scroll-snap-type: none !important; }
   .ba-side.yt-r { left: calc(50% + 21cqh); }
   .pk-scard-bg:has(.ba-photo) { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%), linear-gradient(180deg, transparent 0, #000 5%, #000 80%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%), linear-gradient(180deg, transparent 0, #000 5%, #000 80%, transparent 100%); mask-composite: intersect; }
 }
+
+/* 아이패드: 04 전후사진 — 사진을 아래로 내려 키워서 아래 설명글과의 간격을 좁힘 (양옆 눈·코 카드도 같이 내림) */
+@media (min-width: 768px) and (max-width: 1180px), (min-width: 768px) and (pointer: coarse) {
+  .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ba-photo .ig-img.ph-ba { top: 20%; height: 60%; }
+  .ba-side { top: 35cqh; }
+  .ba-side.yt-l { left: calc(50% - 61cqh); }
+  .ba-side.yt-r { left: calc(50% + 23cqh); }
+}
