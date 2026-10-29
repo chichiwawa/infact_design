@@ -2408,3 +2408,9 @@ html.strength-drag { scroll-snap-type: none !important; }
   .pk-stack[data-igtx="4"] .pk-scard[data-kind="ig"] .ig-img.ph-indiv { inset: 2% -8% auto -8%; }
   .pk-stack .pk-fullbg .ig-img { translate: 0 -9svh; }
 }
+
+/* 아이패드 가로: 화면이 꽉 차 보여서 전체 비율을 한 단계 더 축소 (80% → 70%). 배율을 바꾸려면 아래 두 값만 고친다(--zi = 1/zoom) */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  :root { --zi: 1.4286; }
+  html { zoom: 0.7; }
+}
