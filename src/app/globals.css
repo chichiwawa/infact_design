@@ -2546,9 +2546,6 @@ html[data-ipad-land] .pk-stack .pk-sleft-in .pk-eyebrow { font-size: 12px; }
 
 /* 아이패드 가로 7차: 메인 첫 화면 문구 + 두 번째 섹션(강점 카드) 글자를 PC 와 같은 '화면 폭 대비 비율'로 (2026-10-29)
    zoom 0.6 이라 고정 px 글자는 PC 보다 작아 보였다. 사파리 vw 오차를 피하려고 --ipad-w(= 화면 폭, CSS px)로 계산한다. 비율은 아래 소수만 고친다 */
-html[data-ipad-land] .hero-h1 { font-size: min(120px, calc(var(--ipad-w) * .05)); }
-html[data-ipad-land] .hero-eyebrow { font-size: calc(var(--ipad-w) * .019); margin-bottom: calc(var(--ipad-w) * .005); }
-html[data-ipad-land] .hero-desc { font-size: min(20px, calc(var(--ipad-w) * .01)); }
 /* 두 번째 섹션: PC(1920) 와 같은 값 — 원래 clamp(최소, vw, 최대) 식을 vw 대신 --ipad-w 로 */
 html[data-ipad-land] .strength { --sw: 390px; --sg: 28px; --hx: max(48px, calc((var(--ipad-w) - 1664px) / 2)); }
 html[data-ipad-land] .strength-head { flex: 0 0 calc(var(--ipad-w) * .36); }
@@ -2558,3 +2555,23 @@ html[data-ipad-land] .strength-head h2 > span:last-child { font-size: min(78px, 
 html[data-ipad-land] .strength-card .text-primary { font-size: 17px; }
 html[data-ipad-land] .strength-card .font-extrabold { font-size: min(46px, max(34px, calc(var(--ipad-w) * .03))); }
 html[data-ipad-land] .strength-card .t-lead { font-size: 17px; }
+
+/* 아이패드 가로 8차: 7차 글자가 너무 커서 PC 값의 0.6배로 축소 (2026-10-29)
+   사파리가 이 구간 글자를 zoom 만큼 줄여 주지 않아 PC 값 그대로면 크게 보였다. 더 줄이거나 키우려면 아래 숫자들을 같은 비율로 고친다 */
+html[data-ipad-land] .strength-head h2 > span:first-child { font-size: min(27px, calc(var(--ipad-w) * .0156)); }
+html[data-ipad-land] .strength-head h2 > span:last-child { font-size: min(47px, calc(var(--ipad-w) * .0276)); }
+html[data-ipad-land] .strength-card .text-primary { font-size: 10.5px; }
+html[data-ipad-land] .strength-card .font-extrabold { font-size: min(28px, calc(var(--ipad-w) * .018)); }
+html[data-ipad-land] .strength-card .t-lead { font-size: 10.5px; }
+html[data-ipad-land] .strength-pager { font-size: 10px; }
+
+/* 아이패드 가로 9차: 메인 첫 화면 — 배경 카드는 PC처럼 가로로 넓게(글자 한 줄), 영문 제목·문구는 축소 (2026-10-29). 숫자(vw 비율)만 고치면 된다 */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  .fc--b { --cw: calc(19.5vw * var(--zi)); --cg: calc(1.2vw * var(--zi)); }
+  .fc--b .fc-card { padding: calc(1vw * var(--zi)) calc(1.2vw * var(--zi)); }
+  .fc--b .fc-text { font-size: calc(.95vw * var(--zi)); margin: .4em 0 .6em; }
+  .fc--b .fc-top { font-size: calc(.6vw * var(--zi)); }
+  .hero-h1 { font-size: calc(3.7vw * var(--zi)); }
+  .hero-eyebrow { font-size: calc(1.4vw * var(--zi)); }
+  .hero-desc { font-size: calc(.8vw * var(--zi)); }
+}
