@@ -2440,10 +2440,10 @@ html.strength-drag { scroll-snap-type: none !important; }
   .pk-stack .pk-fullbg .ig-img { translate: 0 -9svh; }
 }
 
-/* 아이패드 가로: 화면이 꽉 차 보여서 전체 비율을 한 단계 더 축소 (80% → 70%). 배율을 바꾸려면 아래 두 값만 고친다(--zi = 1/zoom) */
+/* 아이패드 가로: 화면이 꽉 차 보여서 전체 비율을 한 단계 더 축소 (80% → 70% → 60%). 배율을 바꾸려면 아래 두 값만 고친다(--zi = 1/zoom) */
 @media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
-  :root { --zi: 1.4286; }
-  html { zoom: 0.7; }
+  :root { --zi: 1.6667; }
+  html { zoom: 0.6; }
 }
 
 /* ── 아이패드 가로(1024~1366, 터치) 04 섹션 전면 보정 (2026-10-29) ──
@@ -2503,4 +2503,10 @@ html[data-ipad-land] .ind-item span { left: calc(2.6 * var(--ipad-cw, 8px)); bot
 }
 @media (prefers-reduced-motion: no-preference) {
   html[data-ipad-land] .pk-scard[data-on="1"] .ind-item { animation-name: ind-flow-p; }
+}
+
+/* 아이패드 가로: 03 마케팅 전략 카드 3장 — 제목·설명 줄 수가 달라도 아래 항목 목록 높이가 같은 선에 오도록 제목 2줄·설명 2줄 칸을 확보 (2026-10-29) */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  .psc-card-title { min-height: calc(2 * 1.3em); font-size: 30px; }
+  .psc-desc { min-height: calc(2 * 1.5em); }
 }
