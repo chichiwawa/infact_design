@@ -1769,12 +1769,43 @@ html.strength-drag { scroll-snap-type: none !important; }
 @media (max-width: 1099px) { .dd-chip, .dd-rule, .dd-cross { display: none !important; } .dd-ring.r2 { display: none !important; } }
 
 /* x2 에도 문장 밑줄 (시안 b 와 동일) — 메인 적용 (2026-10-15) */
-[data-variant="x2"] .diff-line::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px; background: var(--color-primary); transform-origin: left; transform: scaleX(var(--a)); }
+:is([data-variant="x2"], [data-variant^="m"]) .diff-line::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px; background: var(--color-primary); transform-origin: left; transform: scaleX(var(--a)); }
 
 /* 05 강조 문장 — 메인 FACT CHECK 의 파란 ✓ 알약처럼: 점 → 블루 ✓ 배지(번쩍이는 글로우), 밑줄 → 스캔 빔 (2026-10-15) */
-[data-variant="x2"] .diff-line::before { left: -1.3em; top: .43em; width: .62em; height: .62em; background: #2f6bff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center / 62% no-repeat;
+:is([data-variant="x2"], [data-variant^="m"]) .diff-line::before { left: -1.3em; top: .43em; width: .62em; height: .62em; background: #2f6bff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center / 62% no-repeat;
   box-shadow: 0 0 calc(var(--a) * 14px) rgba(60, 130, 255, calc(var(--a) * .8)), 0 0 0 calc(var(--a) * 3px) rgba(47, 107, 255, calc(var(--a) * .14)); transform: scale(calc(.4 + var(--a) * .72)) rotate(calc((1 - var(--a)) * -40deg)); }
-[data-variant="x2"] .diff-line::after { height: 3px; bottom: -6px; border-radius: 3px; background: #2f6bff; opacity: var(--a); }
+:is([data-variant="x2"], [data-variant^="m"]) .diff-line::after { height: 3px; bottom: -6px; border-radius: 3px; background: #2f6bff; opacity: var(--a); }
+
+
+/* 05 차별점 — 흰 배경 장식 시안 m1·m2·m3 (2026-10-29). 문장 ✓ 배지·밑줄은 x2 와 동일 */
+[data-variant^="m"] .diff-deco { display: block; }
+@keyframes mm-drift { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(5vw, 4vh) scale(1.12); } }
+@keyframes mk-run { to { transform: translateX(-50%); } }
+
+/* m1 · 번지는 메시 그라데이션 + 점 격자 */
+[data-variant="m1"] .mm-blob, [data-variant="m1"] .mm-dots { display: block; }
+.mm-blob { border-radius: 50%; filter: blur(60px); aspect-ratio: 1; animation: mm-drift 14s ease-in-out infinite; }
+.mm-blob.b1 { left: 6%; top: -12%; width: calc(40vw * var(--zi)); background: radial-gradient(closest-side, rgba(90, 135, 255, .30), transparent); }
+.mm-blob.b2 { right: 4%; bottom: -16%; width: calc(44vw * var(--zi)); background: radial-gradient(closest-side, rgba(255, 150, 200, .26), transparent); animation-delay: -5s; }
+.mm-blob.b3 { left: 36%; top: 30%; width: calc(32vw * var(--zi)); background: radial-gradient(closest-side, rgba(170, 140, 255, .24), transparent); animation-delay: -9s; }
+.mm-dots { inset: 0; background: radial-gradient(rgba(48, 97, 255, .30) 1.4px, transparent 1.8px) 0 0 / 28px 28px; -webkit-mask: radial-gradient(70% 62% at 50% 50%, #000 5%, transparent 100%); mask: radial-gradient(70% 62% at 50% 50%, #000 5%, transparent 100%); }
+
+/* m2 · 아주 연한 하늘색 번짐 (블러 그림자처럼 은은하게) */
+[data-variant="m2"] .mb-stroke { display: block; }
+.mb-stroke { border-radius: 50%; filter: blur(48px); opacity: .5; background: radial-gradient(closest-side, rgba(130, 195, 255, .30), rgba(130, 195, 255, 0)); animation: mm-drift 18s ease-in-out infinite; }
+.mb-stroke.s1 { left: 12%; top: 4%; width: calc(34vw * var(--zi)); height: calc(14vw * var(--zi)); transform: rotate(-14deg); }
+.mb-stroke.s2 { right: 10%; top: 20%; width: calc(26vw * var(--zi)); height: calc(11vw * var(--zi)); transform: rotate(10deg); animation-delay: -4s; }
+.mb-stroke.s3 { left: 10%; bottom: 8%; width: calc(30vw * var(--zi)); height: calc(12vw * var(--zi)); transform: rotate(8deg); animation-delay: -8s; }
+.mb-stroke.s4 { right: 8%; bottom: 6%; width: calc(36vw * var(--zi)); height: calc(14vw * var(--zi)); transform: rotate(-9deg); animation-delay: -12s; }
+
+/* m3 · 흐르는 INFACT 글자 띠 + 비스듬한 유리 띠 */
+[data-variant="m3"] .mk-row, [data-variant="m3"] .mk-band { display: flex; }
+.mk-row { left: 0; width: max-content; font: 800 clamp(54px, calc(8vw * var(--zi)), 120px)/1 "Outfit", var(--font-sans); letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1.5px rgba(48, 97, 255, .2); white-space: nowrap; animation: mk-run 40s linear infinite; }
+.mk-row span { flex: none; }
+.mk-row.t { top: 6%; } .mk-row.b { bottom: 6%; animation-direction: reverse; animation-duration: 52s; }
+.mk-band { left: -10%; width: 120%; height: 18%; background: linear-gradient(90deg, transparent, rgba(110, 150, 255, .14), rgba(255, 170, 210, .12), transparent); transform: rotate(-12deg); }
+.mk-band.k1 { top: 30%; } .mk-band.k2 { top: 58%; transform: rotate(-12deg) translateX(8%); opacity: .7; }
+@media (prefers-reduced-motion: reduce) { .mm-blob, .mk-row, .mb-stroke { animation: none !important; } }
 
 /* 05 차별점 — 새 시안 n1·n2·n3 (2026-10-15). 밝은 톤 유지, 배경 모션만 다름 */
 [data-variant^="n"] .diff-deco { display: block; }

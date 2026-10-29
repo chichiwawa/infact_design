@@ -18,11 +18,11 @@ const CARDS = [
   "/media/ba-face-new.webp",
 ];
 
-/** 좌우 컬럼 이미지 6장 (diff-1~6.webp) */
-const SIDE = [1, 2, 3, 4, 5, 6].map((n) => `/media/diff-${n}.webp`);
+/** 좌우 컬럼 이미지 7장 (diff-1~7.webp) */
+const SIDE = [1, 2, 3, 4, 5, 6, 7].map((n) => `/media/diff-${n}.webp`);
 
 function Column({ side }: { side: "l" | "r" }) {
-  const order = side === "l" ? [0, 1, 2, 3, 4, 5] : [3, 4, 5, 0, 1, 2];
+  const order = side === "l" ? [0, 1, 2, 3, 4, 5, 6] : [3, 4, 5, 6, 0, 1, 2];
   const list = [...order, ...order];
   return (
     <div className={`diff-col ${side}`} aria-hidden>
@@ -34,7 +34,7 @@ function Column({ side }: { side: "l" | "r" }) {
 }
 
 /** variant: 기본 = "x2"(블루 오브·떠다니는 칩 + 밑줄, 메인 적용). "a" 진행 카운터, "b" 글로우+밑줄, "c" 보조 설명+알약, "dark" 어두운 블루 배경, "x1~x3" 밝은 배경 장식 요소 (시안용, diff-x1~x3, /demo/diff-a~c, diff-dark) */
-export default function Differentiators({ title, data, variant = "x2" }: { title: string; data: DifferentiatorsData; variant?: "a" | "b" | "c" | "dark" | "x1" | "x2" | "x3" | "n1" | "n2" | "n3" }) {
+export default function Differentiators({ title, data, variant = "x2" }: { title: string; data: DifferentiatorsData; variant?: "a" | "b" | "c" | "dark" | "x1" | "x2" | "x3" | "n1" | "n2" | "n3" | "m1" | "m2" | "m3" }) {
   const wrap = useRef<HTMLElement>(null);
   const stick = useRef<HTMLDivElement>(null);
   const lines = useRef<(HTMLLIElement | null)[]>([]);
@@ -85,6 +85,12 @@ export default function Differentiators({ title, data, variant = "x2" }: { title
           <i className="nr-ring g1" /><i className="nr-ring g2" /><i className="nr-ring g3" />
           <span className="nr-rail"><b /><em>{[0, 1, 2, 3].map((i) => <u key={i} style={{ ["--i" as string]: i }}>{String(i + 1).padStart(2, "0")}</u>)}</em></span>
           <span className="nr-side">INFACT. COMPANY — WHY US</span>
+          {/* 새 시안 m1(번지는 메시 그라데이션+점 격자) / m2(붓으로 찍은 듯한 얼룩) / m3(흐르는 INFACT 글자 띠+비스듬한 유리 띠) */}
+          <i className="mm-blob b1" /><i className="mm-blob b2" /><i className="mm-blob b3" /><i className="mm-dots" />
+          <i className="mb-stroke s1" /><i className="mb-stroke s2" /><i className="mb-stroke s3" /><i className="mb-stroke s4" />
+          <div className="mk-row t"><span>INFACT. COMPANY · HOSPITAL MARKETING · INFACT. COMPANY · HOSPITAL MARKETING · </span><span>INFACT. COMPANY · HOSPITAL MARKETING · INFACT. COMPANY · HOSPITAL MARKETING · </span></div>
+          <div className="mk-row b"><span>WHY INFACT · 유입 · 전환 · 신뢰 · WHY INFACT · 유입 · 전환 · 신뢰 · </span><span>WHY INFACT · 유입 · 전환 · 신뢰 · WHY INFACT · 유입 · 전환 · 신뢰 · </span></div>
+          <i className="mk-band k1" /><i className="mk-band k2" />
           <span className="dd-tag">WHY INFACT</span>
         </div>
         <Column side="l" />
