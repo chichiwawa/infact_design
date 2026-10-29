@@ -2575,3 +2575,7 @@ html[data-ipad-land] .strength-pager { font-size: 10px; }
   .hero-eyebrow { font-size: calc(1.4vw * var(--zi)); }
   .hero-desc { font-size: calc(.8vw * var(--zi)); }
 }
+
+/* 아이패드 가로 9차: "진단은 정밀하게, 전략은 확실하게" 글씨를 12px → 17px 로 키움(영문 줄도 살짝). 한 줄 고정은 그대로 (2026-10-29) */
+html[data-ipad-land] .pk-stack .pk-sleft-in .pk-lead .block { font-size: 17px; }
+html[data-ipad-land] .pk-stack .pk-sleft-in .pk-eyebrow { font-size: 13px; }
