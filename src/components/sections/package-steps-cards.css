@@ -415,8 +415,7 @@
   .psc-feat-t b { font-size: 15px; }
 }
 
-/* 큰 PC 폭(1601px 이상): 상품 버튼도 노트북 폭처럼 카드 아랫선에 걸치게 (2026-10-30). 걸치는 높이는 margin-bottom 숫자로 조절 */
-@media (min-width: 1601px) {
-  .psc-card { padding-bottom: 22px; }
-  .psc-btn, .psc-card:not([data-on="1"]) .psc-btn, .psc-card[data-on="1"] .psc-btn { margin-bottom: -38px; position: relative; z-index: 2; }
+/* 아이패드 가로 6차 (2026-10-30): 상품 버튼이 카드 아랫선에 걸치게 — 버튼 높이(약 50px)의 절반이 카드 밖으로 나오도록 아래 여백(34px)+25px 만큼 내림. 걸치는 정도는 margin-bottom 숫자만 고친다 */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  .psc-btn, .psc-card:not([data-on="1"]) .psc-btn, .psc-card[data-on="1"] .psc-btn { margin-bottom: -59px; position: relative; z-index: 2; }
 }
