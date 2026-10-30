@@ -2241,8 +2241,8 @@ html.strength-drag { scroll-snap-type: none !important; }
 .ph-tag { display: inline-block; padding: .38em 1.1em; border: 1px solid rgba(107,140,255,.3); border-radius: 999px; line-height: 1.2; }
 .ph-card[data-on="1"] .ph-tag { border-color: #3061ff; }
 .ph-name { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .6em; margin: 0; }
-.ph-ko { font-size: clamp(40px, calc(4.2vw * var(--zi)), 76px); font-weight: 800; line-height: 1.1; letter-spacing: -.05em; color: #3d4048; transition: color .5s, text-shadow .5s; }
-.ph-name .ph-en { font-size: clamp(13px, calc(1.1vw * var(--zi)), 21px); }
+.ph-ko { font-size: clamp(28px, calc(3.4vw * var(--zi)), 64px); font-weight: 800; line-height: 1.1; letter-spacing: -.05em; color: #3d4048; transition: color .5s, text-shadow .5s; }
+.ph-name .ph-en { font-size: clamp(12px, calc(0.95vw * var(--zi)), 18px); }
 .ph-card[data-on="1"] .ph-ko { color: rgba(255,255,255,.8); }
 .ph-card[data-on="1"] .ph-name .ph-en { color: #3a68e0; }
 .ph-card[data-cur="1"] .ph-name .ph-en { color: #4a78ff; }
@@ -2676,3 +2676,28 @@ html[data-ipad-land] .pk-stack .pk-ip-only { display: none; }
 html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .pk-scard-bottom h3 { margin-bottom: 14px; }
 html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body { line-height: 1.8; }
 html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body .block + .block { margin-top: 6px; }
+
+/* PC(1024px 이상, 아이패드 가로 제외): 04 개별 상품 6종 카드의 흰색 제목·설명을 축소 (2026-10-30). 숫자(px)만 고치면 된다 */
+@media (min-width: 1024px) {
+  html:not([data-ipad-land]) .pk-stack .pk-scard:has(.ind) .pk-scard-bottom h3 { font-size: clamp(30px, calc(2.8vw * var(--zi)), 44px); }
+  html:not([data-ipad-land]) .pk-stack .pk-scard:has(.ind) .pk-scard-bottom .pk-below-body { font-size: clamp(15px, calc(1.15vw * var(--zi)), 18px); }
+}
+
+/* PC(1024px 이상, 아이패드 가로 제외): 집중 공략 부스터 카드(인스타·전후사진·AI·유튜브)의 제목·설명 크기를 개별 상품 6종 카드와 똑같이 맞춤 (2026-10-30) */
+@media (min-width: 1024px) {
+  html:not([data-ipad-land]) .pk-stack .pk-scard[data-kind="ig"]:not(:has(.ind)) .pk-scard-bottom h3 { font-size: clamp(30px, calc(2.8vw * var(--zi)), 44px); }
+  html:not([data-ipad-land]) .pk-stack .pk-scard[data-kind="ig"]:not(:has(.ind)) .pk-scard-bottom .pk-below-body { font-size: clamp(15px, calc(1.15vw * var(--zi)), 18px); }
+}
+
+/* 아이패드 가로: "진단하고, 설계하고, 직접 실행합니다" 제목이 헤더와 겹침 (2026-10-30).
+   사파리는 zoom 아래에서 vh 를 크롬과 다르게 계산해, vh 로 위로 끌어올리던 제목이 헤더 뒤로 올라갔다. 이 구간만 vh 를 쓰지 않고
+   화면 높이(--ipad-h, PickerSection 이 넣어 줌) 기준으로 배치하고, 위쪽에 헤더 높이만큼 여백(110px)을 둬 헤더와 절대 겹치지 않게 한다. 여백 숫자만 고치면 된다 */
+html[data-ipad-land] .cr-stage { height: var(--ipad-h); }
+html[data-ipad-land] .cr-proc { box-sizing: border-box; padding: 110px 0 48px; gap: calc(var(--ipad-h) * .09); justify-content: center; }
+html[data-ipad-land] .cr-proc .ph-head { transform: translateY(calc(var(--ipad-h) * -.08 + (1 - clamp(0, (var(--cr-p) - .4) * 2.5, 1)) * 36px)); }
+
+/* 아이패드 가로: "감이 아닌 / 팩트로" 에서 "팩트로"가 가운데 동그라미에 너무 붙어 있음 → 원 쪽 간격을 넓힘 (2026-10-30)
+   "팩트로"를 바깥쪽(오른쪽)으로 68px 밀어 원과의 간격이 왼쪽 문구 쪽과 비슷해진다. 숫자(px)만 고치면 된다 */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  .cr-text--r { margin-right: -68px; }
+}
