@@ -20,7 +20,7 @@ export default async function BlogLatest({ title, data }: { title: string; data:
     <section className="section-y bg-canvas" aria-label="병의원 인사이트">
       <div className="container-x">
         <div className="text-center" data-reveal>
-          <h2 className="t-h-xl text-ink"><Accent text={title} /></h2>
+          <h2 className="t-h-xl text-ink sec-ttl"><Accent text={title} /></h2>
           {data.sub && <p className="t-lead text-body mt-5 text-balance">{data.sub}</p>}
         </div>
 

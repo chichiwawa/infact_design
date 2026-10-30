@@ -2709,3 +2709,13 @@ html[data-ipad-land] .cr-proc .ph-head { transform: translateY(calc((1 - clamp(0
   html[data-ipad-land] .strength-head h2 > span:first-child { font-size: 35px; }
   html[data-ipad-land] .strength-head h2 > span:last-child { font-size: 62px; }
 }
+
+/* ── 섹션 타이틀 크기 통일 (2026-10-30) ──
+   진단하고·차별점·병의원 인사이트·지금 문의하시면·인팩트만의 강점·성장단계에 맞춘·우리병원은 ㅇㅇ이 필요 의 큰 제목을 같은 크기로.
+   기존 섹션별 크기 규칙이 많아 !important 로 한 번에 덮었다. 크기를 바꾸려면 아래 --ttl 세 값(PC·아이패드/노트북 / 태블릿 세로 / 모바일)만 고친다.
+   (노트북·아이패드 가로는 html zoom 이 적용돼 화면에서는 PC 보다 자동으로 작게 보인다) */
+:root { --ttl: 60px; }
+@media (max-width: 1023px) { :root { --ttl: 40px; } }
+@media (max-width: 767px) { :root { --ttl: 30px; } }
+.sec-ttl, .diff-title, .ph-title, .psc-title, .pk-stack .pk-h, .strength-head h2 > span:last-child { font-size: var(--ttl) !important; }
+.strength-head h2 > span:first-child { font-size: calc(var(--ttl) * .6) !important; }
