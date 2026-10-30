@@ -420,33 +420,33 @@
   .psc-btn, .psc-card:not([data-on="1"]) .psc-btn, .psc-card[data-on="1"] .psc-btn { margin-bottom: -59px; position: relative; z-index: 2; }
 }
 
-/* 아이패드 세로·태블릿(768~1023px) (2026-10-30): "성장단계에 맞춘 맞춤형 마케팅 전략" 박스 안 글씨 비율을 모바일과 똑같이 — 모바일 값에 약 1.1배, 카드 폭은 480px 로 제한(넓히지 않음). 숫자만 고친다 */
-@media (min-width: 768px) and (max-width: 1023px) {
+/* 아이패드 세로·태블릿(768~1023px, 12.9인치 세로 포함) (2026-10-30): "성장단계에 맞춘 맞춤형 마케팅 전략" 박스 안 글씨 비율을 모바일과 똑같이 — 모바일 값에 약 1.1배, 카드 폭은 480px 로 제한(넓히지 않음). 숫자만 고친다 */
+@media (min-width: 768px) and (max-width: 1023px), (min-width: 1024px) and (orientation: portrait) and (pointer: coarse) {
   .psc { padding: 120px 0 72px; }
-  .psc-eyebrow { font-size: 15px; }
-  .psc-title { margin-top: 26px; font-size: 27px !important; }
-  .psc-title b { display: inline; font-size: 1.375em; white-space: nowrap; }
-  .psc-title b::before { content: "\A"; white-space: pre; }
-  .psc-title i { font-size: 1.375em; }
-  .psc-intro { font-size: 14.5px; margin-top: 16px; }
-  .psc-steps { width: 100%; max-width: 480px; margin: 34px auto 0; }
-  .psc-steps li { width: 33.33%; }
-  .psc-steps li + li::before { top: 20px; margin-right: 20px; }
-  .psc-dot { width: 40px; height: 40px; font-size: 15px; }
-  .psc-steps button { gap: 10px; }
-  .psc-step-name { font-size: 13.5px; white-space: nowrap; }
-  .psc-grid { max-width: 480px; margin-top: 40px; gap: 16px; }
-  .psc-card { padding: 20px 22px 32px; border-radius: 12px; }
-  .psc-no { display: flex; align-items: center; height: 20px; font-size: 15px; line-height: 1; }
-  .psc-check { position: absolute; top: 20px; right: 22px; width: 20px; height: 20px; margin-top: 0; }
-  .psc-check svg { width: 11px; height: 11px; }
-  .psc-card-title { margin-top: 16px; font-size: 29px; white-space: nowrap; }
-  .psc-desc { margin-top: 16px; font-size: 14px; min-height: 0; }
-  .psc-feats { margin-top: 22px; width: calc(100% + 12px); margin-inline: -6px; gap: 7px; }
-  .psc-feat { gap: 5px; padding: 10px 6px; min-width: 0; overflow: hidden; }
-  .psc-ico { width: 24px; height: 24px; }
-  .psc-ico svg { width: 13px; height: 13px; }
-  .psc-feat-t b { font-size: 12.5px; letter-spacing: -.06em; white-space: pre; }
-  .psc-btn, .psc-card:not([data-on="1"]) .psc-btn, .psc-card[data-on="1"] .psc-btn { margin-top: 24px; margin-bottom: 0; padding: 9px 18px; font-size: 14px; gap: 8px; }
-  .psc-btn-ar svg { width: 10px; height: 10px; }
+  .psc .psc-eyebrow { font-size: 15px; }
+  .psc .psc-title { margin-top: 26px; font-size: 27px !important; }
+  .psc .psc-title b { display: inline; font-size: 1.375em; white-space: nowrap; }
+  .psc .psc-title b::before { content: "\A"; white-space: pre; }
+  .psc .psc-title i { font-size: 1.375em; }
+  .psc .psc-intro { font-size: 14.5px; margin-top: 16px; }
+  .psc .psc-steps { width: 100%; max-width: 480px; margin: 34px auto 0; }
+  .psc .psc-steps li { width: 33.33%; }
+  .psc .psc-steps li + li::before { top: 20px; margin-right: 20px; }
+  .psc .psc-dot { width: 40px; height: 40px; font-size: 15px; }
+  .psc .psc-steps button { gap: 10px; }
+  .psc .psc-step-name { font-size: 13.5px; white-space: nowrap; }
+  .psc .psc-grid { max-width: 480px; margin-top: 40px; gap: 16px; }
+  .psc .psc-card { padding: 20px 22px 32px; border-radius: 12px; }
+  .psc .psc-no { display: flex; align-items: center; height: 20px; font-size: 15px; line-height: 1; }
+  .psc .psc-check { position: absolute; top: 20px; right: 22px; width: 20px; height: 20px; margin-top: 0; }
+  .psc .psc-check svg { width: 11px; height: 11px; }
+  .psc .psc-card-title { margin-top: 16px; font-size: 29px; white-space: nowrap; }
+  .psc .psc-desc { margin-top: 16px; font-size: 14px; min-height: 0; }
+  .psc .psc-feats { margin-top: 22px; width: calc(100% + 12px); margin-inline: -6px; gap: 7px; }
+  .psc .psc-feat { gap: 5px; padding: 10px 6px; min-width: 0; overflow: hidden; }
+  .psc .psc-ico { width: 24px; height: 24px; }
+  .psc .psc-ico svg { width: 13px; height: 13px; }
+  .psc .psc-feat-t b { font-size: 12.5px; letter-spacing: -.06em; white-space: pre; }
+  .psc .psc-btn, .psc .psc-card:not([data-on="1"]) .psc-btn, .psc .psc-card[data-on="1"] .psc-btn { margin-top: 24px; margin-bottom: 0; padding: 9px 18px; font-size: 14px; gap: 8px; }
+  .psc .psc-btn-ar svg { width: 10px; height: 10px; }
 }
