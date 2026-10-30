@@ -2669,3 +2669,10 @@ html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .pk-scard-bottom h3 { font-si
 html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .pk-eb { font-size: 13px; }
 html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .pk-scard-bottom .pk-below-body { font-size: 14px; line-height: 1.5; max-width: 56%; }
 html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .yt-chips li, html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .yt-chips li:nth-child(n) { font-size: 13.5px; padding: 5px 12px 5px 6px; }
+
+/* 아이패드 가로 17차 (2026-10-30): 04 개별 상품 제목을 2줄("영상, 블로그, 바이럴," / "체험단, 광고, 디자인 콘텐츠")로 되돌림 + 아래 회색 설명 줄 간격을 넓힘. 간격은 line-height 숫자만 고친다 */
+html[data-ipad-land] .pk-stack .pk-pc-only { display: inline; white-space: nowrap; }
+html[data-ipad-land] .pk-stack .pk-ip-only { display: none; }
+html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .pk-scard-bottom h3 { margin-bottom: 14px; }
+html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body { line-height: 1.8; }
+html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body .block + .block { margin-top: 6px; }
