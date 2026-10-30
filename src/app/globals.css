@@ -2776,3 +2776,14 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
   .diff-col.l { top: 100px; bottom: auto; animation: diff-row-l 50s linear infinite; }
   .diff-col.r { top: auto; bottom: 40px; animation: diff-row-r 50s linear infinite; }
 }
+
+/* 서비스 04 섹션 왼쪽 메뉴("집중 공략 부스터 4종 / 개별 상품 6종") — 아이패드·태블릿 세로 (2026-10-30): 글자·간격·폭을 조금 줄임. 크기는 아래 숫자만 고친다 */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait), (min-width: 1024px) and (orientation: portrait) and (pointer: coarse) {
+  .pk-stack[data-acc="b"] .pk-sgroups { max-width: 290px; gap: 14px; margin-top: 28px; }
+  .pk-stack[data-acc="b"] .pk-shead { padding: 10px 0; font-size: 17px; }
+  .pk-stack[data-acc="b"] .pk-shead svg { width: 15px; height: 15px; }
+  .pk-stack[data-acc="b"] .pk-sitem { padding: 7px 12px; font-size: 14px; }
+  .pk-stack[data-acc="b"] .pk-sitem i { width: 0; height: 9px; }
+  .pk-stack[data-acc="b"] .pk-sitem[data-on="1"] i { width: 9px; margin-right: 9px; }
+  .pk-stack .pk-sbtn { padding: 9px 18px; font-size: 14px; }
+}
