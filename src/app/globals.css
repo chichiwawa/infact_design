@@ -2622,3 +2622,8 @@ html[data-ipad-land] .pk-stack[data-ytchip="5"] .yt-chips li, html[data-ipad-lan
 html[data-ipad-land] .pk-stack .pk-pc-only { display: none; }
 html[data-ipad-land] .pk-stack .pk-ip-only { display: inline; }
 html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .pk-scard-bottom h3 { font-size: 28px; line-height: 1.25; }
+
+/* 아이패드 가로 16차: 04 개별 상품 카드 제목을 더 줄이고(28→21px) 폭을 카드의 58%로 제한 — 오른쪽 아래 "진단 후 설계 / 필요한 것만" 칩과 겹침 방지 (2026-10-30). 숫자만 고치면 된다 */
+html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .pk-scard-bottom h3 { font-size: 21px; line-height: 1.25; max-width: 58%; margin-bottom: 4px; }
+html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .pk-scard-bottom .pk-below-body { max-width: 52%; }
+html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .yt-chips li, html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .yt-chips li:nth-child(n) { font-size: 9px; padding: 4px 10px 4px 5px; }
