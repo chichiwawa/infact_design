@@ -422,7 +422,7 @@
 
 /* 아이패드 세로·태블릿 (2026-10-30): "맞춤형 마케팅 전략"을 노트북처럼 카드 3장 나란히. 노트북 배치를 그대로 두고 섹션 전체를 zoom 으로 줄여 보여 준다
    (768px 폭 → 레이아웃 약 1024px, 1024px 폭 → 약 1365px). 크기를 바꾸려면 zoom 숫자만 고친다 */
-@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait), (min-width: 1024px) and (orientation: portrait) and (pointer: coarse) {
+@media (min-width: 768px) and (max-width: 1023px), (min-width: 1024px) and (orientation: portrait) {
   .psc { zoom: .75; padding: 110px 0 80px; }
   .psc .psc-title { margin-top: 24px; font-size: 52px !important; }
   .psc .psc-title b { display: inline; font-size: 1em; }

@@ -2770,7 +2770,7 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
 
 /* 인팩트만의 차별점 — 아이패드·태블릿 세로 (2026-10-30): 모바일과 같이 이미지가 화면 위·아래 줄로 놓여 가로로 흐름. 가로형(PC·아이패드 가로)은 기존대로 좌우 세로 컬럼.
    이미지 크기(width)·줄 위치(top/bottom)만 고친다 */
-@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait), (min-width: 1024px) and (orientation: portrait) and (pointer: coarse) {
+@media (min-width: 768px) and (max-width: 1023px), (min-width: 1024px) and (orientation: portrait) {
   .diff-col { width: max-content; flex-direction: row; gap: 0; left: 0; right: auto; opacity: .6; }
   .diff-col .diff-img { width: 190px; margin-right: 16px; }
   .diff-col.l { top: 100px; bottom: auto; animation: diff-row-l 50s linear infinite; }
@@ -2778,7 +2778,7 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
 }
 
 /* 서비스 04 섹션 왼쪽 메뉴("집중 공략 부스터 4종 / 개별 상품 6종") — 아이패드·태블릿 세로 (2026-10-30): 글자·간격·폭을 조금 줄임. 크기는 아래 숫자만 고친다 */
-@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait), (min-width: 1024px) and (orientation: portrait) and (pointer: coarse) {
+@media (min-width: 768px) and (max-width: 1023px), (min-width: 1024px) and (orientation: portrait) {
   .pk-stack[data-acc="b"] .pk-sgroups { max-width: 290px; gap: 14px; margin-top: 28px; }
   .pk-stack[data-acc="b"] .pk-shead { padding: 10px 0; font-size: 17px; }
   .pk-stack[data-acc="b"] .pk-shead svg { width: 15px; height: 15px; }
