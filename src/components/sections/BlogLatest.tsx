@@ -27,7 +27,7 @@ export default async function BlogLatest({ title, data }: { title: string; data:
         {/* 모바일(<640): 가로 스와이프 한 줄(다음 카드가 살짝 보이게 78% 폭, 스크롤바 숨김) — 세로로 4장 쌓으면 섹션이 2,100px 로 너무 길어짐(사용자가 모바일 세로 여백을 여러 번 지적).
             snap-start 는 스크롤 컨테이너의 패딩 안쪽에 맞추므로 scroll-pl-5 가 없으면 첫 카드가 화면 왼쪽 끝(x=0)에 붙는다(실측).
             640~1279: 2열 / 1280~: 4열 (1024 에서 4열은 카드 222px 라 제목이 세 단어에서 잘림 → xl 부터) */}
-        <ul className="reveal-stagger mt-12 md:mt-16 flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-pl-5 -mx-5 px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:overflow-visible sm:mx-0 sm:px-0 sm:pb-0 sm:gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        <ul className="blg-list reveal-stagger mt-12 md:mt-16 flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-pl-5 -mx-5 px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:overflow-visible sm:mx-0 sm:px-0 sm:pb-0 sm:gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {posts.map((p) => (
             <li key={p.id} className="h-full shrink-0 w-[78%] snap-start sm:w-auto sm:shrink">
               <article className="group card card-hover overflow-hidden h-full flex flex-col rounded-[20px]">

@@ -2736,3 +2736,17 @@ html[data-ipad-land] .cr-proc .ph-head { transform: translateY(calc((1 - clamp(0
 @media (max-width: 767px) {
   header .logo { --lh: 18px; }
 }
+
+/* 병의원 인사이트 글 카드 4장 축소 + 지금 문의하시면 제목 추가 축소 (2026-10-30) — PC(1601px 이상)는 그대로, 노트북·아이패드·모바일만. 숫자만 고친다 */
+@media (min-width: 1024px) and (max-width: 1600px) { .blg-list { max-width: 80%; margin-inline: auto; } }
+@media (min-width: 640px) and (max-width: 1023px) { .blg-list { max-width: 72%; margin-inline: auto; } }
+@media (max-width: 639px) { .blg-list > li { width: 62%; } }
+@media (max-width: 1600px) { .sec-ttl.fcta-h, .fcta-h, h2.sec-ttl.text-white { font-size: calc(var(--ttl) * .7) !important; } }
+
+/* 진행 프로세스 단계 이름(문의·진단·설계·실행)을 위 제목("진단하고, 설계하고…")보다 작게 — 제목 크기(--ttl)의 72% (PC·노트북·아이패드 가로, 2026-10-30). 숫자만 고친다 */
+@media (min-width: 1024px) { .ph-ko { font-size: calc(var(--ttl) * .72) !important; } }
+
+/* 아이패드 가로 (2026-10-30): "인팩트만의 강점" 오른쪽 카드 4장 글씨가 너무 작아 읽기 어려워 키움(줄 간격 비율은 그대로, 크기만). 라벨·본문 10.5→14px, 큰 숫자 28→36px. 숫자만 고친다 */
+html[data-ipad-land] .strength-card .text-primary { font-size: 14px; }
+html[data-ipad-land] .strength-card .font-extrabold { font-size: min(36px, calc(var(--ipad-w) * .0235)); }
+html[data-ipad-land] .strength-card .t-lead { font-size: 14px; }
