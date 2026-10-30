@@ -2623,7 +2623,7 @@ html[data-ipad-land] .pk-stack .pk-pc-only { display: none; }
 html[data-ipad-land] .pk-stack .pk-ip-only { display: inline; }
 html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .pk-scard-bottom h3 { font-size: 28px; line-height: 1.25; }
 
-/* 아이패드 가로 16차: 04 개별 상품 카드 제목은 28px 그대로 두고 설명·칩만 줄임 — 오른쪽 아래 "진단 후 설계 / 필요한 것만" 칩과 겹침 방지 (2026-10-30). 숫자만 고치면 된다 */
-html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .pk-scard-bottom h3 { font-size: 28px; line-height: 1.25; margin-bottom: 4px; }
+/* 아이패드 가로 16차: 04 개별 상품 카드 제목 21px, 설명·칩 축소 — 오른쪽 아래 "진단 후 설계 / 필요한 것만" 칩과 겹침 방지 (2026-10-30). 숫자만 고치면 된다 */
+html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .pk-scard-bottom h3 { font-size: 21px; line-height: 1.25; margin-bottom: 4px; }
 html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .pk-scard-bottom .pk-below-body { max-width: 52%; }
 html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .yt-chips li, html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .yt-chips li:nth-child(n) { font-size: 9px; padding: 4px 10px 4px 5px; }
