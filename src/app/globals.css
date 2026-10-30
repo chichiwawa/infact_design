@@ -2760,3 +2760,6 @@ html[data-ipad-land] .strength-card { height: min(580px, calc(var(--ipad-h) * .7
 html[data-ipad-land] .strength-no { top: 34px; left: 36px; font-size: 14px; }
 html[data-ipad-land] .strength-stat { top: 30px; right: 36px; font-size: 13px; }
 html[data-ipad-land] .strength-card .t-lead { margin-top: 24px; line-height: 1.7; }
+
+/* 강점 카드 4장: 글이 세로 가운데 정렬이라 줄 수에 따라 시작 높이가 달랐음 → 모든 카드가 같은 높이에서 시작 (2026-10-30). 시작 위치는 padding-top 비율(%)만 고친다 */
+.strength-card, html[data-ipad-land] .strength-card { justify-content: flex-start; padding-top: 22%; }
