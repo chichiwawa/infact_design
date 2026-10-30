@@ -2764,3 +2764,6 @@ html[data-ipad-land] .strength-card .t-lead { margin-top: 24px; line-height: 1.7
 /* 강점 카드 4장: 글이 세로 가운데 정렬이라 줄 수에 따라 시작 높이가 달랐음 → 모든 카드가 같은 높이에서 시작 (2026-10-30). 시작 위치는 margin-top 비율(%)만 고친다 (% 는 카드 폭 기준) */
 .strength-card, html[data-ipad-land] .strength-card { justify-content: flex-start; }
 .strength-card > .relative { margin-top: 24%; }
+
+/* 아이패드 가로 (2026-10-30): "ROAS 최대 900%" 가 두 줄로 꺾여 아래 설명글이 다른 카드와 안 맞았음 → 큰 숫자를 한 줄 고정(nowrap)하고 4장 모두 조금 줄임. 크기는 아래 32px 만 고친다 */
+html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-size: min(32px, calc(var(--ipad-w) * .021)); }
