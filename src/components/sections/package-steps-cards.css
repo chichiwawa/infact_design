@@ -420,10 +420,44 @@
   .psc-btn, .psc-card:not([data-on="1"]) .psc-btn, .psc-card[data-on="1"] .psc-btn { margin-bottom: -59px; position: relative; z-index: 2; }
 }
 
-/* 아이패드 세로·태블릿 (2026-10-30): "맞춤형 마케팅 전략"을 노트북처럼 카드 3장 나란히. 노트북 배치를 그대로 두고 섹션 전체를 zoom 으로 줄여 보여 준다
-   (768px 폭 → 레이아웃 약 1024px, 1024px 폭 → 약 1365px). 크기를 바꾸려면 zoom 숫자만 고친다 */
-@media (min-width: 768px) and (max-width: 1023px), (min-width: 1024px) and (orientation: portrait) {
-  .psc { zoom: .75; padding: 110px 0 80px; }
+/* 아이패드 세로·태블릿 (2026-10-30): "맞춤형 마케팅 전략"을 노트북처럼 카드 3장 나란히. 사파리는 zoom 을 박스에만 적용하고 글자는 크게 남겨 일그러졌으므로 zoom 을 쓰지 않고 모든 글자·간격 px 에 --k(축소 배율)를 곱한다.
+   크기를 바꾸려면 아래 --k 숫자만 고친다 (768~899px: .65 / 900~1023px: .75) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .psc { --k: .75; }
+  .psc .container-x { padding-inline: 24px; }
+  .psc { padding: 110px 0 80px; }
+  .psc .psc-title { margin-top: calc(24 * var(--k) * 1px); font-size: calc(52 * var(--k) * 1px) !important; }
+  .psc .psc-title b { display: inline; font-size: 1em; }
+  .psc .psc-title b::before { content: none; }
+  .psc .psc-title i { font-size: 1.25em; }
+  .psc .psc-intro { font-size: calc(18 * var(--k) * 1px); margin-top: calc(16 * var(--k) * 1px); }
+  .psc .psc-steps { width: 100%; max-width: none; margin: calc(32 * var(--k) * 1px) 0 0; }
+  .psc .psc-steps li { width: 33.33%; }
+  .psc .psc-steps li + li::before { top: calc(23 * var(--k) * 1px); margin-right: calc(23 * var(--k) * 1px); }
+  .psc .psc-dot { width: calc(46 * var(--k) * 1px); height: calc(46 * var(--k) * 1px); font-size: calc(17 * var(--k) * 1px); }
+  .psc .psc-step-name { font-size: calc(16 * var(--k) * 1px); }
+  .psc .psc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: none; margin-top: calc(36 * var(--k) * 1px); gap: calc(25 * var(--k) * 1px); width: auto; }
+  .psc .psc-card { padding: calc(20 * var(--k) * 1px) calc(24 * var(--k) * 1px) calc(22 * var(--k) * 1px); border-radius: calc(20 * var(--k) * 1px); }
+  .psc .psc-no { display: block; height: auto; font-size: calc(22 * var(--k) * 1px); }
+  .psc .psc-check { position: static; width: calc(22 * var(--k) * 1px); height: calc(22 * var(--k) * 1px); margin-top: calc(16 * var(--k) * 1px); }
+  .psc .psc-check svg { width: calc(12 * var(--k) * 1px); height: calc(12 * var(--k) * 1px); }
+  .psc .psc-card-title { margin-top: calc(14 * var(--k) * 1px); font-size: calc(32 * var(--k) * 1px); white-space: normal; }
+  .psc .psc-card-title .block { white-space: nowrap; }
+  .psc .psc-desc { margin-top: calc(16 * var(--k) * 1px); font-size: calc(19 * var(--k) * 1px); }
+  .psc .psc-feats { margin-top: calc(28 * var(--k) * 1px); width: 100%; margin-inline: 0; gap: calc(10 * var(--k) * 1px); margin-bottom: auto; }
+  .psc .psc-feat { gap: calc(8 * var(--k) * 1px); padding: calc(8 * var(--k) * 1px) calc(9 * var(--k) * 1px); overflow: visible; }
+  .psc .psc-ico { width: calc(40 * var(--k) * 1px); height: calc(40 * var(--k) * 1px); }
+  .psc .psc-ico svg { width: calc(22 * var(--k) * 1px); height: calc(22 * var(--k) * 1px); }
+  .psc .psc-feat-t b { font-size: calc(17 * var(--k) * 1px); letter-spacing: -.05em; white-space: nowrap; }
+  .psc .psc-btn, .psc .psc-card:not([data-on="1"]) .psc-btn, .psc .psc-card[data-on="1"] .psc-btn { margin-top: calc(28 * var(--k) * 1px); margin-bottom: calc(-38 * var(--k) * 1px); padding: calc(13 * var(--k) * 1px) calc(22 * var(--k) * 1px) calc(13 * var(--k) * 1px) calc(26 * var(--k) * 1px); font-size: calc(16 * var(--k) * 1px); gap: calc(12 * var(--k) * 1px); position: relative; z-index: 2; }
+  .psc .psc-btn-ar svg { width: calc(14 * var(--k) * 1px); height: calc(14 * var(--k) * 1px); }
+}
+@media (min-width: 768px) and (max-width: 899px) {
+  .psc { --k: .65; }
+}
+/* 폭 1024px 이상 세로(아이패드 프로 12.9): html 전체에 이미 zoom(80%)이 걸려 있어 섹션은 그대로 둔다 */
+@media (min-width: 1024px) and (orientation: portrait) {
+  .psc { padding: 110px 0 80px; }
   .psc .psc-title { margin-top: 24px; font-size: 52px !important; }
   .psc .psc-title b { display: inline; font-size: 1em; }
   .psc .psc-title b::before { content: none; }
@@ -449,12 +483,4 @@
   .psc .psc-feat-t b { font-size: 17px; letter-spacing: -.05em; white-space: nowrap; }
   .psc .psc-btn, .psc .psc-card:not([data-on="1"]) .psc-btn, .psc .psc-card[data-on="1"] .psc-btn { margin-top: 28px; margin-bottom: -38px; padding: 13px 22px 13px 26px; font-size: 16px; gap: 12px; position: relative; z-index: 2; }
   .psc .psc-btn-ar svg { width: 14px; height: 14px; }
-}
-/* 폭 768~899px(아이패드 미니·에어 세로): 박스 안 항목이 서로 겹치지 않도록 한 단계 더 축소 (레이아웃 약 1180~1380px 폭) */
-@media (min-width: 768px) and (max-width: 899px) {
-  .psc { zoom: .65; }
-}
-/* 폭 1024px 이상은 html 전체에 이미 zoom(80%)이 걸려 있으므로(globals.css) 섹션 zoom 을 또 걸지 않는다 — 겹치면 박스가 찌그러짐 */
-@media (min-width: 1024px) and (orientation: portrait) {
-  .psc { zoom: 1; }
 }
