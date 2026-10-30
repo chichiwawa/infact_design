@@ -2645,3 +2645,10 @@ html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"]:not(:has(.ind)) .pk-eb 
 html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"]:not(:has(.ind)) .pk-scard-bottom .pk-below-body { font-size: 14px; line-height: 1.5; }
 html[data-ipad-land] .pk-stack:not([data-ytchip="5"]) .pk-scard[data-kind="ig"]:not(:has(.ind)) .yt-chips li, html[data-ipad-land] .pk-stack:not([data-ytchip="5"]) .pk-scard[data-kind="ig"]:not(:has(.ind)) .yt-chips li:nth-child(n) { font-size: 13.5px; }
 html[data-ipad-land] .pk-stack[data-ytchip="5"] .pk-scard[data-kind="ig"]:not(:has(.ind)) .yt-chips li:nth-child(n) { font-size: 11px; }
+
+/* 04 오른쪽 카드 흰색 제목(인스타 집중 부스터·전후사진·AI·유튜브·개별 상품) 확대 (2026-10-30). 숫자(px)만 고치면 된다 */
+@media (min-width: 768px) {
+  html:not([data-ipad-land]) .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom h3 { font-size: clamp(38px, calc(3.8vw * var(--zi)), 58px); }
+}
+html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom h3 { font-size: 32px; }
+html[data-ipad-land] .pk-stack .pk-scard:has(.ind) .pk-scard-bottom h3 { font-size: 26px; }
