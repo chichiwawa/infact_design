@@ -450,6 +450,10 @@
   .psc .psc-btn, .psc .psc-card:not([data-on="1"]) .psc-btn, .psc .psc-card[data-on="1"] .psc-btn { margin-top: 28px; margin-bottom: -38px; padding: 13px 22px 13px 26px; font-size: 16px; gap: 12px; position: relative; z-index: 2; }
   .psc .psc-btn-ar svg { width: 14px; height: 14px; }
 }
+/* 폭 768~899px(아이패드 미니·에어 세로): 박스 안 항목이 서로 겹치지 않도록 한 단계 더 축소 (레이아웃 약 1180~1380px 폭) */
+@media (min-width: 768px) and (max-width: 899px) {
+  .psc { zoom: .65; }
+}
 /* 폭 1024px 이상은 html 전체에 이미 zoom(80%)이 걸려 있으므로(globals.css) 섹션 zoom 을 또 걸지 않는다 — 겹치면 박스가 찌그러짐 */
 @media (min-width: 1024px) and (orientation: portrait) {
   .psc { zoom: 1; }
