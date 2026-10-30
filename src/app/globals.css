@@ -2773,6 +2773,6 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
 @media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait), (min-width: 1024px) and (orientation: portrait) and (pointer: coarse) {
   .diff-col { width: max-content; flex-direction: row; gap: 0; left: 0; right: auto; opacity: .6; }
   .diff-col .diff-img { width: 190px; margin-right: 16px; }
-  .diff-col.l { top: 90px; bottom: auto; animation: diff-row-l 50s linear infinite; }
+  .diff-col.l { top: 100px; bottom: auto; animation: diff-row-l 50s linear infinite; }
   .diff-col.r { top: auto; bottom: 40px; animation: diff-row-r 50s linear infinite; }
 }
