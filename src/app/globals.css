@@ -2767,3 +2767,12 @@ html[data-ipad-land] .strength-card .t-lead { margin-top: 24px; line-height: 1.7
 
 /* 아이패드 가로 (2026-10-30): "ROAS 최대 900%" 가 두 줄로 꺾여 아래 설명글이 다른 카드와 안 맞았음 → 큰 숫자를 한 줄 고정(nowrap)하고 4장 모두 조금 줄임. 크기는 아래 32px 만 고친다 */
 html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-size: min(32px, calc(var(--ipad-w) * .021)); }
+
+/* 인팩트만의 차별점 — 아이패드·태블릿 세로 (2026-10-30): 모바일과 같이 이미지가 화면 위·아래 줄로 놓여 가로로 흐름. 가로형(PC·아이패드 가로)은 기존대로 좌우 세로 컬럼.
+   이미지 크기(width)·줄 위치(top/bottom)만 고친다 */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait), (min-width: 1024px) and (orientation: portrait) and (pointer: coarse) {
+  .diff-col { width: max-content; flex-direction: row; gap: 0; left: 0; right: auto; opacity: .6; }
+  .diff-col .diff-img { width: 190px; margin-right: 16px; }
+  .diff-col.l { top: 90px; bottom: auto; animation: diff-row-l 50s linear infinite; }
+  .diff-col.r { top: auto; bottom: 40px; animation: diff-row-r 50s linear infinite; }
+}
