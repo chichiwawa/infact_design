@@ -2719,3 +2719,20 @@ html[data-ipad-land] .cr-proc .ph-head { transform: translateY(calc((1 - clamp(0
 @media (max-width: 767px) { :root { --ttl: 30px; } }
 .sec-ttl, .diff-title, .ph-title, .psc-title, .pk-stack .pk-h, .strength-head h2 > span:last-child { font-size: var(--ttl) !important; }
 .strength-head h2 > span:first-child { font-size: calc(var(--ttl) * .6) !important; }
+
+/* "인팩트만의 강점": 두 줄로 쪼개 쓰는 제목이라 다른 섹션 제목(같은 --ttl)보다 작아 보여, 큰 줄을 15% 키우고 윗줄도 키움 (2026-10-30) */
+.strength-head h2 > span:last-child { font-size: calc(var(--ttl) * 1.15) !important; }
+.strength-head h2 > span:first-child { font-size: calc(var(--ttl) * .75) !important; }
+
+/* 개별 조정 (2026-10-30): 인팩트만의 차별점은 PC 폭(1024px 이상)에서 10% 키우고, 지금 문의하시면(마지막 CTA) 제목은 모든 화면에서 15% 줄임. 곱하는 숫자만 고친다 */
+@media (min-width: 1024px) { .diff-title { font-size: calc(var(--ttl) * 1.1) !important; } }
+.sec-ttl.fcta-h, .fcta-h, h2.sec-ttl.text-white { font-size: calc(var(--ttl) * .85) !important; }
+
+/* 헤더 (2026-10-30): 아이패드 가로·모바일은 로고를 키우고 메뉴 영문(Main·Services·Blog·Contact)은 줄임. 숫자만 고치면 된다 */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  header .logo { --lh: 27px; }
+  header nav a { font-size: 16px; }
+}
+@media (max-width: 767px) {
+  header .logo { --lh: 18px; }
+}

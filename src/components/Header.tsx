@@ -125,7 +125,7 @@ export default function Header() {
               <Link
                 key={it.href}
                 href={it.href}
-                className={`py-3.5 text-[13.5px] font-extrabold tracking-[-0.3px] border-b border-hairline-soft ${isActive(it.href) ? "text-primary" : "text-ink"}`}
+                className={`py-3.5 text-[12px] font-extrabold tracking-[-0.3px] border-b border-hairline-soft ${isActive(it.href) ? "text-primary" : "text-ink"}`}
               >
                 {it.label}
               </Link>
