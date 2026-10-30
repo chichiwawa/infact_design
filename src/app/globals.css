@@ -2750,3 +2750,13 @@ html[data-ipad-land] .cr-proc .ph-head { transform: translateY(calc((1 - clamp(0
 html[data-ipad-land] .strength-card .text-primary { font-size: 14px; }
 html[data-ipad-land] .strength-card .font-extrabold { font-size: min(36px, calc(var(--ipad-w) * .0235)); }
 html[data-ipad-land] .strength-card .t-lead { font-size: 14px; }
+
+/* 아이패드 가로 (2026-10-30): "수치로 증명하는 인팩트만의 강점" — ① 왼쪽 제목 덩어리 약 10% 축소 ② 오른쪽 카드 4장을 가로·세로로 키워 글씨 겹침 방지 ③ 카드 위쪽 번호(01~04)·CHECKING 을 카드 윗선에서 떼어 아래로. 숫자만 고친다 */
+html[data-ipad-land] .strength-head h2 > span:first-child { font-size: calc(var(--ttl) * .675) !important; }
+html[data-ipad-land] .strength-head h2 > span:last-child { font-size: calc(var(--ttl) * 1.035) !important; }
+html[data-ipad-land] .strength-pager { margin-top: 24px; }
+html[data-ipad-land] .strength { --sw: 440px; }
+html[data-ipad-land] .strength-card { height: min(580px, calc(var(--ipad-h) * .72)); padding: 40px 36px; }
+html[data-ipad-land] .strength-no { top: 34px; left: 36px; font-size: 14px; }
+html[data-ipad-land] .strength-stat { top: 30px; right: 36px; font-size: 13px; }
+html[data-ipad-land] .strength-card .t-lead { margin-top: 24px; line-height: 1.7; }
