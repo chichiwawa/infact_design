@@ -2693,11 +2693,19 @@ html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-be
    사파리는 zoom 아래에서 vh 를 크롬과 다르게 계산해, vh 로 위로 끌어올리던 제목이 헤더 뒤로 올라갔다. 이 구간만 vh 를 쓰지 않고
    화면 높이(--ipad-h, PickerSection 이 넣어 줌) 기준으로 배치하고, 위쪽에 헤더 높이만큼 여백(110px)을 둬 헤더와 절대 겹치지 않게 한다. 여백 숫자만 고치면 된다 */
 html[data-ipad-land] .cr-stage { height: var(--ipad-h); }
-html[data-ipad-land] .cr-proc { box-sizing: border-box; padding: 110px 0 48px; gap: calc(var(--ipad-h) * .09); justify-content: center; }
-html[data-ipad-land] .cr-proc .ph-head { transform: translateY(calc(var(--ipad-h) * -.08 + (1 - clamp(0, (var(--cr-p) - .4) * 2.5, 1)) * 36px)); }
+html[data-ipad-land] .cr-proc { box-sizing: border-box; padding: calc(var(--ipad-h) * .2) 0 48px; gap: calc(var(--ipad-h) * .1); justify-content: flex-start; } /* 2차: 가운데 정렬 대신 위에서 화면 높이의 20% 지점에 제목을 고정 */
+html[data-ipad-land] .cr-proc .ph-head { transform: translateY(calc((1 - clamp(0, (var(--cr-p) - .4) * 2.5, 1)) * 36px)); }
 
 /* 아이패드 가로: "감이 아닌 / 팩트로" 에서 "팩트로"가 가운데 동그라미에 너무 붙어 있음 → 원 쪽 간격을 넓힘 (2026-10-30)
    "팩트로"를 바깥쪽(오른쪽)으로 68px 밀어 원과의 간격이 왼쪽 문구 쪽과 비슷해진다. 숫자(px)만 고치면 된다 */
 @media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
   .cr-text--r { margin-right: -68px; }
+}
+
+/* 아이패드 가로 (2026-10-30): ① 진행 프로세스 단계 이름(문의·진단·설계·실행) 축소 — 위 제목의 약 70%, "성장단계에 맞춘…" 제목(46px)과 같은 크기  ② "수치로 증명하는 / 인팩트만의 강점" 왼쪽 제목 확대 (마케팅 전략 제목 비율에 맞춤). 숫자(px)만 고치면 된다 */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  .ph-ko { font-size: 46px; }
+  .ph-name .ph-en { font-size: 15px; }
+  html[data-ipad-land] .strength-head h2 > span:first-child { font-size: 35px; }
+  html[data-ipad-land] .strength-head h2 > span:last-child { font-size: 62px; }
 }
