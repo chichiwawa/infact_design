@@ -1,15 +1,13 @@
 /* 최종 CTA — 시안 이미지 구현 (2026-11-02). 파란색은 홈페이지 블루(var(--color-primary) 글씨 / var(--color-primary) 버튼) */
 .fi { position: relative; overflow: hidden; isolation: isolate; color: #fff; background: linear-gradient(120deg, #040715 0%, #071230 55%, #050a1f 100%); padding-block: clamp(72px, 9vw, 140px); }
 .fi-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-.fi-bg::before, .fi-bg::after { content: ""; position: absolute; border-radius: 50%; aspect-ratio: 1; border: 1px solid rgba(140,175,255,.55); }
-.fi-bg::before { right: -18%; top: -62%; width: min(900px, 80vw); background: radial-gradient(closest-side, rgba(48,97,255,.28), transparent 75%); box-shadow: 0 0 60px rgba(79,131,255,.55), inset 0 0 60px rgba(79,131,255,.3); }
-.fi-bg::after { left: -14%; bottom: -70%; width: min(760px, 70vw); background: radial-gradient(closest-side, rgba(48,97,255,.25), transparent 75%); box-shadow: 0 0 60px rgba(79,131,255,.5), inset 0 0 60px rgba(79,131,255,.28); }
-/* 배경 모션: 두 원호 빛이 천천히 떠다니며 숨 쉬듯 밝아졌다 어두워짐 (2026-11-02) */
-.fi-bg::before { animation: fi-orb-a 14s ease-in-out infinite alternate; }
-.fi-bg::after { animation: fi-orb-b 17s ease-in-out infinite alternate; }
-@keyframes fi-orb-a { from { transform: translate(0, 0) scale(1); opacity: .75; } to { transform: translate(-5%, 8%) scale(1.08); opacity: 1; } }
-@keyframes fi-orb-b { from { transform: translate(0, 0) scale(1); opacity: 1; } to { transform: translate(6%, -7%) scale(1.1); opacity: .7; } }
-@media (prefers-reduced-motion: reduce) { .fi-bg::before, .fi-bg::after { animation: none; } }
+/* 배경 패턴: 메인 히어로(FACT CHECK)와 같은 64px 격자 + 네 모서리 십자 표시. 원호 빛은 삭제 (2026-11-02) */
+.fi { background: radial-gradient(110% 90% at 72% 38%, #0b1c4d 0%, #070c1c 55%, #050507 100%); }
+.fi-bg::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(120,170,255,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(120,170,255,.07) 1px, transparent 1px); background-size: 64px 64px; -webkit-mask-image: radial-gradient(90% 80% at 65% 35%, #000 20%, transparent 80%); mask-image: radial-gradient(90% 80% at 65% 35%, #000 20%, transparent 80%); }
+.fi-cross { position: absolute; width: 18px; height: 18px; opacity: .55; }
+.fi-cross::before, .fi-cross::after { content: ""; position: absolute; background: #7fb2ff; }
+.fi-cross::before { left: 8px; top: 0; width: 2px; height: 18px; } .fi-cross::after { top: 8px; left: 0; height: 2px; width: 18px; }
+.fi-cross--tl { left: 4vw; top: 6vh; } .fi-cross--tr { right: 4vw; top: 6vh; } .fi-cross--bl { left: 4vw; bottom: 6vh; } .fi-cross--br { right: 4vw; bottom: 6vh; }
 .fi-in { position: relative; z-index: 1; display: grid; gap: 48px; align-items: center; }
 @media (min-width: 1024px) { .fi-in { grid-template-columns: 1.3fr 1fr; gap: 56px; } }
 
@@ -44,3 +42,18 @@
 }
 .fi-contacts li a { display: flex; align-items: center; gap: 22px; transition: color .25s; }
 .fi-contacts li a:hover { color: var(--color-primary); }
+
+/* 배경 광선 (2026-11-02): 메인 히어로 배경(prism)과 동일 — 가는 가로줄 무늬가 위에서 아래로 짙어지고, 맨 아래 끝에 블루·시안·보라 컬러 라인 */
+.fi-beam { position: absolute; left: 0; right: 0; top: -15vh; height: 15vh; animation: fi-beam 7s cubic-bezier(.45,0,.55,1) infinite; }
+.fi-beam::before, .fi-beam::after { content: ""; position: absolute; left: 0; right: 0; }
+.fi-beam::before { top: 0; bottom: 0; background: repeating-linear-gradient(to bottom, rgba(140,195,255,.28) 0 1px, transparent 1px 6px); -webkit-mask-image: linear-gradient(to bottom, transparent, #000); mask-image: linear-gradient(to bottom, transparent, #000); }
+.fi-beam::after { bottom: -1px; height: 2px; background: linear-gradient(90deg, transparent, #4da3ff 12%, #7ee8ff 38%, #a78bfa 64%, #4da3ff 88%, transparent); box-shadow: 0 0 14px 1px rgba(110,190,255,.75), 0 0 46px 8px rgba(110,100,255,.28); }
+@keyframes fi-beam { 0% { top: -15vh; opacity: 0; } 8% { opacity: 1; } 70% { top: calc(100% + 2px); opacity: 1; } 80%, 100% { top: calc(100% + 2px); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .fi-beam { display: none; } }
+
+/* 마우스 포인터: 커서를 따라다니는 세로 스캔선 + 좌표 (히어로 FACT CHECK B 와 동일) */
+.fi-cur { position: absolute; left: 0; top: 0; bottom: 0; width: 2px; z-index: 0; pointer-events: none; opacity: 0; transition: opacity .35s; transform: translate3d(var(--mx, -999px), 0, 0); background: linear-gradient(to bottom, transparent, rgba(150,210,255,.95) 18%, rgba(150,210,255,.95) 82%, transparent); box-shadow: 0 0 22px rgba(70,150,255,.9), 0 0 80px rgba(50,120,255,.55); }
+.fi-cur[data-on="1"] { opacity: 1; }
+.fi-cur::before { content: ""; position: absolute; top: 0; bottom: 0; left: -90px; width: 180px; background: linear-gradient(90deg, transparent, rgba(60,130,255,.18), transparent); }
+.fi-read { position: absolute; left: 12px; top: 74px; padding: 3px 8px; border-radius: 6px; white-space: nowrap; font-family: "Outfit", var(--font-sans); font-size: 11px; font-weight: 500; letter-spacing: .14em; color: rgba(190,225,255,.9); background: rgba(5,10,30,.78); }
+@media (hover: none) { .fi-cur { display: none; } }

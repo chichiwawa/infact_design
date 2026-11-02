@@ -5,6 +5,7 @@
  */
 import Link from "next/link";
 import type { FinalCtaData } from "@/lib/sections";
+import FiCursor from "./FiCursor";
 import "./final-cta-image.css";
 
 const ICONS = {
@@ -32,7 +33,7 @@ function linkOf(text: string) {
 export default function FinalCtaImage({ data }: { data: FinalCtaData }) {
   return (
     <section className="fi" aria-label="문의">
-      <div className="fi-bg" aria-hidden="true" />
+      <div className="fi-bg" aria-hidden="true"><i className="fi-cross fi-cross--tl" /><i className="fi-cross fi-cross--tr" /><i className="fi-cross fi-cross--bl" /><i className="fi-cross fi-cross--br" /><div className="fi-beam" /><FiCursor /></div>
       <div className="fi-in container-x">
         <div className="fi-left">
           <p className="fi-eyebrow">INFACT REPORT<i /></p>
