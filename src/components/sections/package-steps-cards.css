@@ -484,3 +484,11 @@
   .psc .psc-btn, .psc .psc-card:not([data-on="1"]) .psc-btn, .psc .psc-card[data-on="1"] .psc-btn { margin-top: 28px; margin-bottom: -38px; padding: 13px 22px 13px 26px; font-size: 16px; gap: 12px; position: relative; z-index: 2; }
   .psc .psc-btn-ar svg { width: 14px; height: 14px; }
 }
+
+/* 아이패드 세로 (2026-11-02): 섹션이 카드 높이만큼만 짧아 아래 섹션이 같이 보였음 → 섹션을 화면 높이만큼 채우고 내용은 세로 가운데에 둔다. 높이를 바꾸려면 100svh 만 고친다 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .psc { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; }
+}
+@media (min-width: 1024px) and (orientation: portrait) {
+  .psc { min-height: calc(100svh * var(--zi)); display: flex; flex-direction: column; justify-content: center; }
+}

@@ -2475,6 +2475,10 @@ html[data-ipad-land] .pk-stack .pk-scard[data-kind="ig"]:has(.ph-ba) .pk-scard-b
 @media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 }
+/* 아이패드 세로(768~1023px) (2026-11-02): 가로에만 걸어 두어, 세로에서는 사파리가 글자를 자동 확대해 마케팅 전략 카드의 글자·칩이 박스 밖으로 튀어나왔음 → 세로에도 끔 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+}
 /* 왼쪽 메뉴 글자 크기 고정(PC 비율). 단위는 zoom 뒤의 CSS px */
 html[data-ipad-land] .pk-stack .pk-shead { font-size: 21px; }
 html[data-ipad-land] .pk-stack .pk-sitem { font-size: 16px; }
