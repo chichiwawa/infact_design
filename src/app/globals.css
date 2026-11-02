@@ -2848,3 +2848,15 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
   .hero-h1 { font-size: calc(9.8vw * var(--zi)); }
   .hero-desc { font-size: calc(2vw * var(--zi)); }
 }
+
+/* 아이패드 세로 (2026-11-02): ① 차별점 글 앞 체크 표시 복구(900px 미만 규칙이 숨기고 있었음) ② "2018년부터 함께한…" 아래 흐르는 로고 축소(--lh 가 로고 높이) ③ "지금 문의하시면" 제목 확대(.7 → .95 배). 숫자만 고친다 */
+@media (min-width: 768px) and (orientation: portrait) {
+  .diff-stick .diff-line::before { display: block; }
+  .marquee-set { --lh: 26px; }
+  .sec-ttl.fcta-h, .fcta-h, h2.sec-ttl.text-white { font-size: calc(var(--ttl) * .95) !important; }
+}
+
+/* 차별점 체크 표시를 글 줄 높이의 정중앙에 맞춤 (아이패드 가로·세로, 2026-11-02). top 50% + 위로 반만큼 이동. 미세 조정은 translateY 의 -50% 만 고친다 */
+@media (min-width: 768px) {
+  .diff-stick[data-variant="x2"] .diff-line::before { top: 50%; transform: translateY(-50%) scale(var(--a)); }
+}
