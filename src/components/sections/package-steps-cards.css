@@ -520,3 +520,11 @@
   .psc .psc-btn, .psc .psc-card:not([data-on="1"]) .psc-btn, .psc .psc-card[data-on="1"] .psc-btn { font-size: 16px; padding: 12px 20px 12px 24px; gap: 10px; margin-bottom: -26px; }
   .psc .psc-btn-ar svg { width: 15px; height: 15px; }
 }
+
+/* 아이패드 세로 (2026-11-02): 01 02 03 원을 줄이고, 카드 제목(문제 유형 문구)을 화면 폭에 비례해 키움(가장 긴 "결제로 이어지지 않아요" 가 카드 안에 한 줄로 들어가는 한도). 크기는 3.25vw·44px 만 고친다 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .psc .psc-dot { width: 44px; height: 44px; font-size: 17px; }
+  .psc .psc-steps li + li::before { top: 22px; margin-right: 22px; }
+  .psc .psc-card { padding-inline: 12px; }
+  .psc .psc-card-title { font-size: 3.25vw; }
+}
