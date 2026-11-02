@@ -2892,3 +2892,18 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
   .pk-stack .pk-scard[data-kind] .pk-scard-bottom .pk-tags li { font-size: 11px; }
   .pk-stack .pk-scard[data-kind] .pk-scard-bottom .pk-tags li::before { width: 16px; height: 16px; }
 }
+
+/* 아이패드 세로 04 (2026-11-02): ① 설명 아래 파란 아이콘 칩(GEO/SEO·AI 친화 홈페이지 등)의 아이콘 원·글자 축소 ② 개별상품 6종 이미지 확대(기존 .8배 → .95배). 숫자만 고친다 */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+  .pk-stack .pk-scard .yt-chips li, .pk-stack .pk-scard .yt-chips li:nth-child(n) { font-size: 12.5px !important; gap: 6px !important; padding: 4px 10px 4px 5px !important; }
+  .pk-stack .pk-scard .yt-chips li i { width: 20px !important; height: 20px !important; }
+  .pk-stack .pk-scard .yt-chips li svg { width: 11px !important; height: 11px !important; }
+  .pk-stack .pk-scard .ind-stage { transform: scale(.95); }
+}
+
+/* 아이패드 세로 (2026-11-02): ① "2018년부터 함께한 457곳의 병원" 문구를 위로 올리고 키움(translateY 음수 = 위로, font-size) ② "지금 문의하시면…" 제목·아래 설명을 가운데 정렬. 숫자만 고친다 */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+  section[aria-label="함께한 병원"] > p { font-size: 20px; transform: translateY(-18px); }
+  h2.fcta-h, h2.sec-ttl.text-white { text-align: center; }
+  h2.fcta-h + p, h2.sec-ttl.text-white + p { text-align: center; }
+}
