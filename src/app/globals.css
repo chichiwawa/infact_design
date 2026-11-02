@@ -2823,3 +2823,21 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
   .pk-stack[data-igtx] .pk-scard[data-kind="ig"] .pk-scard-bg { transform: scale(1.1); transform-origin: 50% 55%; }
   .pk-stack[data-igtx] .pk-scard[data-kind="ig"] .pk-scard-bottom { min-height: calc(21svh * var(--zi)); }
 }
+
+/* ── 아이패드 세로 (2026-11-02) ──
+   1) "인팩트만의 차별점": 이미지가 위·아래 줄로 흘러 글 덩어리 옆 공간이 넓어졌으므로 글자 키움. 크기는 아래 px 만 고친다 */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait), (min-width: 1024px) and (orientation: portrait) {
+  .diff-stick .diff-logo { font-size: 30px; }
+  .diff-stick .diff-title { margin-top: 16px; font-size: 64px !important; }
+  .diff-stick .diff-list { margin-top: 56px; gap: 22px; }
+  .diff-stick .diff-line { font-size: 36px; }
+}
+/* 2) "감이 아닌 팩트로, / 병원의 가치를 키웁니다.": 동그라미를 위로, 두 줄 문구를 아래에 세로로 쌓고 글자를 키움. 크기는 --cr-d(동그라미)·5.6vw(글자)만 고친다 */
+@media (min-width: 768px) and (orientation: portrait) {
+  .cr { --cr-d: calc(28vw * var(--zi)); }
+  .cr-stage { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 0; padding-inline: 32px; }
+  .cr-core { order: 1; margin-bottom: calc(var(--cr-d) * .5); }
+  .cr-text--l { order: 2; } .cr-text--r { order: 3; }
+  .cr-text { flex: none; margin: 0; justify-self: auto; text-align: center; font-size: clamp(36px, calc(5.6vw * var(--zi)), 68px); line-height: 1.3; white-space: nowrap; }
+  .cr-text--l, .cr-text--r { transform: translateY(calc(var(--cr-p) * 40vh)); }
+}
