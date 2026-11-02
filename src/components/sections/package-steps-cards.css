@@ -492,3 +492,17 @@
 @media (min-width: 1024px) and (orientation: portrait) {
   .psc { min-height: calc(100svh * var(--zi)); display: flex; flex-direction: column; justify-content: center; }
 }
+
+/* 아이패드 세로 (2026-11-02): 카드 안 항목 4개(블로그 운영·카페 바이럴…)를 2열 대신 한 줄씩 세로로 쌓아 칩이 넓어지게 하고, 항목·설명 글자를 읽기 쉽게 키움. 글자 크기는 아래 px 만 고친다 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .psc .psc-feats { grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 22px; }
+  .psc .psc-feat { gap: 10px; padding: 7px 12px; }
+  .psc .psc-ico { width: 34px; height: 34px; }
+  .psc .psc-ico svg { width: 18px; height: 18px; }
+  .psc .psc-feat-t b { font-size: 15px; letter-spacing: -.03em; }
+  .psc .psc-card-title { font-size: 21px; }
+}
+/* 폭이 좁은 아이패드(768~819px)는 2번 카드 설명이 3줄로 넘어가 항목 줄이 어긋남 → 설명 칸을 3줄 높이로 통일 */
+@media (min-width: 768px) and (max-width: 819px) {
+  .psc .psc-desc { min-height: 4.5em; }
+}
