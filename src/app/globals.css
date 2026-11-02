@@ -2866,5 +2866,16 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
   .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom h3 { font-size: 28px !important; margin-bottom: 6px; line-height: 1.2; }
   .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body { font-size: 14px !important; line-height: 1.45 !important; }
   .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body .block + .block { margin-top: 2px; }
-  .pk-stack[data-igtx] .pk-scard[data-kind="ig"] .pk-scard-bottom { margin-bottom: calc(8svh * var(--zi)); min-height: 0; }
+  .pk-stack[data-igtx] .pk-scard[data-kind="ig"] .pk-scard-bottom { margin-bottom: calc(17svh * var(--zi)); min-height: 0; }
+}
+
+/* 아이패드 세로 04 "진단하고, 설계하고, 직접 실행합니다" (2026-11-02): 단계 이름(문의·진단·설계·실행)·영문·설명글(흰 글씨) 확대, 단계 동그라미 체크는 24→18px 로 축소. 크기는 vw·px 숫자만 고친다 */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+  .cr-proc .ph-card { width: calc(46vw * var(--zi)); }
+  .cr-proc .ph-ko { font-size: calc(5.2vw * var(--zi)); }
+  .cr-proc .ph-name .ph-en { font-size: calc(1.9vw * var(--zi)); }
+  .cr-proc .ph-tag { font-size: 15px; }
+  .cr-proc .ph-body { font-size: calc(1.9vw * var(--zi)); }
+  .cr-proc .ph-dot { width: 18px; height: 18px; top: -1.5px; }
+  .cr-proc .ph-line { left: 18px; }
 }
