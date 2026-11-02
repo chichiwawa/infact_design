@@ -2766,13 +2766,13 @@ html[data-ipad-land] .strength-card .t-lead { margin-top: 24px; line-height: 1.7
 .strength-card > .relative { margin-top: 24%; }
 /* 모바일 (2026-11-02): "ROAS 최대 900%" 만 두 줄로 꺾여 설명글이 4장 중 혼자 낮게 시작했음 → 큰 숫자를 한 줄 고정하고 글자를 줄여 4장 모두 PC·아이패드처럼 같은 높이에서 시작 */
 @media (max-width: 767px) {
-  .strength-card .font-extrabold { white-space: nowrap; font-size: 21px; letter-spacing: -1px; height: 30px; }
-  .strength-card.nb-0 .font-extrabold { font-size: 30px; } /* 36.5개월 — 짧아서 크게. 높이를 30px 로 고정해 다른 카드와 설명글 시작 위치가 같음 */
+  .strength { --sw: calc(74vw * var(--zi)); }
+  .strength-card { padding: 18px; }
+  .strength-card .font-extrabold { white-space: nowrap; font-size: 26px; letter-spacing: -1px; height: 30px; } /* 4장 모두 같은 크기. 가장 긴 "ROAS 최대 900%" 가 한 줄에 들어가는 한도 */
 }
 @media (max-width: 340px) {
   .strength-card .text-primary { font-size: 11px; letter-spacing: 0; white-space: nowrap; }
-  .strength-card .font-extrabold { font-size: 19px; }
-  .strength-card.nb-0 .font-extrabold { font-size: 26px; }
+  .strength-card .font-extrabold { font-size: 23px; }
 }
 
 /* 아이패드 가로 (2026-10-30): "ROAS 최대 900%" 가 두 줄로 꺾여 아래 설명글이 다른 카드와 안 맞았음 → 큰 숫자를 한 줄 고정(nowrap)하고 4장 모두 조금 줄임. 크기는 아래 32px 만 고친다 */
