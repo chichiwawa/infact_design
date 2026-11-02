@@ -506,3 +506,17 @@
 @media (min-width: 768px) and (max-width: 819px) {
   .psc .psc-desc { min-height: 4.5em; }
 }
+
+/* 아이패드 세로 (2026-11-02): 화면이 남아서 위쪽 제목 덩어리(작은 제목·큰 제목·소개글·01 02 03 원·단계 이름)와 카드 아래 버튼을 키움. 크기는 아래 px 만 고친다 */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .psc .psc-eyebrow { font-size: 20px; }
+  .psc .psc-title { font-size: 46px !important; margin-top: 28px; }
+  .psc .psc-intro { font-size: 21px; margin-top: 20px; }
+  .psc .psc-steps { margin-top: 40px; }
+  .psc .psc-dot { width: 56px; height: 56px; font-size: 20px; }
+  .psc .psc-steps li + li::before { top: 28px; margin-right: 28px; }
+  .psc .psc-step-name { font-size: 19px; }
+  .psc .psc-grid { margin-top: 44px; }
+  .psc .psc-btn, .psc .psc-card:not([data-on="1"]) .psc-btn, .psc .psc-card[data-on="1"] .psc-btn { font-size: 16px; padding: 12px 20px 12px 24px; gap: 10px; margin-bottom: -26px; }
+  .psc .psc-btn-ar svg { width: 15px; height: 15px; }
+}
