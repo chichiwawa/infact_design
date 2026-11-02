@@ -1,0 +1,40 @@
+/* 최종 CTA — 시안 이미지 구현 (2026-11-02). 파란색은 홈페이지 블루(var(--color-primary) 글씨 / var(--color-primary) 버튼) */
+.fi { position: relative; overflow: hidden; isolation: isolate; color: #fff; background: linear-gradient(120deg, #040715 0%, #071230 55%, #050a1f 100%); padding-block: clamp(72px, 9vw, 140px); }
+.fi-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.fi-bg::before, .fi-bg::after { content: ""; position: absolute; border-radius: 50%; aspect-ratio: 1; border: 1px solid rgba(140,175,255,.55); }
+.fi-bg::before { right: -18%; top: -62%; width: min(900px, 80vw); background: radial-gradient(closest-side, rgba(48,97,255,.28), transparent 75%); box-shadow: 0 0 60px rgba(79,131,255,.55), inset 0 0 60px rgba(79,131,255,.3); }
+.fi-bg::after { left: -14%; bottom: -70%; width: min(760px, 70vw); background: radial-gradient(closest-side, rgba(48,97,255,.25), transparent 75%); box-shadow: 0 0 60px rgba(79,131,255,.5), inset 0 0 60px rgba(79,131,255,.28); }
+.fi-in { position: relative; z-index: 1; display: grid; gap: 48px; align-items: center; }
+@media (min-width: 1024px) { .fi-in { grid-template-columns: 1.3fr 1fr; gap: 56px; } }
+
+.fi-eyebrow { display: flex; align-items: center; gap: 18px; font-size: 14px; font-weight: 600; letter-spacing: .32em; color: rgba(255,255,255,.85); }
+.fi-eyebrow i { display: block; width: 52px; height: 1px; background: var(--color-primary); }
+.fi-title { margin-top: 30px; font-weight: 800; letter-spacing: -.045em; line-height: 1.28; font-size: clamp(32px, 4.3vw, 64px); word-break: keep-all; color: #fff; }
+.fi-l { display: block; }
+.fi-blue { color: var(--color-primary); }
+
+.fi-offers { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 44px; }
+.fi-offers li { padding: 26px 28px 28px; border-radius: 18px; background: linear-gradient(160deg, rgba(255,255,255,.07), rgba(255,255,255,.02)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); backdrop-filter: blur(12px); }
+.fi-no { display: flex; align-items: center; gap: 14px; font-family: "Outfit", var(--font-sans); font-size: 30px; font-weight: 500; color: var(--color-primary); line-height: 1; }
+.fi-no i { display: block; width: 36px; height: 1px; background: rgba(48,97,255,.7); }
+.fi-oh { margin-top: 18px; font-size: 22px; font-weight: 800; letter-spacing: -.03em; }
+.fi-offers span { display: block; margin-top: 12px; font-size: 15px; line-height: 1.65; color: rgba(255,255,255,.72); }
+
+.fi-card { padding: clamp(28px, 3vw, 42px); border-radius: 28px; color: #141414; background: linear-gradient(160deg, #ffffff, #eef2fb); box-shadow: 0 40px 90px -30px rgba(0,0,0,.7), 0 0 80px -20px rgba(79,131,255,.45); }
+.fi-card-h { font-size: 28px; font-weight: 800; letter-spacing: -.035em; }
+.fi-card-s { margin-top: 8px; font-size: 15px; color: #555; }
+.fi-btn { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; height: 58px; border-radius: 999px; font-size: 18px; font-weight: 700; transition: transform .25s, background .25s; }
+.fi-btn:hover { transform: translateY(-2px); }
+.fi-btn-main { margin-top: 30px; background: var(--color-primary); color: #fff; box-shadow: 0 14px 34px -12px rgba(48,97,255,.9); }
+.fi-btn-main:hover { background: var(--color-primary-deep); }
+.fi-btn-sub { margin-top: 14px; color: #141414; background: #fff; box-shadow: inset 0 0 0 1px #dfe3ee; }
+.fi-contacts { display: grid; gap: 18px; margin-top: 28px; padding-top: 26px; border-top: 1px solid #dde2ee; font-size: 17px; color: #222; }
+.fi-contacts li { display: flex; align-items: center; gap: 22px; }
+.fi-contacts svg { flex: none; color: #222; }
+
+@media (max-width: 767px) {
+  .fi-offers { grid-template-columns: 1fr; }
+  .fi-contacts { font-size: 15px; }
+}
+.fi-contacts li a { display: flex; align-items: center; gap: 22px; transition: color .25s; }
+.fi-contacts li a:hover { color: var(--color-primary); }

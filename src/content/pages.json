@@ -508,7 +508,7 @@
               {
                 "alt": "365mc병원 로고",
                 "label": "365mc병원",
-                "scale": 0.65,
+                "scale": 0.73,
                 "width": 109,
                 "height": 20,
                 "logo_url": "/media/8df8df39-dc1d-4e32-ac71-fa12fadb579c.png"
@@ -518,70 +518,80 @@
                 "label": "강남세런여성의원",
                 "width": 392,
                 "height": 80,
-                "logo_url": "/media/ab803ef6-b263-44eb-be8d-88bab1225d1c.png"
+                "logo_url": "/media/ab803ef6-b263-44eb-be8d-88bab1225d1c.png",
+                "scale": 0.77
               },
               {
                 "alt": "광동 로고",
                 "label": "광동",
                 "width": 367,
                 "height": 128,
-                "logo_url": "/media/675aa0b1-8ac2-480e-a9ee-106f9845c543.png"
+                "logo_url": "/media/675aa0b1-8ac2-480e-a9ee-106f9845c543.png",
+                "scale": 0.89
               },
               {
                 "alt": "나나피부과 로고",
                 "label": "나나피부과",
                 "width": 115,
                 "height": 53,
-                "logo_url": "/media/62db8cbf-5262-4a49-9702-9e778dbfc8be.png"
+                "logo_url": "/media/62db8cbf-5262-4a49-9702-9e778dbfc8be.png",
+                "scale": 0.89
               },
               {
                 "alt": "동방메디컬 로고",
                 "label": "동방메디컬",
                 "width": 142,
                 "height": 50,
-                "logo_url": "/media/4bde683d-bdf2-46e3-a3b5-5ce56c39a137.png"
+                "logo_url": "/media/4bde683d-bdf2-46e3-a3b5-5ce56c39a137.png",
+                "scale": 0.89
               },
               {
                 "alt": "라움스마일안과 로고",
                 "label": "라움스마일안과",
                 "width": 225,
                 "height": 63,
-                "logo_url": "/media/dc5c3522-c099-459c-b5fc-85b78330e8ad.png"
+                "logo_url": "/media/dc5c3522-c099-459c-b5fc-85b78330e8ad.png",
+                "scale": 0.89
               },
               {
                 "alt": "메이저피부과 로고",
                 "label": "메이저피부과",
                 "width": 640,
                 "height": 128,
-                "logo_url": "/media/33b2720d-d0ef-469e-a787-d7633a25ca64.png"
+                "logo_url": "/media/33b2720d-d0ef-469e-a787-d7633a25ca64.png",
+                "scale": 0.76
               },
               {
                 "alt": "블랑드비 로고",
                 "label": "블랑드비",
                 "width": 407,
                 "height": 83,
-                "logo_url": "/media/b388ba8b-d2fc-4107-aa06-e8024e2f1004.png"
+                "logo_url": "/media/b388ba8b-d2fc-4107-aa06-e8024e2f1004.png",
+                "scale": 0.77
               },
               {
                 "alt": "아르필 로고",
                 "label": "아르필",
                 "width": 529,
                 "height": 128,
-                "logo_url": "/media/5b9f5473-118c-42c0-ac60-03d5402aea65.png"
+                "logo_url": "/media/5b9f5473-118c-42c0-ac60-03d5402aea65.png",
+                "scale": 0.84
               },
               {
                 "alt": "여름의원 로고",
                 "label": "여름의원",
                 "width": 286,
                 "height": 62,
-                "logo_url": "/media/dbe57a18-b108-4234-9c52-672c50da1b1a.png"
+                "logo_url": "/media/dbe57a18-b108-4234-9c52-672c50da1b1a.png",
+                "scale": 0.79
               },
               {
                 "alt": "제이앤비 로고",
                 "label": "제이앤비",
                 "width": 587,
                 "height": 110,
-                "logo_url": "/media/7e0832c7-3ce8-4a3e-b43a-0992386deec6.png"
+                "logo_url": "/media/7e0832c7-3ce8-4a3e-b43a-0992386deec6.png",
+                "scale": 0.74
               }
             ],
             [
@@ -590,77 +600,88 @@
                 "label": "가넷성형외과의원",
                 "width": 400,
                 "height": 128,
-                "logo_url": "/media/28404dc2-4a07-4038-bbe7-a6977f5930f8.png"
+                "logo_url": "/media/28404dc2-4a07-4038-bbe7-a6977f5930f8.png",
+                "scale": 0.89
               },
               {
                 "alt": "강남헤라성형외과의원 로고",
                 "label": "강남헤라성형외과의원",
                 "width": 651,
                 "height": 128,
-                "logo_url": "/media/b0a28306-312b-4645-84c5-313a837616de.png"
+                "logo_url": "/media/b0a28306-312b-4645-84c5-313a837616de.png",
+                "scale": 0.75
               },
               {
                 "alt": "나나성형외과 로고",
                 "label": "나나성형외과",
                 "width": 132,
                 "height": 43,
-                "logo_url": "/media/39fba002-daab-4c06-9e52-4fc570961c26.png"
+                "logo_url": "/media/39fba002-daab-4c06-9e52-4fc570961c26.png",
+                "scale": 0.89
               },
               {
                 "alt": "더리즈의원 로고",
                 "label": "더리즈의원",
                 "width": 370,
                 "height": 92,
-                "logo_url": "/media/cc899643-af54-41a2-8aad-46bd3c94d0e2.png"
+                "logo_url": "/media/cc899643-af54-41a2-8aad-46bd3c94d0e2.png",
+                "scale": 0.85
               },
               {
                 "alt": "라셀의원 로고",
                 "label": "라셀의원",
                 "width": 116,
                 "height": 39,
-                "logo_url": "/media/3b48b8a1-9e84-40f8-988c-b3d202681cae.png"
+                "logo_url": "/media/3b48b8a1-9e84-40f8-988c-b3d202681cae.png",
+                "scale": 0.89
               },
               {
                 "alt": "르쏘메의원 로고",
                 "label": "르쏘메의원",
                 "width": 301,
                 "height": 80,
-                "logo_url": "/media/9a47db7d-89fd-4031-8313-ebde026315a6.png"
+                "logo_url": "/media/9a47db7d-89fd-4031-8313-ebde026315a6.png",
+                "scale": 0.88
               },
               {
                 "alt": "미나성형외과의원 로고",
                 "label": "미나성형외과의원",
                 "width": 781,
                 "height": 128,
-                "logo_url": "/media/dfafb5cd-f79b-4b06-88c8-4762ac3e94e5.png"
+                "logo_url": "/media/dfafb5cd-f79b-4b06-88c8-4762ac3e94e5.png",
+                "scale": 0.69
               },
               {
                 "alt": "실로스의원 로고",
                 "label": "실로스의원",
                 "width": 88,
                 "height": 24,
-                "logo_url": "/media/dd885d98-55b1-4200-90f9-fab3f19942f9.png"
+                "logo_url": "/media/dd885d98-55b1-4200-90f9-fab3f19942f9.png",
+                "scale": 0.89
               },
               {
                 "alt": "안티안의원 로고",
                 "label": "안티안의원",
                 "width": 1002,
                 "height": 86,
-                "logo_url": "/media/5ff9d62d-678a-4fd0-9e95-9ee22e5a926c.png"
+                "logo_url": "/media/5ff9d62d-678a-4fd0-9e95-9ee22e5a926c.png",
+                "scale": 0.5
               },
               {
                 "alt": "인천퍼스트안과의원 로고",
                 "label": "인천퍼스트안과의원",
                 "width": 247,
                 "height": 38,
-                "logo_url": "/media/4f936ec1-812d-4059-9cb9-ef7c8c7f5916.png"
+                "logo_url": "/media/4f936ec1-812d-4059-9cb9-ef7c8c7f5916.png",
+                "scale": 0.67
               },
               {
                 "alt": "지에스안과 로고",
                 "label": "지에스안과",
                 "width": 333,
                 "height": 92,
-                "logo_url": "/media/bc9c1f97-919c-49a0-be63-d0d7d58d33bd.png"
+                "logo_url": "/media/bc9c1f97-919c-49a0-be63-d0d7d58d33bd.png",
+                "scale": 0.89
               }
             ]
           ]

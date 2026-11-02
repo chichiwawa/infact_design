@@ -26,6 +26,7 @@ export default function FinalCta({ data, variant }: { data: FinalCtaData; varian
     <section className="relative bg-primary text-on-primary on-dark overflow-hidden">
       {/* 제목은 DB headline 의 \n 그대로 세 줄(2026-09-22 "지금 문의하시면, / 병원 마케팅 진단 / 리포트를 보내드립니다."). 가장 긴 줄이 56px 에서 ~480px 라 1.3fr 열(1440 에서 742px)에 여유 있음.
           ※ 긴 문구("원장님 병원 맞춤 마케팅 진단 리포트를", 56px 에서 799px)로 되돌리면 넘치므로 그땐 왼쪽 열 1.6fr + `fontSize: clamp(30px, 6.9cqw, 56px)`(containerType:inline-size) 조합이 필요 — 77차 기록 참고. */}
+      <div aria-hidden="true" className="fcta-main-bg" />
       <div className="relative container-x section-y grid gap-12 lg:grid-cols-[1.3fr_1fr] lg:gap-16 items-start">
         <div data-reveal>
           <h2 className="t-h-xl text-white whitespace-pre-line sec-ttl"><Headline text={data.headline} /></h2>

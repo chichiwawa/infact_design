@@ -14,6 +14,7 @@ import Differentiators from "./sections/Differentiators";
 import LogoMarquee from "./sections/LogoMarquee";
 import BlogLatest from "./sections/BlogLatest";
 import FinalCta from "./sections/FinalCta";
+import FinalCtaImage from "./sections/FinalCtaImage";
 import PainQuotes from "./sections/PainQuotes";
 import Packages from "./sections/Packages";
 import Boosters from "./sections/Boosters";
@@ -47,7 +48,7 @@ function render(s: PageSection, biz: Business | null) {
           case "differentiators": return <Differentiators key={s.id} title={title} data={s.data as S.DifferentiatorsData} />;
           case "blog_latest": return <BlogLatest key={s.id} title={title} data={s.data as S.BlogLatestData} />;
           case "logo_marquee": return <LogoMarquee key={s.id} data={s.data as S.LogoMarqueeData} />;
-          case "final_cta": return <FinalCta key={s.id} data={s.data as S.FinalCtaData} />;
+          case "final_cta": return <FinalCtaImage key={s.id} data={s.data as S.FinalCtaData} />;
           case "pain_quotes": return <PainQuotes key={s.id} data={s.data as S.PainQuotesData} />;
           case "packages": return <Packages key={s.id} title={title} data={s.data as S.PackagesData} />;
           case "boosters": return <Boosters key={s.id} title={title} data={s.data as S.BoostersData} />;

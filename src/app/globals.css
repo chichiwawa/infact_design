@@ -2914,3 +2914,13 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
   .fcta-l { display: inline; white-space: nowrap; }
   h2.fcta-h, h2.sec-ttl.text-white { font-size: min(calc(var(--ttl) * .95), 4.6vw) !important; }
 }
+
+/* "지금 문의하시면" 섹션 배경을 모든 화면(PC·노트북·아이패드·모바일) 동일하게, 메인 첫 화면처럼 어두운 바탕 + 블루 빛줄기·격자·큰 원호로 (2026-11-02, 시험 중) */
+section:has(> .fcta-main-bg) { background: #0a0a0a; }
+.fcta-main-bg { display: block; position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  background: radial-gradient(70% 55% at 85% 0%, rgba(48,97,255,.5), transparent 70%), radial-gradient(60% 45% at 0% 100%, rgba(102,179,255,.28), transparent 70%); }
+.fcta-main-bg::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(107,140,255,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(107,140,255,.09) 1px, transparent 1px); background-size: 56px 56px; -webkit-mask-image: radial-gradient(75% 85% at 50% 45%, #000, transparent); mask-image: radial-gradient(75% 85% at 50% 45%, #000, transparent); }
+.fcta-main-bg::after { content: ""; position: absolute; left: 50%; bottom: -62%; width: 130%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; border: 1px solid rgba(140,175,255,.5); box-shadow: 0 0 70px rgba(48,97,255,.5), inset 0 0 70px rgba(48,97,255,.25); }
+
+/* "2018년부터 함께한 457곳의 병원" 문구: PC·노트북(1024px 이상)에서도 키움 (2026-11-02). 숫자만 고친다 */
+@media (min-width: 1024px) { section[aria-label="함께한 병원"] > p { font-size: 26px; } }
