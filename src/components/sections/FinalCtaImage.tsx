@@ -55,7 +55,7 @@ export default function FinalCtaImage({ data }: { data: FinalCtaData }) {
         <div className="fi-card">
           <p className="fi-card-h">지금 문의하기</p>
           <p className="fi-card-s">영업일 기준 1일 내에 담당자가 연락드립니다.</p>
-          <Link href={data.cta_href} className="fi-btn fi-btn-main">{data.cta_label} <span aria-hidden="true">↗</span></Link>
+          <Link href={data.cta_href} className="fi-btn fi-btn-main">{data.cta_label}{/* 화살표: "서비스 구성 자세히 보기" 버튼(PickerSection)과 같은 > 아이콘 */}<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ marginLeft: -6, marginRight: -5 }}><path d="M9 6l6 6-6 6" /></svg></Link>
           {data.kakao_label && data.kakao_url && (
             <a href={data.kakao_url} target="_blank" rel="noopener noreferrer" className="fi-btn fi-btn-sub">
               {/* 카카오톡 채널 아이콘: 검정 말풍선 + 노랑 "Ch" (제공 이미지 왼쪽 아래 형태) */}

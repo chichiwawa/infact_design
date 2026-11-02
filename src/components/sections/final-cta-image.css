@@ -4,6 +4,12 @@
 .fi-bg::before, .fi-bg::after { content: ""; position: absolute; border-radius: 50%; aspect-ratio: 1; border: 1px solid rgba(140,175,255,.55); }
 .fi-bg::before { right: -18%; top: -62%; width: min(900px, 80vw); background: radial-gradient(closest-side, rgba(48,97,255,.28), transparent 75%); box-shadow: 0 0 60px rgba(79,131,255,.55), inset 0 0 60px rgba(79,131,255,.3); }
 .fi-bg::after { left: -14%; bottom: -70%; width: min(760px, 70vw); background: radial-gradient(closest-side, rgba(48,97,255,.25), transparent 75%); box-shadow: 0 0 60px rgba(79,131,255,.5), inset 0 0 60px rgba(79,131,255,.28); }
+/* 배경 모션: 두 원호 빛이 천천히 떠다니며 숨 쉬듯 밝아졌다 어두워짐 (2026-11-02) */
+.fi-bg::before { animation: fi-orb-a 14s ease-in-out infinite alternate; }
+.fi-bg::after { animation: fi-orb-b 17s ease-in-out infinite alternate; }
+@keyframes fi-orb-a { from { transform: translate(0, 0) scale(1); opacity: .75; } to { transform: translate(-5%, 8%) scale(1.08); opacity: 1; } }
+@keyframes fi-orb-b { from { transform: translate(0, 0) scale(1); opacity: 1; } to { transform: translate(6%, -7%) scale(1.1); opacity: .7; } }
+@media (prefers-reduced-motion: reduce) { .fi-bg::before, .fi-bg::after { animation: none; } }
 .fi-in { position: relative; z-index: 1; display: grid; gap: 48px; align-items: center; }
 @media (min-width: 1024px) { .fi-in { grid-template-columns: 1.3fr 1fr; gap: 56px; } }
 

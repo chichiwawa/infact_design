@@ -24,13 +24,16 @@ export default function Footer({ biz }: { biz: Business | null }) {
               <span className="logo-word" aria-hidden="true" />
               <span className="logo-dot text-primary" aria-hidden="true" />
             </p>
-            <p className="t-lead text-white/85 mt-5 max-w-[28ch]">2018년부터, 오직 병원 마케팅만 해왔습니다.</p>
+            {/* 메인 히어로처럼 줄마다 아래에서 올라오는 마스크 모션 (스크롤로 푸터가 보일 때 1회, wipe-stagger) */}
+            <p className="wipe-stagger t-lead text-white/85 mt-5">
+              <span className="wipe block pb-[.12em]"><span>2018년부터,</span></span>
+              <span className="wipe block pb-[.12em]"><span>오직 병원 마케팅만 해왔습니다.</span></span>
+            </p>
             <p className="t-body-sm text-white/40 mt-2">INside the clinic, based on FACT.</p>
           </div>
 
           <div>
-            <p className="t-eyebrow text-white/40">Menu</p>
-            <ul className="mt-4 space-y-3">
+            <ul className="space-y-3">
               {NAV.map((it) => (
                 <li key={it.href}><Link href={it.href} className="text-[17px] text-white/80 hover:text-white">{it.label}</Link></li>
               ))}
@@ -38,8 +41,7 @@ export default function Footer({ biz }: { biz: Business | null }) {
           </div>
 
           <div>
-            <p className="t-eyebrow text-white/40">Channel</p>
-            <ul className="mt-4 space-y-3">
+            <ul className="space-y-3">
               {(b?.same_as ?? []).map((s) => (
                 <li key={s.url}>
                   <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-[17px] text-white/80 hover:text-white">

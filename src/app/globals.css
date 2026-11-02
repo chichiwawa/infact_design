@@ -2924,3 +2924,13 @@ section:has(> .fcta-main-bg) { background: #0a0a0a; }
 
 /* "2018년부터 함께한 457곳의 병원" 문구: PC·노트북(1024px 이상)에서도 키움 (2026-11-02). 숫자만 고친다 */
 @media (min-width: 1024px) { section[aria-label="함께한 병원"] > p { font-size: 26px; } }
+
+/* 노트북·PC 04 "우리병원은 ○○가 필요해요" 오른쪽 카드 (2026-11-02): 이미지와 아래 설명 덩어리 사이가 넓어 설명을 위로 끌어올림(화면 높이에 비례, 이미지는 그대로).
+   전후사진 부스터(.ph-ba)는 제외. 인스타 카드는 이미지 아래 번짐 때문에 더 올림. 올리는 양은 svh 숫자만 고친다 */
+@media (min-width: 1024px) and (orientation: landscape) {
+  html:not([data-ipad-land]) .pk-stack .pk-scard[data-kind="ig"]:not(:has(.ph-ba)) .pk-scard-bottom { position: relative; top: calc(-3.4svh * var(--zi)); }
+  html:not([data-ipad-land]) .pk-stack .pk-scard[data-kind="ig"]:not(:has(.ph-ba, .ph-ai, .ph-indiv, .yt-img, .ind)) .pk-scard-bottom { top: calc(-6svh * var(--zi)); }
+}
+@media (min-width: 1024px) and (orientation: landscape) {
+  html:not([data-ipad-land]) .pk-stack .pk-scard[data-kind="ig"]:has(.ind) .pk-scard-bottom { top: calc(-8.5svh * var(--zi)); } /* 개별 상품 6종: 이미지 아래 여백이 가장 넓음 */
+}
