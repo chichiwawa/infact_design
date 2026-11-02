@@ -2860,3 +2860,11 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
 @media (min-width: 768px) {
   .diff-stick[data-variant="x2"] .diff-line::before { top: 50%; transform: translateY(-50%) scale(var(--a)); }
 }
+
+/* 아이패드 세로 04 "우리병원은 ○○가 필요해요" 오른쪽 카드 (2026-11-02): ① 상품 제목·설명 글자를 왼쪽 글(제목 30px·설명 12~13px)과 비슷한 크기로 줄임 ② 이미지와 설명 덩어리 사이 빈 간격을 좁힘(설명을 위로 올리고 행간·제목 아래 간격을 줄임). 숫자만 고친다 */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+  .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom h3 { font-size: 28px !important; margin-bottom: 6px; line-height: 1.2; }
+  .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body { font-size: 14px !important; line-height: 1.45 !important; }
+  .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bottom .pk-below-body .block + .block { margin-top: 2px; }
+  .pk-stack[data-igtx] .pk-scard[data-kind="ig"] .pk-scard-bottom { margin-bottom: calc(8svh * var(--zi)); min-height: 0; }
+}
