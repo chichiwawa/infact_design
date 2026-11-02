@@ -2884,3 +2884,11 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
 @media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
   .pk-stack[data-igtx] .pk-scard[data-kind="ig"]:has(.ph-ba, .ph-ai, .ph-indiv, .yt-img) .pk-scard-bottom { position: relative; top: calc(-9svh * var(--zi)); }
 }
+
+/* 아이패드 세로 04 오른쪽 카드 (2026-11-02): ① 이미지 시작점을 "우리병원은" 글씨 시작 높이쯤으로 내림(이미지만 아래로 이동, 설명 글은 그대로) ② 설명 덩어리의 파란 글씨(AI SEARCH 등)와 파란 아이콘(GEO/SEO 등) 축소. 숫자만 고친다 */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+  .pk-stack .pk-scard[data-kind="ig"] .pk-scard-bg { translate: 0 calc(6svh * var(--zi)); }
+  .pk-stack .pk-scard[data-kind] .pk-scard-bottom .pk-eb { font-size: 10px !important; margin-bottom: 6px; }
+  .pk-stack .pk-scard[data-kind] .pk-scard-bottom .pk-tags li { font-size: 11px; }
+  .pk-stack .pk-scard[data-kind] .pk-scard-bottom .pk-tags li::before { width: 16px; height: 16px; }
+}
