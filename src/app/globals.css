@@ -2907,3 +2907,10 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
   h2.fcta-h, h2.sec-ttl.text-white { text-align: center; }
   h2.fcta-h + p, h2.sec-ttl.text-white + p { text-align: center; }
 }
+
+/* 아이패드 세로: "지금 문의하시면," 한 줄 + "병원 마케팅 진단 리포트를 보내드립니다." 한 줄, 총 두 줄 (2026-11-02). 둘째 줄 글자 크기는 4.6vw 만 고친다 */
+.fcta-l { display: block; }
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+  .fcta-l { display: inline; white-space: nowrap; }
+  h2.fcta-h, h2.sec-ttl.text-white { font-size: min(calc(var(--ttl) * .95), 4.6vw) !important; }
+}

@@ -5,7 +5,19 @@ import Link from "next/link";
 import type { FinalCtaData } from "@/lib/sections";
 import "./final-cta-variants.css";
 
-type V = "a" | "b" | "c" | "d" | "e";
+/** 제목 줄바꿈: 첫 줄 뒤에서 항상 줄바꿈. 이후 줄은 PC·모바일에서는 줄마다 나뉘고, 아이패드 세로에서는 한 줄로 이어진다(.fcta-l, globals.css) */
+function Headline({ text }: { text: string }) {
+  const [first, ...rest] = text.split("\n");
+  return (
+    <>
+      {first}
+      <br />
+      {rest.map((l, i) => <span key={i} className="fcta-l">{l}{i < rest.length - 1 ? " " : ""}</span>)}
+    </>
+  );
+}
+
+type V ="a" | "b" | "c" | "d" | "e";
 
 /** variant a~e: 어두운 톤 시안(/demo/cta-a ~ cta-e). 생략하면 기존 파란 밴드. */
 export default function FinalCta({ data, variant }: { data: FinalCtaData; variant?: V }) {
@@ -16,7 +28,7 @@ export default function FinalCta({ data, variant }: { data: FinalCtaData; varian
           ※ 긴 문구("원장님 병원 맞춤 마케팅 진단 리포트를", 56px 에서 799px)로 되돌리면 넘치므로 그땐 왼쪽 열 1.6fr + `fontSize: clamp(30px, 6.9cqw, 56px)`(containerType:inline-size) 조합이 필요 — 77차 기록 참고. */}
       <div className="relative container-x section-y grid gap-12 lg:grid-cols-[1.3fr_1fr] lg:gap-16 items-start">
         <div data-reveal>
-          <h2 className="t-h-xl text-white whitespace-pre-line sec-ttl">{data.headline}</h2>
+          <h2 className="t-h-xl text-white whitespace-pre-line sec-ttl"><Headline text={data.headline} /></h2>
           {data.sub && <p className="t-lead text-white/80 mt-6 whitespace-pre-line">{data.sub}</p>}
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
             {data.offers.map((o) => (
@@ -52,7 +64,7 @@ function Variant({ data, v }: { data: FinalCtaData; v: V }) {
       <div className="fcta-bg" aria-hidden="true" />
       <div className="fcta-in container-x section-y fcta-grid grid gap-12 lg:grid-cols-[1.3fr_1fr] lg:gap-16 items-start">
         <div data-reveal>
-          <h2 className="fcta-h t-h-xl whitespace-pre-line sec-ttl">{data.headline}</h2>
+          <h2 className="fcta-h t-h-xl whitespace-pre-line sec-ttl"><Headline text={data.headline} /></h2>
           {data.sub && <p className="fcta-sub t-lead mt-6 whitespace-pre-line">{data.sub}</p>}
           <div className="fcta-offers mt-10 grid gap-4 sm:grid-cols-2">
             {data.offers.map((o) => (
