@@ -2827,10 +2827,10 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
 /* ── 아이패드 세로 (2026-11-02) ──
    1) "인팩트만의 차별점": 이미지가 위·아래 줄로 흘러 글 덩어리 옆 공간이 넓어졌으므로 글자 키움. 크기는 아래 px 만 고친다 */
 @media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait), (min-width: 1024px) and (orientation: portrait) {
-  .diff-stick .diff-logo { font-size: 30px; }
-  .diff-stick .diff-title { margin-top: 16px; font-size: 64px !important; }
-  .diff-stick .diff-list { margin-top: 56px; gap: 22px; }
-  .diff-stick .diff-line { font-size: 36px; }
+  .diff-stick .diff-logo { font-size: 22px; }
+  .diff-stick .diff-title { margin-top: 12px; font-size: 46px !important; } /* 다른 섹션 제목(마케팅 전략 46px)과 같은 크기 */
+  .diff-stick .diff-list { margin-top: 44px; gap: 18px; }
+  .diff-stick .diff-line { font-size: 28px; }
 }
 /* 2) "감이 아닌 팩트로, / 병원의 가치를 키웁니다.": 동그라미를 위로, 두 줄 문구를 아래에 세로로 쌓고 글자를 키움. 크기는 --cr-d(동그라미)·5.6vw(글자)만 고친다 */
 @media (min-width: 768px) and (orientation: portrait) {
@@ -2840,4 +2840,11 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
   .cr-text--l { order: 2; } .cr-text--r { order: 3; }
   .cr-text { flex: none; margin: 0; justify-self: auto; text-align: center; font-size: clamp(36px, calc(5.6vw * var(--zi)), 68px); line-height: 1.3; white-space: nowrap; }
   .cr-text--l, .cr-text--r { transform: translateY(calc(var(--cr-p) * 40vh)); }
+}
+
+/* 3) 첫 화면(메인) 아이패드 세로 (2026-11-02): "오직 병원 마케팅만 / INFACT. COMPANY" 와 오른쪽 아래 설명글 키움. 크기는 아래 vw 숫자만 고친다 */
+@media (min-width: 768px) and (orientation: portrait) {
+  .hero-eyebrow { font-size: calc(4.2vw * var(--zi)); }
+  .hero-h1 { font-size: calc(9.8vw * var(--zi)); }
+  .hero-desc { font-size: calc(2vw * var(--zi)); }
 }
