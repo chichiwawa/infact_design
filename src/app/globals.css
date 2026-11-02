@@ -2879,3 +2879,8 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
   .cr-proc .ph-dot { width: 18px; height: 18px; top: -1.5px; }
   .cr-proc .ph-line { left: 18px; }
 }
+
+/* 아이패드 세로 04: 전후사진·AI·개별상품·유튜브 부스터 카드는 이미지 칸 아래 빈 공간 때문에 설명이 멀리 떨어져 있었음 → 설명 덩어리만 위로 끌어올림(이미지 크기는 그대로). 올리는 양은 9svh 만 고친다 */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+  .pk-stack[data-igtx] .pk-scard[data-kind="ig"]:has(.ph-ba, .ph-ai, .ph-indiv, .yt-img) .pk-scard-bottom { position: relative; top: calc(-9svh * var(--zi)); }
+}
