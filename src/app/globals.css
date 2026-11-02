@@ -2801,3 +2801,25 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
   .pk-stack[data-acc="b"] .pk-sitem[data-on="1"] i { width: 9px; margin-right: 9px; }
   .pk-stack .pk-sbtn { padding: 9px 18px; font-size: 14px; }
 }
+
+/* ── 아이패드 세로(768~1023px) 04 "우리병원은 ○○가 필요해요" (2026-11-02): 왼쪽 아코디언 메뉴를 줄이고, 오른쪽 카드(설명·이미지)가 더 넓게 보이게 열 너비 조정 ──
+   왼쪽 폭은 첫 번째 숫자(250px), 카드 높이 비율은 PickerSection.tsx 의 .62 */
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+  .pk-stack .pk-sgrid { grid-template-columns: 236px minmax(0, 1fr); gap: 22px; }
+  .pk-stack .pk-sview { width: 100%; margin-left: 0; margin-right: 0; }
+  .pk-stack .pk-sgroups { max-width: 236px; gap: 14px; }
+  .pk-stack .pk-sleft-in .pk-lead { font-size: 12px; }
+  .pk-stack .pk-sleft-in .pk-lead .block { font-size: 13px; }
+  .pk-stack .pk-h { font-size: 32px; }
+  .pk-stack[data-acc] .pk-shead { font-size: 14px; padding-block: 8px; padding-inline: 8px; }
+  .pk-stack[data-acc] .pk-sitem { font-size: 12.5px; padding-block: 7px; padding-inline: 8px; }
+  .pk-stack .pk-cta, .pk-stack .pk-sbtn { font-size: 12px; padding: 8px 14px; }
+}
+@media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+  .pk-stack .pk-h { font-size: 30px; }
+  .pk-stack .pk-h1, .pk-stack .pk-h2 { white-space: nowrap; }
+  .pk-stack .pk-h2 { flex-wrap: nowrap; }
+  /* 상품 이미지 확대: 이미지 칸 전체를 키우고(1.1배, 카드 밖은 잘림), 설명 칸은 조금 낮춰 이미지 쪽에 공간을 줌. 배율은 1.1 만 고친다 */
+  .pk-stack[data-igtx] .pk-scard[data-kind="ig"] .pk-scard-bg { transform: scale(1.1); transform-origin: 50% 55%; }
+  .pk-stack[data-igtx] .pk-scard[data-kind="ig"] .pk-scard-bottom { min-height: calc(21svh * var(--zi)); }
+}

@@ -142,6 +142,12 @@ export default function PickerSection({
           const z = el.getBoundingClientRect().height / el.offsetHeight; // html zoom 배율(1 또는 0.8) — 화면 px 를 CSS px 로 환산
           el.style.setProperty("--pk-top", `${Math.round((top - view.getBoundingClientRect().top) / z)}px`);
           el.style.setProperty("--ch", `${Math.round((bottom - top) / z)}px`);
+          // 아이패드 세로(768~1023px): 왼쪽 메뉴를 줄여도 카드가 같이 작아지지 않게, 카드 높이를 화면 높이 비율로 따로 잡고 세로 가운데에 둔다 (비율 .62 만 고치면 됨)
+          if (window.matchMedia("(min-width: 768px) and (max-width: 1023px) and (orientation: portrait)").matches) {
+            const vh = view.offsetHeight, ch = Math.round(vh * 0.62);
+            el.style.setProperty("--ch", `${ch}px`);
+            el.style.setProperty("--pk-top", `${Math.round((vh - ch) / 2)}px`);
+          }
         }
         setActive(Math.round(v));
       } else if (mob === "f") {
