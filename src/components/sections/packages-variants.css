@@ -159,7 +159,8 @@
 .pkd-chips li { min-height: 48px; padding: 6px 8px; gap: 7px; font-size: 12px; }
 .pkd-ico { width: 28px; height: 28px; }
 .pkd-ico svg { width: 15px; height: 15px; }
-@media (min-width: 1024px) { .pkd-chips li:not(.pkd-chip-lead) > span:last-child { white-space: nowrap; } }
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) { .pkd-chips li:not(.pkd-chip-lead) > span:last-child { white-space: nowrap; } }
+.pkd-chips li > span:last-child { min-width: 0; overflow-wrap: anywhere; }
 
 /* 시안 d 11차: 카드 제목 키움 / 설명 문구는 검정 볼드·키움 / 회색 박스 두 줄 글자는 연한 회색 */
 .pkd-title { font-size: clamp(28px, calc(2.3*var(--vw1)), 36px); }

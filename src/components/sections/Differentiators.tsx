@@ -47,7 +47,7 @@ export default function Differentiators({ title, data, variant = "x2" }: { title
     const update = () => {
       raf = 0;
       const r = el.getBoundingClientRect();
-      const total = r.height - window.innerHeight;
+      const total = r.height - (stick.current?.getBoundingClientRect().height ?? window.innerHeight);
       const p = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 1;
       const n = data.items.length;
       // 앞뒤 8% 는 여백. q = 현재 강조 위치(0 ~ n-1, 연속값)
@@ -70,7 +70,7 @@ export default function Differentiators({ title, data, variant = "x2" }: { title
   }, [data.items.length]);
 
   return (
-    <section ref={wrap} className="diff-wrap" style={{ height: `${100 + data.items.length * 60}dvh` }}>
+    <section ref={wrap} className="diff-wrap" style={{ height: `calc(${100 + data.items.length * 60} * var(--dvh1))` }}>
       <div ref={stick} className="diff-stick" data-variant={variant}>
         <div className="diff-glow" aria-hidden />
         {/* 밝은 배경 장식 — 시안 x1(격자·워터마크·링) / x2(블루 오브·떠다니는 칩) / x3(가이드선·태그). 기본 화면에서는 숨김 */}

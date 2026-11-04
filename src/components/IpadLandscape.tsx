@@ -36,12 +36,18 @@ export default function IpadLandscape() {
       if (!root.style.getPropertyValue("--ipad-h")) root.style.setProperty("--ipad-h", `${h * zi}px`);
       root.style.setProperty("--vw1", `${(w * zi) / 100}px`);
       const v = `${(h * zi) / 100}px`;
-      ["--vh1", "--svh1", "--dvh1", "--lvh1"].forEach((k) => root.style.setProperty(k, v));
+      ["--vh1", "--lvh1"].forEach((k) => root.style.setProperty(k, v));
+      // 히어로·차별점처럼 "화면 한 장" 높이를 쓰는 곳(svh1·dvh1)은 툴바가 펼쳐진 실제 보이는 높이로 — 큰 값(h)을 쓰면 아래가 잘린다
+      const vis = Math.min(window.innerHeight, window.visualViewport?.height ?? window.innerHeight);
+      const sv = `${(vis * zi) / 100}px`;
+      ["--svh1", "--dvh1"].forEach((k) => root.style.setProperty(k, sv));
     };
     apply();
     mq.addEventListener("change", apply);
     window.addEventListener("resize", apply);
+    window.visualViewport?.addEventListener("resize", apply);
     return () => {
+      window.visualViewport?.removeEventListener("resize", apply);
       mq.removeEventListener("change", apply);
       window.removeEventListener("resize", apply);
       probe.remove();
