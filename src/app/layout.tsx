@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   },
   // 디자인 작업용 사본 — 어딘가에 올리더라도 검색에 잡혀 운영 사이트와 중복되지 않게
   robots: { index: false, follow: false },
+  // 링크 미리보기(카톡·슬랙 등)에 뜨는 이미지 — 메인 히어로 화면(1200x630)
+  metadataBase: new URL("https://infact-design.vercel.app"),
+  openGraph: { images: [{ url: "/og/home-hero.png", width: 1200, height: 630 }] },
+  twitter: { card: "summary_large_image", images: ["/og/home-hero.png"] },
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
