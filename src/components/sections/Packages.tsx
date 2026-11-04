@@ -119,7 +119,7 @@ export default function Packages({ title, data, variant }: { title: string; data
   useEffect(() => {
     const sec = secRef.current;
     if (variant !== "d" || !sec) return;
-    const mq = matchMedia("(min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse)");
+    const mq = matchMedia("(min-width: 744px) and (max-width: 1366px) and (pointer: coarse) and (orientation: landscape), (min-width: 744px) and (max-width: 1023px) and (pointer: coarse) and (orientation: portrait)");
     const fit = () => {
       const titles = Array.from(sec.querySelectorAll<HTMLElement>(".pkd-title"));
       titles.forEach((t) => t.style.removeProperty("font-size"));

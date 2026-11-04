@@ -2954,3 +2954,7 @@ section:has(> .fcta-main-bg) { background: #0a0a0a; }
   .fi-title { font-size: calc(var(--ttl) * 1.05) !important; }
   .pk-stack .pk-h { font-size: calc(var(--ttl) * 1.06) !important; }
 }
+
+/* 서비스 맨 위 "원장님, 이번 달도 같은 고민 / 반복하고 계시진 않나요?" — 데스크탑·노트북·아이패드 가로에서 항상 두 줄. 줄바꿈 위치는 pages.json 의 \n, 줄은 폭이 모자라도 꺾이지 않는다 */
+.pain-headline-2 { max-width: none; width: max-content; }
+.pain-headline-2 .block { white-space: nowrap; }

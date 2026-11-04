@@ -277,7 +277,7 @@ export default function PainQuotes({ data }: { data: PainQuotesData }) {
         <div className="pain-inner">
           <div className="pain-scene pain-wall" aria-hidden="true"><div className="pain-world">{wallTiles(data.quotes, 1700, 11, 11, 13.5)}</div></div>
           <div aria-hidden="true" className="pain-fog" />
-          <h1 className="pain-headline t-h-xl">{data.headline}</h1>
+          <h1 className="pain-headline pain-headline-2 t-h-xl">{data.headline.split("\n").map((l, i) => <span key={i} className="block">{l}</span>)}</h1>
           <div className="pain-scene pain-cards">
             <div className="pain-world">
               {data.quotes.map((q, i) => (
