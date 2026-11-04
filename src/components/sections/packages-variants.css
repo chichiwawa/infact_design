@@ -236,21 +236,20 @@
   .pkd-cta { font-size: calc(14px * var(--pkd-k, 1)); }
 }
 
-/* 시안 d, 아이패드 세로(744~1023, 터치): 카드 세 장이 좁아 글자가 깨져 보였다.
-   제목은 가로 배율 --pkd-k 로 줄이고(Packages.tsx), 구성 칩은 한 줄에 하나씩 넓게 놓아 글자가 접히지 않게 한다 */
-@media (min-width: 744px) and (max-width: 1023px) and (orientation: portrait) and (pointer: coarse) {
-  [data-pkv="d"] .container-x { padding-inline: 32px; }
-  [data-pkv="d"] .reveal-stagger { gap: 14px; }
-  .pkd-card { --px: 16px; }
+/* 시안 d, 아이패드 세로·좁은 태블릿(744~1023): PC 처럼 세 장을 나란히 두면 글자가 깨지므로, 모바일처럼 카드를 한 장씩 아래로 쌓는다.
+   카드 안은 PC 처럼 구성 칩 2열. 카드 폭은 최대 620px 가운데 */
+@media (min-width: 744px) and (max-width: 1023px) {
+  [data-pkv="d"] .container-x { padding-inline: 40px; }
+  [data-pkv="d"] .reveal-stagger { grid-template-columns: 1fr; gap: 28px; max-width: 620px; margin-inline: auto; }
+  .pkd-card { --px: 28px; border-radius: 32px; }
   .pkd-title .block { white-space: nowrap; }
-  .pkd-desc { font-size: calc(17px * var(--pkd-k, 1)); }
-  .pkd-label { font-size: calc(15px * var(--pkd-k, 1)); }
-  .pkd-pills li { font-size: calc(14px * var(--pkd-k, 1)); padding: 10px 10px; }
-  .pkd-chips { grid-template-columns: 1fr; }
-  .pkd-chips li { font-size: calc(13px * var(--pkd-k, 1)); min-height: 44px; }
-  .pkd-chips li:not(.pkd-chip-lead) > span:last-child { white-space: nowrap; }
-  .pkd-chips li.pkd-chip-lead > span:last-child { white-space: pre-line; }
-  .pkd-cta { font-size: calc(14px * var(--pkd-k, 1)); }
+  .pkd-chips { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pkd-chips li { min-height: 56px; font-size: 14px; }
+  .pkd-chips li > span:last-child { white-space: normal !important; }
+  .pkd-chips li.pkd-chip-lead { grid-column: 1 / -1; }
+  .pkd-ico { width: 30px; height: 30px; }
+  .pkd-ico svg { width: 16px; height: 16px; }
+  .pkd-cta { font-size: 15px; padding: 12px 30px; }
 }
 
 /* 시안 d: 카드를 누르면(탭·클릭) 카드 색 테두리 + 은은한 빛 + 살짝 떠오름. 다시 누르면 해제. 선택 상태는 data-on 으로(reveal 클래스를 지우지 않으려고 className 을 쓰지 않음) */
@@ -260,4 +259,35 @@
 /* 시안 d, 아이패드 가로: 카드 줄 폭을 조금 넓힘(1440 → 1560px, 카드 한 장 약 +40px) */
 @media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
   [data-pkv="d"] .reveal-stagger { max-width: 1560px; }
+}
+
+/* 아이패드 세로 시안 (744~1023px, /demo/pkg-ipad-a·b). 기기와 상관없이 이 폭이면 적용 */
+@media (min-width: 744px) and (max-width: 1023px) {
+  /* A: 카드 3장 나란히, PC 처럼 구성 아이콘 2열 × 3줄을 통째로 축소 (글자는 --pkd-k 배율, 너무 작아지지 않게 하한) */
+  [data-pkv="d"][data-ipad="a"] .container-x { padding-inline: 20px; }
+  [data-pkv="d"][data-ipad="a"] .reveal-stagger { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; max-width: none; }
+  [data-ipad="a"] .pkd-card { --px: 12px; border-radius: 24px; }
+  [data-ipad="a"] .pkd-top { padding-block: 8px; }
+  [data-ipad="a"] .pkd-title .block { white-space: nowrap; }
+  [data-ipad="a"] .pkd-desc { font-size: max(11px, calc(17px * var(--pkd-k, 1))); }
+  [data-ipad="a"] .pkd-pills li { font-size: max(10.5px, calc(14px * var(--pkd-k, 1))); padding: 8px 6px; }
+  [data-ipad="a"] .pkd-chips { grid-template-columns: 1fr 1fr; gap: 6px; }
+  [data-ipad="a"] .pkd-chips li { flex-direction: column; justify-content: center; text-align: center; gap: 4px; padding: 8px 4px; min-height: 0; font-size: max(10px, calc(13px * var(--pkd-k, 1))); }
+  [data-ipad="a"] .pkd-chips li > span:last-child { white-space: normal !important; }
+  [data-ipad="a"] .pkd-chips li.pkd-chip-lead { grid-column: 1 / -1; }
+  [data-ipad="a"] .pkd-ico { width: 24px; height: 24px; }
+  [data-ipad="a"] .pkd-ico svg { width: 13px; height: 13px; }
+  [data-ipad="a"] .pkd-cta { font-size: max(11px, calc(14px * var(--pkd-k, 1))); padding: 8px 16px; }
+
+  /* B: 카드를 한 장씩 세로로 쌓고, 각 카드 안은 PC 처럼 구성 아이콘 2열 */
+  [data-pkv="d"][data-ipad="b"] .container-x { padding-inline: 40px; }
+  [data-pkv="d"][data-ipad="b"] .reveal-stagger { grid-template-columns: 1fr; gap: 28px; max-width: 620px; margin-inline: auto; }
+  [data-ipad="b"] .pkd-card { --px: 28px; border-radius: 32px; }
+  [data-ipad="b"] .pkd-chips { grid-template-columns: 1fr 1fr; gap: 10px; }
+  [data-ipad="b"] .pkd-chips li { min-height: 56px; font-size: 14px; }
+  [data-ipad="b"] .pkd-chips li > span:last-child { white-space: normal !important; }
+  [data-ipad="b"] .pkd-chips li.pkd-chip-lead { grid-column: 1 / -1; }
+  [data-ipad="b"] .pkd-ico { width: 30px; height: 30px; }
+  [data-ipad="b"] .pkd-ico svg { width: 16px; height: 16px; }
+  [data-ipad="b"] .pkd-cta { font-size: 15px; padding: 12px 30px; }
 }

@@ -108,7 +108,7 @@ function CardD({ it, i, on, onPick }: { it: PackagesData["items"][number]; i: nu
   );
 }
 
-export default function Packages({ title, data, variant }: { title: string; data: PackagesData; variant?: "a" | "b" | "c" | "d" }) {
+export default function Packages({ title, data, variant, ipad }: { title: string; data: PackagesData; variant?: "a" | "b" | "c" | "d"; ipad?: "a" | "b" }) {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const [selD, setSelD] = useState<number | null>(null); // 시안 d: 눌러서 테두리가 생긴 카드
   const secRef = useRef<HTMLElement>(null);
@@ -120,11 +120,12 @@ export default function Packages({ title, data, variant }: { title: string; data
     const sec = secRef.current;
     if (variant !== "d" || !sec) return;
     const mq = matchMedia("(min-width: 744px) and (max-width: 1366px) and (pointer: coarse) and (orientation: landscape), (min-width: 744px) and (max-width: 1023px) and (pointer: coarse) and (orientation: portrait)");
+    const mqPad = matchMedia("(min-width: 744px) and (max-width: 1023px)"); // 아이패드 세로 시안(ipad) 페이지용
     const fit = () => {
       const titles = Array.from(sec.querySelectorAll<HTMLElement>(".pkd-title"));
       titles.forEach((t) => t.style.removeProperty("font-size"));
       sec.style.removeProperty("--pkd-k");
-      if (!mq.matches) return;
+      if (!mq.matches && !(ipad && mqPad.matches)) return;
       let k = 1;
       titles.forEach((t) => {
         const card = t.parentElement as HTMLElement;
@@ -145,10 +146,10 @@ export default function Packages({ title, data, variant }: { title: string; data
     window.addEventListener("resize", fit);
     mq.addEventListener("change", fit);
     return () => { window.removeEventListener("resize", fit); mq.removeEventListener("change", fit); };
-  }, [variant]);
+  }, [variant, ipad]);
 
   return (
-    <section ref={secRef} id="packages" className="section-y bg-elevated scroll-mt-20" data-pkv={variant}>
+    <section ref={secRef} id="packages" className="section-y bg-elevated scroll-mt-20" data-pkv={variant} data-ipad={ipad}>
       <div className="container-x">
         {/* 안내 문구(note)는 제목 아래 서브로 올렸다 (2026-09-17) */}
         <SectionHead title={title} sub={data.note} />
