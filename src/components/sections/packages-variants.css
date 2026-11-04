@@ -224,3 +224,14 @@
 
 /* 시안 d 26차: 섹션 맨 아래 파란 "문의하기" 버튼 삭제(카드 안 버튼만 사용) */
 [data-pkv="d"] .pk-banner { display: none; }
+
+/* 시안 d, 아이패드 가로(1024~1366, 터치): 사파리가 글자를 박스보다 크게 그려 제목이 세 줄로 넘쳤다.
+   제목은 줄바꿈 없이 두 줄(PC 와 같게)로 두고, Packages.tsx 가 카드 폭에 맞춰 잰 배율 --pkd-k(≤1)를 제목에 곱하며, 나머지 글자도 같은 배율로 줄인다 */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  .pkd-title .block { white-space: nowrap; }
+  .pkd-desc { font-size: calc(17px * var(--pkd-k, 1)); }
+  .pkd-label { font-size: calc(15px * var(--pkd-k, 1)); }
+  .pkd-pills li { font-size: calc(14px * var(--pkd-k, 1)); }
+  .pkd-chips li { font-size: calc(13px * var(--pkd-k, 1)); }
+  .pkd-cta { font-size: calc(14px * var(--pkd-k, 1)); }
+}

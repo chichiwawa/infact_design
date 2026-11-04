@@ -16,7 +16,7 @@
  *  사용자 지적 → lg 미만에서만 보이는 "구성 보기" 토글 버튼 추가. `.pkg-card:hover`와 별개로 `.pkg-card.is-open`도 같은 clip-path 를 열도록
  *  globals.css 에 규칙 추가(카드별 useState). 토글 버튼은 카드 상단 배지 옆(사용자가 스크린샷에 표시한 위치)에 둠.
  */
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import SectionHead from "@/components/SectionHead";
 import type { PackagesData } from "@/lib/sections";
@@ -110,9 +110,44 @@ function CardD({ it, i }: { it: PackagesData["items"][number]; i: number }) {
 
 export default function Packages({ title, data, variant }: { title: string; data: PackagesData; variant?: "a" | "b" | "c" | "d" }) {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const secRef = useRef<HTMLElement>(null);
+
+  // 시안 d, 아이패드 가로: 사파리가 글자를 박스보다 크게 그려 카드 제목이 세 줄로 넘치고 잘렸다.
+  // 제목을 한 줄씩(줄바꿈 금지) 두 줄로 두고, 가장 긴 줄이 카드 안쪽 폭에 들어오는 배율 k 를 실측해 제목에 곱한다.
+  // 같은 k 를 --pkd-k 로 넘겨 설명·알약·칩 글자도 같은 비율로 줄인다(packages-variants.css 마지막 블록). 세 카드는 같은 크기로 맞춘다.
+  useEffect(() => {
+    const sec = secRef.current;
+    if (variant !== "d" || !sec) return;
+    const mq = matchMedia("(min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse)");
+    const fit = () => {
+      const titles = Array.from(sec.querySelectorAll<HTMLElement>(".pkd-title"));
+      titles.forEach((t) => t.style.removeProperty("font-size"));
+      sec.style.removeProperty("--pkd-k");
+      if (!mq.matches) return;
+      let k = 1;
+      titles.forEach((t) => {
+        const card = t.parentElement as HTMLElement;
+        const cs = getComputedStyle(card);
+        const z = card.getBoundingClientRect().width / card.offsetWidth; // html zoom 배율(화면 px ÷ CSS px)
+        const avail = card.getBoundingClientRect().width - (parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight)) * z;
+        t.querySelectorAll<HTMLElement>(":scope > span").forEach((l) => {
+          const w = l.getBoundingClientRect().width;
+          if (w > 0) k = Math.min(k, avail / w);
+        });
+      });
+      k = Math.min(1, k * 0.96);
+      sec.style.setProperty("--pkd-k", String(k));
+      titles.forEach((t) => { t.style.fontSize = `${parseFloat(getComputedStyle(t).fontSize) * k}px`; });
+    };
+    fit();
+    document.fonts?.ready.then(fit);
+    window.addEventListener("resize", fit);
+    mq.addEventListener("change", fit);
+    return () => { window.removeEventListener("resize", fit); mq.removeEventListener("change", fit); };
+  }, [variant]);
 
   return (
-    <section id="packages" className="section-y bg-elevated scroll-mt-20" data-pkv={variant}>
+    <section ref={secRef} id="packages" className="section-y bg-elevated scroll-mt-20" data-pkv={variant}>
       <div className="container-x">
         {/* 안내 문구(note)는 제목 아래 서브로 올렸다 (2026-09-17) */}
         <SectionHead title={title} sub={data.note} />

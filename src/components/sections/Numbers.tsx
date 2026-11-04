@@ -26,7 +26,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
     const update = () => {
       raf = 0;
       const rect = el.getBoundingClientRect();
-      const vh = window.innerHeight;
+      const vh = viewH(el);
       const span = el.getBoundingClientRect().height - vh;
       // 모바일(2026-10-22): 화면 고정·스크롤 연동 없이 카드 줄을 손으로 직접 밀어 넘김(네이티브 가로 스크롤) → 이 계산 전부 건너뜀
       if (matchMedia("(max-width: 743.98px)").matches) { setSnapLock("numbers", false); if (trackRef.current) trackRef.current.style.transform = ""; return; }
@@ -71,7 +71,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
       const track = trackRef.current;
       if (!track || track.children.length < 2) return;
       const rect = el.getBoundingClientRect();
-      span = el.getBoundingClientRect().height - window.innerHeight;
+      span = el.getBoundingClientRect().height - viewH(el);
       step = ((track.children[1] as HTMLElement).offsetLeft - (track.children[0] as HTMLElement).offsetLeft) * (rect.height / el.offsetHeight); // 드래그 거리(화면 px)와 맞추려고 zoom 배율 곱함
       k = span / ((n - 1) * step);
       startX = e.clientX; startY = window.scrollY; dx = 0; id = e.pointerId;
@@ -107,7 +107,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
       const ddx = e.changedTouches[0].clientX - tx, ddy = e.changedTouches[0].clientY - ty;
       if (Math.abs(ddx) < 40 || Math.abs(ddx) < Math.abs(ddy) * 1.5) return;
       const rect = el.getBoundingClientRect();
-      const sp = el.getBoundingClientRect().height - window.innerHeight;
+      const sp = el.getBoundingClientRect().height - viewH(el);
       if (sp <= 0 || rect.top > 1 || -rect.top > sp + 1) return;
       const next = Math.min(n - 1, Math.max(0, Math.round((-rect.top / sp) * (n - 1)) + (ddx < 0 ? 1 : -1)));
       smoothScrollTo(window.scrollY + rect.top + (next / (n - 1)) * sp);
@@ -163,7 +163,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    const span = el.getBoundingClientRect().height - window.innerHeight;
+    const span = el.getBoundingClientRect().height - viewH(el);
     const next = Math.min(n - 1, Math.max(0, Math.round((-rect.top / span) * (n - 1)) + delta));
     smoothScrollTo(window.scrollY + rect.top + (next / Math.max(1, n - 1)) * span);
   };
@@ -185,7 +185,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
     const id = window.setInterval(() => {
       if (document.hidden || hover || performance.now() - lastInput < 5000 || matchMedia("(max-width: 743.98px)").matches) return; // 모바일은 자동 넘김 없음
       const rect = el.getBoundingClientRect();
-      const span = el.getBoundingClientRect().height - window.innerHeight;
+      const span = el.getBoundingClientRect().height - viewH(el);
       if (rect.top > 1 || -rect.top > span + 1) return; // 고정 구간 밖
       const idx = Math.round((-rect.top / span) * (n - 1));
       if (idx >= n - 1) {
@@ -209,7 +209,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
     <section ref={ref} className="strength text-white on-dark" aria-label="수치로 증명하는 강점">
       {/* 스크롤 멈춤 지점: 위로 나가기 · 제목(0) · 카드별 가운데 · 아래로 나가기 */}
       {snapTops(n).map((t) => (
-        <div key={t} aria-hidden="true" className="snap-point" style={{ top: `calc(${t}vh * var(--zi))` }} />
+        <div key={t} aria-hidden="true" className="snap-point" style={{ top: `calc(${t} * var(--vh1))` }} />
       ))}
       <div className="strength-inner">
         <div aria-hidden="true" className="strength-bg absolute inset-0">
@@ -339,6 +339,9 @@ function bold(line: string) {
 
 /** 스냅 지점(섹션 상단 기준 vh, 고정 구간 420vh = globals.css .strength 520vh − 100vh):
  *  위로 나가기(-100 = 히어로) · 카드 i 가 왼쪽 시작 위치에 오는 지점(i/(n-1)) · 아래로 나가기(520 = 다음 섹션이 화면 맨 위) */
+/** 고정 화면(.strength-inner)의 실제 높이 — 섹션 높이와 같은 단위(화면 px). 사파리(아이패드)는 zoom 아래 innerHeight 가 단위가 달라 스크롤 계산이 어긋났다 */
+const viewH = (el: HTMLElement) => el.querySelector<HTMLElement>(".strength-inner")?.getBoundingClientRect().height || window.innerHeight;
+
 function snapTops(n: number): number[] {
   return [-100, ...Array.from({ length: n }, (_, i) => Math.round((i * 420) / Math.max(1, n - 1))), 520];
 }
