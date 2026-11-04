@@ -39,7 +39,7 @@ export default function FinalCtaImage({ data }: { data: FinalCtaData }) {
           <p className="fi-eyebrow">INFACT REPORT<i /></p>
           <h2 className="fi-title">
             <span className="fi-l">지금 문의하시면,</span>
-            <span className="fi-l fi-blue">병원 마케팅 진단 리포트를</span>
+            <span className="fi-l fi-blue">병원 마케팅 진단 리포트를</span>{" "}
             <span className="fi-l">보내드립니다.</span>
           </h2>
           <ul className="fi-offers">
