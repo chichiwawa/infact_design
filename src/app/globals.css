@@ -2936,3 +2936,21 @@ section:has(> .fcta-main-bg) { background: #0a0a0a; }
 @media (min-width: 1024px) and (orientation: landscape) {
   html:not([data-ipad-land]) .pk-stack .pk-scard[data-kind="ig"]:has(.ind) .pk-scard-bottom { top: calc(-8.5*var(--svh1)); } /* 개별 상품 6종: 이미지 아래 여백이 가장 넓음 */
 }
+
+/* ── 아이패드 가로(1024~1366, 터치): 섹션 제목(가장 큰 글씨) 한 단계 축소 (2026-11-04) ──
+   줄바꿈은 그대로 두고 크기만 줄인다. 대부분의 제목은 --ttl 하나로 정해지므로 --ttl(60→52px)만 바꾸고,
+   --ttl 을 안 쓰는 제목(섹션 머리말·부스터·문제 제기·문의·마무리 CTA)은 아래에서 같은 비율로 줄인다.
+   "수치로 증명하는 인팩트만의 강점"(.strength-head)은 건드리지 않는다 → 원래 --ttl(60px) 기준 값으로 고정.
+   "우리병원은 ○○이 필요해요"(.pk-h)는 아주 조금만(약 8%) 줄인다. 크기를 바꾸려면 아래 숫자만 고친다. */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
+  :root { --ttl: 52px; }
+  html .strength-head h2 > span:first-child { font-size: calc(60px * .75) !important; }
+  html .strength-head h2 > span:last-child { font-size: calc(60px * 1.15) !important; }
+  html[data-ipad-land] .strength-head h2 > span:first-child { font-size: calc(60px * .675) !important; }
+  html[data-ipad-land] .strength-head h2 > span:last-child { font-size: calc(60px * 1.035) !important; }
+  h2.t-h-xl:not(.sec-ttl), .bst-head h2 { font-size: calc(var(--ttl) * .93) !important; }
+  .pain-headline { font-size: calc(var(--ttl) * .93) !important; }
+  h1.t-h-lg { font-size: calc(var(--ttl) * .75) !important; }
+  .fi-title { font-size: calc(var(--ttl) * 1.05) !important; }
+  .pk-stack .pk-h { font-size: calc(var(--ttl) * 1.06) !important; }
+}

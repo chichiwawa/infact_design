@@ -86,10 +86,10 @@ const Check = () => (
 );
 
 /** 시안 d: 앞 섹션 모바일 카드처럼 가운데 정렬 — 번호 · 고민 제목(2줄, 둘째 줄 파랑) · 설명 · "진행하면?" 알약 · 구성 항목 남색 칩. 호버/토글 없이 전부 펼쳐 보임 */
-function CardD({ it, i }: { it: PackagesData["items"][number]; i: number }) {
+function CardD({ it, i, on, onPick }: { it: PackagesData["items"][number]; i: number; on: boolean; onPick: () => void }) {
   const rest = it.components; // 구성 칩은 데이터 그대로 전부 (01 5개 · 02 6개 · 03 6개), "전체 포함" 항목도 칩으로
   return (
-    <article className="pkd-card">
+    <article className="pkd-card" data-on={on ? 1 : 0} onClick={onPick}>
       <p className="pkd-top"><span className="pkd-no">{String(i + 1).padStart(2, "0")}</span><span className="pkd-name">{it.title}</span></p>
       <h3 className="pkd-title">{(it.heading ?? it.target).split("\n").map((l, k) => <span key={k} className="block">{rich(l)}</span>)}</h3>
       <span className="pkd-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg></span>
@@ -110,6 +110,7 @@ function CardD({ it, i }: { it: PackagesData["items"][number]; i: number }) {
 
 export default function Packages({ title, data, variant }: { title: string; data: PackagesData; variant?: "a" | "b" | "c" | "d" }) {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const [selD, setSelD] = useState<number | null>(null); // 시안 d: 눌러서 테두리가 생긴 카드
   const secRef = useRef<HTMLElement>(null);
 
   // 시안 d, 아이패드 가로: 사파리가 글자를 박스보다 크게 그려 카드 제목이 세 줄로 넘치고 잘렸다.
@@ -153,7 +154,7 @@ export default function Packages({ title, data, variant }: { title: string; data
         <SectionHead title={title} sub={data.note} />
 
         <div className="reveal-stagger mt-14 grid gap-4 md:grid-cols-3 md:gap-6">
-          {variant === "d" ? data.items.map((it, i) => <CardD key={it.title} it={it} i={i} />) : data.items.map((it, i) => {
+          {variant === "d" ? data.items.map((it, i) => <CardD key={it.title} it={it} i={i} on={selD === i} onPick={() => setSelD(selD === i ? null : i)} />) : data.items.map((it, i) => {
             const open = openIdx === i;
             return (
               <article key={it.title} className={`group relative rounded-[24px] p-6 md:p-9 flex flex-col overflow-hidden card-hover pkg-card bg-panel text-ink${open ? " is-open" : ""}`}>
