@@ -1,9 +1,14 @@
 /** 서비스 03 — 집중 공략 부스터 4종 (구성 항목 노출, 가격 비노출) */
 import Link from "next/link";
 import SectionHead from "@/components/SectionHead";
+import Accent from "@/components/Accent";
 import type { BoostersData } from "@/lib/sections";
+import "./boosters-variants.css";
 
-export default function Boosters({ title, data }: { title: string; data: BoostersData }) {
+/** variant: 디자인 시안용(없으면 기존 모양) — a 2×2 카드 / b 4열 세로 카드 / c 왼쪽 고정 머리말 + 가로 줄 / d 선으로 나뉜 표 / e 큰 카드 1 + 작은 카드 3.
+ *  theme: light 밝은 바탕 / dark 어두운 남색 바탕. 스타일은 boosters-variants.css, 시안 보기: /demo/boost-a ~ e */
+export default function Boosters({ title, data, variant, theme = "light" }: { title: string; data: BoostersData; variant?: "a" | "b" | "c" | "d" | "e"; theme?: "light" | "dark" }) {
+  if (variant) return <BoostersV title={title} data={data} variant={variant} theme={theme} />;
   return (
     <section id="boosters" className="section-y bg-canvas border-t border-hairline scroll-mt-20">
       <div className="container-x">
@@ -34,6 +39,51 @@ export default function Boosters({ title, data }: { title: string; data: Booster
           <div>
             <p className="t-h-md text-white">{data.banner.title}</p>
             <p className="t-body-lg text-white/70 mt-2">{data.banner.body}</p>
+          </div>
+          <Link href={data.banner.cta_href} className="btn-primary shrink-0">{data.banner.cta_label}</Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BoostersV({ title, data, variant, theme }: { title: string; data: BoostersData; variant: string; theme: string }) {
+  return (
+    <section id="boosters" className="bst section-y scroll-mt-20" data-v={variant} data-theme={theme}>
+      <div className="container-x">
+        <div className="bst-wrap">
+          <div className="bst-head" data-reveal>
+            <p className="bst-eyebrow">BOOSTER</p>
+            <h2><Accent text={title} /></h2>
+            <p className="bst-sub">{data.subtitle}</p>
+          </div>
+          <div className="bst-list reveal-stagger">
+            {data.items.map((it, i) => (
+              <article key={it.title} className="bst-card">
+                <span className="bst-no" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                <div className="bst-t">
+                  <h3>{it.title}</h3>
+                  <p className="bst-hook">{it.hook}</p>
+                </div>
+                <div className="bst-d">
+                  <p className="bst-body">{it.body}</p>
+                  <div className="bst-inc">
+                    <p className="bst-lb">{it.includes_label}</p>
+                    <ul>
+                      {it.includes.map((r) => (
+                        <li key={r}><i aria-hidden="true">✓</i><span>{r}</span></li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+        <div className="bst-banner" data-reveal>
+          <div>
+            <p className="bst-bt">{data.banner.title}</p>
+            <p className="bst-bb">{data.banner.body}</p>
           </div>
           <Link href={data.banner.cta_href} className="btn-primary shrink-0">{data.banner.cta_label}</Link>
         </div>
