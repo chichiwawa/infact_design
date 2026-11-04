@@ -99,7 +99,7 @@ function CardD({ it, i, on, onPick }: { it: PackagesData["items"][number]; i: nu
         {rest.map((c, k) => (
           <li key={c.label} className={c.emphasis ? "pkd-chip-lead" : undefined}>
             <span className="pkd-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{ICONS[k % ICONS.length]}</svg></span>
-            <span className="whitespace-pre-line">{c.emphasis ? c.label.includes(",") ? c.label.replace(" 패키지 전체 포함", "\n패키지 전체 포함") : c.label.replace(" 전체 포함", "\n전체 포함") : c.label}</span>
+            <span className="whitespace-pre-line">{c.emphasis ? c.label.includes(",") ? <>{c.label.replace(" 패키지 전체 포함", "")}<br className="lb-pc" /> 패키지 <br className="lb-ipad" />전체 포함</> : c.label.replace(" 전체 포함", "\n전체 포함") : c.label}</span>
           </li>
         ))}
       </ul>

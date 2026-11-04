@@ -2966,3 +2966,10 @@ section:has(> .fcta-main-bg) { background: #0a0a0a; }
 /* 서비스 맨 위 "원장님, 이번 달도 같은 고민 / 반복하고 계시진 않나요?" — 데스크탑·노트북·아이패드 가로에서 항상 두 줄. 줄바꿈 위치는 pages.json 의 \n, 줄은 폭이 모자라도 꺾이지 않는다 */
 .pain-headline-2 { max-width: none; width: max-content; }
 .pain-headline-2 .block { white-space: nowrap; }
+
+/* 서비스 "통합 브랜드형" 첫 칩 줄바꿈 (2026-11-04): 기본은 "유입 구축형, 전환 성장형 / 패키지 전체 포함", 아이패드 세로(744~1023px)는 "유입 구축형, 전환 성장형 패키지 / 전체 포함" */
+.lb-ipad { display: none; }
+@media (min-width: 744px) and (max-width: 1023px) and (orientation: portrait) {
+  .lb-pc { display: none; }
+  .lb-ipad { display: inline; }
+}
