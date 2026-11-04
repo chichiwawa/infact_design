@@ -59,4 +59,4 @@
 .fn-5 .fn-btn-main { height: 66px; font-size: 19px; }
 .fn-5::after { content: ""; position: absolute; left: 50%; bottom: -75%; width: min(1300px, 150%); aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; border: 1px solid rgba(140,175,255,.5); box-shadow: 0 0 80px rgba(48,97,255,.5), inset 0 0 80px rgba(48,97,255,.22); pointer-events: none; z-index: 0; }
 
-@media (max-width: 767px) { .fn-offers { grid-template-columns: 1fr; } .fn-center .fn-actions { grid-template-columns: 1fr; } }
+@media (max-width: 743.98px) { .fn-offers { grid-template-columns: 1fr; } .fn-center .fn-actions { grid-template-columns: 1fr; } }

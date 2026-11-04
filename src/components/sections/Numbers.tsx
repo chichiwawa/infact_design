@@ -29,7 +29,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
       const vh = window.innerHeight;
       const span = el.getBoundingClientRect().height - vh;
       // 모바일(2026-10-22): 화면 고정·스크롤 연동 없이 카드 줄을 손으로 직접 밀어 넘김(네이티브 가로 스크롤) → 이 계산 전부 건너뜀
-      if (matchMedia("(max-width: 767px)").matches) { setSnapLock("numbers", false); if (trackRef.current) trackRef.current.style.transform = ""; return; }
+      if (matchMedia("(max-width: 743.98px)").matches) { setSnapLock("numbers", false); if (trackRef.current) trackRef.current.style.transform = ""; return; }
       // 고정 구간 안에서만 단계별 멈춤(스냅) 켬 — 밖에서는 평소 스크롤
       // 고정이 풀린 뒤 다음 섹션(03)이 올라오는 한 화면(span~span+vh)까지 포함 — 빠지면 그 사이에 어중간하게 멈춤.
       // 끝(= 나가기 지점 520vh)에 정확히 닿으면 끔: 모바일은 03 스냅 지점이 없어서 켜진 채면 아래로 갈 곳이 없어 갇힘
@@ -67,7 +67,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
     const root = document.documentElement;
     const onDown = (e: PointerEvent) => {
       if (e.pointerType === "mouse" && e.button !== 0) return;
-      if (e.pointerType === "touch" || matchMedia("(max-width: 767px)").matches) return; // 터치는 아래 touchstart/touchend 로 따로 처리 (세로 스크롤을 가로채 되돌리던 문제, 2026-10-22)
+      if (e.pointerType === "touch" || matchMedia("(max-width: 743.98px)").matches) return; // 터치는 아래 touchstart/touchend 로 따로 처리 (세로 스크롤을 가로채 되돌리던 문제, 2026-10-22)
       const track = trackRef.current;
       if (!track || track.children.length < 2) return;
       const rect = el.getBoundingClientRect();
@@ -103,7 +103,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
     let tx = 0, ty = 0;
     const tStart = (e: TouchEvent) => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; };
     const tEnd = (e: TouchEvent) => {
-      if (matchMedia("(max-width: 767px)").matches) return;
+      if (matchMedia("(max-width: 743.98px)").matches) return;
       const ddx = e.changedTouches[0].clientX - tx, ddy = e.changedTouches[0].clientY - ty;
       if (Math.abs(ddx) < 40 || Math.abs(ddx) < Math.abs(ddy) * 1.5) return;
       const rect = el.getBoundingClientRect();
@@ -134,7 +134,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
     const calc = () => {
       raf = 0;
       const track = trackRef.current;
-      if (!track || !matchMedia("(max-width: 767px)").matches) return;
+      if (!track || !matchMedia("(max-width: 743.98px)").matches) return;
       const x = view.scrollLeft + 20;
       let best = 0, bestD = Infinity;
       Array.from(track.children).forEach((c, i) => { const d = Math.abs((c as HTMLElement).offsetLeft - x); if (d < bestD) { bestD = d; best = i; } });
@@ -183,7 +183,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
     view?.addEventListener("pointerenter", enter);
     view?.addEventListener("pointerleave", leave);
     const id = window.setInterval(() => {
-      if (document.hidden || hover || performance.now() - lastInput < 5000 || matchMedia("(max-width: 767px)").matches) return; // 모바일은 자동 넘김 없음
+      if (document.hidden || hover || performance.now() - lastInput < 5000 || matchMedia("(max-width: 743.98px)").matches) return; // 모바일은 자동 넘김 없음
       const rect = el.getBoundingClientRect();
       const span = el.getBoundingClientRect().height - window.innerHeight;
       if (rect.top > 1 || -rect.top > span + 1) return; // 고정 구간 밖

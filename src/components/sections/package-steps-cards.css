@@ -6,9 +6,9 @@
   #070b1c; }
 .psc-head { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .psc-eyebrow { font-size: 17px; font-weight: 700; letter-spacing: .02em; color: #6b8cff; }
-.psc-title { margin-top: 36px; font-size: clamp(34px, calc(3.8vw * var(--zi)), 58px); font-weight: 300; line-height: 1.2; letter-spacing: -.04em; }
+.psc-title { margin-top: 36px; font-size: clamp(34px, calc(3.8*var(--vw1)), 58px); font-weight: 300; line-height: 1.2; letter-spacing: -.04em; }
 .psc-title b { font-weight: 800; }
-.psc-intro { margin-top: 28px; font-size: clamp(16px, calc(1.5vw * var(--zi)), 22px); font-weight: 300; line-height: 1.5; color: rgba(255,255,255,.7); letter-spacing: -.02em; }
+.psc-intro { margin-top: 28px; font-size: clamp(16px, calc(1.5*var(--vw1)), 22px); font-weight: 300; line-height: 1.5; color: rgba(255,255,255,.7); letter-spacing: -.02em; }
 .psc-intro b { font-weight: 600; color: #fff; }
 
 /* 단계 원: 01 ···· 02 ···· 03 */
@@ -25,7 +25,7 @@
 .psc-card { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 22px 28px 40px; border-radius: 36px; border: 2px solid rgba(48,97,255,.75); background: linear-gradient(180deg, rgba(8,16,48,.92), rgba(5,10,32,.96)); transition: border-color .3s, box-shadow .3s, transform .4s cubic-bezier(.2,.7,.2,1); }
 .psc-card[data-on="1"] { border-color: #3061ff; box-shadow: 0 0 36px rgba(48,97,255,.35); transform: translateY(-6px); }
 .psc-no { align-self: flex-start; font-size: 30px; font-weight: 400; color: #3061ff; line-height: 1; }
-.psc-card-title { margin-top: 18px; font-size: clamp(24px, calc(2.2vw * var(--zi)), 34px); font-weight: 300; line-height: 1.3; letter-spacing: -.04em; word-break: keep-all; }
+.psc-card-title { margin-top: 18px; font-size: clamp(24px, calc(2.2*var(--vw1)), 34px); font-weight: 300; line-height: 1.3; letter-spacing: -.04em; word-break: keep-all; }
 .psc-card-title b { font-weight: 800; color: #8aa6ff; }
 .psc-check { margin-top: 18px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: #3061ff; box-shadow: 0 0 12px rgba(48,97,255,.8); }
 .psc-desc { margin-top: 20px; font-size: 16px; line-height: 1.5; color: rgba(255,255,255,.78); letter-spacing: -.02em; word-break: keep-all; }
@@ -51,7 +51,7 @@
   .psc-grid { grid-template-columns: 1fr; max-width: 560px; }
   .psc-card[data-on="1"] { transform: none; }
 }
-@media (max-width: 767px) {
+@media (max-width: 743.98px) {
   .psc { padding: 110px 0 64px; }
   .psc-eyebrow { font-size: 14px; }
   .psc-title { margin-top: 24px; font-size: 30px; }
@@ -69,7 +69,7 @@
   .psc-feats { margin-top: 28px; }
   .psc-btn { margin-top: 28px; font-size: 16px; padding: 12px 22px; }
 }
-@media (max-width: 767px) {
+@media (max-width: 743.98px) {
   .psc-step-name { white-space: nowrap; font-size: 13px; }
   .psc-title { font-size: 26px; }
   .psc-title .block { word-break: keep-all; }
@@ -110,7 +110,7 @@
 .psc-card[data-on="1"] .psc-btn { background: linear-gradient(180deg, #2148d6, #3b86ee); box-shadow: 0 10px 28px -8px rgba(48,97,255,.8), inset 0 0 0 1px rgba(255,255,255,.12); }
 .psc-btn-ar, .psc-card:not([data-on="1"]) .psc-btn-ar { width: 26px; height: 26px; background: #0a1330; box-shadow: none; }
 @media (max-width: 1199px) { .psc-feat { gap: 10px; padding: 10px; } .psc-ico { width: 46px; height: 46px; } .psc-feat-t b { font-size: 14px; } }
-@media (max-width: 767px) { .psc-btn { font-size: 18px; padding: 14px 26px; } }
+@media (max-width: 743.98px) { .psc-btn { font-size: 18px; padding: 14px 26px; } }
 .psc-feat { gap: 11px; padding: 11px 12px; }
 .psc-ico { width: 46px; height: 46px; }
 .psc-feat-t b { font-size: 14px; }
@@ -126,7 +126,7 @@
 .psc-ico svg { width: 24px; height: 24px; }
 .psc-feat-t b { font-size: 16px; }
 .psc-feat-t small { font-size: 12.5px; }
-@media (max-width: 767px) { .psc-btn { padding: 10px 20px; font-size: 15px; } .psc-feat-t b { font-size: 15px; } .psc-feat-t small { font-size: 12px; } }
+@media (max-width: 743.98px) { .psc-btn { padding: 10px 20px; font-size: 15px; } .psc-feat-t b { font-size: 15px; } .psc-feat-t small { font-size: 12px; } }
 
 /* 버튼: 그라데이션 테두리 알약 + 꺾쇠(>) 화살표 (헤더 회사소개서 버튼과 같은 스타일) */
 .psc-btn, .psc-card:not([data-on="1"]) .psc-btn, .psc-card[data-on="1"] .psc-btn { position: relative; padding: 12px 24px; gap: 12px; font-size: 16px; color: #fff; background: rgba(8,16,48,.85); box-shadow: none; }
@@ -194,18 +194,18 @@
 .psc-card:not([data-on="1"]) .psc-btn { background: #0b0c12; }
 
 /* 모바일: 카드 폭을 조금 줄여 가운데 정렬 */
-@media (max-width: 767px) {
+@media (max-width: 743.98px) {
   .psc-grid { width: 92%; margin-inline: auto; }
 }
 
 /* 모바일: 상품 버튼 더 작게 */
-@media (max-width: 767px) {
+@media (max-width: 743.98px) {
   .psc-btn, .psc-card:not([data-on="1"]) .psc-btn, .psc-card[data-on="1"] .psc-btn { padding: 8px 16px; font-size: 13px; gap: 8px; margin-top: 22px; }
   .psc-btn-ar svg { width: 9px; height: 9px; }
 }
 
 /* 모바일: 제목은 "인팩트만의 강점" 비율(가는 글씨 : 굵은 글씨 ≈ 21 : 30)로 키움, 설명은 작게, 단계 원 작게·선 넓게, 항목 2×2 유지 */
-@media (max-width: 767px) {
+@media (max-width: 743.98px) {
   .psc-title { font-size: 24px; }
   .psc-title b { font-size: 1.375em; }
   .psc-title i { font-size: 1.375em; }
@@ -229,7 +229,7 @@
 .psc-feat-t b { white-space: normal; word-break: keep-all; }
 
 /* 모바일: 체크 표시를 제목 아래 별도 줄에서 빼 카드 오른쪽 위(번호 옆)로 옮기고 위아래 간격 줄임 */
-@media (max-width: 767px) {
+@media (max-width: 743.98px) {
   .psc-check { position: absolute; top: 20px; right: 20px; margin-top: 0; }
   .psc-card-title { margin-top: 10px; }
   .psc-desc { margin-top: 14px; }
@@ -237,13 +237,13 @@
 }
 
 /* 모바일: 제목을 "성장단계에 맞춘" / "맞춤형 마케팅 전략." 두 줄로 고정 */
-@media (max-width: 767px) {
-  .psc-title b { display: block; white-space: nowrap; font-size: min(1.375em, calc(8.6vw * var(--zi))); }
-  .psc-title i { font-size: min(1.375em, calc(8.6vw * var(--zi))); }
+@media (max-width: 743.98px) {
+  .psc-title b { display: block; white-space: nowrap; font-size: min(1.375em, calc(8.6*var(--vw1))); }
+  .psc-title i { font-size: min(1.375em, calc(8.6*var(--vw1))); }
 }
 
 /* 모바일: 항목 박스는 PC와 같이 아이콘 왼쪽 · 글씨 오른쪽, 2×2 */
-@media (max-width: 767px) {
+@media (max-width: 743.98px) {
   .psc-feats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .psc-feat { flex-direction: row; text-align: left; align-items: center; gap: 8px; padding: 10px 8px; }
   .psc-ico { flex: none; width: 34px; height: 34px; }
@@ -252,61 +252,61 @@
 }
 
 /* 모바일: 굵은 줄 바로 옆에 마침표가 붙도록 — 줄바꿈을 block 대신 앞쪽 개행으로 처리 */
-@media (max-width: 767px) {
+@media (max-width: 743.98px) {
   .psc-title b { display: inline; }
   .psc-title b::before { content: "\A"; white-space: pre; }
 }
 
 /* 모바일: 항목 박스 줄바꿈 고정 — 한 줄은 줄바꿈 없이 폭에 맞춰 글씨 크기 조절, "CRM·재방문 / 설계"만 JSON 의 개행으로 두 줄 */
-@media (max-width: 767px) {
+@media (max-width: 743.98px) {
   .psc-feat { gap: 6px; padding: 10px 7px; }
   .psc-ico { width: 30px; height: 30px; }
   .psc-ico svg { width: 16px; height: 16px; }
-  .psc-feat-t b { white-space: pre; font-size: clamp(10.5px, calc(3.2vw * var(--zi)), 14px); letter-spacing: -.05em; }
+  .psc-feat-t b { white-space: pre; font-size: clamp(10.5px, calc(3.2*var(--vw1)), 14px); letter-spacing: -.05em; }
 }
 
 /* 모바일: 카드 제목은 JSON 의 줄바꿈 그대로 두 줄 고정(폭에 맞춰 글씨 조절), 회색 설명은 더 작게, 체크 표시 축소 */
-@media (max-width: 767px) {
-  .psc-card-title { white-space: nowrap; font-size: min(24px, calc(6.2vw * var(--zi))); }
-  .psc-desc { font-size: clamp(11px, calc(3.1vw * var(--zi)), 13px); }
+@media (max-width: 743.98px) {
+  .psc-card-title { white-space: nowrap; font-size: min(24px, calc(6.2*var(--vw1))); }
+  .psc-desc { font-size: clamp(11px, calc(3.1*var(--vw1)), 13px); }
   .psc-check { width: 18px; height: 18px; top: 22px; right: 22px; }
   .psc-check svg { width: 10px; height: 10px; }
 }
 
 /* 모바일: 번호(02)를 체크 표시와 비율이 맞게 축소 */
-@media (max-width: 767px) {
+@media (max-width: 743.98px) {
   .psc-no { font-size: 18px; }
 }
 
 /* 모바일: 항목 박스를 카드 안쪽 여백까지 넓혀 "CRM·재방문 설계"도 한 줄로, 아이콘·글씨가 박스 안에 맞게 */
-@media (max-width: 767px) {
+@media (max-width: 743.98px) {
   .psc-feats { width: calc(100% + 12px); margin-inline: -6px; gap: 6px; }
   .psc-feat { gap: 5px; padding: 10px 6px; min-width: 0; overflow: hidden; }
   .psc-ico { width: 26px; height: 26px; }
   .psc-ico svg { width: 14px; height: 14px; }
-  .psc-feat-t b { font-size: min(13px, calc(3.5vw * var(--zi))); letter-spacing: -.05em; }
+  .psc-feat-t b { font-size: min(13px, calc(3.5*var(--vw1))); letter-spacing: -.05em; }
 }
 
 /* 모바일: 번호(01~03)와 체크 표시를 같은 높이 중앙에 맞추고 번호는 더 작게, 카드 제목은 더 크고 또렷하게, 항목 박스는 더 작게 */
-@media (max-width: 767px) {
+@media (max-width: 743.98px) {
   .psc-no { display: flex; align-items: center; height: 18px; font-size: 14px; line-height: 1; }
   .psc-check { top: 18px; right: 20px; }
-  .psc-card-title { margin-top: 14px; font-size: min(27px, calc(7vw * var(--zi))); text-shadow: 0 0 18px rgba(255,255,255,.18); }
+  .psc-card-title { margin-top: 14px; font-size: min(27px, calc(7*var(--vw1))); text-shadow: 0 0 18px rgba(255,255,255,.18); }
   .psc-card-title b { font-weight: 800; }
   .psc-feat { gap: 4px; padding: 9px 5px; }
   .psc-ico { width: 22px; height: 22px; }
   .psc-ico svg { width: 12px; height: 12px; }
-  .psc-feat-t b { font-size: min(11.5px, calc(3.1vw * var(--zi))); letter-spacing: -.06em; }
+  .psc-feat-t b { font-size: min(11.5px, calc(3.1*var(--vw1))); letter-spacing: -.06em; }
 }
 
 /* 모바일: 카드 라운드를 "인팩트만의 강점" 카드와 같은 16px로 */
-@media (max-width: 767px) {
+@media (max-width: 743.98px) {
   .psc-card { border-radius: 16px; }
 }
 
 /* 카드 라운드 더 줄임: PC 36px→20px, 모바일 16px→12px */
 .psc-card { border-radius: 20px; }
-@media (max-width: 767px) {
+@media (max-width: 743.98px) {
   .psc-card { border-radius: 12px; }
 }
 
@@ -343,7 +343,7 @@
 
 /* 배경: 메인(히어로)과 같은 프리즘 레이저 광선이 위에서 아래로 반복해서 내려옴 */
 .psc > .container-x { position: relative; z-index: 1; }
-.psc-beam { position: absolute; left: 0; right: 0; top: 0; height: calc(15vh * var(--zi)); z-index: 0; pointer-events: none; animation: psc-beam 8s cubic-bezier(.45,0,.55,1) infinite; }
+.psc-beam { position: absolute; left: 0; right: 0; top: 0; height: calc(15*var(--vh1)); z-index: 0; pointer-events: none; animation: psc-beam 8s cubic-bezier(.45,0,.55,1) infinite; }
 .psc-beam::before, .psc-beam::after { content: ""; position: absolute; left: 0; right: 0; }
 .psc-beam::before { top: 0; bottom: 0; background: repeating-linear-gradient(to bottom, rgba(140,195,255,.28) 0 1px, transparent 1px 6px); -webkit-mask-image: linear-gradient(to bottom, transparent, #000); mask-image: linear-gradient(to bottom, transparent, #000); }
 .psc-beam::after { bottom: -1px; height: 2px; background: linear-gradient(90deg, transparent, #4da3ff 12%, #7ee8ff 38%, #a78bfa 64%, #4da3ff 88%, transparent); box-shadow: 0 0 14px 1px rgba(110,190,255,.75), 0 0 46px 8px rgba(110,100,255,.28); }
@@ -422,7 +422,7 @@
 
 /* 아이패드 세로·태블릿 (2026-10-30): "맞춤형 마케팅 전략"을 노트북처럼 카드 3장 나란히. 사파리는 zoom 을 박스에만 적용하고 글자는 크게 남겨 일그러졌으므로 zoom 을 쓰지 않고 모든 글자·간격 px 에 --k(축소 배율)를 곱한다.
    크기를 바꾸려면 아래 --k 숫자만 고친다 (768~899px: .65 / 900~1023px: .75) */
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 744px) and (max-width: 1023px) {
   .psc { --k: .75; }
   .psc .container-x { padding-inline: 24px; }
   .psc { padding: 110px 0 80px; }
@@ -452,7 +452,7 @@
   .psc .psc-btn, .psc .psc-card:not([data-on="1"]) .psc-btn, .psc .psc-card[data-on="1"] .psc-btn { margin-top: calc(28 * var(--k) * 1px); margin-bottom: calc(-38 * var(--k) * 1px); padding: calc(13 * var(--k) * 1px) calc(22 * var(--k) * 1px) calc(13 * var(--k) * 1px) calc(26 * var(--k) * 1px); font-size: calc(16 * var(--k) * 1px); gap: calc(12 * var(--k) * 1px); position: relative; z-index: 2; }
   .psc .psc-btn-ar svg { width: calc(14 * var(--k) * 1px); height: calc(14 * var(--k) * 1px); }
 }
-@media (min-width: 768px) and (max-width: 899px) {
+@media (min-width: 744px) and (max-width: 899px) {
   .psc { --k: .65; }
 }
 /* 폭 1024px 이상 세로(아이패드 프로 12.9): html 전체에 이미 zoom(80%)이 걸려 있어 섹션은 그대로 둔다 */
@@ -486,15 +486,15 @@
 }
 
 /* 아이패드 세로 (2026-11-02): 섹션이 카드 높이만큼만 짧아 아래 섹션이 같이 보였음 → 섹션을 화면 높이만큼 채우고 내용은 세로 가운데에 둔다. 높이를 바꾸려면 100svh 만 고친다 */
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 744px) and (max-width: 1023px) {
   .psc { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; }
 }
 @media (min-width: 1024px) and (orientation: portrait) {
-  .psc { min-height: calc(100svh * var(--zi)); display: flex; flex-direction: column; justify-content: center; }
+  .psc { min-height: calc(100*var(--svh1)); display: flex; flex-direction: column; justify-content: center; }
 }
 
 /* 아이패드 세로 (2026-11-02): 카드 안 항목 4개(블로그 운영·카페 바이럴…)를 2열 대신 한 줄씩 세로로 쌓아 칩이 넓어지게 하고, 항목·설명 글자를 읽기 쉽게 키움. 글자 크기는 아래 px 만 고친다 */
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 744px) and (max-width: 1023px) {
   .psc .psc-feats { grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 22px; }
   .psc .psc-feat { gap: 10px; padding: 7px 12px; }
   .psc .psc-ico { width: 34px; height: 34px; }
@@ -503,12 +503,12 @@
   .psc .psc-card-title { font-size: 21px; }
 }
 /* 폭이 좁은 아이패드(768~819px)는 2번 카드 설명이 3줄로 넘어가 항목 줄이 어긋남 → 설명 칸을 3줄 높이로 통일 */
-@media (min-width: 768px) and (max-width: 819px) {
+@media (min-width: 744px) and (max-width: 819px) {
   .psc .psc-desc { min-height: 4.5em; }
 }
 
 /* 아이패드 세로 (2026-11-02): 화면이 남아서 위쪽 제목 덩어리(작은 제목·큰 제목·소개글·01 02 03 원·단계 이름)와 카드 아래 버튼을 키움. 크기는 아래 px 만 고친다 */
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 744px) and (max-width: 1023px) {
   .psc .psc-eyebrow { font-size: 20px; }
   .psc .psc-title { font-size: 46px !important; margin-top: 28px; }
   .psc .psc-intro { font-size: 21px; margin-top: 20px; }
@@ -522,7 +522,7 @@
 }
 
 /* 아이패드 세로 (2026-11-02): 01 02 03 원을 줄이고, 카드 제목(문제 유형 문구)을 화면 폭에 비례해 키움(가장 긴 "결제로 이어지지 않아요" 가 카드 안에 한 줄로 들어가는 한도). 크기는 3.25vw·44px 만 고친다 */
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 744px) and (max-width: 1023px) {
   .psc .psc-dot { width: 44px; height: 44px; font-size: 17px; }
   .psc .psc-steps li + li::before { top: 22px; margin-right: 22px; }
   .psc .psc-card { padding-inline: 12px; }

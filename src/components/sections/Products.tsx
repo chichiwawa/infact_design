@@ -14,7 +14,7 @@ export default function Products({ title, data }: { title: string; data: Product
           {data.items.map((it) => (
             <li key={it.title} className="relative panel card-hover p-6 md:p-8 min-h-[200px] md:min-h-[240px] flex flex-col">
               {it.icon_url ? (
-                <span aria-hidden="true" className="absolute top-3 right-3 md:top-4 md:right-4 w-16 h-16 md:w-24 md:h-24 pointer-events-none select-none"><Image src={it.icon_url} alt="" fill sizes="(min-width: 768px) 96px, 64px" className="object-contain" /></span>
+                <span aria-hidden="true" className="absolute top-3 right-3 md:top-4 md:right-4 w-16 h-16 md:w-24 md:h-24 pointer-events-none select-none"><Image src={it.icon_url} alt="" fill sizes="(min-width: 744px) 96px, 64px" className="object-contain" /></span>
               ) : (
                 <Icon name={it.icon} className="absolute top-6 right-6 md:top-8 md:right-8 w-7 h-7 text-primary" />
               )}

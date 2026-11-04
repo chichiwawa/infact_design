@@ -95,7 +95,7 @@ export interface PainQuotesData {
 }
 
 export interface PackagesData {
-  items: { category: string; title: string; target: string; body: string; results_title: string; results: string[]; components_title: string; components: { label: string; emphasis?: boolean }[] }[];
+  items: { category: string; title: string; target: string; heading?: string; body: string; results_title: string; results: string[]; components_title: string; components: { label: string; emphasis?: boolean }[] }[];
   note: string;
   banner: { title: string; body: string; cta_label: string; cta_href: string };
 }

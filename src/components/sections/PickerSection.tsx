@@ -88,7 +88,7 @@ export default function PickerSection({
   useEffect(() => {
     const el = wrap.current;
     if (!el) return;
-    const mq = matchMedia("(min-width: 768px)");
+    const mq = matchMedia("(min-width: 744px)");
     let raf = 0;
     const update = () => {
       raf = 0;
@@ -109,7 +109,7 @@ export default function PickerSection({
   const pick = (i: number) => {
     const el = wrap.current;
     if (!el) return;
-    if (matchMedia("(min-width: 768px)").matches) {
+    if (matchMedia("(min-width: 744px)").matches) {
       const top = el.getBoundingClientRect().top + window.scrollY;
       const span = el.getBoundingClientRect().height - window.innerHeight;
       window.scrollTo({ top: top + (span * (i + 0.5)) / n, behavior: "smooth" });
@@ -125,7 +125,7 @@ export default function PickerSection({
     if (variant !== "stack") return;
     const el = wrap.current;
     if (!el) return;
-    const mq = matchMedia("(min-width: 768px)");
+    const mq = matchMedia("(min-width: 744px)");
     let raf = 0;
     const update = () => {
       raf = 0;
@@ -143,7 +143,7 @@ export default function PickerSection({
           el.style.setProperty("--pk-top", `${Math.round((top - view.getBoundingClientRect().top) / z)}px`);
           el.style.setProperty("--ch", `${Math.round((bottom - top) / z)}px`);
           // 아이패드 세로(768~1023px): 왼쪽 메뉴를 줄여도 카드가 같이 작아지지 않게, 카드 높이를 화면 높이 비율로 따로 잡고 세로 가운데에 둔다 (비율 .62 만 고치면 됨)
-          if (window.matchMedia("(min-width: 768px) and (max-width: 1023px) and (orientation: portrait)").matches) {
+          if (window.matchMedia("(min-width: 744px) and (max-width: 1023px) and (orientation: portrait)").matches) {
             const vh = view.offsetHeight, ch = Math.round(vh * 0.62);
             el.style.setProperty("--ch", `${ch}px`);
             el.style.setProperty("--pk-top", `${Math.round((vh - ch) / 2)}px`);
@@ -187,7 +187,7 @@ export default function PickerSection({
     if (!track || mob !== "b") return;
     let raf = 0;
     const onScroll = () => {
-      if (raf || !matchMedia("(max-width: 767px)").matches) return;
+      if (raf || !matchMedia("(max-width: 743.98px)").matches) return;
       raf = requestAnimationFrame(() => {
         raf = 0;
         const mid = track.scrollLeft + track.clientWidth / 2;
@@ -207,7 +207,7 @@ export default function PickerSection({
     let x0 = 0, y0 = 0, on = false;
     const down = (e: TouchEvent) => { on = true; x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; };
     const up = (e: TouchEvent) => {
-      if (!on || !matchMedia("(max-width: 767px)").matches) return;
+      if (!on || !matchMedia("(max-width: 743.98px)").matches) return;
       on = false;
       const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
       if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
@@ -219,7 +219,7 @@ export default function PickerSection({
   }, [variant, mob, n]);
   useEffect(() => {
     const el = wrap.current;
-    if (!mob || !el || !matchMedia("(max-width: 767px)").matches) return;
+    if (!mob || !el || !matchMedia("(max-width: 743.98px)").matches) return;
     const row = el.querySelector<HTMLElement>(".pk-sgroups");
     const chip = row?.querySelector<HTMLElement>('.pk-sitem[data-on="1"]');
     if (row && chip) row.scrollTo({ left: chip.offsetLeft - (row.clientWidth - chip.offsetWidth) / 2, behavior: "smooth" });
@@ -291,7 +291,7 @@ export default function PickerSection({
     view?.addEventListener("pointerenter", enter);
     view?.addEventListener("pointerleave", leave);
     const id = window.setInterval(() => {
-      if (document.hidden || hover || performance.now() - lastInput < 7000 || !matchMedia("(min-width: 768px)").matches) return;
+      if (document.hidden || hover || performance.now() - lastInput < 7000 || !matchMedia("(min-width: 744px)").matches) return;
       const rect = el.getBoundingClientRect();
       const span = el.getBoundingClientRect().height - window.innerHeight;
       if (rect.top > 1 || -rect.top > span) return; // 고정 구간 밖
@@ -319,7 +319,7 @@ export default function PickerSection({
     items.forEach((it, i) => { if (it.heading || !groups.length) groups.push({ heading: it.heading, list: [] }); groups[groups.length - 1].list.push({ it, i }); });
     const go = (i: number) => {
       const el = wrap.current;
-      if (el && matchMedia("(min-width: 768px)").matches) {
+      if (el && matchMedia("(min-width: 744px)").matches) {
         const top = el.getBoundingClientRect().top + window.scrollY;
         const span = el.getBoundingClientRect().height - window.innerHeight;
         window.scrollTo({ top: top + (span * i) / Math.max(1, n - 1), behavior: "smooth" });

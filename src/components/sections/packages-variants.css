@@ -1,0 +1,225 @@
+/* 서비스 02 패키지 3종 — 강조 시안 (2026-11-04, 3차)
+   Packages.tsx 의 variant="a|b|c" 일 때만 적용된다(없으면 기존 모양 그대로). 시안 보기: /demo/pkg-a, /demo/pkg-b, /demo/pkg-c
+   바로 앞 섹션(PainQuotes "원장님, 이번달도…")이 어두우므로 이 섹션은 밝은 바탕으로 두어 화면이 어둠→밝음으로 교대되게 하고,
+   카드에서만 "맞춤형 마케팅 전략"(package-steps-cards.css .psc)의 언어를 가져온다: 큰 번호 01·02·03 / 파란 테두리·글로우 / 짙은 남색 카드 / 파란 아이콘 칩 / 알약 파란 버튼.
+   세 시안 모두 섹션 바탕·머리말은 같고, 카드 모양만 다르다. */
+
+.pkg-no { display: none; }
+
+/* ── 공통: 밝은 섹션 바탕(옅은 파랑 빛 + 옅은 격자) + 머리말 ── */
+[data-pkv] { position: relative; overflow: hidden; background:
+  radial-gradient(900px 520px at 50% 0%, rgba(48,97,255,.12), transparent 70%),
+  linear-gradient(rgba(48,97,255,.06) 1px, transparent 1px) 0 0 / 56px 56px,
+  linear-gradient(90deg, rgba(48,97,255,.06) 1px, transparent 1px) 0 0 / 56px 56px,
+  #f6f8ff !important; }
+[data-pkv] h2 { color: #0b1a4a; font-weight: 300; letter-spacing: -.04em; }
+[data-pkv] h2 .accent { color: #3061ff; font-weight: 800; }
+[data-pkv] .pkg-no { display: block; margin-bottom: 14px; font-size: 30px; font-weight: 400; line-height: 1; letter-spacing: -.02em; }
+[data-pkv] .pkg-card { border-radius: 32px; }
+[data-pkv] .pkg-card h3 { font-weight: 800; letter-spacing: -.03em; }
+[data-pkv] .pk-banner { border-radius: 32px; }
+
+/* ── 어두운 남색 카드 상태 = 시안 A 는 항상, 시안 B 는 마우스를 올렸을 때(앞 섹션의 "선택된 카드" 모양) ── */
+:is([data-pkv="a"] .pkg-card, [data-pkv="b"] .pkg-card:hover, [data-pkv="b"] .pkg-card.is-open, [data-pkv="b"] .reveal-stagger:not(:hover) .pkg-card:first-child) { border: 2px solid #3061ff; background: linear-gradient(180deg, rgba(10,24,70,.98), rgba(5,12,38,1)); color: #fff; box-shadow: 0 0 36px rgba(48,97,255,.35), 0 28px 56px -28px rgba(11,26,74,.6); }
+:is([data-pkv="a"] .pkg-card, [data-pkv="b"] .pkg-card:hover, [data-pkv="b"] .pkg-card.is-open, [data-pkv="b"] .reveal-stagger:not(:hover) .pkg-card:first-child) h3 { color: #fff; }
+:is([data-pkv="a"] .pkg-card, [data-pkv="b"] .pkg-card:hover, [data-pkv="b"] .pkg-card.is-open, [data-pkv="b"] .reveal-stagger:not(:hover) .pkg-card:first-child) .pkg-no { color: #3061ff; }
+:is([data-pkv="a"] .pkg-card, [data-pkv="b"] .pkg-card:hover, [data-pkv="b"] .pkg-card.is-open, [data-pkv="b"] .reveal-stagger:not(:hover) .pkg-card:first-child) .text-mute { color: #8aa6ff; font-weight: 600; }
+:is([data-pkv="a"] .pkg-card, [data-pkv="b"] .pkg-card:hover, [data-pkv="b"] .pkg-card.is-open, [data-pkv="b"] .reveal-stagger:not(:hover) .pkg-card:first-child) .text-body { color: rgba(255,255,255,.78); font-weight: 300; }
+:is([data-pkv="a"] .pkg-card, [data-pkv="b"] .pkg-card:hover, [data-pkv="b"] .pkg-card.is-open, [data-pkv="b"] .reveal-stagger:not(:hover) .pkg-card:first-child) .text-ink { color: #fff; }
+:is([data-pkv="a"] .pkg-card, [data-pkv="b"] .pkg-card:hover, [data-pkv="b"] .pkg-card.is-open, [data-pkv="b"] .reveal-stagger:not(:hover) .pkg-card:first-child) .text-primary { color: #6b8cff; }
+:is([data-pkv="a"] .pkg-card, [data-pkv="b"] .pkg-card:hover, [data-pkv="b"] .pkg-card.is-open, [data-pkv="b"] .reveal-stagger:not(:hover) .pkg-card:first-child) .border-ink\/10 { border-color: rgba(107,140,255,.25); }
+:is([data-pkv="a"] .pkg-card, [data-pkv="b"] .pkg-card:hover, [data-pkv="b"] .pkg-card.is-open, [data-pkv="b"] .reveal-stagger:not(:hover) .pkg-card:first-child) .pkg-badge { background: #3061ff; color: #fff; box-shadow: 0 0 14px rgba(48,97,255,.6); }
+:is([data-pkv="a"] .pkg-card, [data-pkv="b"] .pkg-card:hover, [data-pkv="b"] .pkg-card.is-open, [data-pkv="b"] .reveal-stagger:not(:hover) .pkg-card:first-child) li { padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,.05); border: 1px solid rgba(107,140,255,.22); align-items: center; }
+:is([data-pkv="a"] .pkg-card, [data-pkv="b"] .pkg-card:hover, [data-pkv="b"] .pkg-card.is-open, [data-pkv="b"] .reveal-stagger:not(:hover) .pkg-card:first-child) li > span:first-child { display: inline-grid; place-items: center; flex: none; width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(140deg, #4a7bff, #2148d6); box-shadow: 0 0 12px rgba(48,97,255,.55); color: #fff; font-size: 14px; }
+[data-pkv="a"] .pkg-card:hover { box-shadow: 0 0 56px rgba(48,97,255,.6), 0 28px 56px -28px rgba(11,26,74,.6); }
+
+/* ── 시안 B: 평소엔 흰 카드(앞 섹션의 "선택 안 된 카드"처럼 차분), 마우스를 올리면 위처럼 남색 카드로 올라옴 ── */
+[data-pkv="b"] .pkg-card { border: 2px solid rgba(11,26,74,.1); background: #fff; box-shadow: 0 16px 40px -28px rgba(11,26,74,.35); transition: border-color .3s, box-shadow .3s, background .3s, color .3s, transform .4s cubic-bezier(.2,.7,.2,1); }
+[data-pkv="b"] .pkg-card:hover, [data-pkv="b"] .pkg-card.is-open, [data-pkv="b"] .reveal-stagger:not(:hover) .pkg-card:first-child { transform: translateY(-6px); }
+[data-pkv="b"] .pkg-no { color: #9aa8d0; transition: color .3s; }
+[data-pkv="b"] .pkg-card .pkg-badge { background: #0b1a4a; }
+[data-pkv="b"] .pkg-card li > span:first-child { display: inline-grid; place-items: center; flex: none; width: 22px; height: 22px; margin-top: 1px; border-radius: 50%; background: #b4bfdc; color: #fff; font-size: 12px; }
+[data-pkv="b"] .pkg-card .text-mute { color: #7d8ab0; font-weight: 600; }
+
+/* ── 시안 C: 흰 카드 + 파란 강조 — 파란 번호, 대상 문구·결과 문장을 파란 박스로 ── */
+[data-pkv="c"] .pkg-card { background: #fff; border: 2px solid #c9d7ff; box-shadow: 0 24px 50px -28px rgba(33,72,214,.5); transition: border-color .3s, box-shadow .3s; }
+[data-pkv="c"] .pkg-card:hover { border-color: #3061ff; box-shadow: 0 0 40px rgba(48,97,255,.35), 0 24px 50px -28px rgba(33,72,214,.6); }
+[data-pkv="c"] .pkg-no { color: #3061ff; }
+[data-pkv="c"] .pkg-card .pkg-badge { background: #3061ff; box-shadow: 0 6px 18px -6px rgba(48,97,255,.8); }
+[data-pkv="c"] .pkg-card h3 { color: #0b1a4a; }
+[data-pkv="c"] .pkg-card .text-mute { align-self: flex-start; padding: 6px 12px; border-radius: 10px; background: #e8eeff; color: #2148d6; font-weight: 700; }
+[data-pkv="c"] .pkg-card .text-body { color: #171717; font-weight: 500; }
+[data-pkv="c"] .pkg-card li { padding: 12px 14px; border-radius: 14px; background: #f0f4ff; box-shadow: inset 3px 0 0 #3061ff; }
+[data-pkv="c"] .pkg-card .t-eyebrow.text-primary { color: #2148d6; }
+
+/* ── 하단 문의 박스: A·B 는 짙은 남색(앞 섹션 카드와 같은 색), C 는 꽉 찬 파랑 ── */
+:is([data-pkv="a"], [data-pkv="b"]) .pk-banner { background: radial-gradient(70% 140% at 100% 0%, rgba(48,97,255,.45), transparent 60%), linear-gradient(180deg, rgba(10,24,70,.98), rgba(5,12,38,1)); box-shadow: inset 0 0 0 2px #3061ff, 0 0 36px rgba(48,97,255,.3); }
+[data-pkv="c"] .pk-banner { background: radial-gradient(70% 140% at 100% 0%, #6b8cff, transparent 60%), linear-gradient(120deg, #3061ff, #1a3ab0); box-shadow: 0 24px 50px -24px rgba(33,72,214,.7); }
+[data-pkv] .pk-banner .text-ink { color: #fff; }
+[data-pkv] .pk-banner .text-body { color: rgba(255,255,255,.8); }
+[data-pkv] .pk-banner .btn-primary { box-shadow: 0 8px 24px -6px rgba(48,97,255,.75); }
+[data-pkv="c"] .pk-banner .btn-primary { background: #fff; color: #2148d6; font-weight: 800; box-shadow: none; }
+
+/* 호버로 드러나는 "패키지 구성 항목" 목록은 기존 모양 그대로(위 결과 문장용 칩 스타일을 받지 않게) */
+[data-pkv] .pkg-card .pkg-res-fill li { padding: 0 !important; background: none !important; border: 0 !important; box-shadow: none !important; border-radius: 0 !important; }
+[data-pkv] .pkg-card .pkg-res-fill li > span:first-child { display: inline !important; width: auto !important; height: auto !important; margin-top: 0 !important; border-radius: 0 !important; background: none !important; box-shadow: none !important; font-size: inherit !important; color: inherit !important; }
+
+/* 호버로 드러나는 구성 항목(최대 7줄)이 결과 문장 높이보다 길어 카드 아래로 잘리던 것 → 결과 영역에 최소 높이를 줘서 항상 다 보이게 */
+[data-pkv] .pkg-card > .flex-1 { min-height: 215px; }
+
+/* ── 2026-11-04 4차: 제목 위 파란 알약 라벨("유입패키지" 등) 삭제 + 패키지 이름을 크게 ── */
+[data-pkv] .pkg-badge { display: none; }
+[data-pkv] .pkg-card h3 { margin-top: 6px; font-size: clamp(30px, calc(2.5*var(--vw1)), 38px); line-height: 1.2; }
+
+/* 시안 B: 앞 섹션 "맞춤형 마케팅 전략"과 같은 색 구분 — 선택된 카드(처음엔 1번, 마우스를 올린 카드)만 파랑, 나머지는 무채색.
+   선택 안 된 카드는 번호·대상 문구·아이콘이 회색, 선택되면 번호·아이콘이 파랑(위 어두운 카드 규칙). 선택 카드는 제목 일부를 연파랑으로 */
+[data-pkv="b"] .pkg-card h3 { color: #0b1a4a; }
+
+/* ── 2026-11-04 5차 시안 d: 앞 섹션 모바일 카드 모양(가운데 정렬 · 알약 · 남색 구성 칩). 섹션 바탕·머리말·하단 박스는 위 공통/A·B 규칙을 따른다 ── */
+.pkd-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: clamp(24px, 2.6*var(--vw1), 40px) clamp(20px, 2*var(--vw1), 32px); border: 1px solid #3061ff; border-radius: 40px; background: #fff; box-shadow: 0 24px 50px -30px rgba(33,72,214,.45); }
+.pkd-top { align-self: stretch; display: flex; align-items: baseline; gap: 10px; }
+.pkd-no { font-size: 30px; font-weight: 400; line-height: 1; letter-spacing: -.02em; color: #3061ff; }
+.pkd-name { font-size: 14px; font-weight: 700; color: #7d8ab0; }
+.pkd-title { margin-top: 18px; font-size: clamp(26px, calc(2.1*var(--vw1)), 34px); font-weight: 800; line-height: 1.25; letter-spacing: -.04em; color: #171717; }
+.pkd-title b { color: #3061ff; font-weight: 800; }
+.pkd-desc { margin-top: 16px; font-size: 16px; line-height: 1.55; color: #8b8b8b; font-weight: 400; }
+.pkd-label { display: flex; align-items: center; gap: 10px; margin-top: 28px; font-size: 16px; font-weight: 800; color: #171717; letter-spacing: -.02em; }
+.pkd-check { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: #3061ff; flex: none; }
+.pkd-pills { align-self: stretch; margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+.pkd-pills li { padding: 14px 18px; border: 1px solid #3061ff; border-radius: 999px; background: #eff3ff; font-size: 15px; font-weight: 700; line-height: 1.4; color: #171717; letter-spacing: -.02em; word-break: keep-all; }
+.pkd-lead { align-self: stretch; margin-top: 14px; padding: 10px 14px; border-radius: 14px; background: #eff3ff; color: #2148d6; font-size: 14px; font-weight: 800; }
+.pkd-chips { align-self: stretch; margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pkd-chips li { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 12px; border: 1px solid rgba(107,140,255,.25); border-radius: 18px; background: linear-gradient(180deg, #0c1d58, #050c26); color: #fff; font-size: 14px; font-weight: 700; line-height: 1.3; text-align: left; word-break: keep-all; }
+.pkd-ico { display: inline-grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%; background: rgba(48,97,255,.28); }
+:is([data-pkv="d"]) .pk-banner { background: radial-gradient(70% 140% at 100% 0%, rgba(48,97,255,.45), transparent 60%), linear-gradient(180deg, rgba(10,24,70,.98), rgba(5,12,38,1)); box-shadow: inset 0 0 0 2px #3061ff, 0 0 36px rgba(48,97,255,.3); }
+.pkd-chips li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+/* 시안 d 수정: 카드·알약 테두리 연하게, 결과 알약·구성 칩 높이 통일, 구성 칩은 남색 대신 흰색 */
+.pkd-card { border-color: #c9d7ff; }
+.pkd-pills li { border-color: #b9ccff; min-height: 72px; display: flex; align-items: center; justify-content: center; }
+.pkd-chips li { background: #fff; border-color: #c9d7ff; color: #171717; min-height: 72px; box-shadow: 0 6px 16px -10px rgba(33,72,214,.35); }
+.pkd-ico { background: #eaf0ff; }
+.pkd-ico svg { stroke: #3061ff; }
+
+/* 시안 d 3차: 카드별 포인트 색(메인 "맞춤형 마케팅 전략"과 같게 01 블루 · 02 청록 · 03 보라) / 결과 알약 테두리 없이 낮게 / 박스 전체를 작고 촘촘하게 */
+.pkd-card:nth-child(1) { --ac: #3061ff; --ac-rgb: 48,97,255; }
+.pkd-card:nth-child(2) { --ac: #109aaa; --ac-rgb: 16,154,170; }
+.pkd-card:nth-child(3) { --ac: #8b5cf6; --ac-rgb: 139,92,246; }
+.pkd-card { border-color: rgba(var(--ac-rgb), .3); padding: clamp(22px, 2.2*var(--vw1), 32px) clamp(18px, 1.7*var(--vw1), 26px); box-shadow: 0 24px 50px -30px rgba(var(--ac-rgb), .5); }
+.pkd-no, .pkd-title b { color: var(--ac); }
+.pkd-title { margin-top: 12px; font-size: clamp(24px, calc(1.9*var(--vw1)), 30px); }
+.pkd-desc { margin-top: 12px; font-size: 15px; }
+.pkd-label { margin-top: 22px; font-size: 15px; }
+.pkd-check { width: 24px; height: 24px; background: var(--ac); }
+.pkd-pills { margin-top: 12px; gap: 8px; }
+.pkd-pills li { min-height: 0; padding: 10px 16px; border: 0; background: rgba(var(--ac-rgb), .09); font-size: 14px; }
+.pkd-lead { margin-top: 12px; padding: 8px 12px; background: rgba(var(--ac-rgb), .09); color: var(--ac); font-size: 13px; }
+.pkd-chips { margin-top: 12px; gap: 8px; }
+.pkd-chips li { min-height: 56px; padding: 8px 10px; gap: 8px; border-radius: 14px; border-color: rgba(var(--ac-rgb), .28); font-size: 13px; box-shadow: none; }
+.pkd-ico { width: 34px; height: 34px; background: rgba(var(--ac-rgb), .12); }
+.pkd-ico svg { width: 18px; height: 18px; stroke: var(--ac); }
+
+/* 시안 d 4차: 배경 격자 삭제(옅은 파랑 빛만), "진행하면?"·"구성 항목" 제목 삭제로 간격 재조정 */
+[data-pkv="d"] { background: radial-gradient(900px 520px at 50% 0%, rgba(48,97,255,.12), transparent 70%), #f6f8ff !important; }
+.pkd-pills { margin-top: 24px; }
+.pkd-lead, .pkd-chips { margin-top: 16px; }
+.pkd-lead + .pkd-chips { margin-top: 8px; }
+
+/* 시안 d 5차: 라운드 줄임 / 결과 말풍선·"전체 포함" 띠는 카드 색과 상관없이 밝은 회색 / 하단 문의 박스는 없애고 버튼만 가운데 */
+.pkd-card { border-radius: 20px; }
+.pkd-pills li { border-radius: 10px; background: #f7f8fa; }
+.pkd-lead { border-radius: 10px; background: #f7f8fa; }
+.pkd-chips li { border-radius: 10px; }
+[data-pkv="d"] .pk-banner { background: none !important; box-shadow: none !important; padding: 0; margin-top: 40px; border-radius: 0; justify-content: center; }
+[data-pkv="d"] .pk-banner > div { display: none; }
+.pkd-top { justify-content: center; }
+.pkd-top { justify-content: flex-start; align-items: center; }
+
+/* 시안 d 7차: 카드 가로폭 좁힘(가운데 모음) / "○○패키지 전체 포함" 띠는 구성 칩 4개 아래로 */
+[data-pkv="d"] .reveal-stagger { max-width: 1440px; margin-left: auto; margin-right: auto; }
+.pkd-chips + .pkd-lead { margin-top: 8px; }
+
+/* 시안 d 8차: 어두운 남색 바탕 + 카드 3색(블루·청록·보라) 윗띠 / 구성 칩은 데이터 전부(01 5개·02 6개·03 6개), "전체 포함"은 칩 중 강조 */
+[data-pkv="d"] { background: radial-gradient(900px 520px at 50% 0%, rgba(48,97,255,.22), transparent 70%), #141f45 !important; }
+[data-pkv="d"] h2 { color: #fff; }
+[data-pkv="d"] h2 .accent { color: #fff; font-weight: 800; }
+[data-pkv="d"] .container-x > div:first-child p { color: rgba(255,255,255,.7); }
+.pkd-card { --px: clamp(18px, 1.7*var(--vw1), 26px); padding: 0 var(--px) var(--px); overflow: hidden; border: 0; box-shadow: 0 24px 50px -24px rgba(0,0,0,.6); }
+.pkd-top { align-self: stretch; margin: 0 calc(-1 * var(--px)); padding: 10px var(--px); background: var(--ac); color: #fff; justify-content: space-between; align-items: center; }
+.pkd-no, .pkd-name { color: #fff; font-size: 15px; font-weight: 700; }
+.pkd-title { margin-top: 28px; }
+.pkd-chips li.pkd-chip-lead { background: rgba(var(--ac-rgb), .1); font-weight: 800; color: var(--ac); }
+
+/* 시안 d 9차: 섹션 제목 첫 줄만 글자 줄임(둘째 줄은 원래 크기) / 홀수 개일 때 마지막 칩도 다른 칩과 같은 크기(가로 꽉 채우지 않음) */
+[data-pkv="d"] h2::first-line { font-size: clamp(24px, 3.4vw, 40px); }
+.pkd-chips li:last-child:nth-child(odd) { grid-column: auto; }
+
+/* 시안 d 10차: 제목 행간 살짝 넓힘 / 구성 칩 글자·아이콘·여백 축소 / PC 에서는 칩 글자 줄바꿈 없음("핵심 시술 설정"이 한 줄) */
+[data-pkv="d"] h2 { line-height: 1.32; }
+.pkd-chips li { min-height: 48px; padding: 6px 8px; gap: 7px; font-size: 12px; }
+.pkd-ico { width: 28px; height: 28px; }
+.pkd-ico svg { width: 15px; height: 15px; }
+@media (min-width: 1024px) { .pkd-chips li:not(.pkd-chip-lead) > span:last-child { white-space: nowrap; } }
+
+/* 시안 d 11차: 카드 제목 키움 / 설명 문구는 검정 볼드·키움 / 회색 박스 두 줄 글자는 연한 회색 */
+.pkd-title { font-size: clamp(28px, calc(2.3*var(--vw1)), 36px); }
+.pkd-desc { font-size: 17px; font-weight: 700; color: #171717; }
+.pkd-pills li { color: #8a8f99; }
+
+/* 시안 d 12차: 설명 문구는 볼드 빼고 진한 회색 */
+.pkd-desc { font-weight: 400; color: #5a5f69; }
+
+/* 시안 d 13차: 회색 박스 두 줄 글자 더 진하게 */
+.pkd-pills li { color: #4a4f58; }
+
+/* 시안 d 14차: 설명 문구 볼드 + 더 진한 색 */
+.pkd-desc { font-weight: 700; color: #2a2d33; }
+
+/* 시안 d 15차: 회색 박스 글자 더 연하게·볼드 없음 / 제목 두 줄 사이 화살표 도형(카드 색) */
+.pkd-pills li { color: #7c818b; font-weight: 400; }
+.pkd-arrow { display: block; margin: 14px auto 0; color: var(--ac); }
+
+/* 시안 d 16차: 화살표를 카드 색 동그라미 안에 */
+.pkd-arrow { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--ac); color: #fff; }
+
+/* 시안 d 17차: 동그라미 축소(34→24px), 세로선 없는 꺾쇠(V) 화살표 */
+.pkd-arrow { width: 24px; height: 24px; margin-top: 12px; }
+
+/* 시안 d 18차: 동그라미·화살표 정중앙 맞춤 + 화살표만 아래로 내려가는 반복 모션 */
+.pkd-arrow { align-self: center; overflow: hidden; }
+.pkd-arrow svg { display: block; margin: 0; animation: pkd-arrow-down 1.4s ease-in-out infinite; }
+@keyframes pkd-arrow-down { 0% { transform: translateY(-7px); opacity: 0; } 35% { opacity: 1; } 70% { transform: translateY(2px); opacity: 1; } 100% { transform: translateY(7px); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .pkd-arrow svg { animation: none; } }
+
+/* 시안 d 19차: 화살표 동그라미 검정 */
+.pkd-arrow { background: #171717; }
+
+/* 시안 d 20차: 화살표 동그라미 다시 카드 색(파랑·청록·보라) */
+.pkd-arrow { background: var(--ac); }
+
+/* 시안 d 21차: 회색 박스 글자 다시 볼드 */
+.pkd-pills li { font-weight: 700; }
+
+/* 시안 d 22차: 회색 박스 글자 색 진하게(검정은 아님) */
+.pkd-pills li { color: #52575f; }
+
+/* 시안 d 23차: 카드 아래 "문의하기 >" 알약 버튼(카드 색) */
+.pkd-cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 24px; padding: 13px 32px; border-radius: 999px; background: var(--ac); color: #fff; font-size: 15px; font-weight: 800; letter-spacing: -.02em; box-shadow: 0 10px 24px -10px rgba(var(--ac-rgb), .8); transition: transform .25s, box-shadow .25s; }
+.pkd-cta:hover { transform: translateY(-2px); box-shadow: 0 14px 28px -10px rgba(var(--ac-rgb), .9); }
+.pkd-cta svg { transition: transform .25s; }
+.pkd-cta:hover svg { transform: translateX(3px); }
+
+/* 시안 d 24차: 문의하기 버튼 축소 / 구성 칩 글자 13px·진한 검정, 테두리 또렷하게(아이콘 원은 줄여서 한 줄 유지) */
+.pkd-cta { margin-top: 18px; padding: 9px 22px; gap: 6px; font-size: 13px; }
+.pkd-cta svg { width: 12px; height: 12px; }
+.pkd-chips li { padding: 6px 7px; gap: 6px; font-size: 13px; letter-spacing: -.03em; color: #111; border-color: rgba(var(--ac-rgb), .5); }
+.pkd-ico { width: 26px; height: 26px; }
+.pkd-ico svg { width: 14px; height: 14px; }
+.pkd-chips li.pkd-chip-lead { color: var(--ac); }
+
+/* 시안 d 25차: 문의하기 버튼 조금 키움 */
+.pkd-cta { padding: 11px 28px; font-size: 14px; }
+.pkd-cta svg { width: 13px; height: 13px; }
+
+/* 시안 d 26차: 섹션 맨 아래 파란 "문의하기" 버튼 삭제(카드 안 버튼만 사용) */
+[data-pkv="d"] .pk-banner { display: none; }

@@ -36,7 +36,7 @@
 .fi-contacts li { display: flex; align-items: center; gap: 22px; }
 .fi-contacts svg { flex: none; color: #222; }
 
-@media (max-width: 767px) {
+@media (max-width: 743.98px) {
   .fi-offers { grid-template-columns: 1fr; }
   .fi-contacts { font-size: 15px; }
 }

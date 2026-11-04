@@ -93,7 +93,7 @@ export default function Hero({ data, background, cursorGlow = false }: { data: H
         <div className="hero-grain absolute inset-0" />
       </div>
 
-      <div className="hero-in relative h-[calc(100svh*var(--zi))]">
+      <div className="hero-in relative h-[calc(100*var(--svh1))]">
         <div className="hero-copy">
           <p className="hero-eyebrow hero-appear hero-appear--soft" style={{ "--d": ".2s" } as React.CSSProperties}><Rich text={data.eyebrow} /></p>
           <h1 className="hero-h1">

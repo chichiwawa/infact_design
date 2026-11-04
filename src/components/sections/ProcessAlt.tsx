@@ -11,7 +11,7 @@ import Accent from "@/components/Accent";
 import type { ProcessData } from "@/lib/sections";
 import { zoomInv } from "@/lib/zoom";
 
-const VH = "calc(100dvh*var(--zi))";
+const VH = "calc(100*var(--dvh1))";
 
 export default function ProcessAlt({ title, data }: { title?: string; data: ProcessData }) {
   const n = data.steps.length;

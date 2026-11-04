@@ -20,6 +20,7 @@ import { useState } from "react";
 import Link from "next/link";
 import SectionHead from "@/components/SectionHead";
 import type { PackagesData } from "@/lib/sections";
+import "./packages-variants.css";
 
 function Results({ title, results }: { title: string; results: string[] }) {
   return (
@@ -67,20 +68,61 @@ function Components({ title, items }: { title: string; items: { label: string; e
   );
 }
 
-export default function Packages({ title, data }: { title: string; data: PackagesData }) {
+/** variant: 디자인 시안용(없으면 기존 모양 그대로) — 앞 섹션(성장단계에 맞춘 맞춤형 마케팅 전략, package-steps-cards.css)과 이어지는 다크 톤 — a 파란 테두리 카드 / b 무채색 카드 + 호버 때 파랑 / c 흰 카드 + 파란 강조. 스타일은 packages-variants.css */
+// 시안 d 의 구성 항목 아이콘 4종 (말풍선 · 문서 · 사람 · 광고) — 앞 섹션(PackageStepsCards)과 같은 모양
+const ICONS = [
+  <path key="a" d="M5 6h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-7l-4 3v-3H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zM8.5 11h.01M12 11h.01M15.5 11h.01" />,
+  <path key="b" d="M7 3h7l4 4v14H7zM14 3v4h4M10 12h5M10 16h5M10 8h2" />,
+  <path key="c" d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4.5 21a7.5 7.5 0 0 1 15 0" />,
+  <path key="d" d="M4 10v4h3l7 4V6L7 10H4zM17 9.5a4 4 0 0 1 0 5" />,
+  <path key="e" d="M4 17l5-5 4 4 7-8M15 8h5v5" />,
+  <path key="f" d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.5 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z" />,
+];
+const rich = (t: string) => t.split(/(\*\*[^*]+\*\*)/).map((p, i) => (p.startsWith("**") ? <b key={i}>{p.slice(2, -2)}</b> : p));
+const Check = () => (
+  <span className="pkd-check" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#fff" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+  </span>
+);
+
+/** 시안 d: 앞 섹션 모바일 카드처럼 가운데 정렬 — 번호 · 고민 제목(2줄, 둘째 줄 파랑) · 설명 · "진행하면?" 알약 · 구성 항목 남색 칩. 호버/토글 없이 전부 펼쳐 보임 */
+function CardD({ it, i }: { it: PackagesData["items"][number]; i: number }) {
+  const rest = it.components; // 구성 칩은 데이터 그대로 전부 (01 5개 · 02 6개 · 03 6개), "전체 포함" 항목도 칩으로
+  return (
+    <article className="pkd-card">
+      <p className="pkd-top"><span className="pkd-no">{String(i + 1).padStart(2, "0")}</span><span className="pkd-name">{it.title}</span></p>
+      <h3 className="pkd-title">{(it.heading ?? it.target).split("\n").map((l, k) => <span key={k} className="block">{rich(l)}</span>)}</h3>
+      <span className="pkd-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg></span>
+      <p className="pkd-desc whitespace-pre-line">{it.body}</p>
+      <ul className="pkd-pills">{it.results.map((r) => <li key={r}>{r}</li>)}</ul>
+      <ul className="pkd-chips">
+        {rest.map((c, k) => (
+          <li key={c.label} className={c.emphasis ? "pkd-chip-lead" : undefined}>
+            <span className="pkd-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{ICONS[k % ICONS.length]}</svg></span>
+            <span className="whitespace-pre-line">{c.emphasis ? c.label.includes(",") ? c.label.replace(" 패키지 전체 포함", "\n패키지 전체 포함") : c.label.replace(" 전체 포함", "\n전체 포함") : c.label}</span>
+          </li>
+        ))}
+      </ul>
+      <Link href="/contact" className="pkd-cta">문의하기<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg></Link>
+    </article>
+  );
+}
+
+export default function Packages({ title, data, variant }: { title: string; data: PackagesData; variant?: "a" | "b" | "c" | "d" }) {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   return (
-    <section id="packages" className="section-y bg-elevated scroll-mt-20">
+    <section id="packages" className="section-y bg-elevated scroll-mt-20" data-pkv={variant}>
       <div className="container-x">
         {/* 안내 문구(note)는 제목 아래 서브로 올렸다 (2026-09-17) */}
         <SectionHead title={title} sub={data.note} />
 
         <div className="reveal-stagger mt-14 grid gap-4 md:grid-cols-3 md:gap-6">
-          {data.items.map((it, i) => {
+          {variant === "d" ? data.items.map((it, i) => <CardD key={it.title} it={it} i={i} />) : data.items.map((it, i) => {
             const open = openIdx === i;
             return (
               <article key={it.title} className={`group relative rounded-[24px] p-6 md:p-9 flex flex-col overflow-hidden card-hover pkg-card bg-panel text-ink${open ? " is-open" : ""}`}>
+                <span className="pkg-no relative" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
                 <div className="relative flex items-center justify-between gap-3">
                   <span className="pkg-badge text-[13px] font-bold px-3 py-1.5 rounded-full bg-ink text-white transition-colors duration-300">{it.category}패키지</span>
                   <button
@@ -108,7 +150,7 @@ export default function Packages({ title, data }: { title: string; data: Package
           })}
         </div>
 
-        <div className="mt-8 rounded-[24px] bg-primary-soft p-8 md:p-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6" data-reveal>
+        <div className="pk-banner mt-8 rounded-[24px] bg-primary-soft p-8 md:p-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6" data-reveal>
           <div>
             <p className="t-h-md text-ink">{data.banner.title}</p>
             <p className="t-body-lg text-body mt-2">{data.banner.body}</p>

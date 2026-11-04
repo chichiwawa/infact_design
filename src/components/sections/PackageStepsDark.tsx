@@ -42,7 +42,7 @@ export default function PackageStepsDark({ title, data, variant }: { title: stri
   const [on, setOn] = useState(0);
   // 모바일은 02번 카드부터 펼쳐서 시작
   useEffect(() => {
-    if (variant === "c" && window.matchMedia("(max-width: 767px)").matches) setOn(1);
+    if (variant === "c" && window.matchMedia("(max-width: 743.98px)").matches) setOn(1);
   }, [variant]);
   const items = data.items;
   return (

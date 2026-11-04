@@ -67,7 +67,7 @@ export default function CircleReveal({ data, variant }: { data: CircleRevealData
     return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); if (raf) cancelAnimationFrame(raf); delete document.documentElement.dataset.proc; };
   }, [n]);
 
-  const height = n ? `calc(100dvh*var(--zi)*${(GROW + SHOW + 1 + n * PER_STEP + HOLD).toFixed(2)})` : undefined;
+  const height = n ? `calc(100*var(--dvh1)*${(GROW + SHOW + 1 + n * PER_STEP + HOLD).toFixed(2)})` : undefined;
 
   return (
     <section ref={secRef} className={dark ? "cr on-dark" : "cr"} data-v={variant} style={{ height }} aria-label={`${data.left} ${data.right}`.replace(/\*\*/g, "")}>

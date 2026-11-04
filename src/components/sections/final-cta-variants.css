@@ -8,7 +8,7 @@
 .fcta-offer p:last-child { color: rgba(255,255,255,.65); }
 .fcta-card { border-radius: 28px; padding: 40px; }
 .fcta-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-@media (max-width: 767px) { .fcta-card { padding: 28px; } .fcta-offer { padding: 20px; } }
+@media (max-width: 743.98px) { .fcta-card { padding: 28px; } .fcta-offer { padding: 20px; } }
 
 /* A — 검정 + 오른쪽 위 파란 빛 번짐, 유리 카드, 흰 폼 카드 */
 .fcta-a { background: #0a0a0a; }
@@ -57,4 +57,4 @@
 .fcta-e .fcta-offer { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.14); text-align: left; backdrop-filter: blur(6px); }
 .fcta-e .fcta-card { max-width: 760px; margin: 56px auto 0; text-align: left; background: rgba(255,255,255,.96); color: #171717; }
 .fcta-e .fcta-card .fcta-btns { display: grid; gap: 12px; }
-@media (min-width: 768px) { .fcta-e .fcta-card .fcta-btns { grid-template-columns: 1fr 1fr; } .fcta-e .fcta-card .fcta-btns > * { margin-top: 32px !important; } }
+@media (min-width: 744px) { .fcta-e .fcta-card .fcta-btns { grid-template-columns: 1fr 1fr; } .fcta-e .fcta-card .fcta-btns > * { margin-top: 32px !important; } }
