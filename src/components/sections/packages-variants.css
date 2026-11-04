@@ -240,7 +240,7 @@
    카드 안은 PC 처럼 구성 칩 2열. 카드 폭은 최대 620px 가운데 */
 @media (min-width: 744px) and (max-width: 1023px) {
   [data-pkv="d"] .container-x { padding-inline: 40px; }
-  [data-pkv="d"] .reveal-stagger { grid-template-columns: 1fr; gap: 28px; max-width: 620px; margin-inline: auto; }
+  [data-pkv="d"] .reveal-stagger { grid-template-columns: 1fr; gap: 28px; max-width: 520px; margin-inline: auto; }
   .pkd-card { --px: 28px; border-radius: 32px; }
   [data-pkv="d"] .pkd-title { font-size: clamp(26px, 3.9vw, 47px); } /* 섹션 제목(4.6vw)의 85% — 제목보다 작게 */
   .pkd-title .block { white-space: nowrap; }
@@ -282,7 +282,7 @@
 
   /* B: 카드를 한 장씩 세로로 쌓고, 각 카드 안은 PC 처럼 구성 아이콘 2열 */
   [data-pkv="d"][data-ipad="b"] .container-x { padding-inline: 40px; }
-  [data-pkv="d"][data-ipad="b"] .reveal-stagger { grid-template-columns: 1fr; gap: 28px; max-width: 620px; margin-inline: auto; }
+  [data-pkv="d"][data-ipad="b"] .reveal-stagger { grid-template-columns: 1fr; gap: 28px; max-width: 520px; margin-inline: auto; }
   [data-ipad="b"] .pkd-card { --px: 28px; border-radius: 32px; }
   [data-ipad="b"] .pkd-chips { grid-template-columns: 1fr 1fr; gap: 10px; }
   [data-ipad="b"] .pkd-chips li { min-height: 56px; font-size: 14px; }
@@ -296,7 +296,7 @@
 /* 아이패드 세로인데 사파리가 폭을 1024 이상으로 알려 주는 경우(데스크톱 사이트 요청 · 12.9형): 전체가 80% 로 줄어 있으므로(globals.css) 카드 폭을 그만큼 키워 같은 한 장씩 배치 */
 @media (min-width: 1024px) and (max-width: 1366px) and (orientation: portrait) and (pointer: coarse) {
   [data-pkv="d"] .container-x { padding-inline: 40px; }
-  [data-pkv="d"] .reveal-stagger { grid-template-columns: 1fr; gap: 28px; max-width: 760px; margin-inline: auto; }
+  [data-pkv="d"] .reveal-stagger { grid-template-columns: 1fr; gap: 28px; max-width: 640px; margin-inline: auto; }
   .pkd-card { --px: 32px; border-radius: 32px; }
   [data-pkv="d"] .pkd-title { font-size: clamp(26px, 3.9vw, 47px); }
   .pkd-title .block { white-space: nowrap; }
