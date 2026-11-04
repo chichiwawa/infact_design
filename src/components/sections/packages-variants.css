@@ -242,13 +242,14 @@
   [data-pkv="d"] .container-x { padding-inline: 40px; }
   [data-pkv="d"] .reveal-stagger { grid-template-columns: 1fr; gap: 28px; max-width: 620px; margin-inline: auto; }
   .pkd-card { --px: 28px; border-radius: 32px; }
+  [data-pkv="d"] .pkd-title { font-size: 46px; }
   .pkd-title .block { white-space: nowrap; }
-  .pkd-chips { grid-template-columns: 1fr 1fr; gap: 10px; }
-  .pkd-chips li { min-height: 56px; font-size: 14px; }
+  .pkd-chips { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .pkd-chips li { min-height: 44px; padding: 5px 8px; font-size: 13px; }
   .pkd-chips li > span:last-child { white-space: normal !important; }
   .pkd-chips li.pkd-chip-lead { grid-column: 1 / -1; }
-  .pkd-ico { width: 30px; height: 30px; }
-  .pkd-ico svg { width: 16px; height: 16px; }
+  .pkd-ico { width: 24px; height: 24px; }
+  .pkd-ico svg { width: 13px; height: 13px; }
   .pkd-cta { font-size: 15px; padding: 12px 30px; }
 }
 
@@ -290,4 +291,20 @@
   [data-ipad="b"] .pkd-ico { width: 30px; height: 30px; }
   [data-ipad="b"] .pkd-ico svg { width: 16px; height: 16px; }
   [data-ipad="b"] .pkd-cta { font-size: 15px; padding: 12px 30px; }
+}
+
+/* 아이패드 세로인데 사파리가 폭을 1024 이상으로 알려 주는 경우(데스크톱 사이트 요청 · 12.9형): 전체가 80% 로 줄어 있으므로(globals.css) 카드 폭을 그만큼 키워 같은 한 장씩 배치 */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: portrait) and (pointer: coarse) {
+  [data-pkv="d"] .container-x { padding-inline: 40px; }
+  [data-pkv="d"] .reveal-stagger { grid-template-columns: 1fr; gap: 28px; max-width: 760px; margin-inline: auto; }
+  .pkd-card { --px: 32px; border-radius: 32px; }
+  [data-pkv="d"] .pkd-title { font-size: 54px; }
+  .pkd-title .block { white-space: nowrap; }
+  .pkd-chips { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .pkd-chips li { min-height: 46px; padding: 5px 9px; font-size: 14px; }
+  .pkd-chips li > span:last-child { white-space: normal !important; }
+  .pkd-chips li.pkd-chip-lead { grid-column: 1 / -1; }
+  .pkd-ico { width: 26px; height: 26px; }
+  .pkd-ico svg { width: 14px; height: 14px; }
+  .pkd-cta { font-size: 15px; padding: 12px 30px; }
 }
