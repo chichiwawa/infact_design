@@ -54,5 +54,27 @@ export default function IpadLandscape() {
       probe.remove();
     };
   }, [pathname]);
+  // 확인용 표시(2026-11-05): 주소 끝에 ?debug=1 을 붙이면 왼쪽 아래에 화면 수치가 뜬다. 일반 방문자에게는 보이지 않는다.
+  useEffect(() => {
+    if (!new URLSearchParams(location.search).has("debug")) return;
+    const box = document.createElement("pre");
+    box.style.cssText = "position:fixed;left:6px;bottom:6px;z-index:99999;margin:0;padding:6px 8px;background:rgba(0,0,0,.82);color:#7CFC9A;font:11px/1.35 monospace;border-radius:6px;pointer-events:none;white-space:pre";
+    document.body.appendChild(box);
+    const css = (k: string) => getComputedStyle(document.documentElement).getPropertyValue(k).trim();
+    const secs = () => Array.from(document.querySelectorAll<HTMLElement>("section, .pain, .pk-swrap, .cr, .diff-wrap")).filter((e) => e.offsetHeight > 300).map((e) => `${(e.className || e.tagName).toString().split(" ")[0].slice(0, 9)}:${Math.round(e.getBoundingClientRect().height)}`);
+    const tick = () => {
+      const vv = window.visualViewport;
+      box.textContent = [
+        `win ${innerWidth}x${innerHeight} vv ${Math.round(vv?.height ?? 0)} scr ${screen.width}x${screen.height}`,
+        `vh1 ${css("--vh1")} dvh1 ${css("--dvh1")} svh1 ${css("--svh1")}`,
+        `ipad-h ${css("--ipad-h")} land ${document.documentElement.hasAttribute("data-ipad-land")} zi ${css("--zi")}`,
+        `y ${Math.round(scrollY)} / doc ${document.documentElement.scrollHeight}`,
+        secs().join(" "),
+      ].join("\n");
+    };
+    tick();
+    const id = window.setInterval(tick, 300);
+    return () => { window.clearInterval(id); box.remove(); };
+  }, [pathname]);
   return null;
 }
