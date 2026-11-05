@@ -310,5 +310,12 @@ html[data-ipad-land] .pkd-title { font-size: calc(var(--ipad-w) * .02) !importan
 
 /* 같은 규칙을 data-ipad-land 에 기대지 않고 화면 조건으로 직접 건다 (html zoom 0.6 구간이라 글자는 CSS px 기준 고정값). 화면에서는 38 × 0.6 ≈ 23px */
 @media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
-  html .pkd-card .pkd-title { font-size: 38px !important; }
+  html .pkd-card .pkd-title { font-size: 32px !important; }
+  html .pkd-card .pkd-desc { font-size: 22px !important; }
+  html .pkd-card .pkd-label { font-size: 19px !important; }
+  html .pkd-card .pkd-pills li { font-size: 18px !important; }
+  html .pkd-card .pkd-chips li { font-size: 18px !important; min-height: 64px; }
+  html .pkd-card .pkd-ico { width: 34px; height: 34px; }
+  html .pkd-card .pkd-ico svg { width: 19px; height: 19px; }
+  html .pkd-card .pkd-cta { font-size: 19px !important; }
 }
