@@ -88,7 +88,8 @@ export default function PickerSection({
   // PC: 고정된 구간 안에서 스크롤 진행률 → 항목 번호
   useEffect(() => {
     const el = wrap.current;
-    if (!el) return;
+    // stack 은 아래 전용 effect 가 활성 항목을 정한다. 여기서도 같이 정하면 서로 덮어써 아이패드에서 인스타로 되돌아갔다 (2026-11-05)
+    if (!el || variant === "stack") return;
     const mq = matchMedia("(min-width: 744px)");
     let raf = 0;
     const update = () => {
@@ -105,7 +106,7 @@ export default function PickerSection({
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); if (raf) cancelAnimationFrame(raf); };
-  }, [n]);
+  }, [n, variant]);
 
   const pick = (i: number) => {
     const el = wrap.current;
@@ -125,24 +126,12 @@ export default function PickerSection({
   const tapLock = useRef(0); // 모바일 f: 탭을 눌러 스크롤 이동 중에는 스크롤 감지로 활성 탭이 바뀌지 않게
   const activeRef = useRef(0);
   const lastTap = useRef(0);
+  const scrollIdx = useRef(-1); // 아이패드 가로: 스크롤 위치로 정해진 마지막 항목 번호
   // 아이패드 가로: 활성 항목이 바뀌면 카드 줄을 그 위치로 (스크롤 구동 대신)
   useEffect(() => {
     activeRef.current = active;
     if (variant === "stack" && document.documentElement.hasAttribute("data-ipad-land")) wrap.current?.style.setProperty("--pk-p", String(active));
   }, [active, variant]);
-  // 아이패드 가로: 스크롤 위치 숫자를 읽지 않고, 브라우저가 판단하는 "화면 맨 위 가는 띠에 닿은 구간"으로 활성 항목을 정한다 (IntersectionObserver, 2026-11-05)
-  useEffect(() => {
-    const el = wrap.current;
-    if (variant !== "stack" || !el || n < 2 || typeof IntersectionObserver === "undefined") return;
-    const hit = new Set<number>();
-    const io = new IntersectionObserver((es) => {
-      es.forEach((e) => { const i = Number((e.target as HTMLElement).dataset.i); if (e.isIntersecting) hit.add(i); else hit.delete(i); });
-      if (!document.documentElement.hasAttribute("data-ipad-land") || !hit.size || performance.now() - lastTap.current < 1500) return;
-      setActive(Math.max(...hit));
-    }, { rootMargin: "0px 0px -97% 0px", threshold: 0 });
-    el.querySelectorAll(".pk-anchor").forEach((a) => io.observe(a));
-    return () => io.disconnect();
-  }, [variant, n]);
   useEffect(() => {
     if (variant !== "stack") return;
     const el = wrap.current;
@@ -155,8 +144,29 @@ export default function PickerSection({
         // PC: 화면이 멈춘 채 스크롤 진행률만큼 오른쪽 카드 줄이 위로 이동
         // 아이패드 가로(터치): 사파리가 알려 주는 스크롤 위치가 화면과 안 맞아 스크롤 구동을 쓰지 않는다 — 메뉴 탭·자동 넘김으로만 바뀌고 카드 줄은 활성 항목 위치에 둔다 (2026-11-05)
         const driven = document.documentElement.hasAttribute("data-ipad-land");
-        const span = el.getBoundingClientRect().height - window.innerHeight;
-        const p = span <= 0 ? 0 : Math.min(1, Math.max(0, -el.getBoundingClientRect().top / span));
+        // 고정판(.pk-sstick) 높이를 기준으로 삼는다 — innerHeight 는 사파리에서 어긋나지만, 같은 방식으로 잰 두 값의 비율은 단위와 상관없이 맞다 (2026-11-05)
+        const wr = el.getBoundingClientRect();
+        const stickEl = el.querySelector<HTMLElement>(".pk-sstick");
+        const stage = stickEl?.getBoundingClientRect().height ?? window.innerHeight;
+        let span = wr.height - stage;
+        let p = span <= 0 ? 0 : Math.min(1, Math.max(0, -wr.top / span));
+        if (driven && stickEl) {
+          // 아이패드 사파리(미니 실측): 확대 축소(zoom) 아래에서 getBoundingClientRect 가 고정판(sticky) 때문에 실제 화면과 다른 값을 줘서 항목이 0번에서 안 움직였다.
+          // 레이아웃 값(offsetTop·offsetHeight, CSS px)에 zoom 을 곱해 화면 px 로 바꾸고, 브라우저가 주는 scrollY 와 비교한다.
+          let top = 0;
+          for (let o: HTMLElement | null = el; o; o = o.offsetParent as HTMLElement | null) top += o.offsetTop;
+          const z = 1 / zoomInv();
+          span = (el.offsetHeight - stickEl.offsetHeight) * z;
+          p = span <= 0 ? 0 : Math.min(1, Math.max(0, (window.scrollY - top * z) / span));
+        }
+        if (driven) {
+          // 스크롤로 정해진 번호가 바뀐 때만 반영 — 메뉴를 눌러 고른 항목을 가만히 있는 동안 덮어쓰지 않게
+          const idx = Math.round(p * (n - 1));
+          if (idx !== scrollIdx.current) {
+            scrollIdx.current = idx;
+            if (performance.now() - lastTap.current > 600) setActive(idx);
+          }
+        }
         const v = driven ? activeRef.current : p * (n - 1);
         el.style.setProperty("--pk-p", String(v));
         // 오른쪽 카드 윗선 = 왼쪽 맨 위 문구("INFACT. DIAGNOSIS") 윗선, 아랫선 = 왼쪽 버튼 아랫선

@@ -40,7 +40,16 @@ export default function CircleReveal({ data, variant }: { data: CircleRevealData
     const update = () => {
       raf = 0;
       const H = stableH();
-      const r = root.getBoundingClientRect();
+      let r = root.getBoundingClientRect();
+      if (document.documentElement.hasAttribute("data-ipad-land")) {
+        // 아이패드 사파리: zoom 아래에서 고정판(sticky)이 있는 구간의 getBoundingClientRect 가 실제와 달라 동그라미가 안 커졌다(미니 실측).
+        // 레이아웃 값(offsetTop·offsetHeight)에 zoom 을 곱해 화면 px 로 바꾸고 scrollY 와 비교해 위치를 다시 만든다.
+        let top = 0;
+        for (let o: HTMLElement | null = root; o; o = o.offsetParent as HTMLElement | null) top += o.offsetTop;
+        const z = 1 / zoomInv();
+        const t = top * z - window.scrollY, h = root.offsetHeight * z;
+        r = new DOMRect(r.x, t, r.width, h);
+      }
       const scrolled = -r.top;
       const span = r.height - H;
       const p = Math.min(1, Math.max(0, scrolled / (GROW * H)));
