@@ -9,6 +9,7 @@
  *  ⚠️ 활성 항목은 className 이 아니라 data-on 으로 표시 (Motion 의 is-visible/is-in 클래스를 지우지 않기 위해)
  */
 import { useEffect, useRef, useState } from "react";
+import { isTouchDevice } from "@/lib/scroll";
 import Link from "next/link";
 import { zoomInv } from "@/lib/zoom";
 
@@ -281,7 +282,7 @@ export default function PickerSection({
   useEffect(() => {
     const el = wrap.current;
     // 터치 기기(아이패드 등)는 제외 — 손가락을 떼고 멈춰 있으면 화면이 혼자 스크롤돼 섹션 끝까지 순간이동하는 문제 (2026-11-05)
-    if (variant !== "stack" || !el || n < 2 || matchMedia("(prefers-reduced-motion: reduce)").matches || matchMedia("(pointer: coarse)").matches) return;
+    if (variant !== "stack" || !el || n < 2 || matchMedia("(prefers-reduced-motion: reduce)").matches || isTouchDevice()) return;
     let lastInput = 0, hover = false;
     const touch = () => { lastInput = performance.now(); };
     const enter = () => { hover = true; };

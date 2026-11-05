@@ -2974,3 +2974,6 @@ section:has(> .fcta-main-bg) { background: #0a0a0a; }
   .lb-ipad { display: inline; }
 }
 
+
+/* 터치 기기(아이패드 등)에서는 단계별 스크롤 멈춤(스냅)을 어떤 경우에도 끈다 (2026-11-05) — 켜진 채 남으면 섹션 밖에서 엉뚱한 곳으로 순간이동 */
+@media (pointer: coarse), (hover: none) { html[class*="snap-lock-"] { scroll-snap-type: none !important; } }

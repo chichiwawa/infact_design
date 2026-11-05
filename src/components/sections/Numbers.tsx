@@ -8,7 +8,7 @@
  */
 import { useEffect, useRef, useState } from "react";
 import type { NumbersData } from "@/lib/sections";
-import { setSnapLock, smoothScrollTo } from "@/lib/scroll";
+import { isTouchDevice, setSnapLock, smoothScrollTo } from "@/lib/scroll";
 
 export default function Numbers({ data }: { data: NumbersData }) {
   const ref = useRef<HTMLElement>(null);
@@ -183,7 +183,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
     view?.addEventListener("pointerenter", enter);
     view?.addEventListener("pointerleave", leave);
     const id = window.setInterval(() => {
-      if (document.hidden || hover || performance.now() - lastInput < 5000 || matchMedia("(max-width: 743.98px)").matches) return; // 모바일은 자동 넘김 없음
+      if (document.hidden || hover || performance.now() - lastInput < 5000 || matchMedia("(max-width: 743.98px)").matches || isTouchDevice()) return; // 모바일·터치 기기는 자동 넘김 없음
       const rect = el.getBoundingClientRect();
       const span = el.getBoundingClientRect().height - viewH(el);
       if (rect.top > 1 || -rect.top > span + 1) return; // 고정 구간 밖
