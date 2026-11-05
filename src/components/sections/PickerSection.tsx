@@ -325,12 +325,8 @@ export default function PickerSection({
     const go = (i: number) => {
       const el = wrap.current;
       if (el && matchMedia("(min-width: 744px)").matches) {
-        // 아이패드 사파리: getBoundingClientRect(보정됨, 화면 px)와 scrollY·scrollTo(CSS px)의 단위가 달라, 섞어 쓰면 엉뚱한 곳으로 가거나 안 움직였다 → 문서 전체 높이로 배율 u 를 구해 맞춘다 (2026-11-05)
-        const u = document.documentElement.scrollHeight / Math.max(1, document.documentElement.getBoundingClientRect().height) || 1;
-        const r = el.getBoundingClientRect();
-        const span = r.height - window.innerHeight;
-        const p = i / Math.max(1, n - 1);
-        window.scrollTo({ top: window.scrollY + (r.top + p * span) * u, behavior: "smooth" });
+        // 위치를 직접 계산하지 않고 보이지 않는 표시점(.pk-anchor)으로 브라우저가 스크롤 — 아이패드 사파리의 위치 단위 어긋남을 피함 (2026-11-05)
+        el.querySelectorAll<HTMLElement>(".pk-anchor")[i]?.scrollIntoView({ behavior: "smooth", block: "start" });
       } else if (mob === "b") {
         const track = el?.querySelector<HTMLElement>(".pk-scards"), c = cards.current[i];
         if (track && c) track.scrollTo({ left: c.offsetLeft - (track.clientWidth - c.offsetWidth) / 2, behavior: "smooth" });
@@ -349,6 +345,7 @@ export default function PickerSection({
     return (
       <section id={id} className={`pk border-t border-hairline scroll-mt-20 pk-stack ${bg}`} data-step={active} data-acc={acc} data-mob={mob} data-btn={btn} data-igbg={igbg} data-igtx={igtx} data-ytchip={ytchip}>
         <div ref={wrap} className="pk-swrap" style={{ "--pk-n": n, "--pk-p": 0 } as React.CSSProperties}>
+        {items.map((it, i) => <span key={it.label} className="pk-anchor" aria-hidden="true" style={{ top: `calc((100% - var(--stage-h)) * ${n > 1 ? i / (n - 1) : 0})` }} />)}
         <div className="pk-sstick">
         {items.map((it, i) => it.bg ? <div key={it.label} className="pk-fullbg" data-on={i === active ? "1" : "0"} aria-hidden="true">{it.bg}</div> : null)}
         <div className="container-x pk-sgrid">
