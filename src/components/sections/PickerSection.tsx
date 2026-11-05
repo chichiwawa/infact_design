@@ -137,7 +137,7 @@ export default function PickerSection({
     const hit = new Set<number>();
     const io = new IntersectionObserver((es) => {
       es.forEach((e) => { const i = Number((e.target as HTMLElement).dataset.i); if (e.isIntersecting) hit.add(i); else hit.delete(i); });
-      if (!document.documentElement.hasAttribute("data-ipad-land") || !hit.size) return;
+      if (!document.documentElement.hasAttribute("data-ipad-land") || !hit.size || performance.now() - lastTap.current < 1500) return;
       setActive(Math.max(...hit));
     }, { rootMargin: "0px 0px -97% 0px", threshold: 0 });
     el.querySelectorAll(".pk-anchor").forEach((a) => io.observe(a));
@@ -348,8 +348,7 @@ export default function PickerSection({
       const el = wrap.current;
       if (el && document.documentElement.hasAttribute("data-ipad-land")) {
         lastTap.current = performance.now();
-        setActive(i); // 아이패드 가로: 바로 바뀌고, 스크롤도 그 구간으로 맞춘다
-        el.querySelectorAll<HTMLElement>(".pk-anchor")[i]?.scrollIntoView({ behavior: "smooth", block: "start" });
+        setActive(i); // 아이패드 가로: 바로 바뀜. 직후 1.5초는 스크롤 감지가 덮어쓰지 않게 막는다 (lastTap)
       } else if (el && matchMedia("(min-width: 744px)").matches) {
         // 위치를 직접 계산하지 않고 보이지 않는 표시점(.pk-anchor)으로 브라우저가 스크롤 — 아이패드 사파리의 위치 단위 어긋남을 피함 (2026-11-05)
         const a = el.querySelectorAll<HTMLElement>(".pk-anchor")[i];
