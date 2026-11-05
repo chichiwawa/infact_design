@@ -62,7 +62,23 @@ export default function IpadLandscape() {
     document.body.appendChild(box);
     const css = (k: string) => getComputedStyle(document.documentElement).getPropertyValue(k).trim();
     const secs = () => Array.from(document.querySelectorAll<HTMLElement>("section, .pain, .pk-swrap, .cr, .diff-wrap")).filter((e) => e.offsetHeight > 300).map((e) => `${(e.className || e.tagName).toString().split(" ")[0].slice(0, 9)}:${Math.round(e.getBoundingClientRect().height)}`);
+    // 튄 순간 기록: 스크롤 위치가 한 번에 1200px 넘게 바뀌거나, 문서 전체 길이가 200px 넘게 바뀌면 남긴다 (최근 4건)
+    const events: string[] = [];
+    let ly = scrollY, ld = document.documentElement.scrollHeight, lh = innerHeight, lv = css("--vh1");
+    const rec = () => {
+      const y = scrollY, d = document.documentElement.scrollHeight, h = innerHeight, v = css("--vh1");
+      const t = (performance.now() / 1000).toFixed(1);
+      if (Math.abs(y - ly) > 1200) events.push(`${t}s 위치 ${Math.round(ly)}→${Math.round(y)}`);
+      if (Math.abs(d - ld) > 200) events.push(`${t}s 전체길이 ${ld}→${d}`);
+      if (h !== lh) events.push(`${t}s 창높이 ${lh}→${h}`);
+      if (v !== lv) events.push(`${t}s vh1 ${lv}→${v}`);
+      ly = y; ld = d; lh = h; lv = v;
+      while (events.length > 4) events.shift();
+    };
+    window.addEventListener("scroll", rec, { passive: true });
+    window.addEventListener("resize", rec);
     const tick = () => {
+      rec();
       const vv = window.visualViewport;
       box.textContent = [
         `win ${innerWidth}x${innerHeight} vv ${Math.round(vv?.height ?? 0)} scr ${screen.width}x${screen.height}`,
@@ -70,11 +86,12 @@ export default function IpadLandscape() {
         `ipad-h ${css("--ipad-h")} land ${document.documentElement.hasAttribute("data-ipad-land")} zi ${css("--zi")}`,
         `y ${Math.round(scrollY)} / doc ${document.documentElement.scrollHeight}`,
         secs().join(" "),
+        ...events,
       ].join("\n");
     };
     tick();
     const id = window.setInterval(tick, 300);
-    return () => { window.clearInterval(id); box.remove(); };
+    return () => { window.clearInterval(id); window.removeEventListener("scroll", rec); window.removeEventListener("resize", rec); box.remove(); };
   }, [pathname]);
   return null;
 }
