@@ -9,6 +9,7 @@
  */
 import { useEffect, useRef } from "react";
 import Accent from "@/components/Accent";
+import { zoomInv } from "@/lib/zoom";
 import type { DifferentiatorsData } from "@/lib/sections";
 
 const CARDS = [
@@ -46,9 +47,20 @@ export default function Differentiators({ title, data, variant = "x2" }: { title
     let raf = 0;
     const update = () => {
       raf = 0;
-      const r = el.getBoundingClientRect();
-      const total = r.height - (stick.current?.getBoundingClientRect().height ?? window.innerHeight);
-      const p = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 1;
+      let rTop: number, rH: number, sH: number;
+      if (document.documentElement.hasAttribute("data-ipad-land") && stick.current) {
+        // 아이패드 사파리(미니 실측): zoom 아래에서 고정판(sticky)이 있는 구간의 getBoundingClientRect 가 실제와 달라 문장이 안 바뀌었다.
+        // 레이아웃 값(offsetTop·offsetHeight)에 zoom 을 곱해 화면 px 로 바꾸고 scrollY 와 비교한다. (동그라미·04 구간과 같은 방식)
+        let top = 0;
+        for (let o: HTMLElement | null = el; o; o = o.offsetParent as HTMLElement | null) top += o.offsetTop;
+        const z = 1 / zoomInv();
+        rTop = top * z - window.scrollY; rH = el.offsetHeight * z; sH = stick.current.offsetHeight * z;
+      } else {
+        const r = el.getBoundingClientRect();
+        rTop = r.top; rH = r.height; sH = stick.current?.getBoundingClientRect().height ?? window.innerHeight;
+      }
+      const total = rH - sH;
+      const p = total > 0 ? Math.min(1, Math.max(0, -rTop / total)) : 1;
       const n = data.items.length;
       // 앞뒤 8% 는 여백. q = 현재 강조 위치(0 ~ n-1, 연속값)
       const q = Math.min(1, Math.max(0, (p - 0.08) / 0.84)) * (n - 1);
