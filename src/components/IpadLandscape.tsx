@@ -8,6 +8,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { zoomInv } from "@/lib/zoom";
+import "@/lib/rectZoomFix";
 
 const UNIT_VARS = ["--vw1", "--vh1", "--svh1", "--dvh1", "--lvh1"];
 
