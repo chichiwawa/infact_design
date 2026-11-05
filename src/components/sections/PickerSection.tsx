@@ -123,6 +123,26 @@ export default function PickerSection({
   // stack: 오른쪽 카드가 세로로 쌓이고, 화면 중앙에 걸친 카드가 활성 항목 (2026-10-14, axiom-power-template 참고)
   const cards = useRef<(HTMLElement | null)[]>([]);
   const tapLock = useRef(0); // 모바일 f: 탭을 눌러 스크롤 이동 중에는 스크롤 감지로 활성 탭이 바뀌지 않게
+  const activeRef = useRef(0);
+  const lastTap = useRef(0);
+  // 아이패드 가로: 활성 항목이 바뀌면 카드 줄을 그 위치로 (스크롤 구동 대신)
+  useEffect(() => {
+    activeRef.current = active;
+    if (variant === "stack" && document.documentElement.hasAttribute("data-ipad-land")) wrap.current?.style.setProperty("--pk-p", String(active));
+  }, [active, variant]);
+  // 아이패드 가로: 화면에 보이는 동안 3.5초마다 자동 넘김 (직접 누른 뒤 7초는 쉼)
+  useEffect(() => {
+    const el = wrap.current;
+    if (variant !== "stack" || !el || n < 2) return;
+    let vis = false;
+    const io = new IntersectionObserver(([e]) => { vis = e.isIntersecting; }, { threshold: 0.5 });
+    io.observe(el);
+    const id = window.setInterval(() => {
+      if (!vis || document.hidden || !document.documentElement.hasAttribute("data-ipad-land") || performance.now() - lastTap.current < 7000) return;
+      setActive((c) => (c + 1) % n);
+    }, 3500);
+    return () => { io.disconnect(); window.clearInterval(id); };
+  }, [variant, n]);
   useEffect(() => {
     if (variant !== "stack") return;
     const el = wrap.current;
@@ -133,9 +153,11 @@ export default function PickerSection({
       raf = 0;
       if (mq.matches) {
         // PC: 화면이 멈춘 채 스크롤 진행률만큼 오른쪽 카드 줄이 위로 이동
+        // 아이패드 가로(터치): 사파리가 알려 주는 스크롤 위치가 화면과 안 맞아 스크롤 구동을 쓰지 않는다 — 메뉴 탭·자동 넘김으로만 바뀌고 카드 줄은 활성 항목 위치에 둔다 (2026-11-05)
+        const driven = document.documentElement.hasAttribute("data-ipad-land");
         const span = el.getBoundingClientRect().height - window.innerHeight;
         const p = span <= 0 ? 0 : Math.min(1, Math.max(0, -el.getBoundingClientRect().top / span));
-        const v = p * (n - 1);
+        const v = driven ? activeRef.current : p * (n - 1);
         el.style.setProperty("--pk-p", String(v));
         // 오른쪽 카드 윗선 = 왼쪽 맨 위 문구("INFACT. DIAGNOSIS") 윗선, 아랫선 = 왼쪽 버튼 아랫선
         const lead = el.querySelector<HTMLElement>(".pk-lead"), btn = el.querySelector<HTMLElement>(".pk-sbtn"), view = el.querySelector<HTMLElement>(".pk-sview");
@@ -151,7 +173,7 @@ export default function PickerSection({
             el.style.setProperty("--pk-top", `${Math.round((vh - ch) / 2)}px`);
           }
         }
-        setActive(Math.round(v));
+        if (!driven) setActive(Math.round(v));
       } else if (mob === "f") {
         // 모바일 f: 카드를 전부 아래로 나열 — 탭 바로 아래에 닿아 있는 카드가 활성 탭 (탭을 눌러 이동하는 동안은 잠시 건너뜀)
         if (performance.now() < tapLock.current) return;
@@ -324,7 +346,10 @@ export default function PickerSection({
     items.forEach((it, i) => { if (it.heading || !groups.length) groups.push({ heading: it.heading, list: [] }); groups[groups.length - 1].list.push({ it, i }); });
     const go = (i: number) => {
       const el = wrap.current;
-      if (el && matchMedia("(min-width: 744px)").matches) {
+      if (el && document.documentElement.hasAttribute("data-ipad-land")) {
+        lastTap.current = performance.now();
+        setActive(i); // 아이패드 가로: 스크롤 이동 없이 바로 바뀜
+      } else if (el && matchMedia("(min-width: 744px)").matches) {
         // 위치를 직접 계산하지 않고 보이지 않는 표시점(.pk-anchor)으로 브라우저가 스크롤 — 아이패드 사파리의 위치 단위 어긋남을 피함 (2026-11-05)
         const a = el.querySelectorAll<HTMLElement>(".pk-anchor")[i];
         setActive(i); // 누르는 즉시 메뉴 점·카드 글이 바뀌게 (스크롤이 따라오면 같은 값으로 유지)

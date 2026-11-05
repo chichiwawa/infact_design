@@ -2456,7 +2456,8 @@ html.strength-drag { scroll-snap-type: none !important; }
    vw·vh 를 쓰지 않으므로 사파리/크롬 계산 차이와 상관없이 04 섹션이 정확히 한 화면(헤더 아래 포함)에 들어온다.
    배율·크기를 바꾸려면 아래 숫자(--ipad-h 의 비율)만 고친다. */
 html[data-ipad-land] .pk-stack { --hd: 84px; --ch: calc((var(--ipad-h) - var(--hd)) * .72); }
-html[data-ipad-land] .pk-swrap { height: calc(var(--ipad-h) * (1 + var(--pk-n) * .7)); --stage-h: var(--ipad-h); }
+html[data-ipad-land] .pk-swrap { height: var(--ipad-h); --stage-h: var(--ipad-h); } /* 스크롤 구동 대신 한 화면 높이 고정 — 메뉴 탭·자동 넘김으로 바뀜 (2026-11-05) */
+html[data-ipad-land] .pk-scards { transition: transform .6s cubic-bezier(.2,.8,.2,1); }
 html[data-ipad-land] .pk-sstick { height: var(--ipad-h); padding-top: var(--hd); box-sizing: border-box; background: radial-gradient(70% 50% at 80% 0%, #0b1c4d 0%, #070c1c 55%, #05070f 100%); }
 html[data-ipad-land] .pk-fullbg { top: var(--hd); bottom: 0; }
 html[data-ipad-land] .pk-sview { height: calc(var(--ipad-h) - var(--hd)); }
