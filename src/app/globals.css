@@ -870,7 +870,7 @@ html.strength-drag { scroll-snap-type: none !important; }
   .pk-swrap { height: calc(calc(100*var(--svh1)) + var(--pk-n) * calc(70*var(--svh1))); }
   /* 메뉴 클릭 이동용 보이지 않는 표시점: 브라우저가 직접 위치를 찾게 해 사파리 단위 어긋남을 피함 (2026-11-05) */
   .pk-swrap { position: relative; --stage-h: calc(100*var(--svh1)); }
-  .pk-anchor { position: absolute; left: 0; width: 1px; height: 1px; pointer-events: none; visibility: hidden; }
+  .pk-anchor { position: absolute; left: 0; width: 1px; height: 1px; pointer-events: none; opacity: 0; }
   .pk-sstick { position: sticky; top: 0; height: calc(100*var(--svh1)); overflow: hidden; display: flex; align-items: center; }
   .pk-sstick > .container-x { width: 100%; }
   .pk-sgrid { align-items: center; }

@@ -326,7 +326,14 @@ export default function PickerSection({
       const el = wrap.current;
       if (el && matchMedia("(min-width: 744px)").matches) {
         // 위치를 직접 계산하지 않고 보이지 않는 표시점(.pk-anchor)으로 브라우저가 스크롤 — 아이패드 사파리의 위치 단위 어긋남을 피함 (2026-11-05)
-        el.querySelectorAll<HTMLElement>(".pk-anchor")[i]?.scrollIntoView({ behavior: "smooth", block: "start" });
+        const a = el.querySelectorAll<HTMLElement>(".pk-anchor")[i];
+        setActive(i); // 누르는 즉시 메뉴 점·카드 글이 바뀌게 (스크롤이 따라오면 같은 값으로 유지)
+        if (a) {
+          const y0 = window.scrollY;
+          a.scrollIntoView({ behavior: "smooth", block: "start" });
+          // 사파리에서 부드러운 이동이 안 먹으면 즉시 이동으로 한 번 더
+          window.setTimeout(() => { if (Math.abs(window.scrollY - y0) < 2) a.scrollIntoView({ behavior: "auto", block: "start" }); }, 600);
+        }
       } else if (mob === "b") {
         const track = el?.querySelector<HTMLElement>(".pk-scards"), c = cards.current[i];
         if (track && c) track.scrollTo({ left: c.offsetLeft - (track.clientWidth - c.offsetWidth) / 2, behavior: "smooth" });
