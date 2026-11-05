@@ -70,7 +70,7 @@ export default function Differentiators({ title, data, variant = "x2" }: { title
   }, [data.items.length]);
 
   return (
-    <section ref={wrap} className="diff-wrap" style={{ height: `calc(${100 + data.items.length * 60} * var(--dvh1))` }}>
+    <section ref={wrap} className="diff-wrap" style={{ height: `calc(${100 + data.items.length * 60} * var(--dvh1))`, "--diff-k": 1 + data.items.length * 0.6 } as React.CSSProperties}>
       <div ref={stick} className="diff-stick" data-variant={variant}>
         <div className="diff-glow" aria-hidden />
         {/* 밝은 배경 장식 — 시안 x1(격자·워터마크·링) / x2(블루 오브·떠다니는 칩) / x3(가이드선·태그). 기본 화면에서는 숨김 */}

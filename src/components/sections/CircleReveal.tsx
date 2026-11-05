@@ -10,7 +10,7 @@
 import { useEffect, useRef, useState } from "react";
 import Accent from "@/components/Accent";
 import type { CircleRevealData } from "@/lib/sections";
-import { zoomInv } from "@/lib/zoom";
+import { zoomInv, stableH } from "@/lib/zoom";
 
 const GROW = 1.3; // 동그라미가 커지는 구간 길이(화면 높이 배수)
 const SHOW = 0.6; // 제목이 선명해진 뒤 단계 줄이 떠오르는 구간(화면 높이 배수)
@@ -39,7 +39,7 @@ export default function CircleReveal({ data, variant }: { data: CircleRevealData
     let raf = 0, last = -1;
     const update = () => {
       raf = 0;
-      const H = window.innerHeight;
+      const H = stableH();
       const r = root.getBoundingClientRect();
       const scrolled = -r.top;
       const span = r.height - H;
@@ -70,7 +70,7 @@ export default function CircleReveal({ data, variant }: { data: CircleRevealData
   const height = n ? `calc(100*var(--dvh1)*${(GROW + SHOW + 1 + n * PER_STEP + HOLD).toFixed(2)})` : undefined;
 
   return (
-    <section ref={secRef} className={dark ? "cr on-dark" : "cr"} data-v={variant} style={{ height }} aria-label={`${data.left} ${data.right}`.replace(/\*\*/g, "")}>
+    <section ref={secRef} className={dark ? "cr on-dark" : "cr"} data-v={variant} style={{ height, "--cr-k": n ? GROW + SHOW + 1 + n * PER_STEP + HOLD : 2.6 } as React.CSSProperties} aria-label={`${data.left} ${data.right}`.replace(/\*\*/g, "")}>
       <div className="cr-stage">
         {/* 배경 효과: 로고 블루 오로라 + 옅은 격자 + 떠오르는 빛 점 (동그라미가 커지면 서서히 사라짐) */}
         <div className="cr-bg" aria-hidden="true">
