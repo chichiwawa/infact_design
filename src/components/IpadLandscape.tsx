@@ -122,6 +122,12 @@ export default function IpadLandscape() {
         "스크롤이벤트/초 " + scPer,
         probeSec(".cr", ["--cr-p", "--cr-s"]),
         probeSec(".pk-swrap", ["--pk-p"]),
+        (() => {
+          const s = document.querySelector<HTMLElement>(".pk-stack"), st = document.querySelector<HTMLElement>(".pk-sstick"), sc = document.querySelector<HTMLElement>(".pk-scards"), w = document.querySelector<HTMLElement>(".pk-swrap");
+          if (!s || !st || !sc || !w) return "04: 없음";
+          const on = document.querySelector<HTMLElement>(".pk-sitem[data-on='1']")?.textContent?.slice(0, 8);
+          return `04 step ${s.dataset.step} 메뉴 ${on} 카드이동 ${getComputedStyle(sc).transform.slice(0, 40)} 고정판 top ${Math.round(st.getBoundingClientRect().top)} pos ${getComputedStyle(st).position} ch ${w.style.getPropertyValue("--ch")}`;
+        })(),
         probeSec(".diff-wrap", ["--q"]),
         ...events,
       ].join("\n");

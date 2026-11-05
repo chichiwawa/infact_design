@@ -111,9 +111,10 @@ export default function PickerSection({
     const el = wrap.current;
     if (!el) return;
     if (matchMedia("(min-width: 744px)").matches) {
-      const top = el.getBoundingClientRect().top + window.scrollY;
-      const span = el.getBoundingClientRect().height - window.innerHeight;
-      window.scrollTo({ top: top + (span * (i + 0.5)) / n, behavior: "smooth" });
+      const u = document.documentElement.scrollHeight / Math.max(1, document.documentElement.getBoundingClientRect().height) || 1;
+      const r = el.getBoundingClientRect();
+      const span = r.height - window.innerHeight;
+      window.scrollTo({ top: window.scrollY + (r.top + (span * (i + 0.5)) / n) * u, behavior: "smooth" });
     } else {
       setActive(i);
     }
@@ -177,7 +178,9 @@ export default function PickerSection({
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
-    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); if (raf) cancelAnimationFrame(raf); };
+    // 터치 기기(아이패드 사파리): 손가락을 뗀 뒤 밀려 가는 동안 scroll 이벤트가 거의 안 와서 선택 메뉴·카드가 안 바뀜 → 0.1초마다 위치를 다시 읽어 보강 (2026-11-05)
+    const poll = isTouchDevice() ? window.setInterval(() => { if (!document.hidden) onScroll(); }, 100) : 0;
+    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); if (poll) window.clearInterval(poll); if (raf) cancelAnimationFrame(raf); };
   }, [variant, n, mob]);
 
   // 모바일 시안 b: 카드 줄을 옆으로 밀면 가운데에 온 카드가 활성. 활성 탭은 항상 메뉴 가운데로 (2026-10-22)
@@ -322,9 +325,12 @@ export default function PickerSection({
     const go = (i: number) => {
       const el = wrap.current;
       if (el && matchMedia("(min-width: 744px)").matches) {
-        const top = el.getBoundingClientRect().top + window.scrollY;
-        const span = el.getBoundingClientRect().height - window.innerHeight;
-        window.scrollTo({ top: top + (span * i) / Math.max(1, n - 1), behavior: "smooth" });
+        // 아이패드 사파리: getBoundingClientRect(보정됨, 화면 px)와 scrollY·scrollTo(CSS px)의 단위가 달라, 섞어 쓰면 엉뚱한 곳으로 가거나 안 움직였다 → 문서 전체 높이로 배율 u 를 구해 맞춘다 (2026-11-05)
+        const u = document.documentElement.scrollHeight / Math.max(1, document.documentElement.getBoundingClientRect().height) || 1;
+        const r = el.getBoundingClientRect();
+        const span = r.height - window.innerHeight;
+        const p = i / Math.max(1, n - 1);
+        window.scrollTo({ top: window.scrollY + (r.top + p * span) * u, behavior: "smooth" });
       } else if (mob === "b") {
         const track = el?.querySelector<HTMLElement>(".pk-scards"), c = cards.current[i];
         if (track && c) track.scrollTo({ left: c.offsetLeft - (track.clientWidth - c.offsetWidth) / 2, behavior: "smooth" });
