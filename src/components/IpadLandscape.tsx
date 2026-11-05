@@ -32,6 +32,10 @@ export default function IpadLandscape() {
       const w = window.innerWidth;
       // 2026-11-05: 사파리 주소창이 접히고 펴질 때마다 화면 높이를 다시 재면, 서비스 고민 섹션(화면 8.5배 길이)처럼 긴 구간의 높이가 통째로 바뀌어
       // 스크롤 위치가 수백 px 순간이동했다. 높이 기준은 주소창이 펼쳐진 상태의 높이(100svh)로 한 번만 정하고, 가로 폭·방향이 바뀔 때만 다시 잰다.
+      // 한 화면짜리 높이(히어로·차별점·동그라미 등 svh1·dvh1)는 예전처럼 지금 보이는 높이를 따라간다 — 큰 값으로 고정하면 히어로 아래 글자가 잘렸다 (2026-11-05)
+      const vis = Math.min(window.innerHeight, window.visualViewport?.height ?? window.innerHeight);
+      const sv = `${(vis * zi) / 100}px`;
+      ["--svh1", "--dvh1"].forEach((k) => root.style.setProperty(k, sv));
       if (w === lastW) return;
       lastW = w;
       // 값은 예전처럼 "가장 큰 높이"(주소창이 접힌 상태 포함)로 잡아야 섹션 아래에 흰 띠가 안 생긴다. 대신 한 번만 정하므로 주소창이 움직여도 값이 변하지 않는다.
@@ -43,12 +47,14 @@ export default function IpadLandscape() {
       if (!root.style.getPropertyValue("--ipad-h")) root.style.setProperty("--ipad-h", `${h * zi}px`);
       root.style.setProperty("--vw1", `${(w * zi) / 100}px`);
       const v = `${(h * zi) / 100}px`;
-      ["--vh1", "--lvh1", "--svh1", "--dvh1"].forEach((k) => root.style.setProperty(k, v));
+      ["--vh1", "--lvh1"].forEach((k) => root.style.setProperty(k, v));
     };
     apply();
     mq.addEventListener("change", apply);
     window.addEventListener("resize", apply);
+    window.visualViewport?.addEventListener("resize", apply);
     return () => {
+      window.visualViewport?.removeEventListener("resize", apply);
       mq.removeEventListener("change", apply);
       window.removeEventListener("resize", apply);
       probe.remove();
