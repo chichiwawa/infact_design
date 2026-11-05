@@ -137,7 +137,7 @@ export default function Packages({ title, data, variant, ipad }: { title: string
           if (w > 0) k = Math.min(k, avail / w);
         });
       });
-      k = Math.min(1, k * 0.96);
+      k = Math.min(1, k * 0.96) * (matchMedia("(orientation: landscape)").matches ? 0.86 : 1); // 가로는 사파리가 크게 그려 한 단계 더 줄임
       sec.style.setProperty("--pkd-k", String(k));
       titles.forEach((t) => { t.style.fontSize = `${parseFloat(getComputedStyle(t).fontSize) * k}px`; });
     };

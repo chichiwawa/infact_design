@@ -280,7 +280,8 @@ export default function PickerSection({
   // 사용자가 스크롤·터치·클릭·키 입력을 하면 7초, 카드 위에 마우스가 있는 동안, 움직임 줄이기 설정일 때는 쉰다. PC 만.
   useEffect(() => {
     const el = wrap.current;
-    if (variant !== "stack" || !el || n < 2 || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // 터치 기기(아이패드 등)는 제외 — 손가락을 떼고 멈춰 있으면 화면이 혼자 스크롤돼 섹션 끝까지 순간이동하는 문제 (2026-11-05)
+    if (variant !== "stack" || !el || n < 2 || matchMedia("(prefers-reduced-motion: reduce)").matches || matchMedia("(pointer: coarse)").matches) return;
     let lastInput = 0, hover = false;
     const touch = () => { lastInput = performance.now(); };
     const enter = () => { hover = true; };
