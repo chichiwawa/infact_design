@@ -130,18 +130,18 @@ export default function PickerSection({
     activeRef.current = active;
     if (variant === "stack" && document.documentElement.hasAttribute("data-ipad-land")) wrap.current?.style.setProperty("--pk-p", String(active));
   }, [active, variant]);
-  // 아이패드 가로: 화면에 보이는 동안 3.5초마다 자동 넘김 (직접 누른 뒤 7초는 쉼)
+  // 아이패드 가로: 스크롤 위치 숫자를 읽지 않고, 브라우저가 판단하는 "화면 맨 위 가는 띠에 닿은 구간"으로 활성 항목을 정한다 (IntersectionObserver, 2026-11-05)
   useEffect(() => {
     const el = wrap.current;
-    if (variant !== "stack" || !el || n < 2) return;
-    let vis = false;
-    const io = new IntersectionObserver(([e]) => { vis = e.isIntersecting; }, { threshold: 0.5 });
-    io.observe(el);
-    const id = window.setInterval(() => {
-      if (!vis || document.hidden || !document.documentElement.hasAttribute("data-ipad-land") || performance.now() - lastTap.current < 7000) return;
-      setActive((c) => (c + 1) % n);
-    }, 3500);
-    return () => { io.disconnect(); window.clearInterval(id); };
+    if (variant !== "stack" || !el || n < 2 || typeof IntersectionObserver === "undefined") return;
+    const hit = new Set<number>();
+    const io = new IntersectionObserver((es) => {
+      es.forEach((e) => { const i = Number((e.target as HTMLElement).dataset.i); if (e.isIntersecting) hit.add(i); else hit.delete(i); });
+      if (!document.documentElement.hasAttribute("data-ipad-land") || !hit.size) return;
+      setActive(Math.max(...hit));
+    }, { rootMargin: "0px 0px -97% 0px", threshold: 0 });
+    el.querySelectorAll(".pk-anchor").forEach((a) => io.observe(a));
+    return () => io.disconnect();
   }, [variant, n]);
   useEffect(() => {
     if (variant !== "stack") return;
@@ -348,7 +348,8 @@ export default function PickerSection({
       const el = wrap.current;
       if (el && document.documentElement.hasAttribute("data-ipad-land")) {
         lastTap.current = performance.now();
-        setActive(i); // 아이패드 가로: 스크롤 이동 없이 바로 바뀜
+        setActive(i); // 아이패드 가로: 바로 바뀌고, 스크롤도 그 구간으로 맞춘다
+        el.querySelectorAll<HTMLElement>(".pk-anchor")[i]?.scrollIntoView({ behavior: "smooth", block: "start" });
       } else if (el && matchMedia("(min-width: 744px)").matches) {
         // 위치를 직접 계산하지 않고 보이지 않는 표시점(.pk-anchor)으로 브라우저가 스크롤 — 아이패드 사파리의 위치 단위 어긋남을 피함 (2026-11-05)
         const a = el.querySelectorAll<HTMLElement>(".pk-anchor")[i];
@@ -377,7 +378,13 @@ export default function PickerSection({
     return (
       <section id={id} className={`pk border-t border-hairline scroll-mt-20 pk-stack ${bg}`} data-step={active} data-acc={acc} data-mob={mob} data-btn={btn} data-igbg={igbg} data-igtx={igtx} data-ytchip={ytchip}>
         <div ref={wrap} className="pk-swrap" style={{ "--pk-n": n, "--pk-p": 0 } as React.CSSProperties}>
-        {items.map((it, i) => <span key={it.label} className="pk-anchor" aria-hidden="true" style={{ top: `calc((100% - var(--stage-h)) * ${n > 1 ? i / (n - 1) : 0})` }} />)}
+        {items.map((it, i) => {
+          // 항목 i 의 스크롤 구간: 고정 구간(섹션 높이 − 화면 높이)을 n-1 등분한 칸의 가운데가 i. 첫 칸은 맨 위부터, 마지막 칸은 섹션 끝까지
+          const d = Math.max(1, n - 1), f1 = Math.max(0, i - 0.5) / d, f2 = Math.min(n - 1, i + 0.5) / d;
+          const st: React.CSSProperties = { top: `calc((100% - var(--stage-h)) * ${f1})` };
+          if (i === n - 1) st.bottom = 0; else st.height = `calc((100% - var(--stage-h)) * ${f2 - f1})`;
+          return <span key={it.label} className="pk-anchor" data-i={i} aria-hidden="true" style={st} />;
+        })}
         <div className="pk-sstick">
         {items.map((it, i) => it.bg ? <div key={it.label} className="pk-fullbg" data-on={i === active ? "1" : "0"} aria-hidden="true">{it.bg}</div> : null)}
         <div className="container-x pk-sgrid">
