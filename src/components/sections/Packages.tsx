@@ -132,10 +132,14 @@ export default function Packages({ title, data, variant, ipad }: { title: string
         const cs = getComputedStyle(card);
         const z = card.getBoundingClientRect().width / card.offsetWidth; // html zoom 배율(화면 px ÷ CSS px)
         const avail = card.getBoundingClientRect().width - (parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight)) * z;
+        // 제목 상자가 카드 폭에 맞춰 줄어 있으면 넘친 글자 폭을 못 잰다 → 잠시 글자 폭만큼 늘려서 잰다 (사파리에서 제목이 카드 밖으로 넘치던 원인)
+        const prevW = t.style.width, prevA = t.style.alignSelf;
+        t.style.width = "max-content"; t.style.alignSelf = "flex-start";
         t.querySelectorAll<HTMLElement>(":scope > span").forEach((l) => {
           const w = l.getBoundingClientRect().width;
           if (w > 0) k = Math.min(k, avail / w);
         });
+        t.style.width = prevW; t.style.alignSelf = prevA;
       });
       k = Math.min(1, k * 0.96) * (matchMedia("(orientation: landscape)").matches ? 0.86 : 1); // 가로는 사파리가 크게 그려 한 단계 더 줄임
       sec.style.setProperty("--pkd-k", String(k));
@@ -143,9 +147,11 @@ export default function Packages({ title, data, variant, ipad }: { title: string
     };
     fit();
     document.fonts?.ready.then(fit);
+    const t1 = window.setTimeout(fit, 600), t2 = window.setTimeout(fit, 2000); // 사파리는 웹폰트가 늦게 와서 글자 폭이 바뀐 뒤 한 번 더 잰다
     window.addEventListener("resize", fit);
+    window.addEventListener("load", fit);
     mq.addEventListener("change", fit);
-    return () => { window.removeEventListener("resize", fit); mq.removeEventListener("change", fit); };
+    return () => { window.clearTimeout(t1); window.clearTimeout(t2); window.removeEventListener("resize", fit); window.removeEventListener("load", fit); mq.removeEventListener("change", fit); };
   }, [variant, ipad]);
 
   return (

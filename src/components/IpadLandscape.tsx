@@ -19,7 +19,7 @@ export default function IpadLandscape() {
     // 아이패드 사파리는 innerHeight 가 실제 보이는 높이보다 작게 나오기도 해서(PickerSection 과 같은 방식) 가장 큰 값을 쓴다
     const probe = document.createElement("div");
     probe.setAttribute("aria-hidden", "true");
-    probe.style.cssText = "position:fixed;left:0;top:0;width:0;height:100svh;visibility:hidden;pointer-events:none";
+    probe.style.cssText = "position:fixed;left:0;top:0;width:0;height:100lvh;visibility:hidden;pointer-events:none";
     document.body.appendChild(probe);
     let lastW = 0;
     const apply = () => {
@@ -34,8 +34,10 @@ export default function IpadLandscape() {
       // 스크롤 위치가 수백 px 순간이동했다. 높이 기준은 주소창이 펼쳐진 상태의 높이(100svh)로 한 번만 정하고, 가로 폭·방향이 바뀔 때만 다시 잰다.
       if (w === lastW) return;
       lastW = w;
-      let h = probe.getBoundingClientRect().height;
-      if (!(h >= window.innerHeight * 0.8 && h <= window.innerHeight * 1.05)) h = Math.min(window.innerHeight, window.visualViewport?.height ?? window.innerHeight);
+      // 값은 예전처럼 "가장 큰 높이"(주소창이 접힌 상태 포함)로 잡아야 섹션 아래에 흰 띠가 안 생긴다. 대신 한 번만 정하므로 주소창이 움직여도 값이 변하지 않는다.
+      const big = Math.min(probe.getBoundingClientRect().height, window.innerHeight * 1.2);
+      const dev = Math.min(Math.min(screen.width, screen.height), window.innerHeight * 1.2);
+      const h = Math.max(window.innerHeight, window.visualViewport?.height ?? 0, big, dev);
       root.setAttribute("data-ipad-land", "");
       root.style.setProperty("--ipad-w", `${w * zi}px`);
       if (!root.style.getPropertyValue("--ipad-h")) root.style.setProperty("--ipad-h", `${h * zi}px`);
