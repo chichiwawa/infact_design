@@ -7,6 +7,7 @@
  */
 const orig = typeof Element !== "undefined" ? Element.prototype.getBoundingClientRect : null;
 const FLAG = "__rectZoomFix";
+if (orig && typeof window !== "undefined") (window as unknown as Record<string, unknown>).__rawRect = orig; // 확인용 상자가 원래 값을 보여 주려고 쓴다
 
 if (orig && typeof window !== "undefined" && !(Element.prototype as unknown as Record<string, unknown>)[FLAG]) {
   let cachedW = -1, cachedK = 1;

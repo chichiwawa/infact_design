@@ -99,6 +99,17 @@ export default function IpadLandscape() {
     };
     window.addEventListener("scroll", rec, { passive: true });
     window.addEventListener("resize", rec);
+    let sc = 0, scPer = 0;
+    window.addEventListener("scroll", () => { sc++; }, { passive: true });
+    window.setInterval(() => { scPer = sc; sc = 0; }, 1000);
+    const raw = (window as unknown as { __rawRect?: (this: Element) => DOMRect }).__rawRect;
+    const probeSec = (q: string, vars: string[]) => {
+      const e = document.querySelector<HTMLElement>(q);
+      if (!e) return q + ": 없음";
+      const a = raw ? raw.call(e) : e.getBoundingClientRect(), b = e.getBoundingClientRect();
+      const v = vars.map((k) => { const el = q === ".diff-wrap" ? e.querySelector<HTMLElement>(".diff-stick") : e; return k + "=" + (el?.style.getPropertyValue(k) || "-").slice(0, 6); }).join(" ");
+      return q + " 원래 top " + Math.round(a.top) + " h " + Math.round(a.height) + " / 보정 top " + Math.round(b.top) + " h " + Math.round(b.height) + " " + v;
+    };
     const tick = () => {
       rec();
       const vv = window.visualViewport;
@@ -108,6 +119,10 @@ export default function IpadLandscape() {
         `ipad-h ${css("--ipad-h")} land ${document.documentElement.hasAttribute("data-ipad-land")} zi ${css("--zi")}`,
         `y ${Math.round(scrollY)} / doc ${document.documentElement.scrollHeight}`,
         secs().join(" "),
+        "스크롤이벤트/초 " + scPer,
+        probeSec(".cr", ["--cr-p", "--cr-s"]),
+        probeSec(".pk-swrap", ["--pk-p"]),
+        probeSec(".diff-wrap", ["--q"]),
         ...events,
       ].join("\n");
     };
