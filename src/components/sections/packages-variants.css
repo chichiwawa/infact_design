@@ -304,3 +304,6 @@
   .pkd-ico svg { width: 14px; height: 14px; }
   .pkd-cta { font-size: 15px; padding: 12px 30px; }
 }
+
+/* 아이패드 가로: 해결책 카드 제목이 카드 폭보다 커서 잘렸다(사파리 zoom 아래 글자 크기 실측이 어긋남). 화면 폭 기준 고정 크기로 둔다 (--ipad-w = 실제 화면 폭, CSS px) */
+html[data-ipad-land] .pkd-title { font-size: calc(var(--ipad-w) * .0245) !important; }

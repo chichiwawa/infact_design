@@ -15,3 +15,17 @@ export function zoomInv(): number {
   if (typeof window === "undefined") return 1;
   return parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--zi")) || 1;
 }
+
+/** 고정판(sticky)이 들어 있는 긴 구간의 위치(화면 px). 아이패드 가로 사파리에서는 getBoundingClientRect 가 zoom 아래에서 실제와 달라
+ *  레이아웃 값(offsetTop·offsetHeight, CSS px)에 zoom 을 곱해 scrollY 와 비교한다. 그 외에는 getBoundingClientRect 그대로. */
+export function sectionRect(el: HTMLElement): { top: number; height: number; bottom: number } {
+  if (document.documentElement.hasAttribute("data-ipad-land")) {
+    let top = 0;
+    for (let o: HTMLElement | null = el; o; o = o.offsetParent as HTMLElement | null) top += o.offsetTop;
+    const z = 1 / zoomInv();
+    const t = top * z - window.scrollY, h = el.offsetHeight * z;
+    return { top: t, height: h, bottom: t + h };
+  }
+  const r = el.getBoundingClientRect();
+  return { top: r.top, height: r.height, bottom: r.bottom };
+}

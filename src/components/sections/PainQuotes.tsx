@@ -12,7 +12,7 @@
  */
 import { useEffect, useRef } from "react";
 import type { PainQuotesData } from "@/lib/sections";
-import { zoomInv } from "@/lib/zoom";
+import { zoomInv, stableH, sectionRect } from "@/lib/zoom";
 
 /** 공간 속 시작 위치 (1440×900 기준 px, 화면 중앙 원점). 세 단계 깊이, 카테고리가 뒤섞인 채 서로 겹치지 않게. */
 const SLOTS = [
@@ -120,14 +120,14 @@ export default function PainQuotes({ data }: { data: PainQuotesData }) {
 
     const frame = (now: number) => {
       raf = requestAnimationFrame(frame);
-      const W = window.innerWidth, H = window.innerHeight;
+      const W = window.innerWidth, H = stableH(); // 아이패드 가로: 주소창에 따라 변하는 innerHeight 대신 고정 기준 높이
       const zi = zoomInv();
       if (W < 1024) return;
-      const rect = el.getBoundingClientRect();
+      const rect = sectionRect(el);
       if (rect.bottom < 0 || rect.top > H) return;
       const p = clamp(-rect.top / (PROGRESS_VH * H));
       /* 빨리 내려 이미 덮이는 구간에 들어왔으면: 남은 정렬을 빠르게 끝내고 타이틀을 지연 없이 띄운다 */
-      if (-rect.top > el.getBoundingClientRect().height - 2.25 * H && ps < 0.64) el.classList.add("fast"); else if (ps < 0.5) el.classList.remove("fast");
+      if (-rect.top > rect.height - 2.25 * H && ps < 0.64) el.classList.add("fast"); else if (ps < 0.5) el.classList.remove("fast");
       const next = reduce || ps < 0 ? p : ps + (p - ps) * (el.classList.contains("fast") ? 0.3 : 0.1);
       const moved = dirty || Math.abs(next - ps) > 0.0002 || lw !== W || lh !== H;
       ps = next; lw = W; lh = H; dirty = false;
