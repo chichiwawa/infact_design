@@ -75,12 +75,27 @@ export default function IpadLandscape() {
     const rec = () => {
       const y = scrollY, d = document.documentElement.scrollHeight, h = innerHeight, v = css("--vh1");
       const t = (performance.now() / 1000).toFixed(1);
-      if (Math.abs(y - ly) > 1200) events.push(`${t}s 위치 ${Math.round(ly)}→${Math.round(y)}`);
+      if (Math.abs(y - ly) > 1200) events.push(`${t}s 위치 ${Math.round(ly)}→${Math.round(y)} [${document.documentElement.className.replace(/s+/g, ",").slice(0, 40)}]`);
       if (Math.abs(d - ld) > 200) events.push(`${t}s 전체길이 ${ld}→${d}`);
       if (h !== lh) events.push(`${t}s 창높이 ${lh}→${h}`);
       if (v !== lv) events.push(`${t}s vh1 ${lv}→${v}`);
       ly = y; ld = d; lh = h; lv = v;
-      while (events.length > 4) events.shift();
+      while (events.length > 7) events.shift();
+    };
+    // 스크롤 이동 명령(scrollTo·scrollIntoView)이 내려지면 목적지와 호출한 코드 위치를 남긴다
+    const origTo = window.scrollTo.bind(window);
+    const who = () => (new Error().stack ?? "").split(String.fromCharCode(10)).slice(2, 4).map((l) => l.trim().slice(-48)).join(" < ");
+    window.scrollTo = ((...a: unknown[]) => {
+      const o = a[0] as { top?: number; behavior?: string } | number;
+      const top = typeof o === "object" ? o.top : a[1];
+      events.push(`${(performance.now() / 1000).toFixed(1)}s scrollTo ${Math.round(Number(top))} ${typeof o === "object" ? o.behavior ?? "" : ""} ${who()}`);
+      while (events.length > 7) events.shift();
+      return (origTo as (...x: unknown[]) => void)(...a);
+    }) as typeof window.scrollTo;
+    const origIntoView = Element.prototype.scrollIntoView;
+    Element.prototype.scrollIntoView = function (this: Element, ...a: []) {
+      events.push(`${(performance.now() / 1000).toFixed(1)}s scrollIntoView ${who()}`);
+      return origIntoView.apply(this, a);
     };
     window.addEventListener("scroll", rec, { passive: true });
     window.addEventListener("resize", rec);
@@ -98,7 +113,7 @@ export default function IpadLandscape() {
     };
     tick();
     const id = window.setInterval(tick, 300);
-    return () => { window.clearInterval(id); window.removeEventListener("scroll", rec); window.removeEventListener("resize", rec); box.remove(); };
+    return () => { window.scrollTo = origTo as typeof window.scrollTo; Element.prototype.scrollIntoView = origIntoView; window.clearInterval(id); window.removeEventListener("scroll", rec); window.removeEventListener("resize", rec); box.remove(); };
   }, [pathname]);
   return null;
 }
