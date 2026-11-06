@@ -43,7 +43,7 @@ export default function Header() {
       if (y <= 24 || y < lastY - 4) setHidden(false); else if (y > lastY + 4 && y > 80) setHidden(true);
       if (Math.abs(y - lastY) > 4) lastY = y;
       const under = document.elementFromPoint(window.innerWidth / 2, 84 / zoomInv());
-      setOverDark(Boolean(under && under.closest(".on-dark")));
+      setOverDark(Boolean(under && under.closest(".on-dark, .pk-stack, [data-pkv=\"d\"]")));
       setOverBlue(Boolean(under && under.closest(".bg-primary")));
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const p = max > 0 ? Math.min(1, y / max) : 0;

@@ -66,7 +66,10 @@ export default function CircleReveal({ data, variant }: { data: CircleRevealData
       cards.current.forEach((c, i) => {
         if (!c) return;
         const b = c.getBoundingClientRect();
-        if (b.left + b.width / 2 < window.innerWidth * (window.innerWidth < 744 ? 0.62 : 0.45) || (i === n - 1 && hp > 0.97)) lit = i;
+        const W = window.innerWidth;
+        // 모바일·아이패드(<=1180): 카드의 점(왼쪽 끝)이 기준선(모바일 28%·아이패드 30% = 문의 시작 위치)에 닿으면 켜짐. PC: 카드 중심이 45% 보다 왼쪽이면 켜짐
+        const reached = W <= 1180 ? b.left <= W * (W < 744 ? 0.28 : 0.30) + 2 : b.left + b.width / 2 < W * 0.45;
+        if (reached || (i === n - 1 && hp > 0.97)) lit = i;
       });
       if (lit !== last) { last = lit; setOn(lit); }
     };
