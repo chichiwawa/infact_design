@@ -21,6 +21,7 @@ export default function Header() {
   const pathname = rawPathname === "/index" ? "/" : rawPathname;
   const [openPath, setOpenPath] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false); // 아래로 스크롤하면 숨고, 위로 올리면 나타남
   const [overDark, setOverDark] = useState(false);
   const [overBlue, setOverBlue] = useState(false);  // 2026-09-22 파란 최종 CTA 위에서는 로고 점을 흰색으로(시그니처 블루 점이 파란 배경에 묻힘)
   const barRef = useRef<HTMLDivElement>(null);
@@ -34,11 +35,13 @@ export default function Header() {
   }, [open]);
 
   useEffect(() => {
-    let raf = 0, tiltStep = -1;
+    let raf = 0, tiltStep = -1, lastY = window.scrollY;
     const update = () => {
       raf = 0;
       const y = window.scrollY;
       setScrolled(y > 24);
+      if (y <= 24 || y < lastY - 4) setHidden(false); else if (y > lastY + 4 && y > 80) setHidden(true);
+      if (Math.abs(y - lastY) > 4) lastY = y;
       const under = document.elementFromPoint(window.innerWidth / 2, 84 / zoomInv());
       setOverDark(Boolean(under && under.closest(".on-dark")));
       setOverBlue(Boolean(under && under.closest(".bg-primary")));
@@ -75,7 +78,7 @@ export default function Header() {
       <div ref={barRef} className="scroll-progress" aria-hidden="true" />
       <div ref={dotRef} className="scroll-tag" data-state="hidden" aria-hidden="true">{"INFACT".split("").map((c, i) => <i key={i}>{c}</i>)}</div>
       <header
-        className={`absolute inset-x-0 top-0 z-50 transition-[color,background-color,border-color] duration-300 ${open ? "bg-elevated" : scrolled ? `backdrop-blur-md border-b ${onDark ? "bg-[rgba(8,10,20,.28)] border-white/10" : "bg-white/40 border-black/5"}` : "bg-transparent"} ${onDark ? "text-white" : "text-ink"}`}
+        className={`fixed inset-x-0 top-0 z-50 transition-[color,background-color,border-color,transform] duration-300 ${hidden && !open ? "-translate-y-full" : ""} ${open ? "bg-elevated" : scrolled ? `backdrop-blur-md border-b ${onDark ? "bg-[rgba(8,10,20,.28)] border-white/10" : "bg-white/40 border-black/5"}` : "bg-transparent"} ${onDark ? "text-white" : "text-ink"}`}
       >
         <div className="container-x flex items-center justify-between h-12 md:h-20">
           {/* 2026-09-23 사용자 로고 PNG(흰색 "INFACT.")로 교체 — 글자·점을 잘라 CSS mask 로 그려 색은 currentColor(헤더 흰/검 전환 그대로), 점만 시그니처 블루(파란 CTA 위에서는 흰색, 2026-09-22 규칙 유지) */}
