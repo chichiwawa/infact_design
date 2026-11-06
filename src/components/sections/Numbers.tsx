@@ -14,6 +14,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
   const ref = useRef<HTMLElement>(null);
   const veilRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const headRef = useRef<HTMLDivElement>(null); // 제목 덩어리도 카드 줄과 같이 가로로 흘러가게(고정 안 함)
   const viewRef = useRef<HTMLDivElement>(null);
 
   const [cur, setCur] = useState(0); // 가운데 패널 번호(0 = 제목) — 페이지 표시 숫자용
@@ -29,7 +30,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
       const vh = viewH(el);
       const span = el.getBoundingClientRect().height - vh;
       // 모바일(2026-10-22): 화면 고정·스크롤 연동 없이 카드 줄을 손으로 직접 밀어 넘김(네이티브 가로 스크롤) → 이 계산 전부 건너뜀
-      if (matchMedia("(max-width: 743.98px)").matches) { setSnapLock("numbers", false); if (trackRef.current) trackRef.current.style.transform = ""; return; }
+      if (matchMedia("(max-width: 743.98px)").matches) { setSnapLock("numbers", false); if (trackRef.current) trackRef.current.style.transform = ""; if (headRef.current) headRef.current.style.transform = ""; return; }
       // 고정 구간 안에서만 단계별 멈춤(스냅) 켬 — 밖에서는 평소 스크롤
       // 고정이 풀린 뒤 다음 섹션(03)이 올라오는 한 화면(span~span+vh)까지 포함 — 빠지면 그 사이에 어중간하게 멈춤.
       // 끝(= 나가기 지점 520vh)에 정확히 닿으면 끔: 모바일은 03 스냅 지점이 없어서 켜진 채면 아래로 갈 곳이 없어 갇힘
@@ -42,6 +43,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
         const last = Math.max(1, n - 1); // 카드 n장 → 이동 구간 n-1
         const step = (track.children[1] as HTMLElement).offsetLeft - (track.children[0] as HTMLElement).offsetLeft;
         track.style.transform = `translate3d(${-p * last * step}px,0,0)`;
+        if (headRef.current) headRef.current.style.transform = `translate3d(${-p * last * step}px,0,0)`;
         const active = Math.round(p * last);
         Array.from(track.children).forEach((c, i) => ((c as HTMLElement).dataset.active = i === active ? "1" : "0"));
         setCur(active);
@@ -219,7 +221,7 @@ export default function Numbers({ data }: { data: NumbersData }) {
 
         <div className="strength-content relative h-full flex flex-col justify-center">
           {/* 왼쪽: 제목 + 페이지 이동 */}
-          <div className="strength-head">
+          <div ref={headRef} className="strength-head">
             <h2 className="tracking-[-1px] md:tracking-[-2px]">
               <span className="block font-light text-white text-[21px] md:text-[clamp(28px,2.6vw,44px)] leading-[1.3] mb-2 md:mb-3">{l.split(" ").map((w, k) => <span key={k}>{k > 0 && " "}<b className="font-extrabold">{w.slice(0, 2)}</b>{w.slice(2)}</span>)}</span>
               <span className="block font-bold text-white text-[30px] md:text-[clamp(46px,4.6vw,78px)] leading-[1.2] md:leading-[1.15] tracking-[-1.5px] md:tracking-[-3px]">{r.split(" ").map((w, k, arr) => <span key={k} className="md:block">{k > 0 && " "}{w}{k === arr.length - 1 && <i className="not-italic text-primary">.</i>}</span>)}</span>

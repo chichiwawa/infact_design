@@ -102,7 +102,7 @@ export interface PackagesData {
 
 export interface BoostersData {
   subtitle?: string;
-  items: { icon: IconName; icon_url?: string; title: string; hook: string; body: string; includes_label: string; includes: string[] }[];  // icon_url: 3D 아이콘(R2 투명 PNG, 있으면 라인 아이콘 대신)
+  items: { icon: IconName; icon_url?: string; title: string; hook: string; body: string; includes_label: string; includes: string[]; pill?: string; chips?: string[] }[];  // icon_url: 3D 아이콘(R2 투명 PNG, 있으면 라인 아이콘 대신) / pill·chips: 시안 F 용 짧은 한 줄·키워드 칩
   banner: { title: string; body: string; cta_label: string; cta_href: string };
 }
 

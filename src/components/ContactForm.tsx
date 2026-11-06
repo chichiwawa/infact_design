@@ -54,6 +54,7 @@ export default function ContactForm({ serviceTypes, telephone }: { serviceTypes:
   return (
     // <form action> 로 넘기면 React 19 가 제출 후 폼을 비워 거절 시 입력이 날아간다 → onSubmit 으로 직접 호출해 초기화를 막는다
     <form onSubmit={(e) => { e.preventDefault(); const data = new FormData(e.currentTarget); startTransition(() => action(data)); }} className="card rounded-[24px] p-7 md:p-10 space-y-5 shadow-lift" noValidate>
+      <div className="grid gap-5 md:grid-cols-2">
       <div>
         <label htmlFor="name" className="t-label text-ink block mb-2">병원명 / 성함 <span className="text-error">*</span></label>
         <input id="name" name="name" required className={input} placeholder="예: OO피부과 김OO 원장" autoComplete="organization" />
@@ -61,6 +62,7 @@ export default function ContactForm({ serviceTypes, telephone }: { serviceTypes:
       <div>
         <label htmlFor="contact" className="t-label text-ink block mb-2">연락처 (전화 또는 이메일) <span className="text-error">*</span></label>
         <input id="contact" name="contact" required onChange={(e) => { e.target.value = formatPhone(e.target.value); }} className={input} placeholder="010-0000-0000" autoComplete="tel" />
+      </div>
       </div>
       <div>
         <label htmlFor="service_type" className="t-label text-ink block mb-2">관심 서비스</label>
@@ -107,9 +109,11 @@ export default function ContactForm({ serviceTypes, telephone }: { serviceTypes:
         )}
       </div>
       {state.error && <p className="t-body text-error" role="alert">{state.error}</p>}
-      <button type="submit" disabled={pending || !agreed} className="btn-primary w-full disabled:opacity-60 disabled:cursor-not-allowed">
-        {pending ? "접수 중..." : agreed ? "문의 접수하기" : "필수 동의 후 접수 가능"}
+      <div className="flex justify-center">
+        <button type="submit" disabled={pending || !agreed} className="btn-primary w-full sm:w-auto sm:min-w-[260px] sm:px-10 !text-[16px] whitespace-nowrap disabled:opacity-100 !bg-[linear-gradient(180deg,#1c3f9e,#0d2466)] !text-white shadow-[0_18px_30px_-16px_rgba(13,36,102,.7)] disabled:cursor-not-allowed">
+        {pending ? "접수 중..." : agreed ? "접수하기" : "필수 동의 후 접수"}
       </button>
+      </div>
     </form>
   );
 }

@@ -2985,3 +2985,29 @@ section:has(> .fcta-main-bg) { background: #0a0a0a; }
 
 /* 터치 기기(아이패드 등)에서는 단계별 스크롤 멈춤(스냅)을 어떤 경우에도 끈다 (2026-11-05) — 켜진 채 남으면 섹션 밖에서 엉뚱한 곳으로 순간이동 */
 @media (pointer: coarse), (hover: none) { html[class*="snap-lock-"] { scroll-snap-type: none !important; } }
+
+/* 고민 섹션 유입·전환·브랜딩 글자색: 파랑·청록·보라 (해결책 카드 01·02·03 과 같은 색) */
+.pain-word[data-tone="0"] { color: #3061ff; } .pain-word[data-tone="1"] { color: #109aaa; } .pain-word[data-tone="2"] { color: #8b5cf6; }
+
+/* 고민 말풍선 따옴표 색: 전환 청록 · 브랜딩 보라 (유입은 기존 파랑) */
+.pain-q[data-tone="1"].b { --bfg: #109aaa; } .pain-q[data-tone="1"].w { --bbg: #109aaa; }
+.pain-q[data-tone="2"].b { --bfg: #8b5cf6; } .pain-q[data-tone="2"].w { --bbg: #8b5cf6; }
+.pain-q[data-tone="1"] .pain-badge { background: color-mix(in srgb, var(--bbg) var(--mc), rgba(16, 154, 170, .3)); color: color-mix(in srgb, var(--bfg) var(--mc), #3fd0c9); }
+.pain-q[data-tone="2"] .pain-badge { background: color-mix(in srgb, var(--bbg) var(--mc), rgba(139, 92, 246, .3)); color: color-mix(in srgb, var(--bfg) var(--mc), #b79cff); }
+
+/* 유입·전환·브랜딩 위 화살표: 세로선 없는 꺾쇠(⌄), 흰색 */
+.pain-arrow, .pain .pain-arrow, .pain-m .pain-arrow { color: #fff; font-size: 28px; display: flex; justify-content: center; }
+
+/* 고민 말풍선: 파란 칠 카드는 전부 흰색으로 통일, 따옴표 칸만 카테고리 색(유입 파랑 · 전환 청록 · 브랜딩 보라) */
+.pain-q[data-tone="0"].b, .pain-q[data-tone="0"].w { --cbg: #fff; --ctx: var(--color-ink); --bbg: #3061ff; --bfg: #fff; --sbg: rgba(48, 97, 255, .38); }
+.pain-q[data-tone="1"].b, .pain-q[data-tone="1"].w { --cbg: #fff; --ctx: var(--color-ink); --bbg: #109aaa; --bfg: #fff; --sbg: rgba(16, 154, 170, .38); }
+.pain-q[data-tone="2"].b, .pain-q[data-tone="2"].w { --cbg: #fff; --ctx: var(--color-ink); --bbg: #8b5cf6; --bfg: #fff; --sbg: rgba(139, 92, 246, .38); }
+.pain-q[data-tone="0"] .pain-badge { background: color-mix(in srgb, var(--bbg) var(--mc), rgba(48, 97, 255, .28)); color: color-mix(in srgb, var(--bfg) var(--mc), #3061ff); }
+/* 말풍선 절반(원래 파란색이던 자리 .b)은 어두운 남색 카드 + 흰 글씨, 나머지(.w)는 흰 카드. 따옴표 칸은 카테고리 색 그대로 */
+.pain-q[data-tone].b { --cbg: #14214f; --ctx: #fff; }
+
+/* 강점 섹션(PC): 왼쪽 제목도 고정하지 않고 카드 줄과 함께 왼쪽으로 흘러가게 — 카드가 제목 자리를 지나가도 보이도록 가로 잘림 해제 (2026-11-06) */
+@media (min-width: 744px) { .strength-viewport { overflow: visible; } .strength-head { will-change: transform; } }
+/* 강점 카드 사이 간격 넓힘 (PC·태블릿): 16~28px → 32~64px */
+@media (min-width: 744px) { .strength { --sg: clamp(32px, calc(3.6*var(--vw1)), 64px); } }
+html[data-ipad-land] .strength { --sg: 48px; }

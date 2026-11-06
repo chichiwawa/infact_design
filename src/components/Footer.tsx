@@ -10,6 +10,15 @@ function hoursLabel(h: string) {
   return `${day[m[1]] ?? m[1]} ${m[2]}~${m[3]}`;
 }
 
+/** 푸터 연락처 앞 가는 선 아이콘 */
+function FIcon({ k }: { k: "insta" | "kakao" | "phone" | "mail" }) {
+  const p = { width: 20, height: 20, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.7, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true, className: "shrink-0" };
+  if (k === "insta") return <svg {...p}><rect x="3.5" y="3.5" width="17" height="17" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17" cy="7" r=".6" fill="currentColor" /></svg>;
+  if (k === "kakao") return <svg {...p}><path d="M12 4C7 4 3 7.200 3 11c0 2.400 1.600 4.600 4 5.800L6.200 20l3.600-2.300c.7.100 1.500.200 2.200.200 5 0 9-3.200 9-7S17 4 12 4z" /></svg>;
+  if (k === "phone") return <svg {...p}><path d="M5 4h4l2 5-2.500 1.500a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" /></svg>;
+  return <svg {...p}><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>;
+}
+
 export default function Footer({ biz }: { biz: Business | null }) {
   const b = biz as (Business & { name_en?: string | null; registration_number?: string | null; email?: string | null }) | null;
   const year = new Date().getFullYear();
@@ -44,13 +53,14 @@ export default function Footer({ biz }: { biz: Business | null }) {
             <ul className="space-y-3">
               {(b?.same_as ?? []).map((s) => (
                 <li key={s.url}>
-                  <a href={s.url} target="_blank" rel="noopener noreferrer" className="text-[17px] text-white/80 hover:text-white">
+                  <a href={s.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-[17px] text-white/80 hover:text-white">
+                    <FIcon k={/kakao|카카오|pf\.kakao/i.test(`${s.label ?? ""} ${s.url}`) ? "kakao" : "insta"} />
                     {s.label ?? s.url.replace(/^https?:\/\//, "")}
                   </a>
                 </li>
               ))}
-              {b?.telephone && <li><a href={`tel:${b.telephone.replace(/-/g, "")}`} className="text-[17px] text-white/80 hover:text-white">{b.telephone}</a></li>}
-              {b?.email && <li><a href={`mailto:${b.email}`} className="text-[17px] text-white/80 hover:text-white break-all">{b.email}</a></li>}
+              {b?.telephone && <li><a href={`tel:${b.telephone.replace(/-/g, "")}`} className="flex items-center gap-3 text-[17px] text-white/80 hover:text-white"><FIcon k="phone" />{b.telephone}</a></li>}
+              {b?.email && <li><a href={`mailto:${b.email}`} className="flex items-center gap-3 text-[17px] text-white/80 hover:text-white break-all"><FIcon k="mail" />{b.email}</a></li>}
             </ul>
           </div>
         </div>

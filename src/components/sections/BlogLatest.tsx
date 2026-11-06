@@ -59,9 +59,6 @@ export default async function BlogLatest({ title, data }: { title: string; data:
           ))}
         </ul>
 
-        <div className="mt-12 md:mt-14 text-center" data-reveal>
-          <Link href="/blog" className="btn-secondary">{data.cta_label ?? "블로그 전체 보기"}</Link>
-        </div>
       </div>
     </section>
   );

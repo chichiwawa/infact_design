@@ -14,18 +14,18 @@ function Item({ it }: { it: LogoItem }) {
     return (
       <Image src={it.logo_url} alt={it.alt ?? `${it.label ?? "고객 병원"} 로고`} width={it.width ?? 256} height={it.height ?? 128} sizes="260px" loading="eager"
         style={{ height: `calc(var(--lh) * ${it.scale ?? 1})` }}  /* --lh: globals.css .marquee-set (40/48px). scale 로 로고별 축소 (2026-09-23) */
-        className="w-auto max-w-[200px] md:max-w-[260px] object-contain brightness-0 invert opacity-60" />
+        className="w-auto max-w-[200px] md:max-w-[260px] object-contain brightness-0 opacity-60" />
     );
   }
-  return <span className="text-[28px] md:text-[40px] font-extrabold tracking-[-1.5px] text-white/25 whitespace-nowrap">{it.label}</span>;
+  return <span className="text-[28px] md:text-[40px] font-extrabold tracking-[-1.5px] text-ink/30 whitespace-nowrap">{it.label}</span>;
 }
 
 export default function LogoMarquee({ data }: { data: LogoMarqueeData }) {
   return (
-    <section className="py-16 md:py-24 bg-night text-white on-dark overflow-hidden border-t border-white/10" aria-label="함께한 병원">
-      {data.note && <p className="t-eyebrow text-white/40 text-center mb-10 container-x">{data.note}</p>}
+    <section className="pt-0 pb-24 md:pb-36 -mt-6 md:-mt-14 bg-canvas text-ink overflow-hidden" style={{ "--marquee-fade": "var(--color-canvas)" } as React.CSSProperties} aria-label="함께한 병원">
+      {data.note && <p className="t-eyebrow text-mute text-center mb-12 md:mb-16 container-x">{data.note}</p>}
       {data.rows.map((row, r) => (
-        <div key={r} className={`marquee-container ${r > 0 ? "mt-10 md:mt-14" : ""}`}>
+        <div key={r} className={`marquee-container ${r > 0 ? "mt-12 md:mt-20" : ""}`}>
           <div className={`marquee-track ${r % 2 === 0 ? "animate-marquee-left" : "animate-marquee-right"}`}>
             <div className="marquee-set">
               {row.map((it, i) => <Item key={i} it={it} />)}

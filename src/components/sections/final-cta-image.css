@@ -57,3 +57,14 @@
 .fi-cur::before { content: ""; position: absolute; top: 0; bottom: 0; left: -90px; width: 180px; background: linear-gradient(90deg, transparent, rgba(60,130,255,.18), transparent); }
 .fi-read { position: absolute; left: 12px; top: 74px; padding: 3px 8px; border-radius: 6px; white-space: nowrap; font-family: "Outfit", var(--font-sans); font-size: 11px; font-weight: 500; letter-spacing: .14em; color: rgba(190,225,255,.9); background: rgba(5,10,30,.78); }
 @media (hover: none) { .fi-cur { display: none; } }
+
+/* PC: 흰 박스는 원래 크기 그대로 두고, 아래쪽 선만 왼쪽 01·02 박스 아래와 맞춤 (2026-11-06) */
+@media (min-width: 1024px) { .fi-in { align-items: end; } }
+/* 흰 박스 가로 폭을 좁힘: 오른쪽 열을 줄이고 박스는 오른쪽 끝에 붙임 */
+@media (min-width: 1024px) { .fi-in { grid-template-columns: minmax(0, 1fr) minmax(0, 460px); } .fi-card { padding: clamp(26px, 2.4vw, 34px); } }
+/* 레이아웃 정리 (2026-11-06): 왼쪽(제목+01·02, 640px) + 오른쪽 흰 박스(460px)를 한 쌍으로 묶어 가운데에 두고, 아래선을 맞춤. 라운드는 01·02 와 같은 18px */
+.fi-card { border-radius: 18px; }
+@media (min-width: 1024px) {
+  .fi-in { grid-template-columns: minmax(0, 900px) minmax(0, 490px); gap: 56px; justify-content: center; align-items: end; }
+  .fi-card { padding: clamp(28px, 3vw, 40px); }
+}

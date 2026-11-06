@@ -51,7 +51,7 @@ function render(s: PageSection, biz: Business | null) {
           case "final_cta": return <FinalCtaImage key={s.id} data={s.data as S.FinalCtaData} />;
           case "pain_quotes": return <PainQuotes key={s.id} data={s.data as S.PainQuotesData} />;
           case "packages": return <Packages key={s.id} title={title} data={s.data as S.PackagesData} variant="d" />;
-          case "boosters": return <Boosters key={s.id} title={title} data={s.data as S.BoostersData} variant="b" theme="light" />;
+          case "boosters": return <Boosters key={s.id} title={title} data={s.data as S.BoostersData} variant="f" theme="light" />;
           case "products": return <Products key={s.id} title={title} data={s.data as S.ProductsData} />;
           case "contact_intro": return <ContactIntro key={s.id} data={s.data as S.ContactIntroData} biz={biz} />;
           case "circle_reveal": return <CircleReveal key={s.id} data={s.data as S.CircleRevealData} variant="d" />;

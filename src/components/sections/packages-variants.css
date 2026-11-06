@@ -254,7 +254,9 @@
 
 /* 시안 d: 카드를 누르면(탭·클릭) 카드 색 테두리 + 은은한 빛 + 살짝 떠오름. 다시 누르면 해제. 선택 상태는 data-on 으로(reveal 클래스를 지우지 않으려고 className 을 쓰지 않음) */
 .pkd-card { cursor: pointer; transition: opacity .7s ease-out, box-shadow .3s, transform .5s cubic-bezier(.2,.7,.2,1); -webkit-tap-highlight-color: transparent; }
-.reveal-stagger .pkd-card[data-on="1"] { transform: translateY(-6px); box-shadow: 0 0 0 3px var(--ac), 0 0 34px rgba(var(--ac-rgb), .5), 0 24px 50px -24px rgba(0,0,0,.6); }
+/* 마우스가 있는 기기: 마우스를 올리면 효과 / 터치 기기(hover 없음): 기존처럼 눌러서 효과 */
+@media (hover: hover) { .reveal-stagger .pkd-card:hover { transform: translateY(-6px); box-shadow: 0 0 0 3px var(--ac), 0 0 34px rgba(var(--ac-rgb), .5), 0 24px 50px -24px rgba(0,0,0,.6); } }
+@media (hover: none) { .reveal-stagger .pkd-card[data-on="1"] { transform: translateY(-6px); box-shadow: 0 0 0 3px var(--ac), 0 0 34px rgba(var(--ac-rgb), .5), 0 24px 50px -24px rgba(0,0,0,.6); } }
 
 /* 시안 d, 아이패드 가로: 카드 줄 폭을 조금 넓힘(1440 → 1560px, 카드 한 장 약 +40px) */
 @media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) and (pointer: coarse) {
@@ -319,3 +321,6 @@ html[data-ipad-land] .pkd-title { font-size: calc(var(--ipad-w) * .02) !importan
   html .pkd-card .pkd-ico svg { width: 19px; height: 19px; }
   html .pkd-card .pkd-cta { font-size: 19px !important; }
 }
+/* 제목 아래 동그란 화살표 칸 축소 (24px → 18px, 안의 꺾쇠도 작게) */
+.pkd-arrow { width: 18px; height: 18px; margin-top: 10px; }
+.pkd-arrow svg { width: 10px; height: 10px; }

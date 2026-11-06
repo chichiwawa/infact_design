@@ -82,11 +82,11 @@ function Card({ text }: { text: string }) {
   );
 }
 
-function Label({ text, index }: { text: string; index: number }) {
+function Label({ text, index, tone = index }: { text: string; index: number; tone?: number }) {
   return (
     <div className="pain-lab" style={{ "--i": index } as React.CSSProperties}>
-      <div className="pain-arrow" aria-hidden="true">↓</div>
-      <div className="pain-word">{text}</div>
+      <div className="pain-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="m5 9 7 7 7-7" /></svg></div>
+      <div className="pain-word" data-tone={tone % 3}>{text}</div>
     </div>
   );
 }
@@ -281,7 +281,7 @@ export default function PainQuotes({ data }: { data: PainQuotesData }) {
           <div className="pain-scene pain-cards">
             <div className="pain-world">
               {data.quotes.map((q, i) => (
-                <div key={q.text} className={`pain-q ${SLOTS[i % SLOTS.length].blue ? "b" : "w"}`} style={{ "--amp": 4 + (i % 3) * 2, "--dur": `${5 + i * 0.7}s`, "--delay": `${-i * 1.3}s` } as React.CSSProperties}>
+                <div key={q.text} data-tone={Math.max(0, data.categories.findIndex((c) => c.key === q.category)) % 3} className={`pain-q ${SLOTS[i % SLOTS.length].blue ? "b" : "w"}`} style={{ "--amp": 4 + (i % 3) * 2, "--dur": `${5 + i * 0.7}s`, "--delay": `${-i * 1.3}s` } as React.CSSProperties}>
                   <Card text={q.text} />
                 </div>
               ))}
@@ -300,11 +300,11 @@ export default function PainQuotes({ data }: { data: PainQuotesData }) {
           <div className="pain-scene pain-cards">
             <div className="pain-world">
               {data.quotes.map((q, i) => (
-                <div key={q.text} className={`pain-q ${SLOTS_M[i % SLOTS_M.length].blue ? "b" : "w"}`} style={{ "--amp": 3 + (i % 3) * 1.5, "--dur": `${5 + i * 0.7}s`, "--delay": `${-i * 1.3}s` } as React.CSSProperties}>
+                <div key={q.text} data-tone={Math.max(0, data.categories.findIndex((c) => c.key === q.category)) % 3} className={`pain-q ${SLOTS_M[i % SLOTS_M.length].blue ? "b" : "w"}`} style={{ "--amp": 3 + (i % 3) * 1.5, "--dur": `${5 + i * 0.7}s`, "--delay": `${-i * 1.3}s` } as React.CSSProperties}>
                   <Card text={q.text} />
                 </div>
               ))}
-              {data.categories.map((c) => <Label key={c.key} text={c.label} index={0} />)}
+              {data.categories.map((c, ci) => <Label key={c.key} text={c.label} index={0} tone={ci} />)}
             </div>
           </div>
         </div>
