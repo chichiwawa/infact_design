@@ -67,8 +67,8 @@ export default function CircleReveal({ data, variant }: { data: CircleRevealData
         if (!c) return;
         const b = c.getBoundingClientRect();
         const W = window.innerWidth;
-        // 모바일·아이패드(<=1180): 카드의 점(왼쪽 끝)이 기준선(모바일 28%·아이패드 30%·PC 40% = 문의 시작 위치)에 닿으면 켜짐
-        const reached = b.left <= W * (W < 744 ? 0.28 : W <= 1180 ? 0.30 : 0.40) + 2;
+        // 카드의 점(왼쪽 끝)이 기준선(모든 화면 40% = 문의 시작 위치)에 닿으면 켜짐
+        const reached = b.left <= W * 0.40 + 2;
         if (reached || (i === n - 1 && hp > 0.97)) lit = i;
       });
       if (lit !== last) { last = lit; setOn(lit); }

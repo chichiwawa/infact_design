@@ -2260,7 +2260,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 .ph-card[data-on="1"] .ph-body { color: rgba(255,255,255,.5); }
 .ph-card[data-cur="1"] .ph-en { color: #fff; }
 .ph-card[data-cur="1"] .ph-body { color: rgba(255,255,255,.88); }
-@media (max-width: 743.98px) { .ph-track { padding: 0 0 0 calc(28*var(--vw1)); } .ph-list { padding-right: calc(9*var(--vw1)); } .ph-card { width: calc(78*var(--vw1)); padding-right: calc(8*var(--vw1)); } .ph-en { font-size: clamp(28px, calc(8.5*var(--vw1)), 44px); } .ph-body { font-size: 15px; } }
+@media (max-width: 743.98px) { .ph-track { padding: 0 0 0 calc(40*var(--vw1)); } .ph-list { padding-right: 0; } .ph-card { width: calc(60*var(--vw1)); padding-right: calc(6*var(--vw1)); } .ph-en { font-size: clamp(28px, calc(8.5*var(--vw1)), 44px); } .ph-body { font-size: 15px; } }
 
 /* 동그라미 위 문구: 작은 영문 라벨 + 큰 제목 */
 .cr-over-eyebrow { display: block; margin-bottom: .9em; font-size: clamp(12px, calc(1.05*var(--vw1)), 18px); font-weight: 700; letter-spacing: .18em; color: #6b8cff; text-shadow: none; }
@@ -2389,8 +2389,8 @@ html.strength-drag { scroll-snap-type: none !important; }
 
 /* 아이패드: 04 프로세스 설명글을 한 줄로 — 카드 폭을 넓히고 글자를 폭에 맞춰 줄임 */
 @media (min-width: 744px) and (max-width: 1180px) {
-  .cr-proc .ph-track { padding-left: calc(30*var(--vw1)); }
-  .cr-proc .ph-list { padding-right: calc(22*var(--vw1)); }
+  .cr-proc .ph-track { padding-left: calc(40*var(--vw1)); }
+  .cr-proc .ph-list { padding-right: calc(12*var(--vw1)); }
   .cr-proc .ph-card { width: calc(48*var(--vw1)); }
   .cr-proc .ph-body { white-space: nowrap; font-size: clamp(11px, calc(1.45*var(--vw1)), 16px); letter-spacing: -.03em; }
 }
@@ -2888,7 +2888,7 @@ html[data-ipad-land] .strength-card .font-extrabold { white-space: nowrap; font-
 /* 아이패드 세로 04 "진단하고, 설계하고, 직접 실행합니다" (2026-11-02): 단계 이름(문의·진단·설계·실행)·영문·설명글(흰 글씨) 확대, 단계 동그라미 체크는 24→18px 로 축소. 크기는 vw·px 숫자만 고친다 */
 @media (min-width: 744px) and (max-width: 1023px) and (orientation: portrait) {
   .cr-proc .ph-card { width: calc(52*var(--vw1)); }
-  .cr-proc .ph-list { padding-right: calc(18*var(--vw1)); }
+  .cr-proc .ph-list { padding-right: calc(8*var(--vw1)); }
   .cr-proc .ph-ko { font-size: calc(5.2*var(--vw1)); }
   .cr-proc .ph-name .ph-en { font-size: calc(1.9*var(--vw1)); }
   .cr-proc .ph-tag { font-size: 15px; }
