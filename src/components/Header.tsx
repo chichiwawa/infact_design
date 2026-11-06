@@ -34,6 +34,13 @@ export default function Header() {
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
+  // 헤더가 숨은 동안 html[data-hdr="hidden"] — 모바일 "우리병원은 ○○가 필요해요" 같은 따라다니는 제목이 그만큼 위로 올라가게(globals.css)
+  useEffect(() => {
+    const root = document.documentElement;
+    if (hidden && !open) root.dataset.hdr = "hidden"; else delete root.dataset.hdr;
+    return () => { delete root.dataset.hdr; };
+  }, [hidden, open]);
+
   useEffect(() => {
     let raf = 0, tiltStep = -1, lastY = window.scrollY;
     const update = () => {

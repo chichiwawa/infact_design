@@ -3038,3 +3038,9 @@ html[data-ipad-land] .strength { --sg: 48px; }
   radial-gradient(700px 420px at 100% 0%, rgba(196, 181, 253, .24), transparent 70%),
   radial-gradient(700px 420px at 0% 100%, rgba(147, 197, 253, .28), transparent 70%),
   linear-gradient(180deg, #f3f7ff, #f7f9ff 60%, #f4f6ff); }
+
+/* 모바일: 헤더가 숨으면(Header.tsx 가 html[data-hdr="hidden"] 표시) 따라다니는 "우리병원은 ○○가 필요해요" 제목·탭이 맨 위로 올라가고, 헤더가 다시 나타나면 헤더(48px) 아래로 내려온다 */
+@media (max-width: 743.98px) {
+  .pk-stack[data-mob="f"] .pk-h, .pk-stack[data-mob="f"][data-acc] .pk-sgroups { transition: top .3s ease; }
+  html[data-hdr="hidden"] .pk-stack[data-mob="f"] .pk-h, html[data-hdr="hidden"] .pk-stack[data-mob="f"][data-acc] .pk-sgroups { top: 0; }
+}
