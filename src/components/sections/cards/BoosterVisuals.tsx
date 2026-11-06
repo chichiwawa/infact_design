@@ -59,7 +59,7 @@ export function AiSearchVisual() {
 const SHOWCASE = [
   { src: "/media/ig-hero4.webp", label: "INSTAGRAM" },
   { src: "/media/ba-face-new.webp", label: "BEFORE & AFTER" },
-  { src: "/media/04f0c9aa-1050-4a48-87d3-5f5a8d838cdd.png", label: "AI SEARCH" },
+  { src: "/media/04f0c9aa-1050-4a48-87d3-5f5a8d838cdd.webp", label: "AI SEARCH" },
   { src: "/media/yt-hero.webp", label: "YOUTUBE" },
 ];
 export function IndividualShowcase() {

@@ -339,13 +339,13 @@ function bold(line: string) {
   });
 }
 
-/** 스냅 지점(섹션 상단 기준 vh, 고정 구간 420vh = globals.css .strength 520vh − 100vh):
- *  위로 나가기(-100 = 히어로) · 카드 i 가 왼쪽 시작 위치에 오는 지점(i/(n-1)) · 아래로 나가기(520 = 다음 섹션이 화면 맨 위) */
+/** 스냅 지점(섹션 상단 기준 vh, 고정 구간 600vh = globals.css .strength 700vh − 100vh):
+ *  위로 나가기(-100 = 히어로) · 카드 i 가 왼쪽 시작 위치에 오는 지점(i/(n-1)) · 아래로 나가기(700 =다음 섹션이 화면 맨 위) */
 /** 고정 화면(.strength-inner)의 실제 높이 — 섹션 높이와 같은 단위(화면 px). 사파리(아이패드)는 zoom 아래 innerHeight 가 단위가 달라 스크롤 계산이 어긋났다 */
 const viewH = (el: HTMLElement) => el.querySelector<HTMLElement>(".strength-inner")?.getBoundingClientRect().height || window.innerHeight;
 
 function snapTops(n: number): number[] {
-  return [-100, ...Array.from({ length: n }, (_, i) => Math.round((i * 420) / Math.max(1, n - 1))), 520];
+  return [-100, ...Array.from({ length: n }, (_, i) => Math.round((i * 600) / Math.max(1, n - 1))), 700];
 }
 
 function splitTitle(s: string): [string, string] {

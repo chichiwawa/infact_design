@@ -282,7 +282,7 @@ a:hover > .btn-arrow, button:hover > .btn-arrow { transform: translate(3px, -3px
    위치·크기는 vw/vh 기준이라 화면 폭에 비례. 이전 버전 CSS 는 백업/01_메인히어로_이전버전_2026-10-13/globals-hero.css */
 .hero { --hero-x: max(48px, calc((100% - 1664px) / 2)); /* 헤더(.container-x: 최대 1760, 좌우 48)와 같은 좌우 선 */ --hero-ease: cubic-bezier(.16, 1, .3, 1); --hero-ink: #0b1a4a; --hero-ice: #cdf3ff; }
 .hero-bg { background: #0a0a0a; opacity: calc(1 - var(--hero-p, 0) * .7); }
-.hero-grain { opacity: .05; mix-blend-mode: screen; background-size: 160px 160px;
+.hero-grain { opacity: .05; background-size: 160px 160px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 /* 덮이는 만큼 물러남 (transform·opacity 만) */
 .hero-in { transform: scale(calc(1 - var(--hero-p, 0) * .06)); opacity: calc(1 - min(1, var(--hero-p, 0) / .6)); transform-origin: 50% 100%; }
@@ -358,7 +358,7 @@ a:hover > .btn-arrow, button:hover > .btn-arrow { transform: translate(3px, -3px
 .hero-video-bg.loaded { opacity: 1; }
 
 /* ── 02 수치 강점 (02 NOTES 실측: sticky, 20%마다 스왑 / 길이는 400vh로 조정) ── */
-.strength { position: relative; height: calc(520*var(--vh1)); }
+.strength { position: relative; height: calc(700*var(--vh1)); } /* 2026-11-06 520 → 700: 스크롤 속도 늦춤 (Numbers.tsx snapTops 의 600/700 과 함께 바꾼다) */
 .strength-inner { position: sticky; top: 0; height: calc(100*var(--vh1)); overflow: hidden; }
 /* 단계별 스크롤 멈춤(2026-09-29): 섹션 고정 구간 안에서만 mandatory(각 섹션이 lib/scroll.ts setSnapLock 으로 html.snap-lock-<키> 토글), 각 지점은 건너뛰지 못함(always).
    proximity 는 Chrome 실측에서 큰 휠 한 번에 단계를 건너뛰어 효과 없음. 사용: 02 Numbers, 03 PackageSteps(PC) */
@@ -588,7 +588,8 @@ html.strength-drag { scroll-snap-type: none !important; }
 .fc[data-beam="prism"] .fc-beam::before { background: repeating-linear-gradient(to bottom, rgba(140,195,255,.28) 0 1px, transparent 1px 6px); -webkit-mask-image: linear-gradient(to bottom, transparent, #000); mask-image: linear-gradient(to bottom, transparent, #000); }
 .fc[data-beam="prism"] .fc-beam::after { bottom: -1px; height: 2px; background: linear-gradient(90deg, transparent, #4da3ff 12%, #7ee8ff 38%, #a78bfa 64%, #4da3ff 88%, transparent); box-shadow: 0 0 14px 1px rgba(110,190,255,.75), 0 0 46px 8px rgba(110,100,255,.28); }
 
-.fc-card { position: absolute; width: clamp(210px, calc(25*var(--vw1)), 430px); padding: clamp(12px, calc(1.3*var(--vw1)), 22px) clamp(14px, calc(1.5*var(--vw1)), 26px); border-radius: clamp(12px, calc(1.2*var(--vw1)), 20px); background: linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.03)); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: inset 0 0 0 1px rgba(150,190,255,.25), 0 24px 60px -24px rgba(20,70,220,.6); opacity: 0; color: #fff; animation: fc-card 10s ease-in-out var(--dl) infinite backwards, fc-flash 10s ease-out var(--dl) infinite backwards; }
+.fc-card { position: absolute; width: clamp(210px, calc(25*var(--vw1)), 430px); padding: clamp(12px, calc(1.3*var(--vw1)), 22px) clamp(14px, calc(1.5*var(--vw1)), 26px); border-radius: clamp(12px, calc(1.2*var(--vw1)), 20px); background: linear-gradient(135deg, rgba(40,62,120,.62), rgba(14,22,50,.7)); box-shadow: inset 0 0 0 1px rgba(150,190,255,.25), 0 24px 60px -24px rgba(20,70,220,.6); opacity: 0; color: #fff; animation: fc-card 10s ease-in-out var(--dl) infinite backwards; }
+.fc-card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: 0 0 28px rgba(70,150,255,.95), inset 0 0 0 1px rgba(170,215,255,.6); opacity: 0; animation: fc-flash 10s ease-out var(--dl) infinite backwards; }
 .fc-c0 { left: calc(38*var(--vw1)); top: calc(17*var(--vh1)); } .fc-c1 { left: calc(63*var(--vw1)); top: calc(23*var(--vh1)); } .fc-c2 { left: calc(34*var(--vw1)); top: calc(38*var(--vh1)); } .fc-c3 { left: calc(66*var(--vw1)); top: calc(44*var(--vh1)); }
 .fc-top { display: flex; align-items: center; justify-content: space-between; font-size: clamp(9px, calc(.72*var(--vw1)), 13px); font-weight: 500; letter-spacing: .16em; color: rgba(190,215,255,.7); }
 .fc-stat { position: relative; display: inline-block; min-width: 7.2em; height: 1.5em; }
@@ -604,13 +605,15 @@ html.strength-drag { scroll-snap-type: none !important; }
 .fc-bar { height: 3px; border-radius: 3px; background: rgba(150,190,255,.18); overflow: hidden; }
 .fc-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #2f6bff, #8fd0ff); animation: fc-bar 10s linear var(--dl) infinite backwards; }
 @keyframes fc-card { 0% { opacity: 0; transform: translateY(16px) scale(.96); } 6%, 82% { opacity: 1; transform: none; } 90%, 100% { opacity: 0; transform: translateY(-10px) scale(.98); } }
-@keyframes fc-flash { 0%, 29% { filter: none; } 31% { filter: drop-shadow(0 0 28px rgba(70,150,255,.95)) brightness(1.25); } 46%, 100% { filter: none; } }
+@keyframes fc-flash { 0%, 29% { opacity: 0; } 31% { opacity: 1; } 46%, 100% { opacity: 0; } }
 @keyframes fc-pend { 0%, 29% { opacity: 1; } 31%, 100% { opacity: 0; } }
 @keyframes fc-done { 0%, 29% { opacity: 0; transform: scale(.7); } 33% { opacity: 1; transform: scale(1.12); } 37%, 100% { opacity: 1; transform: scale(1); } }
 @keyframes fc-strike { 0%, 30% { background-size: 0 2px; } 38%, 100% { background-size: 100% 2px; } }
 @keyframes fc-bar { 0%, 6% { width: 0; } 30%, 100% { width: 100%; } }
 @keyframes fc-spin { to { transform: rotate(360deg); } }
 @media (max-width: 743.98px) { .fc-c0 { left: calc(6*var(--vw1)); top: calc(14*var(--vh1)); } .fc-c1 { left: calc(40*var(--vw1)); top: calc(24*var(--vh1)); } .fc-c2 { left: calc(8*var(--vw1)); top: calc(35*var(--vh1)); } .fc-c3 { left: calc(40*var(--vw1)); top: calc(45*var(--vh1)); } .fc-card { width: calc(52*var(--vw1)); } }
+/* 히어로가 다음 섹션에 완전히 덮이면 모든 움직임 정지 (FactCheckBg.tsx 가 data-paused 를 붙임) */
+.fc[data-paused="1"], .fc[data-paused="1"] *, .fc[data-paused="1"] *::before, .fc[data-paused="1"] *::after { animation-play-state: paused !important; }
 @media (prefers-reduced-motion: reduce) { .fc-beam { display: none; } .fc-card, .fc-card *, .fc-pend { animation: none !important; opacity: 1; } .fc-pend { display: none; } .fc-done { opacity: 1; } .fc-bar i { width: 100%; } }
 
 /* FACT CHECK — 시안별 배치(PC)와 커서 효과 (/demo/fact-a ~ d) */
@@ -2226,8 +2229,8 @@ html.strength-drag { scroll-snap-type: none !important; }
 .ph-eyebrow { margin: 0 0 1em; font-size: clamp(11px, calc(.85*var(--vw1)), 15px); font-weight: 700; letter-spacing: .18em; color: #6b8cff; }
 .ph-title { margin: 0; font-size: clamp(28px, calc(3.4*var(--vw1)), 64px); font-weight: 800; line-height: 1.2; letter-spacing: -.05em; color: #fff; word-break: keep-all; }
 .ph-glow { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(60% 60% at 70% 60%, rgba(48,97,255,.26), transparent 70%), radial-gradient(45% 45% at 10% 20%, rgba(80,140,255,.12), transparent 70%); transition: opacity .5s; }
-.ph-track { position: relative; will-change: transform; padding: 0 calc(8*var(--vw1)); }
-.ph-list { display: flex; margin: 0; padding: 0; list-style: none; width: max-content; }
+.ph-track { position: relative; will-change: transform; padding: 0 0 0 calc(40*var(--vw1)); } /* 2026-11-06 왼쪽 8→40vw: 문의(1번)가 처음부터 예전 진단 자리에서 시작 (태블릿은 아래에서 30vw) (ProcessAlt.tsx 의 시작 대기·점등 기준과 함께) */
+.ph-list { display: flex; margin: 0; padding: 0 calc(32*var(--vw1)) 0 0; list-style: none; width: max-content; box-sizing: content-box; } /* 오른쪽 여백은 줄 안쪽에 둬야 스크롤 길이에 포함됨 → 마지막(관리)이 끝에서 화면 약 42% 까지 옴 */
 .ph-card { position: relative; flex: none; width: calc(26*var(--vw1)); padding: calc(46px) calc(3*var(--vw1)) 0 0; }
 .ph-dot { position: absolute; left: 0; top: 0; width: 15px; height: 15px; border-radius: 50%; background: #3d4048; transform: scale(.47); transition: transform .5s, background .5s, box-shadow .5s; }
 .ph-line { position: absolute; left: 15px; top: 7px; right: 0; height: 1px; background: rgba(255,255,255,.22); }
@@ -2257,7 +2260,7 @@ html.strength-drag { scroll-snap-type: none !important; }
 .ph-card[data-on="1"] .ph-body { color: rgba(255,255,255,.5); }
 .ph-card[data-cur="1"] .ph-en { color: #fff; }
 .ph-card[data-cur="1"] .ph-body { color: rgba(255,255,255,.88); }
-@media (max-width: 743.98px) { .ph-track { padding: 0 calc(10*var(--vw1)); } .ph-card { width: calc(78*var(--vw1)); padding-right: calc(8*var(--vw1)); } .ph-en { font-size: clamp(28px, calc(8.5*var(--vw1)), 44px); } .ph-body { font-size: 15px; } }
+@media (max-width: 743.98px) { .ph-track { padding: 0 0 0 calc(13*var(--vw1)); } .ph-list { padding-right: 0; } .ph-card { width: calc(78*var(--vw1)); padding-right: calc(8*var(--vw1)); } .ph-en { font-size: clamp(28px, calc(8.5*var(--vw1)), 44px); } .ph-body { font-size: 15px; } }
 
 /* 동그라미 위 문구: 작은 영문 라벨 + 큰 제목 */
 .cr-over-eyebrow { display: block; margin-bottom: .9em; font-size: clamp(12px, calc(1.05*var(--vw1)), 18px); font-weight: 700; letter-spacing: .18em; color: #6b8cff; text-shadow: none; }
@@ -2386,6 +2389,8 @@ html.strength-drag { scroll-snap-type: none !important; }
 
 /* 아이패드: 04 프로세스 설명글을 한 줄로 — 카드 폭을 넓히고 글자를 폭에 맞춰 줄임 */
 @media (min-width: 744px) and (max-width: 1180px) {
+  .cr-proc .ph-track { padding-left: calc(30*var(--vw1)); }
+  .cr-proc .ph-list { padding-right: calc(28*var(--vw1)); }
   .cr-proc .ph-card { width: calc(42*var(--vw1)); }
   .cr-proc .ph-body { white-space: nowrap; font-size: clamp(11px, calc(1.45*var(--vw1)), 16px); letter-spacing: -.03em; }
 }
@@ -2752,9 +2757,10 @@ html[data-ipad-land] .cr-proc .ph-head { transform: translateY(calc((1 - clamp(0
 }
 
 /* 병의원 인사이트 글 카드 4장 축소 + 지금 문의하시면 제목 추가 축소 (2026-10-30) — PC(1601px 이상)는 그대로, 노트북·아이패드·모바일만. 숫자만 고친다 */
-@media (min-width: 1024px) and (max-width: 1600px) { .blg-list { max-width: 80%; margin-inline: auto; } }
-@media (min-width: 640px) and (max-width: 1023px) { .blg-list { max-width: 72%; margin-inline: auto; } }
-@media (max-width: 639px) { .blg-list > li { width: 62%; } }
+@media (min-width: 1024px) and (max-width: 1600px) { .blg-list { max-width: 72%; margin-inline: auto; } } /* 2026-11-06 80→72 */
+@media (min-width: 1601px) { .blg-list { max-width: 66%; margin-inline: auto; } } /* 넓은 화면(스크린샷 2000px대)은 전엔 줄이지 않았음 */
+@media (min-width: 640px) and (max-width: 1023px) { .blg-list { max-width: 66%; margin-inline: auto; } }
+@media (max-width: 639px) { .blg-list > li { width: 56%; } }
 @media (max-width: 1600px) { .sec-ttl.fcta-h, .fcta-h, h2.sec-ttl.text-white { font-size: calc(var(--ttl) * .7) !important; } }
 
 /* 진행 프로세스 단계 이름(문의·진단·설계·실행)을 위 제목("진단하고, 설계하고…")보다 작게 — 제목 크기(--ttl)의 72% (PC·노트북·아이패드 가로, 2026-10-30). 숫자만 고친다 */
@@ -2959,7 +2965,7 @@ section:has(> .fcta-main-bg) { background: #0a0a0a; }
   h2.t-h-xl:not(.sec-ttl), .bst-head h2 { font-size: calc(var(--ttl) * .93) !important; }
   .pain-headline { font-size: calc(var(--ttl) * .93) !important; }
   h1.t-h-lg { font-size: calc(var(--ttl) * .75) !important; }
-  .fi-title { font-size: calc(var(--ttl) * .9) !important; } /* "지금 문의하시면, 병원 마케팅…" 3줄 제목: 1.05 → .9 로 축소 (2026-11-04) */
+  .fi-title { font-size: calc(var(--ttl) * .9) !important; } /* "지금 문의하시면, 병원 마케팅…" 3줄 제목: 1.05 → .9 (11-04) → .72 (11-06) */
   .pk-stack .pk-h { font-size: calc(var(--ttl) * 1.06) !important; }
 }
 

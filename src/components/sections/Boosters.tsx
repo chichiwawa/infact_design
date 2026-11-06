@@ -155,7 +155,7 @@ function ProdIcon({ k }: { k: string }) {
       <path d="M50 6l2 4.500 5 .6-3.700 3.300 1 5-4.300-2.500-4.300 2.500 1-5L43 11l5-.6z" fill="#ffb84a" />
     </svg>);
   // eslint-disable-next-line @next/next/no-img-element
-  return <img src={`/media/${PROD_IMG[k]}.png`} alt="" className="pi-img" draggable={false} />;
+  return <img src={`/media/${PROD_IMG[k]}.webp`} alt="" className="pi-img" draggable={false} />;
 }
 
 function BoostersGlass({ title, data }: { title: string; data: BoostersData }) {

@@ -29,15 +29,16 @@ export default function ProcessAlt({ title, data }: { title?: string; data: Proc
       const zi = zoomInv();
       const r = sec.getBoundingClientRect();
       const span = r.height - window.innerHeight;
-      const p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+      const p0 = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+      const p = Math.min(1, Math.max(0, (p0 - 0.06) / 0.82)); // 처음 6% 는 제자리(문의가 먼저 보이게), 끝 12% 는 관리가 켜진 채 멈춤
       const max = Math.max(0, track.scrollWidth - window.innerWidth * zi);
       track.style.transform = `translate3d(${(-p * max).toFixed(1)}px,0,0)`;
-      // 카드 중심이 화면 폭의 62% 보다 왼쪽에 오면 켜짐 (마지막 카드는 끝에서 반드시 켜지도록 p 도 함께 본다)
+      // 카드 중심이 화면 폭의 45%(모바일 62%) 보다 왼쪽에 오면 켜짐 (마지막 카드는 끝에서 반드시 켜지도록 p 도 함께 본다)
       let lit = 0;
       cards.current.forEach((c, i) => {
         if (!c) return;
         const b = c.getBoundingClientRect();
-        if (b.left + b.width / 2 < window.innerWidth * 0.62 || (i === n - 1 && p > 0.97)) lit = i;
+        if (b.left + b.width / 2 < window.innerWidth * (window.innerWidth < 744 ? 0.62 : 0.45) || (i === n - 1 && p > 0.97)) lit = i;
       });
       if (lit !== last) { last = lit; setOn(lit); }
     };
@@ -49,7 +50,7 @@ export default function ProcessAlt({ title, data }: { title?: string; data: Proc
   }, [n]);
 
   return (
-    <section ref={secRef} className="ph on-dark" style={{ height: `calc(${VH}*${n * 0.7 + 1})` }} aria-label="진행 프로세스">
+    <section ref={secRef} className="ph on-dark" style={{ height: `calc(${VH}*${n * 1.0 + 1})` }} aria-label="진행 프로세스">
       <div className="ph-stage" style={{ height: VH }}>
         <div aria-hidden="true" className="ph-glow" style={{ opacity: 0.55 + (on / Math.max(1, n - 1)) * 0.45 }} />
         <div className="ph-head">

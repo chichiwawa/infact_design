@@ -13,7 +13,7 @@
 
 .fi-eyebrow { display: flex; align-items: center; gap: 18px; font-size: 14px; font-weight: 600; letter-spacing: .32em; color: rgba(255,255,255,.85); }
 .fi-eyebrow i { display: block; width: 52px; height: 1px; background: var(--color-primary); }
-.fi-title { margin-top: 30px; font-weight: 800; letter-spacing: -.045em; line-height: 1.28; font-size: clamp(32px, 4.3vw, 64px); word-break: keep-all; color: #fff; }
+.fi-title { margin-top: 30px; font-weight: 800; letter-spacing: -.045em; line-height: 1.28; font-size: clamp(28px, 3.2vw, 48px); word-break: keep-all; color: #fff; }
 .fi-l { display: block; }
 .fi-blue { color: var(--color-primary); }
 

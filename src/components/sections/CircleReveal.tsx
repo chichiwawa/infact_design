@@ -14,8 +14,9 @@ import { zoomInv, stableH } from "@/lib/zoom";
 
 const GROW = 1.3; // 동그라미가 커지는 구간 길이(화면 높이 배수)
 const SHOW = 0.6; // 제목이 선명해진 뒤 단계 줄이 떠오르는 구간(화면 높이 배수)
-const PER_STEP = 0.7; // 단계 하나를 지나는 데 쓰는 스크롤(화면 높이 배수)
-const HOLD = 0.5; // 마지막 단계(관리)에서 멈춰 머무는 스크롤(화면 높이 배수)
+const START = 0.3; // 단계 줄이 뜬 뒤 문의(1번)에서 먼저 머무는 스크롤(화면 높이 배수)
+const PER_STEP = 0.7; // 단계 하나를 지나는 데 쓰는 스크롤(화면 높이 배수) — 불 켜지는 속도는 빠르게 유지
+const HOLD = 1.5; // 마지막 단계(관리)가 켜진 채 머무는 스크롤(화면 높이 배수) — 다음 페이지로 넘어가기 전 여유(0.5→1.5)
 
 /** "**강조**" → 로고 블루 글자 */
 function hl(s: string) {
@@ -58,14 +59,14 @@ export default function CircleReveal({ data, variant }: { data: CircleRevealData
       if (n) { if (p >= 0.85 && r.bottom > 84 / zoomInv()) document.documentElement.dataset.proc = "1"; else delete document.documentElement.dataset.proc; } // 헤더 위 INFACT 글자 숨김용 // 동그라미가 화면을 채워 배경이 어두워진 뒤에만 헤더를 흰 글씨로
       if (!track) return;
       root.style.setProperty("--cr-s", Math.min(1, Math.max(0, (scrolled - GROW * H) / (SHOW * H))).toFixed(4));
-      const hp = Math.min(1, Math.max(0, (scrolled - (GROW + SHOW) * H) / Math.max(1, span - (GROW + SHOW + HOLD) * H)));
+      const hp = Math.min(1, Math.max(0, (scrolled - (GROW + SHOW + START) * H) / Math.max(1, span - (GROW + SHOW + START + HOLD) * H)));
       const max = Math.max(0, track.scrollWidth - window.innerWidth * zoomInv());
       track.style.transform = `translate3d(${(-hp * max).toFixed(1)}px,0,0)`;
       let lit = 0;
       cards.current.forEach((c, i) => {
         if (!c) return;
         const b = c.getBoundingClientRect();
-        if (b.left + b.width / 2 < window.innerWidth * 0.62 || (i === n - 1 && hp > 0.97)) lit = i;
+        if (b.left + b.width / 2 < window.innerWidth * (window.innerWidth < 744 ? 0.62 : 0.45) || (i === n - 1 && hp > 0.97)) lit = i;
       });
       if (lit !== last) { last = lit; setOn(lit); }
     };
@@ -76,10 +77,10 @@ export default function CircleReveal({ data, variant }: { data: CircleRevealData
     return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); if (raf) cancelAnimationFrame(raf); delete document.documentElement.dataset.proc; };
   }, [n]);
 
-  const height = n ? `calc(100*var(--dvh1)*${(GROW + SHOW + 1 + n * PER_STEP + HOLD).toFixed(2)})` : undefined;
+  const height = n ? `calc(100*var(--dvh1)*${(GROW + SHOW + START + 1 + n * PER_STEP + HOLD).toFixed(2)})` : undefined;
 
   return (
-    <section ref={secRef} className={dark ? "cr on-dark" : "cr"} data-v={variant} style={{ height, "--cr-k": n ? GROW + SHOW + 1 + n * PER_STEP + HOLD : 2.6 } as React.CSSProperties} aria-label={`${data.left} ${data.right}`.replace(/\*\*/g, "")}>
+    <section ref={secRef} className={dark ? "cr on-dark" : "cr"} data-v={variant} style={{ height, "--cr-k": n ? GROW + SHOW + START + 1 + n * PER_STEP + HOLD : 2.6 } as React.CSSProperties} aria-label={`${data.left} ${data.right}`.replace(/\*\*/g, "")}>
       <div className="cr-stage">
         {/* 배경 효과: 로고 블루 오로라 + 옅은 격자 + 떠오르는 빛 점 (동그라미가 커지면 서서히 사라짐) */}
         <div className="cr-bg" aria-hidden="true">

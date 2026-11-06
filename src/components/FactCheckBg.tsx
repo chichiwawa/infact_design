@@ -30,19 +30,27 @@ export default function FactCheckBg({ variant = "a", beam }: { variant?: Variant
     const el = root.current;
     if (!el || matchMedia("(hover: none)").matches) return;
     const cards = Array.from(el.querySelectorAll<HTMLElement>(".fc-card"));
+    // 변수는 커서 요소에만 써서(루트에 쓰면 배경 전체가 매 프레임 다시 계산됨), 카드 위치는 크기가 바뀔 때만 다시 잰다
+    const target = variant === "d" ? el : (el.querySelector<HTMLElement>(".fc-cur") ?? el);
+    let rects: { b: number; t: number; w: number; h: number }[] = [];
+    const measure = () => { rects = cards.map((c) => ({ b: c.offsetLeft, t: c.offsetTop, w: c.offsetWidth, h: c.offsetHeight })); };
+    measure();
+    window.addEventListener("resize", measure);
     let tx = 0, ty = 0, x = 0, y = 0, raf = 0, seen = false;
     const tick = () => {
       x += (tx - x) * 0.18; y += (ty - y) * 0.18;
-      el.style.setProperty("--mx", x.toFixed(1) + "px");
-      el.style.setProperty("--my", y.toFixed(1) + "px");
+      target.style.setProperty("--mx", x.toFixed(1) + "px");
+      target.style.setProperty("--my", y.toFixed(1) + "px");
       if (read.current) read.current.textContent = `X ${String(Math.round(x)).padStart(4, "0")} · Y ${String(Math.round(y)).padStart(4, "0")}`;
       const R = variant === "c" ? 190 : 170;
-      for (const c of cards) {
-        const b = c.offsetLeft, t = c.offsetTop, w = c.offsetWidth, h = c.offsetHeight;
+      for (let i = 0; i < cards.length; i++) {
+        const c = cards[i];
+        const { b, t, w, h } = rects[i];
         const near = variant === "b"
           ? Math.abs(x - (b + w / 2)) < w / 2 + 24
           : Math.hypot(Math.max(b - x, 0, x - (b + w)), Math.max(t - y, 0, y - (t + h))) < (variant === "d" ? 120 : R * 0.55);
-        c.dataset.near = near ? "1" : "0";
+        const v = near ? "1" : "0";
+        if (c.dataset.near !== v) c.dataset.near = v;
       }
       raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.4 ? requestAnimationFrame(tick) : 0;
     };
@@ -58,14 +66,25 @@ export default function FactCheckBg({ variant = "a", beam }: { variant?: Variant
     const leave = () => { el.dataset.on = "0"; };
     window.addEventListener("pointermove", move, { passive: true });
     document.addEventListener("pointerleave", leave);
-    return () => { window.removeEventListener("pointermove", move); document.removeEventListener("pointerleave", leave); if (raf) cancelAnimationFrame(raf); };
+    return () => { window.removeEventListener("pointermove", move); window.removeEventListener("resize", measure); document.removeEventListener("pointerleave", leave); if (raf) cancelAnimationFrame(raf); };
   }, [variant]);
+
+  // 스크롤로 히어로가 완전히 덮이면(PrismGradient 와 같은 기준) 배경 애니메이션을 멈추고, 다시 올라오면 재개
+  useEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    let raf = 0;
+    const update = () => { raf = 0; const p = window.scrollY >= window.innerHeight ? "1" : "0"; if (el.dataset.paused !== p) el.dataset.paused = p; };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => { window.removeEventListener("scroll", onScroll); if (raf) cancelAnimationFrame(raf); };
+  }, []);
 
   return (
     <div ref={root} className={`fc fc--${variant}`} data-on="0" data-beam={beam} aria-hidden="true">
       <div className="fc-grid" />
-      <i className="fc-cross fc-cross--tl" /><i className="fc-cross fc-cross--tr" /><i className="fc-cross fc-cross--bl" /><i className="fc-cross fc-cross--br" />
-      {variant === "d" && <div className="fc-giant"><span className="fc-giant-line">FACT</span><div className="fc-giant-fill"><span>FACT</span></div></div>}
+            {variant === "d" && <div className="fc-giant"><span className="fc-giant-line">FACT</span><div className="fc-giant-fill"><span>FACT</span></div></div>}
       <div className="fc-beam" />
       {variant === "a" && <div className="fc-cur fc-reticle"><i /><span ref={read} className="fc-read" /></div>}
       {variant === "b" && <div className="fc-cur fc-vline"><span ref={read} className="fc-read" /></div>}
