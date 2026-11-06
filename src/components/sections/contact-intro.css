@@ -28,3 +28,20 @@
 .fc-ico, .fc-kakao, .fc-blue, .fc-teal, .fc-purple { background: transparent; color: rgba(255,255,255,.9); width: 28px; height: 28px; border-radius: 0; }
 .fc-ico svg { width: 24px; height: 24px; }
 .fc-row { gap: 18px; }
+
+/* 아이패드 가로·작은 노트북(1024~1439px): 왼쪽 글을 줄이고 흰 박스를 위쪽에서 더 크게 — PC 와 같은 좌우 배치 비율 (2026-11-06) */
+@media (min-width: 1024px) and (max-width: 1439.98px) {
+  .fc { padding-top: 112px; padding-bottom: 72px; }
+  .fc-in { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 36px; align-items: start; }
+  .fc-title { font-size: clamp(26px, 3vw, 38px); margin-top: 20px; }
+  .fc-body { margin-top: 18px; font-size: 14.5px; line-height: 1.65; }
+  .fc-offers { margin-top: 22px; gap: 12px; }
+  .fc-offers li { padding: 18px 18px 20px; }
+  .fc-offers .fi-no { font-size: 24px; }
+  .fc-offers .fi-oh { margin-top: 12px; font-size: 17px; }
+  .fc-offers span { margin-top: 8px; font-size: 13px; line-height: 1.55; }
+  .fc-rows { margin-top: 22px; column-gap: 24px; row-gap: 10px; }
+  .fc-row { font-size: 14.5px; gap: 12px; }
+  .fc-ico svg { width: 20px; height: 20px; }
+  .fc-form { position: sticky; top: 96px; }
+}
