@@ -16,7 +16,7 @@ const GROW = 1.3; // 동그라미가 커지는 구간 길이(화면 높이 배�
 const SHOW = 0.6; // 제목이 선명해진 뒤 단계 줄이 떠오르는 구간(화면 높이 배수)
 const START = 0.3; // 단계 줄이 뜬 뒤 문의(1번)에서 먼저 머무는 스크롤(화면 높이 배수)
 const PER_STEP = 0.7; // 단계 하나를 지나는 데 쓰는 스크롤(화면 높이 배수) — 불 켜지는 속도는 빠르게 유지
-const HOLD = 1.5; // 마지막 단계(관리)가 켜진 채 머무는 스크롤(화면 높이 배수) — 다음 페이지로 넘어가기 전 여유(0.5→1.5)
+const HOLD = 1.0; // 마지막 단계(관리)가 켜진 채 머무는 스크롤(화면 높이 배수) — 다음 페이지로 넘어가기 전 여유(0.5→1.5→1.0)
 
 /** "**강조**" → 로고 블루 글자 */
 function hl(s: string) {
@@ -67,8 +67,8 @@ export default function CircleReveal({ data, variant }: { data: CircleRevealData
         if (!c) return;
         const b = c.getBoundingClientRect();
         const W = window.innerWidth;
-        // 모바일·아이패드(<=1180): 카드의 점(왼쪽 끝)이 기준선(모바일 28%·아이패드 30% = 문의 시작 위치)에 닿으면 켜짐. PC: 카드 중심이 45% 보다 왼쪽이면 켜짐
-        const reached = W <= 1180 ? b.left <= W * (W < 744 ? 0.28 : 0.30) + 2 : b.left + b.width / 2 < W * 0.45;
+        // 모바일·아이패드(<=1180): 카드의 점(왼쪽 끝)이 기준선(모바일 28%·아이패드 30%·PC 40% = 문의 시작 위치)에 닿으면 켜짐
+        const reached = b.left <= W * (W < 744 ? 0.28 : W <= 1180 ? 0.30 : 0.40) + 2;
         if (reached || (i === n - 1 && hp > 0.97)) lit = i;
       });
       if (lit !== last) { last = lit; setOn(lit); }
