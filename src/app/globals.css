@@ -3011,3 +3011,23 @@ section:has(> .fcta-main-bg) { background: #0a0a0a; }
 /* 강점 카드 사이 간격 넓힘 (PC·태블릿): 16~28px → 32~64px */
 @media (min-width: 744px) { .strength { --sg: clamp(32px, calc(3.6*var(--vw1)), 64px); } }
 html[data-ipad-land] .strength { --sg: 48px; }
+
+/* 고민 섹션 배경: 순검정 → 어두운 블랙 네이비 (2026-11-06). 이 섹션 안에서만 night 색을 남색으로 바꾸고, 안개 층의 검정(10,10,10)도 같은 남색으로 */
+.pain, .pain-m { --color-night: #070d24; }
+.pain-inner { background: radial-gradient(80% 70% at 50% 62%, #0c1a47 0%, #08112e 48%, #060b20 100%); }
+.pain-fog { background:
+  radial-gradient(58% 60% at 50% 56%, transparent 0%, rgba(7, 13, 36, .55) 62%, #060b20 100%),
+  linear-gradient(180deg, #060b20 8%, rgba(7, 13, 36, .6) 30%, transparent 46%),
+  radial-gradient(60% 50% at 50% 0%, rgba(48, 97, 255, .3) 0%, transparent 70%); }
+.pain-m .pain-fog { background:
+  radial-gradient(70% 55% at 50% 56%, transparent 0%, rgba(7, 13, 36, .55) 62%, #060b20 100%),
+  linear-gradient(180deg, #060b20 6%, rgba(7, 13, 36, .6) 26%, transparent 42%),
+  radial-gradient(90% 50% at 50% 0%, rgba(48, 97, 255, .3) 0%, transparent 70%); }
+.pain-m .pain-inner { background: radial-gradient(90% 60% at 50% 62%, #0c1a47 0%, #08112e 48%, #060b20 100%); }
+
+/* 차별점 섹션 배경: "INFACT. FOCUS BOOSTER" 섹션과 같은 연한 하늘색·라벤더 그라데이션 (2026-11-06) */
+.diff-wrap { background: #f4f6ff; }
+.diff-stick { background:
+  radial-gradient(700px 420px at 100% 0%, rgba(196, 181, 253, .24), transparent 70%),
+  radial-gradient(700px 420px at 0% 100%, rgba(147, 197, 253, .28), transparent 70%),
+  linear-gradient(180deg, #f3f7ff, #f7f9ff 60%, #f4f6ff); }

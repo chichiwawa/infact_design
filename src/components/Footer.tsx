@@ -24,7 +24,7 @@ export default function Footer({ biz }: { biz: Business | null }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-night text-white mt-auto on-dark">
+    <footer className="bg-[#060a1b] text-white mt-auto on-dark">
       <div className="container-x pt-20 pb-12">
         <div className="grid gap-12 md:grid-cols-[1.6fr_1fr_1fr]">
           <div>

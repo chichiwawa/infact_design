@@ -445,3 +445,5 @@
 @keyframes bsgBlink { 50% { background: transparent; } }
 @media (max-width: 743.98px) { .bsg-typed::after { display: none; } .bsg-tx { animation: none; } }
 @media (prefers-reduced-motion: reduce) { .bsg-typed::after { display: none; } .bsg-tx { animation: none; } }
+/* INFACT. FOCUS BOOSTER 양옆 가는 선 삭제 */
+.bsg-eyebrow span { display: none; }
