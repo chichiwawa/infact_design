@@ -45,3 +45,14 @@
   .fc-ico svg { width: 20px; height: 20px; }
   .fc-form { position: sticky; top: 96px; }
 }
+
+/* 아이패드 세로(744~1023px): 제목·설명 글자를 키우고 가운데 정렬 (2026-11-06) */
+@media (min-width: 744px) and (max-width: 1023.98px) {
+  .fc-title { font-size: clamp(40px, 5.6vw, 52px); }
+  .fc-body { font-size: 19px; }
+}
+/* 한 줄 배치(1024px 미만)일 때 문구를 가운데 정렬 */
+@media (max-width: 1023.98px) {
+  .fc-left .fi-eyebrow { justify-content: center; }
+  .fc-title, .fc-body { text-align: center; }
+}

@@ -447,3 +447,15 @@
 @media (prefers-reduced-motion: reduce) { .bsg-typed::after { display: none; } .bsg-tx { animation: none; } }
 /* INFACT. FOCUS BOOSTER 양옆 가는 선 삭제 */
 .bsg-eyebrow span { display: none; }
+
+/* 문의하기 버튼 화살표: 글자와 세로 중앙 정렬 (2026-11-06) */
+.bsg-btn { align-items: center; gap: 10px; }
+.bsg-btn svg { flex: none; display: block; }
+/* 모바일: 검색창을 맨 위에, 상품 타일은 그 아래로. 박스 폭도 조금 좁힘 */
+@media (max-width: 743.98px) {
+  .bsg-stage { display: flex; flex-direction: column; margin-top: 24px; }
+  .bsg-win { order: -1; width: 92%; padding: 12px 16px 16px; }
+  .bsg-mini { order: 1; margin-top: 14px; }
+  .bsg-rec { margin-top: 12px; font-size: 15px; padding: 11px 14px; }
+}
+@media (min-width: 744px) { .bsg-win { width: min(100%, 660px); } }

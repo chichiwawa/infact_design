@@ -199,7 +199,7 @@ function BoostersGlass({ title, data }: { title: string; data: BoostersData }) {
         </div>
 
         <div className="bsg-cta" data-reveal>
-          <Link href={data.banner.cta_href} className="bsg-btn">{data.banner.cta_label}<i>›</i></Link>
+          <Link href={data.banner.cta_href} className="bsg-btn">{data.banner.cta_label}<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg></Link>
         </div>
       </div>
     </section>
