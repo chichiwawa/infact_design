@@ -71,3 +71,8 @@
 
 /* 푸터와 경계선 없이 이어지게: 섹션 맨 아래 160px 를 푸터 색(#060a1b)으로 서서히 녹임 (2026-11-06) */
 .fi::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 160px; z-index: 0; pointer-events: none; background: linear-gradient(180deg, rgba(6,10,27,0), #060a1b); }
+
+/* 카카오톡 채널 버튼: 글자가 버튼을 꽉 채우지 않게 줄임 (2026-11-06) */
+.fi-btn-sub { font-size: 16px; gap: 10px; padding-inline: 16px; white-space: nowrap; }
+.fi-btn-sub svg { width: 32px; height: 29px; }
+@media (max-width: 400px) { .fi-btn-sub { font-size: 14.5px; gap: 8px; } }
